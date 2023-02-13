@@ -10,6 +10,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.models.UserGoogle;
+import org.apache.hc.client5.http.ClientProtocolException;
+import org.apache.hc.client5.http.fluent.Request;
+import org.apache.hc.client5.http.fluent.Form;
 
 /**
  *
@@ -43,6 +49,29 @@ public class HomeController extends HttpServlet {
         }
     }
 
+    public static String getToken(String code) throws ClientProtocolException, IOException {
+        // call api to get token
+        String response = Request.post(Constants.GOOGLE_LINK_GET_TOKEN)
+                .bodyForm(Form.form().add("client_id", Constants.GOOGLE_CLIENT_ID)
+                        .add("client_secret", Constants.GOOGLE_CLIENT_SECRET)
+                        .add("redirect_uri", Constants.GOOGLE_REDIRECT_URI).add("code", code)
+                        .add("grant_type", Constants.GOOGLE_GRANT_TYPE).build())
+                .execute().returnContent().asString();
+
+        JsonObject jobj = new Gson().fromJson(response, JsonObject.class);
+        String accessToken = jobj.get("access_token").toString().replaceAll("\"", "");
+        return accessToken;
+    }
+
+    public static UserGoogle getUserInfo(final String accessToken) throws ClientProtocolException, IOException {
+        String link = Constants.GOOGLE_LINK_GET_USER_INFO + accessToken;
+        String response = Request.get(link).execute().returnContent().asString();
+
+        UserGoogle googlePojo = new Gson().fromJson(response, UserGoogle.class);
+
+        return googlePojo;
+    }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -68,7 +97,14 @@ public class HomeController extends HttpServlet {
         } else {
             request.getRequestDispatcher("/home.jsp").forward(request, response);
         }
-
+        if (request.getParameter("code") != null) {
+            String code = request.getParameter("code");
+            String accessToken = getToken(code);
+            UserGoogle user = getUserInfo(accessToken);
+            //get user by token
+            System.out.println(user);
+            request.getRequestDispatcher("/home.jsp").forward(request, response);
+        }
     }
 
     /**
