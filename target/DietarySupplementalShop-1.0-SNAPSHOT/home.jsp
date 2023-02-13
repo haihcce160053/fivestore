@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>HomePage</title>
+        <title>Home page</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/styles/bootstrap4/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/styles/main_styles.css">
