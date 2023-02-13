@@ -4,6 +4,7 @@
     Author     : Huynh Chi Hai
 --%>
 
+<%@page import="com.models.Account"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -180,6 +181,18 @@
 
     <body>
         <%
+            if (session.getAttribute("informationAccount") != null) {
+                Account account = (Account) session.getAttribute("informationAccount");
+                if (account != null) {
+                    if (account.getAccountTypeId().equals("AD")) {
+                        response.sendRedirect(request.getContextPath() + "/homeAdmin");
+                    } else {
+                       response.sendRedirect(request.getContextPath() + "/home");
+                    }
+                }
+            }
+        %>
+        <%
             String mess = (String) request.getAttribute("mess");
         %>
         <header id="page-header">
@@ -250,13 +263,13 @@
                                 if (mess != null) {
                             %>
                             <div class="form-group" style="margin-top: 10px;">
-                                <span id="regError" style="color:red"><%= mess%></span>
+                                <span id="loginError" style="color:red"><%= mess%></span>
                             </div>
                             <%
                             } else {
                             %>
                             <div class="form-group" style="margin-top: 10px;">
-                                <span id="regError" style="color:red"></span>
+                                <span id="loginError" style="color:red"></span>
                             </div>
                             <%
                                 }
@@ -328,7 +341,6 @@
                 return false;
             }
         }
-
 
     </script>
 

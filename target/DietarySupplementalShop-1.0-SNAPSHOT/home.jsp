@@ -60,13 +60,26 @@
                                 <div class="top_nav_right">
                                     <!--  My Account -->
                                     <li class="account">
-                                        <% if (ac != null) 
-                                        {
+                                        <% if (ac != null) {
                                         %>
                                         <a href="#">Hello,<b><%=ac.getFullname()%></b> <i class="fa fa-angle-down"></i></a>
                                         <ul class="account_selection">
-                                            <li><a href="<%= getServletContext().getContextPath()%>/login"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign out</a></li>
-                                            <li><a href="<%= getServletContext().getContextPath()%>/Account/Edit/"><i class="fa fa-user-plus" aria-hidden="true"></i>Edit Info</a></li>
+                                            <form action="/logout" method="post">
+                                                <li>
+                                                    <div class="form-group">
+                                                        <button type="submit" id="btnSignIn" name="btnSignout"
+                                                                class="form-control btn btn-primary rounded submit px-3"
+                                                                style="background-color: #9c27b0; color: white"><i class="fa fa-sign-in" aria-hidden="true"></i> Logout</button> </div>
+                                                </li>
+                                            </form>
+                                            <form action="/account" method="post">
+                                                <li>
+                                                    <div class="form-group">
+                                                        <button type="submit" id="btnSignIn" name="btnEditInformation"
+                                                                class="form-control btn btn-primary rounded submit px-3"
+                                                                style="background-color: #9c27b0; color: white"><i class="fa fa-user-plus" aria-hidden="true"></i> Edit Info</button> </div>
+                                                </li>
+                                            </form>
                                         </ul>
                                         <%
                                         } else {
@@ -142,8 +155,8 @@
                             } else {
                             %>
                             <a href="<%= getServletContext().getContextPath()%>/login"><b>LOGIN NOW</b></a>
-                                <%
-                                    }%>
+                            <%
+                                }%>
 
                         </li>
                     </ul>

@@ -63,19 +63,9 @@ public class LoginController extends HttpServlet {
             throws ServletException, IOException {
         String path = request.getRequestURI();
         if (path.endsWith("/login")) {
-            Cookie cookie = null;
-            Cookie[] cookies = null;
-            cookies = request.getCookies();
-            if (cookies != null) {
-                for (int i = 0; i < cookies.length; i++) {
-                    cookie = cookies[i];
-                    // delete cookie
-                    cookie.setMaxAge(0);
-                    response.addCookie(cookie);
-                }
-            }
             request.getRequestDispatcher("/login.jsp").forward(request, response);
-        } else if (path.endsWith("/login/new")) {
+        }
+        if (path.endsWith("/signup")) {
             request.getRequestDispatcher("/signup.jsp").forward(request, response);
         }
     }
@@ -92,6 +82,7 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (request.getParameter("btnSignUp") != null) {
+            HttpSession session = request.getSession();
             AccountDAO dao = new AccountDAO();
             String username = request.getParameter("username");
             Account ac = dao.getAccount(username);
@@ -115,7 +106,6 @@ public class LoginController extends HttpServlet {
                     request.setAttribute("mess", "Sign Up Failed! Please Sign Up again!");
                     RequestDispatcher dispatcher = request.getRequestDispatcher("/signup.jsp");
                     dispatcher.forward(request, response);
-
                 }
             } else {
                 request.setAttribute("mess", "Username already exists!");
@@ -123,38 +113,33 @@ public class LoginController extends HttpServlet {
                 dispatcher.forward(request, response);
             }
         } else if (request.getParameter("btnSignIn") != null) {
+            HttpSession session = request.getSession();
             AccountDAO dao = new AccountDAO();
             String username = request.getParameter("username");
             String password = request.getParameter("password");
-
             Account ac = dao.getAccount(username);
             if (ac != null) {
                 Encoding endcode = new Encoding();
-
                 if (endcode.getMd5(password).equals(ac.getPassword())) {
-                    Cookie accLogin = new Cookie("username", username);
-                    accLogin.setMaxAge(60 * 60 * 72);
-                    response.addCookie(accLogin);
-                    String type = ac.getAccountTypeId();
-                    if (type.equals("AD")) {
-                        HttpSession session = request.getSession();
+                    if (ac.getAccountTypeId().equals("AD")) {
                         session.setAttribute("informationAccount", ac);
-                        request.getRequestDispatcher("/homeAdmin.jsp").forward(request, response);
+                        response.sendRedirect(request.getContextPath() + "/homeAdmin");
                     } else {
-                        HttpSession session = request.getSession();
                         session.setAttribute("informationAccount", ac);
-                        request.getRequestDispatcher("/home.jsp").forward(request, response);
+                        response.sendRedirect(request.getContextPath() + "/home");
                     }
                 } else {
                     request.setAttribute("mess", "Username or password is not correct!");
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
-                    dispatcher.forward(request, response);
+                    request.getRequestDispatcher("/login.jsp").forward(request, response);
                 }
             } else {
                 request.setAttribute("mess", "Username is not exist!");
                 request.getRequestDispatcher("/login.jsp").forward(request, response);
             }
-
+        } else if (request.getParameter("btnSignout") != null) {
+            HttpSession session = request.getSession();
+            session.setAttribute("informationAccount", null);
+            response.sendRedirect(request.getContextPath() + "/home");
         } else {
             request.setAttribute("mess", "Not find button!");
             request.getRequestDispatcher("/login.jsp").forward(request, response);

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.controllers;
 
 import com.daos.AccountDAO;
@@ -13,6 +9,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -37,7 +34,7 @@ public class HomeController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomeController</title>");            
+            out.println("<title>Servlet HomeController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet HomeController at " + request.getContextPath() + "</h1>");
@@ -58,38 +55,20 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String username = "";
-        Cookie cookie = null;
-        Cookie[] cookies = null;
-        cookies = request.getCookies();
-        // Call method get Account
-        AccountDAO daoAcc = new AccountDAO();
-        Account ac;
-        // Check cookies exist
-        if (cookies != null) {
-            for (int i = 0; i < cookies.length; i++) {
-                cookie = cookies[i];
-                // Get cookie in list cookies
-                username = cookie.getValue();
-                // Get account from cookie
-                ac = daoAcc.getAccount(username);
-                // Check account 
-                if (ac != null) { // If it has in db
-                    String type = ac.getAccountTypeId();
-                    if (type.equals("AD")) { // If account is admin
-                        request.setAttribute("Account", ac);
-                        request.getRequestDispatcher("/homeAdmin.jsp").forward(request, response);
-                    } else { //If account is customer
-                        request.setAttribute("Account", ac);
-                        request.getRequestDispatcher("/home.jsp").forward(request, response);
-                    }
-                } else { // If it hasn't then redirect to home default
+        HttpSession session = request.getSession();
+        if (session.getAttribute("informationAccount") != null) {
+            Account account = (Account) session.getAttribute("informationAccount");
+            if (account != null) {
+                if (account.getAccountTypeId().equals("AD")) {
+                    request.getRequestDispatcher("/homeAdmin.jsp").forward(request, response);
+                } else {
                     request.getRequestDispatcher("/home.jsp").forward(request, response);
                 }
             }
         } else {
             request.getRequestDispatcher("/home.jsp").forward(request, response);
         }
+
     }
 
     /**
