@@ -100,7 +100,7 @@
                         <div class="row">
                             <div class="col-lg-12 text-right">
                                 <div class="logo_container">
-                                    <a href="<%= getServletContext().getContextPath()%>/">FIVE <span>STORE</span></a>
+                                    <a href="<%= getServletContext().getContextPath()%>/">FIVESTORE.VN</a>
                                 </div>
                                 <nav class="navbar">
                                     <ul class="navbar_menu">
