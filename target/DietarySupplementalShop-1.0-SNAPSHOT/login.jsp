@@ -27,7 +27,7 @@
 
         <!-- Style of google button -->
         <style>
-            form {
+            body {
                 background-color: #f2f2f2;
                 border-radius: 10px;
             }
@@ -100,7 +100,7 @@
                 height: 1px;
                 width: 100px;
                 background-color: gray;
-                margin: 0 20px;
+                margin: 0 10px;
             }
 
             .orther-login .login-orther-text {
@@ -126,56 +126,6 @@
                 background-color: #c62828;
             }
 
-            /* Tablet styles */
-            @media (max-width: 991px) {
-                .container {
-                    padding: 0 20px;
-                }
-
-                .col-md-5, .col-md-7 {
-                    flex: 0 0 100%;
-                    max-width: 100%;
-                }
-
-                .col-lg-5 {
-                    display: none;
-                }
-
-                .login-wrap {
-                    padding: 20px;
-                }
-            }
-
-            /* Mobile styles */
-            @media (max-width: 767px) {
-                .container {
-                    padding: 0 10px;
-                }
-
-                .icon {
-                    font-size: 30px;
-                }
-
-                h3 {
-                    font-size: 20px;
-                }
-
-                .form-group label {
-                    font-size: 14px;
-                }
-
-                input[type="text"], input[type="password"] {
-                    font-size: 14px;
-                }
-
-                button[type="submit"] {
-                    font-size: 14px;
-                }
-
-                a {
-                    font-size: 14px;
-                }
-            }
         </style>
     </head>
 
@@ -184,10 +134,11 @@
             if (session.getAttribute("informationAccount") != null) {
                 Account account = (Account) session.getAttribute("informationAccount");
                 if (account != null) {
+                    System.out.println(account.getAccountTypeId());
                     if (account.getAccountTypeId().equals("AD")) {
                         response.sendRedirect(request.getContextPath() + "/homeAdmin");
                     } else {
-                       response.sendRedirect(request.getContextPath() + "/home");
+                        response.sendRedirect(request.getContextPath() + "/home");
                     }
                 }
             }
@@ -220,45 +171,46 @@
                 </nav>
             </div>
         </header>
-        <form id="login-form" method="post" action="/login">
-            <div class="container">
-                <div class="row justify-content-center" style="">
-                    <div class="col-md-5">
+        <main>
+            <div class="container" style="margin-top: 100px">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
                         <a href="<%= getServletContext().getContextPath()%>/signup">
                             <img src="img/signupqc/signup.png" alt=""
-                                 style="box-shadow: 10px 10px 10px rgba(223, 60, 212, 0.271); margin-top: 100px;">
+                                 style="box-shadow: 10px 10px 10px rgba(223, 60, 212, 0.271);">
                         </a>
                     </div>
-
-                    <div class="col-md-7 col-lg-5">
+                    <div class="col-md-6">
                         <div class="login-wrap p-4 p-md-5">
-                            <!-- Title login -->
-                            <div class="form-group">
-                                <h3 class="text-left mb-1" style="color: #9c27b0;">Login</h3>
-                                <span class="text-left" style="font-size: 15px; color: dimgray">
-                                    Welcome to the dietary supplemental shop</span>
-                                <hr>
-                            </div>
-                            <!-- Input username -->
-                            <div class="form-group">
-                                <label for="" style="margin-bottom: 5px;">Username&nbsp;</label><label for=""
-                                                                                                       style="color: red;">*</label>
-                                <input type="text" name="username" id="username" class="form-control rounded-left"
-                                       placeholder="Please enter your username!">
-                            </div>
-                            <!-- Input password -->
-                            <div class="form-group" style="margin-top: 20px;">
-                                <label for="" style="margin-bottom: 5px;">Password&nbsp;</label><label for=""
-                                                                                                       style="color: red;">*</label>
-                                <input type="password" name="password" id="password" class="form-control rounded-left"
-                                       placeholder="Please enter your password!">
-                            </div>
-                            <!-- Submit login -->
-                            <div class="form-group" style="margin-top: 25px;">
-                                <button type="submit" id="btnSignIn" name="btnSignIn"
-                                        class="form-control btn btn-primary rounded submit px-3"
-                                        style="background-color: #9c27b0;" onclick="return login()">Login</button>
-                            </div>
+                            <form id="login-form" method="post" action="/login">
+                                <!-- Title login -->
+                                <div class="form-group">
+                                    <h3 class="text-left mb-1" style="color: #9c27b0;">Login</h3>
+                                    <span class="text-left" style="font-size: 15px; color: dimgray;">
+                                        Welcome to the dietary supplemental shop</span>
+                                    <hr>
+                                </div>
+                                <!-- Input username -->
+                                <div class="form-group">
+                                    <label for="" style="margin-bottom: 5px;">Username&nbsp;</label><label for=""
+                                                                                                           style="color: red;">*</label>
+                                    <input type="text" name="username" id="username" class="form-control rounded-left"
+                                           placeholder="Please enter your username!">
+                                </div>
+                                <!-- Input password -->
+                                <div class="form-group" style="margin-top: 20px;">
+                                    <label for="" style="margin-bottom: 5px;">Password&nbsp;</label><label for=""
+                                                                                                           style="color: red;">*</label>
+                                    <input type="password" name="password" id="password" class="form-control rounded-left"
+                                           placeholder="Please enter your password!">
+                                </div>
+                                <!-- Submit login -->
+                                <div class="form-group" style="margin-top: 25px;">
+                                    <button type="submit" id="btnSignIn" name="btnSignIn"
+                                            class="form-control btn btn-primary rounded submit px-3"
+                                            style="background-color: #9c27b0;" onclick="return login()">Login</button>
+                                </div>
+                            </form>
                             <%
                                 if (mess != null) {
                             %>
@@ -279,7 +231,7 @@
                                 <a href="">Forgot password?</a>
                             </div>
                             <!-- Sign in other way -->
-                            <div class="orther-login" align="center" style="margin-top: 20px;">
+                            <div class="orther-login" align="center" style="margin-top: 40px;">
                                 <div class="login-orther-line"></div>
                                 <span class="login-orther-text" style="color: gray;">Sign in another way</span>
                                 <div class="login-orther-line"></div>
@@ -299,56 +251,55 @@
                     </div>
                 </div>
             </div>
-        </form>
-    </main>
+        </main>
 
-    <script>
-        //Validate when click login button
-        function login() {
-            var username = document.getElementById("username").value;
-            var password = document.getElementById("password").value;
-            if (username != "" && password != "") {
-                if (username.length >= 5 && username.length <= 30) {
-                    var firstChar = username.charAt(0);
-                    var specialChars = /[^a-zA-Z0-9]/g;
-                    var numbers = /[0-9]/g;
-                    if (!numbers.test(firstChar) && !specialChars.test(firstChar)) {
-                        if (password.length >= 5 && password.length <= 30) {
-                            var lowerCase = /[a-z]/g;
-                            var upperCase = /[A-Z]/g;
-                            var numbers = /[0-9]/g;
-                            if (lowerCase.test(password) && upperCase.test(password) && numbers.test(password)) {
-                                // Your code to process a successful login
+        <script>
+            //Validate when click login button
+            function login() {
+                var username = document.getElementById("username").value;
+                var password = document.getElementById("password").value;
+                if (username != "" && password != "") {
+                    if (username.length >= 5 && username.length <= 30) {
+                        var firstChar = username.charAt(0);
+                        var specialChars = /[^a-zA-Z0-9]/g;
+                        var numbers = /[0-9]/g;
+                        if (!numbers.test(firstChar) && !specialChars.test(firstChar)) {
+                            if (password.length >= 5 && password.length <= 30) {
+                                var lowerCase = /[a-z]/g;
+                                var upperCase = /[A-Z]/g;
+                                var numbers = /[0-9]/g;
+                                if (lowerCase.test(password) && upperCase.test(password) && numbers.test(password)) {
+                                    // Your code to process a successful login
+                                } else {
+                                    document.getElementById("loginError").innerText =
+                                            "Password must include at least one lowercase letter, one uppercase letter, and one number!";
+                                    return false;
+                                }
                             } else {
-                                document.getElementById("loginError").innerText =
-                                        "Password must include at least one lowercase letter, one uppercase letter, and one number!";
+                                document.getElementById("loginError").innerText = "Password must be between 5 and 30 characters!";
                                 return false;
                             }
                         } else {
-                            document.getElementById("loginError").innerText = "Password must be between 5 and 30 characters!";
+                            document.getElementById("loginError").innerText = "Username must start with a letter!";
                             return false;
                         }
                     } else {
-                        document.getElementById("loginError").innerText = "Username must start with a letter!";
+                        document.getElementById("loginError").innerText = "Username must be between 5 and 30 characters!";
                         return false;
                     }
                 } else {
-                    document.getElementById("loginError").innerText = "Username must be between 5 and 30 characters!";
+                    document.getElementById("loginError").innerText = "Please fill in your username and password!";
                     return false;
                 }
-            } else {
-                document.getElementById("loginError").innerText = "Please fill in your username and password!";
-                return false;
             }
-        }
 
-    </script>
+        </script>
 
-    <!-- MDB -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
+        <!-- MDB -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
 
-    <!-- Jquery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-</body>
+        <!-- Jquery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    </body>
 
 </html>
