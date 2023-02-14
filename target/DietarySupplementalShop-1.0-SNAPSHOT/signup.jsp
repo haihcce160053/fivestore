@@ -226,7 +226,7 @@
         </header>
 
         <main>
-            <form id="login-form" method="post" action="LoginController">
+            <form id="login-form" method="post" action="/signup">
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-md-5">

@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>HomePage</title>
+        <title>FIVESTORE - Home page</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/styles/bootstrap4/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/styles/main_styles.css">
@@ -41,7 +41,6 @@
         </style>
     </head>
     <body>
-        <!--GET ACCOUNT-->
         <%
             Account ac = (Account) session.getAttribute("informationAccount");
         %>
@@ -54,7 +53,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="top_nav_left">Welcome to my website!</div>
+                                <div class="top_nav_left">FIVESTORE - Dietary supplemental shop</div>
                             </div>
                             <div class="col-md-6 text-right">
                                 <div class="top_nav_right">

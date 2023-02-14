@@ -199,7 +199,7 @@
             <div class="page-container">
                 <nav class="navbar navbar-expand-lg" style="background-color: #9c27b0;">
                     <div class="container-fluid">
-                        <a class="navbar-brand" href="home.jsp"
+                        <a class="navbar-brand" href="/home"
                            style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b></a>
                         <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
                                 data-mdb-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
@@ -209,10 +209,10 @@
                         <div class="collapse navbar-collapse" id="navbarText">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="home.jsp" aria-current="page" style="color: white;">Home</a>
+                                    <a class="nav-link" href="/home" aria-current="page" style="color: white;">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="product.jsp" style="color: white;">Product</a>
+                                    <a class="nav-link" href="/product" style="color: white;">Product</a>
                                 </li>
                             </ul>
                         </div>
@@ -224,7 +224,7 @@
             <div class="container">
                 <div class="row justify-content-center" style="">
                     <div class="col-md-5">
-                        <a href="<%= getServletContext().getContextPath()%>/login/new">
+                        <a href="<%= getServletContext().getContextPath()%>/signup">
                             <img src="img/signupqc/signup.png" alt=""
                                  style="box-shadow: 10px 10px 10px rgba(223, 60, 212, 0.271); margin-top: 100px;">
                         </a>

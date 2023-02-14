@@ -100,17 +100,15 @@ public class LoginController extends HttpServlet {
                 int count2 = dao.addNewInformation(st);
                 if (count > 0 && count2 > 0) {
                     request.setAttribute("mess", "Sign Up Successfully! You can sign in now!");
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
-                    dispatcher.forward(request, response);
+//                  request.getRequestDispatcher("/login.jsp").forward(request, response);
+                    response.sendRedirect(request.getContextPath() + "/login");
                 } else {
                     request.setAttribute("mess", "Sign Up Failed! Please Sign Up again!");
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/signup.jsp");
-                    dispatcher.forward(request, response);
+                    request.getRequestDispatcher("/signup.jsp").forward(request, response);
                 }
             } else {
                 request.setAttribute("mess", "Username already exists!");
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/signup.jsp");
-                dispatcher.forward(request, response);
+                request.getRequestDispatcher("/signup.jsp").forward(request, response);
             }
         } else if (request.getParameter("btnSignIn") != null) {
             HttpSession session = request.getSession();
