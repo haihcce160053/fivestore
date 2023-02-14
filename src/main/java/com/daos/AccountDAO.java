@@ -18,7 +18,8 @@ import java.util.logging.Logger;
  * @author QuangQui
  */
 public class AccountDAO {
-     private Connection conn = null;
+
+    private Connection conn = null;
 
     public AccountDAO() {
         conn = DBConnection.getConnection();
@@ -50,7 +51,7 @@ public class AccountDAO {
     }
 
     /**
-     * Register for new user
+     * Register for new account
      *
      * @param ac
      * @return
@@ -68,7 +69,11 @@ public class AccountDAO {
         }
         return count;
     }
-
+    /**
+     * Method for fill full information account
+     * @param ac
+     * @return 
+     */
     public int addNewInformation(Account ac) {
         int count = 0;
         try {
@@ -85,4 +90,110 @@ public class AccountDAO {
         }
         return count;
     }
+
+    /**
+     *
+     *
+     *
+     * @param ac
+     * @return Status Update
+     */
+    public int updateAccount(Account ac) {
+        int count = 0;
+        try {
+            PreparedStatement pst = conn.prepareStatement("update Account set AccountTypeID=?, FullName=?, PhoneNumber=?, Gender=?, Email=? where Username=?");
+            pst.setString(1, ac.getAccountTypeId());
+            pst.setString(2, ac.getFullname());
+            pst.setInt(3, Integer.parseInt(ac.getPhoneNumber()));
+            pst.setString(4, ac.getGender());
+            pst.setString(5, ac.getEmail());
+            pst.setString(6, ac.getUsername());
+            count = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+    /**
+     * Delete information of Account
+     * @param username
+     * @return Status Delete
+     */
+     public int deleteAccountInformation(String username) {
+        int count = 0;
+        try {
+            PreparedStatement pst = conn.prepareStatement("delete from AccountInformation where Username=?");
+            pst.setString(1, username);
+            count = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+     /**
+      * Delete Account
+      * @param username
+      * @return Status Delete
+      */
+     public int deleteAccount(String username) {
+        int count = 0;
+        try {
+            PreparedStatement pst = conn.prepareStatement("delete from Account where Username=?");
+            pst.setString(1, username);
+            count = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+
+    /**
+     * Update Account Type Admin
+     *
+     * @param ac
+     * @return Status Update
+     */
+    public int setTypeAdminAccount(Account ac) {
+        int count = 0;
+        String Type = "AD";
+        try {
+            PreparedStatement pst = conn.prepareStatement("update Account set AccountTypeID=?, FullName=?, PhoneNumber=?, Gender=?, Email=? where Username=?");
+            pst.setString(1, Type);
+            pst.setString(2, ac.getFullname());
+            pst.setInt(3, Integer.parseInt(ac.getPhoneNumber()));
+            pst.setString(4, ac.getGender());
+            pst.setString(5, ac.getEmail());
+            pst.setString(6, ac.getUsername());
+            count = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+
+    /**
+     *
+     *
+     *
+     * @param ac
+     * @return Status Update
+     */
+    public int setTypeCustomerAccount(Account ac) {
+        int count = 0;
+        String Type = "CUS";
+        try {
+            PreparedStatement pst = conn.prepareStatement("update Account set AccountTypeID=?, FullName=?, PhoneNumber=?, Gender=?, Email=? where Username=?");
+            pst.setString(1, Type);
+            pst.setString(2, ac.getFullname());
+            pst.setInt(3, Integer.parseInt(ac.getPhoneNumber()));
+            pst.setString(4, ac.getGender());
+            pst.setString(5, ac.getEmail());
+            pst.setString(6, ac.getUsername());
+            count = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+
 }
