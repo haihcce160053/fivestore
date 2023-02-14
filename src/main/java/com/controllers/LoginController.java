@@ -55,8 +55,8 @@ public class LoginController extends HttpServlet {
             out.println("</html>");
         }
     }
-    
-            public static String getToken(String code) throws ClientProtocolException, IOException {
+
+    public static String getToken(String code) throws ClientProtocolException, IOException {
         // call api to get token
         String response = Request.post(Constants.GOOGLE_LINK_GET_TOKEN)
                 .bodyForm(Form.form().add("client_id", Constants.GOOGLE_CLIENT_ID)
@@ -96,14 +96,31 @@ public class LoginController extends HttpServlet {
             request.getRequestDispatcher("/login.jsp").forward(request, response);
         }
         if (path.endsWith("/signup")) {
+            request.setAttribute("googleLogin", false);
             request.getRequestDispatcher("/signup.jsp").forward(request, response);
         }
         if (request.getParameter("code") != null) {
+            request.setAttribute("googleLogin", true);
             String code = request.getParameter("code");
             String accessToken = getToken(code);
             UserGoogle user = getUserInfo(accessToken);
             //get user by token
+            String email = user.getEmail();
+            String username = email.substring(0, email.indexOf('@'));
 
+            HttpSession session = request.getSession();
+            AccountDAO dao = new AccountDAO();
+            Account ac = dao.getAccount(username);
+            if (ac == null) {
+                request.setAttribute("additionInfo", "Please insert addition data");
+                request.setAttribute("fullname", user.getName());
+                request.setAttribute("email", email);
+                request.setAttribute("username", username);
+                request.getRequestDispatcher("/signup.jsp").forward(request, response);
+            } else {
+                session.setAttribute("informationAccount", ac);
+                response.sendRedirect(request.getContextPath() + "/home");
+            }
             System.out.println(user);
         }
 
