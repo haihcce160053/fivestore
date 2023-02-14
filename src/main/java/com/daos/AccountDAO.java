@@ -94,7 +94,7 @@ public class AccountDAO {
      * @param ac
      * @return Status Update
      */
-    public int updateAccount(Account ac) {
+    public int updateAccountInformation(Account ac) {
         int count = 0;
         try {
             PreparedStatement pst = conn.prepareStatement("update Account set AccountTypeID=?, FullName=?, PhoneNumber=?, Gender=?, Email=? where Username=?");
@@ -110,6 +110,28 @@ public class AccountDAO {
         }
         return count;
     }
+    
+     /**
+     *
+     *
+     *
+     * @param ac
+     * @return Status Update
+     */
+    public int updateAccount(Account ac) {
+        int count = 0;
+        try {
+            PreparedStatement pst = conn.prepareStatement("update Account set Password=?, SercurityAnswer=? where Username=?");
+            pst.setString(1, ac.getPassword());
+            pst.setString(2, ac.getSecurityAnswer());
+            pst.setString(3, ac.getUsername());
+            count = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+    
     /**
      * Delete information of Account
      * @param username
