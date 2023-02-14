@@ -5,7 +5,9 @@
 package com.controllers;
 
 import com.daos.AccountDAO;
+
 import com.models.Account;
+import com.models.UserGoogle;
 import com.security.Encoding;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
@@ -68,6 +70,7 @@ public class LoginController extends HttpServlet {
         if (path.endsWith("/signup")) {
             request.getRequestDispatcher("/signup.jsp").forward(request, response);
         }
+
     }
 
     /**
