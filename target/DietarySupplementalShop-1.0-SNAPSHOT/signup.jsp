@@ -198,6 +198,17 @@
     <body>
         <%
             String mess = (String) request.getAttribute("mess");
+            String additionInfo = null;
+            String fullname = null;
+            String username = null;
+            String email = null;
+            boolean googleLogin = (boolean) request.getAttribute("googleLogin");
+            if (googleLogin) {
+                additionInfo = (String) request.getAttribute("additionInfo");
+                fullname = (String) request.getAttribute("fullname");
+                username = (String) request.getAttribute("username");
+                email = (String) request.getAttribute("email");
+            }
         %>
         <header id="page-header">
             <div class="page-container">
@@ -242,12 +253,22 @@
                                         Welcome to the dietary supplemental shop</span>
                                     <hr>
                                 </div>
+                                <%
+                                        if (additionInfo != null) {
+                                %>
+                                <div class="form-group" style="margin-top: 10px;">
+                                    <span id="additionInfo" style="color:red"><%= additionInfo%></span>
+                                </div>
+                                <%
+                                        }
+                                %>
                                 <!-- Input Fullname -->
                                 <div class="form-group">
-                                    <label for="" style="margin-bottom: 5px;">Full name&nbsp;</label><label for=""
-                                                                                                            style="color: red;">*</label>
-                                    <input type="text" name="fullname" id="fullname" class="form-control rounded-left"
-                                           placeholder="Ex: Casey Williams">
+                                    <label for="" style="margin-bottom: 5px;">Full name&nbsp;</label>
+                                    <label for="" style="color: red;">*</label>
+                                    
+                                    <input type="text" name="fullname" id="fullname" class="form-control rounded-left" placeholder="Ex: Casey Williams" 
+                                           <% if (fullname != null){ %> value="<%= fullname%>" <% } %>>
                                 </div>
                                 <!-- Choose gender -->
                                 <div class="form-group">
@@ -255,11 +276,11 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="radio-group">
-                                        <input type="radio" name="gender" id="genderMale" style="margin-left: 30px" checked>
+                                        <input type="radio" name="gender" value="Male" id="genderMale" style="margin-left: 30px" checked>
                                         <label for="genderMale">Male</label>
                                     </div>
                                     <div class="radio-group">
-                                        <input type="radio" name="gender" id="genderFemale" style="margin-left: 30px">
+                                        <input type="radio" name="gender" value="Female" id="genderFemale" style="margin-left: 30px">
                                         <label for="genderFemale">Female</label>
                                     </div>
                                 </div>
@@ -268,7 +289,8 @@
                                     <label for="" style="margin-top: 20px;">Username&nbsp;</label><label for=""
                                                                                                          style="color: red;">*</label>
                                     <input type="text" name="username" id="username" class="form-control rounded-left"
-                                           placeholder="Ex: abc123">
+                                           placeholder="Ex: abc123"
+                                           <% if (username != null){ %> value="<%= username%>" readonly <% } %>>
                                 </div> 
                                 <!-- Input password -->
                                 <div class="form-group" style="margin-top: 20px;">
@@ -305,7 +327,8 @@
                                     <label for="" style="margin-top: 20px;">Email&nbsp;</label><label for=""
                                                                                                       style="color: red;">*</label>
                                     <input type="text" name="email" id="email" class="form-control rounded-left"
-                                           placeholder="example@gmail.com">
+                                           placeholder="example@gmail.com"
+                                           <% if (email != null){ %> value="<%= email%>" readonly <% } %>>
                                 </div>                                                             
 
                                 <!-- Submit login -->
@@ -317,7 +340,7 @@
                                 <%
                                     if (mess != null) {
                                 %>
-                                 <div class="form-group" style="margin-top: 10px;">
+                                <div class="form-group" style="margin-top: 10px;">
                                     <span id="regError" style="color:red"><%= mess%></span>
                                 </div>
                                 <%
@@ -329,7 +352,7 @@
                                 <%
                                     }
                                 %>
-                               
+
                                 <!-- Sign in other way -->
                                 <div class="orther-login" align="center" style="margin-top: 20px;">
                                     <div class="login-orther-line"></div>
