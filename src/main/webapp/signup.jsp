@@ -25,7 +25,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 
         <style>
-            form {
+            body {
                 background-color: #f2f2f2;
                 border-radius: 10px;
             }
@@ -352,19 +352,6 @@
                                 <%
                                     }
                                 %>
-
-                                <!-- Sign in other way -->
-                                <div class="orther-login" align="center" style="margin-top: 20px;">
-                                    <div class="login-orther-line"></div>
-                                    <span class="login-orther-text" style="color: gray;">Register another way</span>
-                                    <div class="login-orther-line"></div>
-                                </div>
-                                <!-- Sign in with google -->
-                                <div class="orther-login" align="center">
-                                    <button class="google-login">
-                                        Register with Google
-                                    </button>
-                                </div>
                                 <div class="form-group" style="margin-top: 20px;" align="center">
                                     Do you already have an account? <a href="<%= getServletContext().getContextPath()%>/login">Login here</a>
                                 </div>

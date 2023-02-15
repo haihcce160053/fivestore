@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.controllers;
 
 import com.daos.AccountDAO;
@@ -24,7 +20,7 @@ import org.apache.hc.client5.http.fluent.Request;
 
 /**
  *
- * @author QuangQui
+ * @author QuangQui HuynhHai TrungKien
  */
 public class LoginController extends HttpServlet {
 
@@ -102,7 +98,7 @@ public class LoginController extends HttpServlet {
             String code = request.getParameter("code");
             String accessToken = getToken(code);
             UserGoogle user = getUserInfo(accessToken);
-            //get user by token
+            //Get user by token
             String email = user.getEmail();
             String username = email.substring(0, email.indexOf('@'));
 
@@ -154,7 +150,6 @@ public class LoginController extends HttpServlet {
                 int count2 = dao.addNewInformation(st);
                 if (count > 0 && count2 > 0) {
                     request.setAttribute("mess", "Sign Up Successfully! You can sign in now!");
-//                  request.getRequestDispatcher("/login.jsp").forward(request, response);
                     response.sendRedirect(request.getContextPath() + "/login");
                 } else {
                     request.setAttribute("mess", "Sign Up Failed! Please Sign Up again!");
