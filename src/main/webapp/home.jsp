@@ -71,14 +71,12 @@
                                                                 style="background-color: #9c27b0; color: white"><i class="fa fa-sign-in" aria-hidden="true"></i> Logout</button> </div>
                                                 </li>
                                             </form>
-                                            <form action="/account" method="post">
-                                                <li>
-                                                    <div class="form-group">
-                                                        <button type="submit" id="btnSignIn" name="btnEditInformation"
-                                                                class="form-control btn btn-primary rounded submit px-3"
-                                                                style="background-color: #9c27b0; color: white"><i class="fa fa-user-plus" aria-hidden="true"></i> Edit Info</button> </div>
-                                                </li>
-                                            </form>
+                                            <li>
+                                                <div class="form-group">
+                                                    
+                                                    <a href="<%= getServletContext().getContextPath()%>/Account/information/<%= ac.getUsername()%>"><i class="fa fa-user-plus" aria-hidden="true"></i>Edit Info</a>
+                                                </div>
+                                            </li>
                                         </ul>
                                         <%
                                         } else {
