@@ -168,7 +168,7 @@
                     <div class="row">
                         <div class="col-lg-12 text-right">
                             <div class="logo_container">
-                                <a href="<%= getServletContext().getContextPath()%>/">Group 1 <span>shop</span></a>
+                                <a href="<%= getServletContext().getContextPath()%>/">Group 5 <span>shop</span></a>
                             </div>
                             <nav class="navbar">
                                 <ul class="navbar_menu">
@@ -192,14 +192,7 @@
         <!-- New Arrivals -->
 
         <div class="new_arrivals">
-            <div class="container">
-                <div class="row">
-                    <div class="col text-center">
-                        <div class="section_title new_arrivals_title">
-                            <h2>New Arrivals</h2>
-                        </div>
-                    </div>
-                </div>
+            <div class="container">            
                 <div class="row align-items-center">
                     <div class="col text-center">
                         <div class="new_arrivals_sorting">
@@ -228,7 +221,6 @@
             </div>
         </div>
         <!-- Deal of the week -->
-
         <div class="deal_ofthe_week">
             <div class="container">
                 <div class="row align-items-center">

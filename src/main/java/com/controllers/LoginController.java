@@ -162,10 +162,10 @@ public class LoginController extends HttpServlet {
                 request.getRequestDispatcher("/signup.jsp").forward(request, response);
             }
         } else if (request.getParameter("btnSignIn") != null) {
-            HttpSession session = request.getSession();
-            AccountDAO dao = new AccountDAO();
             String username = request.getParameter("username");
             String password = request.getParameter("password");
+            HttpSession session = request.getSession();
+            AccountDAO dao = new AccountDAO();
             Account ac = dao.getAccount(username);
             if (ac != null) {
                 Encoding endcode = new Encoding();
