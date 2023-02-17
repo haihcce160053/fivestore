@@ -77,11 +77,19 @@ public class AccountController extends HttpServlet {
                     String username = s[s.length - 1];
                     AccountDAO dao = new AccountDAO();
                     if (username.equals("Admin")) {
-                        response.sendRedirect("/Account");
+                        request.setAttribute("mess", "Noo");
+                        request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
                     } else {
-                        dao.deleteAccountInformation(username);
-                        dao.deleteAccount(username);
-                        response.sendRedirect("/Account");
+                        int count = dao.deleteAccountInformation(username);
+                        int count2 = dao.deleteAccount(username);
+                        if (count > 0 && count2 > 0) {
+                            request.setAttribute("mess", "YesD");
+                            request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
+
+                        } else {
+                            request.setAttribute("mess", "NoD");
+                            request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
+                        }
                     }
 
                 } else {
@@ -91,27 +99,36 @@ public class AccountController extends HttpServlet {
                         AccountDAO dao = new AccountDAO();
                         Account ac = dao.getAccount(username);
                         if (ac.getUsername().equals("Admin")) {
-                            response.sendRedirect("/Account");
+                            request.setAttribute("mess", "Nooo");
+                            request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
                         } else if (ac.getAccountTypeId().equals("CUS")) {
-                            dao.setTypeAdminAccount(ac);
-                            response.sendRedirect("/Account");
+                            int count = dao.setTypeAdminAccount(ac);
+                            if (count > 0) {
+                                request.setAttribute("mess", "YesA");
+                                request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
+                            } else {
+                                request.setAttribute("mess", "NoA");
+                                request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
+                            }
                         } else if (ac.getAccountTypeId().equals("AD")) {
-                            dao.setTypeCustomerAccount(ac);
-                            response.sendRedirect("/Account");
+                            int count = dao.setTypeCustomerAccount(ac);
+                            if (count > 0) {
+                                request.setAttribute("mess", "YesC");
+                                request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
+                            } else {
+                                request.setAttribute("mess", "NoC");
+                                request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
+                            }
                         }
                     } else {
-                        if (path.startsWith("/Account/Edit/")) {
+                        if (path.startsWith("/Account/Management/")) {
                             String[] s = path.split("/");
                             String username = s[s.length - 1];
                             AccountDAO dao = new AccountDAO();
-                            if (username.equals("Admin")) {
-                                response.sendRedirect("/Account");
-                            } else {
-                                dao.deleteAccountInformation(username);
-                                dao.deleteAccount(username);
-                                response.sendRedirect("/Account");
-                            }
-
+                            Account ac = dao.getAccount(username);
+                            HttpSession session = (HttpSession) request.getSession();
+                            session.setAttribute("Account", ac);
+                            request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
                         }
                     }
                 }
