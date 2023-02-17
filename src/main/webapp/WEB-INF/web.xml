@@ -43,6 +43,10 @@
         <servlet-name>AccountController</servlet-name>
         <url-pattern>/Account/*</url-pattern>
     </servlet-mapping>
+        <servlet-mapping>
+        <servlet-name>AccountController</servlet-name>
+        <url-pattern>/account</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

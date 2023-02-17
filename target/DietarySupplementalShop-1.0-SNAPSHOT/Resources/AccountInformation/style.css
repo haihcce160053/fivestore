@@ -403,6 +403,7 @@ a>code {
   padding-left: 15px;
 }
 
+
 .col {
   max-width: 100%;
   flex-basis: 0;
@@ -447,6 +448,11 @@ a>code {
   .col-lg-6 {
     max-width: 50%;
     flex: 0 0 50%;
+  }
+  
+  .col-lg-12 {
+    max-width: 100%;
+    flex: 0 0 100%;
   }
 
   .col-lg-7 {
