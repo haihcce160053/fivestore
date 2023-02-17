@@ -174,7 +174,7 @@
                     <div class="col-md-6">
                         <a href="<%= getServletContext().getContextPath()%>/signup">
                             <img src="img/signupqc/banner_signup.png" alt="banner sign up"
-                                 style="box-shadow: 10px 10px 10px rgba(223, 60, 212, 0.271);">
+                                 style="box-shadow: 10px 10px 10px rgba(48, 60, 95, 0.271);">
                         </a>
                     </div>
                     <div class="col-md-6">

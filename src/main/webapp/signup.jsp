@@ -241,7 +241,7 @@
                 <div class="row justify-content-center">
                     <div class="col-md-5"> 
                         <img src="img/signupqc/banner_signup.png" alt="banner sign up" class="image"
-                             style="box-shadow: 10px 10px 10px rgba(223, 60, 212, 0.271);margin-top: 80px;">
+                             style="box-shadow: 10px 10px 10px rgba(48, 60, 95, 0.271);margin-top: 80px;">
                     </div>
                     <div class="col-md-7 col-lg-5">
                         <div class="login-wrap p-4 p-md-5">
