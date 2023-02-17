@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.controllers;
 
 import com.daos.AccountDAO;
@@ -150,6 +146,7 @@ public class AccountController extends HttpServlet {
             if (count > 0 && count2 > 0) {
                 HttpSession session = request.getSession();
                 session.setAttribute("Account", ac);
+                session.setAttribute("informationAccount", ac);
                 request.setAttribute("mess1", "Yes");
                 request.getRequestDispatcher("/accountInf.jsp").forward(request, response);
 
