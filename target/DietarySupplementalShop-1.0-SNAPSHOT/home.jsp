@@ -4,6 +4,7 @@
     Author     : Huynh Chi Hai
 --%>
 
+<%@page import="com.models.Account"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.daos.ProductDAO"%>
 <!--THIS PAGE USING FOR TESTING !!!-->
@@ -29,6 +30,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     </head>
     <body>
+        <%
+            Account ac = (Account) session.getAttribute("informationAccount");
+        %>
         <header id="page-header">
             <div class="page-container">
                 <nav class="navbar navbar-expand-lg" style="background-color: #303C5F;">
@@ -53,6 +57,7 @@
                             </ul>
                         </div>
                         <div>
+                            <%if (ac == null) {%>
                             <button type="button" class="btn px-3 me-2"
                                     style="color: white; background-color: #20283F"
                                     onclick="location.href = '/login'">
@@ -63,6 +68,17 @@
                                     onclick="location.href = '/signup'">
                                 Sign Up
                             </button>
+                            <%
+                            } else {
+                            %>
+                            <button type="button" class="btn px-3 me-2"
+                                    style="color: white; background-color: #20283F"
+                                    onclick="location.href = '/Account/information/<%= ac.getUsername()%>'">
+                                <%=ac.getFullname()%>
+                            </button>
+                            <%
+                                }
+                            %>
                             <button type="button" class="btn me-3" style="background-color: #20283F; color: white">
                                 Giỏ hàng <span class="badge badge-light">0</span>
                             </button>
@@ -106,8 +122,7 @@
                 <div style="margin-bottom: 40px">
                     <h5>DIGESTION</h5>
                     <div class="row">
-                        <%
-                            ProductDAO dao_dig = new ProductDAO();
+                        <%                            ProductDAO dao_dig = new ProductDAO();
                             ResultSet rs_dig = dao_dig.getAll();
                             while (rs_dig.next()) {
                                 if (rs_dig.getString("ProductTypeID").equals("Dig")) {
@@ -374,7 +389,7 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
         <!-- Jquery -->
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        
+
         <!--Link Java Script-->
         <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/styles/bootstrap4/popper.js"></script>
@@ -386,22 +401,22 @@
         <script src="${pageContext.request.contextPath}/Resources/Shopping-Cart/js/sheetrock.min.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/Shopping-Cart/js/main.js"></script>
         <script>
-            // When the user scrolls down 20px from the top of the document, show the button
-            window.onscroll = function () {
-                scrollFunction();
-            };
-            function scrollFunction() {
-                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                    document.getElementById("myBtn").style.display = "block";
-                } else {
-                    document.getElementById("myBtn").style.display = "none";
-                }
-            }
-            // When the user clicks on the button, scroll to the top of the document
-            function topFunction() {
-                document.body.scrollTop = 0;
-                document.documentElement.scrollTop = 0;
-            }
+                                        // When the user scrolls down 20px from the top of the document, show the button
+                                        window.onscroll = function () {
+                                            scrollFunction();
+                                        };
+                                        function scrollFunction() {
+                                            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                                                document.getElementById("myBtn").style.display = "block";
+                                            } else {
+                                                document.getElementById("myBtn").style.display = "none";
+                                            }
+                                        }
+                                        // When the user clicks on the button, scroll to the top of the document
+                                        function topFunction() {
+                                            document.body.scrollTop = 0;
+                                            document.documentElement.scrollTop = 0;
+                                        }
         </script>
     </body>
 </html>
