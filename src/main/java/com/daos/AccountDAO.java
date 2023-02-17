@@ -39,7 +39,6 @@ public class AccountDAO {
                 Account acc = new Account(db_user, db_pwd, db_SecurityAnswer, db_Fullname, db_PhoneNumber, db_Gender, db_Email, db_AccountTypeId);
                 return acc;
             }
-
         } catch (SQLException ex) {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

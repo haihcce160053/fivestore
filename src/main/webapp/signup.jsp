@@ -212,7 +212,7 @@
         %>
         <header id="page-header">
             <div class="page-container">
-                <nav class="navbar navbar-expand-lg" style="background-color: #9c27b0;">
+                <nav class="navbar navbar-expand-lg" style="background-color: #303C5F;">
                     <div class="container-fluid">
                         <a class="navbar-brand" href="home.jsp"
                            style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b></a>
@@ -237,38 +237,39 @@
         </header>
 
         <main>
-            <form id="login-form" method="post" action="/signup">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-md-5">
-                            <img src="img/signupqc/signup.png" alt="" class="image"
-                                 style="box-shadow: 10px 10px 10px rgba(223, 60, 212, 0.271);margin-top: 80px;">
-                        </div>
-                        <div class="col-md-7 col-lg-5">
-                            <div class="login-wrap p-4 p-md-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-5"> 
+                        <img src="img/signupqc/banner_signup.png" alt="banner sign up" class="image"
+                             style="box-shadow: 10px 10px 10px rgba(48, 60, 95, 0.271);margin-top: 80px;">
+                    </div>
+                    <div class="col-md-7 col-lg-5">
+                        <div class="login-wrap p-4 p-md-5">
+                            <form id="login-form" method="post" action="/signup">
                                 <!-- Title login -->
                                 <div class="form-group">
-                                    <h3 class="text-left mb-1" style="color: #9c27b0;">Register</h3>
+                                    <h3 class="text-left mb-1" style="color: #303C5F;">Register</h3>
                                     <span class="text-left" style="font-size: 15px; color: dimgray">
                                         Welcome to the dietary supplemental shop</span>
                                     <hr>
                                 </div>
                                 <%
-                                        if (additionInfo != null) {
+                                    if (additionInfo != null) {
                                 %>
                                 <div class="form-group" style="margin-top: 10px;">
                                     <span id="additionInfo" style="color:red"><%= additionInfo%></span>
                                 </div>
                                 <%
-                                        }
+                                    }
                                 %>
+
                                 <!-- Input Fullname -->
                                 <div class="form-group">
                                     <label for="" style="margin-bottom: 5px;">Full name&nbsp;</label>
                                     <label for="" style="color: red;">*</label>
-                                    
+
                                     <input type="text" name="fullname" id="fullname" class="form-control rounded-left" placeholder="Ex: Casey Williams" 
-                                           <% if (fullname != null){ %> value="<%= fullname%>" <% } %>>
+                                           <% if (fullname != null) {%> value="<%= fullname%>" <% } %>>
                                 </div>
                                 <!-- Choose gender -->
                                 <div class="form-group">
@@ -284,13 +285,14 @@
                                         <label for="genderFemale">Female</label>
                                     </div>
                                 </div>
+
                                 <!-- Input username -->
                                 <div class="form-group">
                                     <label for="" style="margin-top: 20px;">Username&nbsp;</label><label for=""
                                                                                                          style="color: red;">*</label>
                                     <input type="text" name="username" id="username" class="form-control rounded-left"
                                            placeholder="Ex: abc123"
-                                           <% if (username != null){ %> value="<%= username%>" readonly <% } %>>
+                                           <% if (username != null) {%> value="<%= username%>" readonly <% } %>>
                                 </div> 
                                 <!-- Input password -->
                                 <div class="form-group" style="margin-top: 20px;">
@@ -328,38 +330,39 @@
                                                                                                       style="color: red;">*</label>
                                     <input type="text" name="email" id="email" class="form-control rounded-left"
                                            placeholder="example@gmail.com"
-                                           <% if (email != null){ %> value="<%= email%>" readonly <% } %>>
+                                           <% if (email != null) {%> value="<%= email%>" readonly <% } %>>
                                 </div>                                                             
 
                                 <!-- Submit login -->
                                 <div class="form-group" style="margin-top: 25px;">
                                     <button type="submit" id="btnSignUp" name="btnSignUp"
                                             class="form-control btn btn-primary rounded submit px-3"
-                                            style="background-color: #9c27b0;" onclick="return register()">Register</button>
+                                            style="background-color: #303C5F;" onclick="return register()">Register</button>
                                 </div>
-                                <%
-                                    if (mess != null) {
-                                %>
-                                <div class="form-group" style="margin-top: 10px;">
-                                    <span id="regError" style="color:red"><%= mess%></span>
-                                </div>
-                                <%
-                                } else {
-                                %>
-                                <div class="form-group" style="margin-top: 10px;">
-                                    <span id="regError" style="color:red"></span>
-                                </div>
-                                <%
-                                    }
-                                %>
-                                <div class="form-group" style="margin-top: 20px;" align="center">
-                                    Do you already have an account? <a href="<%= getServletContext().getContextPath()%>/login">Login here</a>
-                                </div>
+                            </form>
+                            <%
+                                if (mess != null) {
+                            %>
+                            <div class="form-group" style="margin-top: 10px;">
+                                <span id="regError" style="color:red"><%= mess%></span>
+                            </div>
+                            <%
+                            } else {
+                            %>
+                            <div class="form-group" style="margin-top: 10px;">
+                                <span id="regError" style="color:red"></span>
+                            </div>
+                            <%
+                                }
+                            %>
+                            <div class="form-group" style="margin-top: 20px;" align="center">
+                                Do you already have an account? <a href="<%= getServletContext().getContextPath()%>/login">Login here</a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
+
         </main>
 
         <script>

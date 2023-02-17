@@ -8,7 +8,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -20,11 +19,9 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
         <!-- MDB -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
-
         <!-- Jquery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-
         <!-- Style of google button -->
         <style>
             body {
@@ -148,7 +145,7 @@
         %>
         <header id="page-header">
             <div class="page-container">
-                <nav class="navbar navbar-expand-lg" style="background-color: #9c27b0;">
+                <nav class="navbar navbar-expand-lg" style="background-color: #303C5F;">
                     <div class="container-fluid">
                         <a class="navbar-brand" href="/home"
                            style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b></a>
@@ -176,8 +173,8 @@
                 <div class="row justify-content-center">
                     <div class="col-md-6">
                         <a href="<%= getServletContext().getContextPath()%>/signup">
-                            <img src="img/signupqc/signup.png" alt=""
-                                 style="box-shadow: 10px 10px 10px rgba(223, 60, 212, 0.271);">
+                            <img src="img/signupqc/banner_signup.png" alt="banner sign up"
+                                 style="box-shadow: 10px 10px 10px rgba(48, 60, 95, 0.271);">
                         </a>
                     </div>
                     <div class="col-md-6">
@@ -185,7 +182,7 @@
                             <form id="login-form" method="post" action="/login">
                                 <!-- Title login -->
                                 <div class="form-group">
-                                    <h3 class="text-left mb-1" style="color: #9c27b0;">Login</h3>
+                                    <h3 class="text-left mb-1" style="color: #303C5F;">Login</h3>
                                     <span class="text-left" style="font-size: 15px; color: dimgray;">
                                         Welcome to the dietary supplemental shop</span>
                                     <hr>
@@ -208,7 +205,7 @@
                                 <div class="form-group" style="margin-top: 25px;">
                                     <button type="submit" id="btnSignIn" name="btnSignIn"
                                             class="form-control btn btn-primary rounded submit px-3"
-                                            style="background-color: #9c27b0;" onclick="return login()">Login</button>
+                                            style="background-color: #303C5F;" onclick="return login()">Login</button>
                                 </div>
                             </form>
                             <%
@@ -297,7 +294,6 @@
 
         <!-- MDB -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
-
         <!-- Jquery -->
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     </body>
