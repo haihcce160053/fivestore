@@ -6,6 +6,8 @@ package com.controllers;
 
 import com.daos.AccountDAO;
 import com.models.Account;
+import com.security.Encoding;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -73,6 +75,50 @@ public class AccountController extends HttpServlet {
                     session.setAttribute("Account", ac);
                     request.getRequestDispatcher("/accountInf.jsp").forward(request, response);
                 }
+            } else {
+                if (path.startsWith("/Account/Delete/")) {
+                    String[] s = path.split("/");
+                    String username = s[s.length - 1];
+                    AccountDAO dao = new AccountDAO();
+                    if (username.equals("Admin")) {
+                        response.sendRedirect("/Account");
+                    } else {
+                        dao.deleteAccountInformation(username);
+                        dao.deleteAccount(username);
+                        response.sendRedirect("/Account");
+                    }
+
+                } else {
+                    if (path.startsWith("/Account/Change/")) {
+                        String[] s = path.split("/");
+                        String username = s[s.length - 1];
+                        AccountDAO dao = new AccountDAO();
+                        Account ac = dao.getAccount(username);
+                        if (ac.getUsername().equals("Admin")) {
+                            response.sendRedirect("/Account");
+                        } else if (ac.getAccountTypeId().equals("CUS")) {
+                            dao.setTypeAdminAccount(ac);
+                            response.sendRedirect("/Account");
+                        } else if (ac.getAccountTypeId().equals("AD")) {
+                            dao.setTypeCustomerAccount(ac);
+                            response.sendRedirect("/Account");
+                        }
+                    } else {
+                        if (path.startsWith("/Account/Edit/")) {
+                            String[] s = path.split("/");
+                            String username = s[s.length - 1];
+                            AccountDAO dao = new AccountDAO();
+                            if (username.equals("Admin")) {
+                                response.sendRedirect("/Account");
+                            } else {
+                                dao.deleteAccountInformation(username);
+                                dao.deleteAccount(username);
+                                response.sendRedirect("/Account");
+                            }
+
+                        }
+                    }
+                }
             }
         }
     }
@@ -88,7 +134,59 @@ public class AccountController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        if (request.getParameter("btnUpdate") != null) {
+            String username = request.getParameter("username");
+            String fullname = request.getParameter("fullname");
+            String SecurityAnswer = request.getParameter("SecurityAnswer");
+            String phonenumber = request.getParameter("phone");
+            String gender = request.getParameter("gender");
+            String email = request.getParameter("Email");
+            AccountDAO dao = new AccountDAO();
+            Account old = dao.getAccount(username);
+
+            Account ac = new Account(old.getUsername(), old.getPassword(), SecurityAnswer, fullname, phonenumber, gender, email, old.getAccountTypeId());
+            int count = dao.updateAccountInformation(ac);
+            int count2 = dao.updateAccount(ac);
+            if (count > 0 && count2 > 0) {
+                HttpSession session = request.getSession();
+                session.setAttribute("Account", ac);
+                request.setAttribute("mess1", "Yes");
+                request.getRequestDispatcher("/accountInf.jsp").forward(request, response);
+
+            } else {
+                request.setAttribute("mess1", "No");
+                request.getRequestDispatcher("/accountInf.jsp").forward(request, response);
+            }
+        } else {
+            if (request.getParameter("btnChangePassword") != null) {
+                Encoding endcode = new Encoding();
+                String username = request.getParameter("username");
+                String oldpassword = endcode.getMd5(request.getParameter("oldpassword"));
+                String newpassword = endcode.getMd5(request.getParameter("confirmpassword"));
+
+                AccountDAO dao = new AccountDAO();
+                Account old = dao.getAccount(username);
+                if (!old.getPassword().equals(oldpassword)) {
+                    request.setAttribute("mess", "Noo");
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/accountInf.jsp");
+                    dispatcher.forward(request, response);
+                } else {
+                    Account ac = new Account(username, newpassword, old.getSecurityAnswer(), old.getFullname(), old.getPhoneNumber(), old.getGender(), old.getEmail(), old.getAccountTypeId());
+                    int count = dao.updateAccount(ac);
+                    if (count > 0) {
+                        HttpSession session = request.getSession();
+                        session.setAttribute("Account", ac);
+                        request.setAttribute("mess", "Yes");
+                        request.getRequestDispatcher("/accountInf.jsp").forward(request, response);
+
+                    } else {
+                        HttpSession session = request.getSession();
+                        request.setAttribute("mess", "No");
+                        request.getRequestDispatcher("/accountInf.jsp").forward(request, response);
+                    }
+                }
+            }
+        }
     }
 
     /**

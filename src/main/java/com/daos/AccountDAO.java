@@ -97,7 +97,7 @@ public class AccountDAO {
     public int updateAccountInformation(Account ac) {
         int count = 0;
         try {
-            PreparedStatement pst = conn.prepareStatement("update Account set AccountTypeID=?, FullName=?, PhoneNumber=?, Gender=?, Email=? where Username=?");
+            PreparedStatement pst = conn.prepareStatement("update AccountInformation set AccountTypeID=?, FullName=?, PhoneNumber=?, Gender=?, Email=? where Username=?");
             pst.setString(1, ac.getAccountTypeId());
             pst.setString(2, ac.getFullname());
             pst.setInt(3, Integer.parseInt(ac.getPhoneNumber()));
