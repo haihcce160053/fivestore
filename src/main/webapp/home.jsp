@@ -129,7 +129,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <%
                                 }
                             }
@@ -375,5 +374,34 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
         <!-- Jquery -->
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        
+        <!--Link Java Script-->
+        <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/styles/bootstrap4/popper.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/styles/bootstrap4/bootstrap.min.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/js/custom.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/Shopping-Cart/js/jquery-1.11.3.min.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/Shopping-Cart/js/simpleCart.min.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/Shopping-Cart/js/handlebars.min.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/Shopping-Cart/js/sheetrock.min.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/Shopping-Cart/js/main.js"></script>
+        <script>
+            // When the user scrolls down 20px from the top of the document, show the button
+            window.onscroll = function () {
+                scrollFunction();
+            };
+            function scrollFunction() {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    document.getElementById("myBtn").style.display = "block";
+                } else {
+                    document.getElementById("myBtn").style.display = "none";
+                }
+            }
+            // When the user clicks on the button, scroll to the top of the document
+            function topFunction() {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
+        </script>
     </body>
 </html>
