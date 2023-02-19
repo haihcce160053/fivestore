@@ -278,10 +278,23 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-3 order-lg-2">
                                     <div class="card-profile-image">
+                                        <%
+                                        if(ac.getGender().equalsIgnoreCase("Male")) {
+                                        %>
                                         <a href="#">
                                             <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                                                  class="rounded-circle">
                                         </a>
+                                        <%
+                                            } else {
+                                        %>
+                                         <a href="#">
+                                            <img src="https://i.pinimg.com/564x/a6/58/32/a65832155622ac173337874f02b218fb--people-icon-avatar.jpg"
+                                                 class="rounded-circle">
+                                        </a>
+                                        <%
+                                            }
+                                        %>
                                     </div>                         
                                 </div>
                             </div>
