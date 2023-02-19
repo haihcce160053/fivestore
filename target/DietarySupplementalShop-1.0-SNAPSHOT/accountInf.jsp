@@ -195,8 +195,6 @@
                                     </div>                         
                                 </div>
                             </div>
-
-
                             <div class="card-body pt-0 pt-md-4">
                                 <div class="row">
                                     <div class="col">
@@ -216,6 +214,8 @@
                                         <i class="ni business_briefcase-24 mr-2"></i><%=ac.getEmail()%>
                                     </div>
                                 </div>
+
+                                <!--Change password-->
                                 <form id="form-2" action="/account" method="post">
                                     <div class="row">
                                         <div class="col-lg-6">
@@ -280,19 +280,24 @@
                                     <%                                        }
 
                                     %>
-                                    <div class="row" >
-                                        <div class="col-lg-6">
+                                    <div style="display: flex">
+                                        <div>
                                             <button class="btn btn-sm btn-info mr-4" 
                                                     type="button" id="edit-pass-button">Change Password</button> 
-                                            <button class="btn btn-sm btn-info mr-4" 
-                                                    type="submit" 
-                                                    style="display: none" 
-                                                    id="submit-pass-button" 
-                                                    name="btnChangePassword">
-                                                Change
-                                            </button> 
-                                        </div>       
+                                        </div>
+                                        <button class="btn btn-sm btn-info mr-4" 
+                                                type="submit" 
+                                                style="display: none" 
+                                                id="submit-pass-button" 
+                                                name="btnChangePassword">
+                                            Change
+                                        </button>
                                     </div>
+                                </form>
+
+                                <form action="/logout" method="post">
+                                    <button class="btn btn-sm" style="background-color: red; color: white; margin-top: 20px" 
+                                            type="submit" name="btnSignout">Logout</button>
                                 </form>
                             </div>
                         </div>
@@ -483,6 +488,7 @@
         const form1submitButton = document.getElementById('submit-button');
         const form2editButton = document.getElementById('edit-pass-button');
         const form2submitButton = document.getElementById('submit-pass-button');
+        const form2submitCancelButton = document.getElementById('submit-cancel-button');
 
         // Thêm sự kiện click cho nút chỉnh sửa của form 1
         form1editButton.addEventListener('click', () => {
@@ -498,6 +504,7 @@
             }
             form2submitButton.style.display = '';
             form2editButton.style.display = 'none';
+            form2submitCancelButton.style.display = 'block';
         });
 
         function update() {
@@ -541,20 +548,20 @@
         console.log(myAttribute);
         console.log(myAttribute1);
         mainFunction();
-        
+
 
         function mainFunction() {
             if (myAttribute == "Yes") {
                 showSuccessInfToast();
             } else if (myAttribute == "No") {
                 showErrorInfToast();
-            } else if(myAttribute1 == "Noo"){
+            } else if (myAttribute1 == "Noo") {
                 showErrorsOldToast();
-            } else if(myAttribute1 == "No"){
+            } else if (myAttribute1 == "No") {
                 showErrorPassToast();
-            } else if(myAttribute1 == "Yes"){
+            } else if (myAttribute1 == "Yes") {
                 showSuccessPassToast();
-            }else {
+            } else {
                 return;
             }
         }

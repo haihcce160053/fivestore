@@ -186,7 +186,8 @@ public class LoginController extends HttpServlet {
         } else if (request.getParameter("btnSignout") != null) {
             HttpSession session = request.getSession();
             session.setAttribute("informationAccount", null);
-            response.sendRedirect(request.getContextPath() + "/home");
+            session.setAttribute("Account", null);
+            response.sendRedirect(request.getContextPath() + "/");
         } else {
             request.setAttribute("mess", "Not find button!");
             request.getRequestDispatcher("/login.jsp").forward(request, response);
