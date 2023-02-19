@@ -1,3 +1,4 @@
+com\controllers\OrderController.class
 com\daos\AccountDAO.class
 com\controllers\HomeController.class
 com\controllers\AccountController.class
@@ -6,6 +7,7 @@ com\daos\ProductDAO.class
 com\controllers\LoginController.class
 com\security\Encoding.class
 com\models\Product.class
+com\daos\OrderDAO.class
 com\controllers\Constants.class
 com\models\UserGoogle.class
 com\models\Account.class

@@ -301,7 +301,7 @@
                                                 %>
                                                 <span class="heading">0</span>
                                                 <%
-                                                } 
+                                                    }
                                                 %>
                                                 <span class="description">Ordered</span>
                                             </div>
@@ -575,6 +575,7 @@
             </div>
         </div>
     </footer>
+
     <script>
         const confirmBox = document.getElementById("confirm-box");
         const overlay = document.getElementById("overlay");
@@ -658,7 +659,6 @@
                 noButton1.addEventListener("click", function () {
                     confirmBox1.style.display = "none";
                     overlay1.style.display = "none";
-                    alert("Undo successful");
                 });
             }
         });
@@ -686,7 +686,6 @@
                             noButton.addEventListener("click", function () {
                                 confirmBox.style.display = "none";
                                 overlay.style.display = "none";
-                                alert("Undo successful");
                             });
 
 
@@ -777,6 +776,15 @@
                 duration: 3000
             });
         }
+    </script>
+    <script>
+        const overlayqu = document.querySelector(".overlay");
+        const confirmBoxqu = document.querySelector(".confirm-box");
+        overlayqu.addEventListener("click", function () {
+            overlayqu.style.display = "none";
+            confirmBoxqu.style.display = "none";
+        });
+
     </script>
 </body>
 </html>

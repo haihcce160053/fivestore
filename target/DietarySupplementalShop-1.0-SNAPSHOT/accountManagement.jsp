@@ -574,6 +574,14 @@
                 document.body.scrollTop = 0;
                 document.documentElement.scrollTop = 0;
             }
+
+            const overlay = document.querySelector(".overlay");
+            overlay.addEventListener("click", function () {
+                overlay.style.display = "none";
+                const confirmBox = document.querySelector(".confirm-box");
+                confirmBox.style.display = "none";
+            });
+
         </script>
 
         <script>
@@ -656,7 +664,6 @@
         <script>
             const mySpan1 = document.getElementById('regError');
             const myAttribute1 = mySpan1.getAttribute('data-my-attribute');
-            console.log(myAttribute1);
             mainFunction();
 
             function mainFunction() {
