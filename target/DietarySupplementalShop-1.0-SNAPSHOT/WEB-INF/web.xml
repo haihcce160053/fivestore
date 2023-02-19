@@ -53,7 +53,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>OrderController</servlet-name>
-        <url-pattern>/Order/*</url-pattern>
+        <url-pattern>/order/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
