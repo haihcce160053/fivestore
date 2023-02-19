@@ -236,4 +236,27 @@ public class AccountDAO {
         return rs;
     }
 
-}
+    /**
+     *
+     *
+     *
+     * @param username
+     * @return count
+     */
+    public int getOrdered(String username) {
+        int count = 0;
+        try {
+            String query = "select OrderID from OrderList where Username =?";
+            PreparedStatement pst = conn.prepareStatement(query);
+            pst.setString(1, username);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                    count++;
+                }
+            }catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            return count;
+        }
+
+    }

@@ -4,6 +4,7 @@
     Author     : QuangQui
 --%>
 
+<%@page import="com.daos.AccountDAO"%>
 <%@page import="com.models.Account"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -215,6 +216,8 @@
             Account ac = (Account) session.getAttribute("Account");
             String mess = (String) request.getAttribute("mess");
             String mess1 = (String) request.getAttribute("mess1");
+            AccountDAO dao = new AccountDAO();
+            int ordered = dao.getOrdered(ac.getUsername());
         %>
         <div class="main-content">
             <!-- Top navbar -->
@@ -289,7 +292,17 @@
                                     <div class="col">
                                         <div class="card-profile-stats d-flex justify-content-center mt-md-5 m">
                                             <div>
+                                                <%
+                                                    if (ordered != 0) {
+                                                %>
+                                                <span class="heading"><%=ordered%></span>
+                                                <%
+                                                } else {
+                                                %>
                                                 <span class="heading">0</span>
+                                                <%
+                                                } 
+                                                %>
                                                 <span class="description">Ordered</span>
                                             </div>
                                         </div>
