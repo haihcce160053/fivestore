@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -64,10 +65,12 @@ public class AccountDAO {
         }
         return count;
     }
+
     /**
      * Method for fill full information account
+     *
      * @param ac
-     * @return 
+     * @return
      */
     public int addNewInformation(Account ac) {
         int count = 0;
@@ -109,8 +112,8 @@ public class AccountDAO {
         }
         return count;
     }
-    
-     /**
+
+    /**
      *
      *
      *
@@ -130,13 +133,14 @@ public class AccountDAO {
         }
         return count;
     }
-    
+
     /**
      * Delete information of Account
+     *
      * @param username
      * @return Status Delete
      */
-     public int deleteAccountInformation(String username) {
+    public int deleteAccountInformation(String username) {
         int count = 0;
         try {
             PreparedStatement pst = conn.prepareStatement("delete from AccountInformation where Username=?");
@@ -147,12 +151,14 @@ public class AccountDAO {
         }
         return count;
     }
-     /**
-      * Delete Account
-      * @param username
-      * @return Status Delete
-      */
-     public int deleteAccount(String username) {
+
+    /**
+     * Delete Account
+     *
+     * @param username
+     * @return Status Delete
+     */
+    public int deleteAccount(String username) {
         int count = 0;
         try {
             PreparedStatement pst = conn.prepareStatement("delete from Account where Username=?");
@@ -174,7 +180,7 @@ public class AccountDAO {
         int count = 0;
         String Type = "AD";
         try {
-            PreparedStatement pst = conn.prepareStatement("update Account set AccountTypeID=?, FullName=?, PhoneNumber=?, Gender=?, Email=? where Username=?");
+            PreparedStatement pst = conn.prepareStatement("update AccountInformation set AccountTypeID=?, FullName=?, PhoneNumber=?, Gender=?, Email=? where Username=?");
             pst.setString(1, Type);
             pst.setString(2, ac.getFullname());
             pst.setInt(3, Integer.parseInt(ac.getPhoneNumber()));
@@ -199,7 +205,7 @@ public class AccountDAO {
         int count = 0;
         String Type = "CUS";
         try {
-            PreparedStatement pst = conn.prepareStatement("update Account set AccountTypeID=?, FullName=?, PhoneNumber=?, Gender=?, Email=? where Username=?");
+            PreparedStatement pst = conn.prepareStatement("update AccountInformation set AccountTypeID=?, FullName=?, PhoneNumber=?, Gender=?, Email=? where Username=?");
             pst.setString(1, Type);
             pst.setString(2, ac.getFullname());
             pst.setInt(3, Integer.parseInt(ac.getPhoneNumber()));
@@ -211,6 +217,23 @@ public class AccountDAO {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return count;
+    }
+
+    /**
+     * Phuong thuc nay dung de lay tat ca thong tin cua cac KH trong csdl
+     *
+     * @return mot ResultSet chua danh sach khach hang
+     */
+    public ResultSet getAll() {
+        ResultSet rs = null;
+        try {
+            Statement st = conn.createStatement();
+            rs = st.executeQuery("select Account.Username , AccountInformation.FullName , AccountInformation.Email, AccountInformation.AccountTypeID \n"
+                    + "from Account left outer join AccountInformation on Account.Username = AccountInformation.Username ");
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
     }
 
 }

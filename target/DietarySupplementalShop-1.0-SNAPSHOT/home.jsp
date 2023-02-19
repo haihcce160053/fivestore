@@ -48,16 +48,37 @@
                         </div>                 
                         <div class="collapse navbar-collapse" id="navbarText">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <%
+                                    if (ac != null && (ac.getAccountTypeId()).equalsIgnoreCase("AD")) {
+                                %>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Account/Management/<%=ac.getUsername()%>" style="color: #566787;">Account Management</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/product" style="color: #566787;">Product Management</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/product" style="color: #566787;">Order Management</a>
+                                </li>
+
+                                <%
+                                } else {
+                                %>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/home" aria-current="page" style="color: white;">Home</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/product" style="color: white;">Product</a>
                                 </li>
+                                <%
+                                    }
+                                %>
                             </ul>
                         </div>
                         <div>
-                            <%if (ac == null) {%>
+                            <%
+                                if (ac == null) {
+                            %>
                             <button type="button" class="btn px-3 me-2"
                                     style="color: white; background-color: #20283F"
                                     onclick="location.href = '/login'">
@@ -79,9 +100,19 @@
                             <%
                                 }
                             %>
+                            <%
+                                if (ac != null && ac.getUsername().equalsIgnoreCase("Admin")) {
+                            %>
+
+                            <%
+                            } else if (ac == null || (!ac.getUsername().equalsIgnoreCase("Admin"))) {
+                            %>
                             <button type="button" class="btn me-3" style="background-color: #20283F; color: white">
                                 Giỏ hàng <span class="badge badge-light">0</span>
                             </button>
+                            <%
+                                }
+                            %>
                         </div>
                     </div>
                 </nav>

@@ -168,7 +168,7 @@
             </nav>
             <!-- Header -->
             <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
-                 style="background-image: url(https://www.fda.gov/files/DS_Homepage_header%20graphic.jpg); background-size: cover; background-position: center top;">
+                 style="background-image: url(https://www.fda.gov/files/DS_Homepage_header%20graphic.jpg); background-size: cover; background-position: center;">
                 <!-- Mask -->
                 <span class="mask bg-gradient-default opacity-8"></span>
                 <!-- Header container -->
@@ -348,7 +348,7 @@
                                                     <label class="form-control-label" for="input-last-name">Phone Number</label>
                                                     <input type="text" id="phone" name="phone" readonly
                                                            class="form-control form-control-alternative editable"
-                                                           placeholder="Last name" value="<%=ac.getPhoneNumber()%>">
+                                                           placeholder="Last name" value="0<%=ac.getPhoneNumber()%>">
                                                 </div>
                                             </div>
                                         </div>

@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
 /**
  *
  * @author QuangQui
@@ -56,11 +57,8 @@ public class HomeController extends HttpServlet {
         if (session.getAttribute("informationAccount") != null) {
             Account account = (Account) session.getAttribute("informationAccount");
             if (account != null) {
-                if (account.getAccountTypeId().equals("AD")) {
-                    request.getRequestDispatcher("/homeAdmin.jsp").forward(request, response);
-                } else {
-                    request.getRequestDispatcher("/home.jsp").forward(request, response);
-                }
+
+                request.getRequestDispatcher("/home.jsp").forward(request, response);
             }
         } else {
             request.getRequestDispatcher("/home.jsp").forward(request, response);
