@@ -14,6 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/AccountInformation/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
         <title>Account Information</title>
         <style>
             #toast {
@@ -120,6 +121,92 @@
                 color: rgba(0, 0, 0, 0.3);
                 cursor: pointer;
             }
+
+
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 1;
+            }
+
+            .confirm-box {
+                display: none;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: white;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+                z-index: 2;
+                max-width: 400px;
+                text-align: center;
+            }
+
+            .box-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .box-header h2 {
+                margin: 0;
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            .close-button {
+                font-size: 24px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .box-content {
+                margin-bottom: 20px;
+            }
+
+            .button-container {
+                display: flex;
+                justify-content: center;
+            }
+
+            .button-container button {
+                margin: 0 10px;
+                padding: 10px 20px;
+                border-radius: 5px;
+                border: none;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            #yes-button {
+                background-color: #e74c3c;
+                color: white;
+            }
+
+            #no-button {
+                background-color: #2ecc71;
+                color: white;
+            }
+
+            #yes-button1 {
+                background-color: #e74c3c;
+                color: white;
+            }
+
+            #no-button1 {
+                background-color: #2ecc71;
+                color: white;
+            }
+
+
         </style>
         <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
     </head>
@@ -195,6 +282,8 @@
                                     </div>                         
                                 </div>
                             </div>
+
+
                             <div class="card-body pt-0 pt-md-4">
                                 <div class="row">
                                     <div class="col">
@@ -214,8 +303,6 @@
                                         <i class="ni business_briefcase-24 mr-2"></i><%=ac.getEmail()%>
                                     </div>
                                 </div>
-
-                                <!--Change password-->
                                 <form id="form-2" action="/account" method="post">
                                     <div class="row">
                                         <div class="col-lg-6">
@@ -292,6 +379,7 @@
                                                 name="btnChangePassword">
                                             Change
                                         </button>
+                                        <input type="hidden" name="btnChangePassword" value="true">
                                     </div>
                                 </form>
 
@@ -313,6 +401,7 @@
                                         </div>
                                         <div class="col-4 text-right">
                                             <button class="btn btn-sm btn-primary" type="button" id="edit-button">Edit Information</button> 
+                                            <input type="hidden" name="btnUpdate" value="true">
                                             <button class="btn btn-sm btn-primary" type="submit" style="display: none" id="submit-button" name="btnUpdate" onclick="return update()">Submit Information</button> 
                                         </div>
                                     </div>
@@ -432,6 +521,38 @@
 
 
     </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="confirm-box" id="confirm-box">
+        <div class="box-header">
+            <h2>Are you sure you want to update?</h2>
+        </div>
+        <div class="box-content">
+            <p>The information entered will be updated!</p>
+        </div>
+        <div class="button-container">
+            <button id="yes-button">Yes</button>
+            <button id="no-button">No</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay1"></div>
+
+    <div class="confirm-box" id="confirm-box1">
+        <div class="box-header">
+            <h2>Are you sure you want to change password?</h2>
+        </div>
+        <div class="box-content">
+            <p>New password will be change!</p>
+        </div>
+        <div class="button-container">
+            <button id="yes-button1">Yes</button>
+            <button id="no-button1">No</button>
+        </div>
+    </div>
+
+
     <footer class="footer">
         <div class="row align-items-center justify-content-xl-between">
             <div class="col-xl-6 m-auto text-center">
@@ -442,13 +563,50 @@
         </div>
     </footer>
     <script>
+        const confirmBox = document.getElementById("confirm-box");
+        const overlay = document.getElementById("overlay");
+        const yesButton = document.getElementById("yes-button");
+        const noButton = document.getElementById("no-button");
+        const submitButton = document.getElementById("submit-button");
+        //-------------------------------------------------------------------
+        const confirmBox1 = document.getElementById("confirm-box1");
+        const overlay1 = document.getElementById("overlay1");
+        const yesButton1 = document.getElementById("yes-button1");
+        const noButton1 = document.getElementById("no-button1");
+        //-------------------------------------------------------------------
+        // Lấy các thẻ input và nút chỉnh sửa từ form 1 va form 2
+        const form1Inputs = document.querySelectorAll('#form-1 .editable');
+        const form2Inputs = document.querySelectorAll('#form-2 .editable');
+        const form1editButton = document.getElementById('edit-button');
+        const form1 = document.getElementById('form-1');
+        const form1submitButton = document.getElementById('submit-button');
+        const form2editButton = document.getElementById('edit-pass-button');
+        const form2submitButton = document.getElementById('submit-pass-button');
+        //form 2
         const form = document.querySelector('#form-2');
         const currentPasswordInput = form.querySelector('#input-oldpassword');
         const newPasswordInput = form.querySelector('#input-newpassword');
         const confirmPasswordInput = form.querySelector('#input-confirmpassword');
         const errorSpan = document.querySelector('#regError');
 
-
+        // Thêm sự kiện click cho nút chỉnh sửa của form 1
+        form1editButton.addEventListener('click', () => {
+            for (const input of form1Inputs) {
+                input.removeAttribute('readonly');
+            }
+            form1submitButton.style.display = '';
+            form1editButton.style.display = 'none';
+        });
+        //  Thêm sự kiện click cho nút chỉnh sửa của form 2
+        form2editButton.addEventListener('click', () => {
+            for (const input of form2Inputs) {
+                input.removeAttribute('readonly');
+            }
+            form2submitButton.style.display = '';
+            form2editButton.style.display = 'none';
+        });
+        //---------------------------------------------------------------------------------------------------------------------------------------------
+        //Lang nghe su kien tu form 2
         form.addEventListener('submit', (event) => {
             // Check if any of the password fields are empty
             if (currentPasswordInput.value === '' || newPasswordInput.value === '' || confirmPasswordInput.value === '') {
@@ -456,14 +614,12 @@
                 errorSpan.innerText = 'Please fill out all password fields.';
                 return;
             }
-
             // Check if the new password and confirm password fields match
             if (newPasswordInput.value !== confirmPasswordInput.value) {
                 event.preventDefault();
                 errorSpan.innerText = 'New password and confirm password do not match!';
                 return;
             }
-
             // Check if the new password field meets the password criteria
             const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
             if (!passwordRegex.test(currentPasswordInput.value)) {
@@ -474,39 +630,26 @@
                 event.preventDefault();
                 errorSpan.innerText = 'New password must contain at least one uppercase letter, one lowercase letter, and one number.';
                 return;
-            } else
+            } else {
                 // All password checks have passed
                 errorSpan.innerText = '';
-        });
-    </script>
-
-    <script>
-        // Lấy các thẻ input và nút chỉnh sửa từ form 1
-        const form1Inputs = document.querySelectorAll('#form-1 .editable');
-        const form2Inputs = document.querySelectorAll('#form-2 .editable');
-        const form1editButton = document.getElementById('edit-button');
-        const form1submitButton = document.getElementById('submit-button');
-        const form2editButton = document.getElementById('edit-pass-button');
-        const form2submitButton = document.getElementById('submit-pass-button');
-        const form2submitCancelButton = document.getElementById('submit-cancel-button');
-
-        // Thêm sự kiện click cho nút chỉnh sửa của form 1
-        form1editButton.addEventListener('click', () => {
-            for (const input of form1Inputs) {
-                input.removeAttribute('readonly');
+                event.preventDefault();
+                confirmBox1.style.display = "block";
+                overlay1.style.display = "block";
+                yesButton1.addEventListener("click", function () {
+                    // Perform delete action
+                    confirmBox1.style.display = "none";
+                    overlay1.style.display = "none";
+                    form.submit();
+                });
+                noButton1.addEventListener("click", function () {
+                    confirmBox1.style.display = "none";
+                    overlay1.style.display = "none";
+                    alert("Undo successful");
+                });
             }
-            form1submitButton.style.display = '';
-            form1editButton.style.display = 'none';
         });
-        form2editButton.addEventListener('click', () => {
-            for (const input of form2Inputs) {
-                input.removeAttribute('readonly');
-            }
-            form2submitButton.style.display = '';
-            form2editButton.style.display = 'none';
-            form2submitCancelButton.style.display = 'block';
-        });
-
+        //--------------------------------------------------------------------------------------------------------------------------------------
         function update() {
             var fullname = document.getElementById("fullname").value;
             var email = document.getElementById("email").value;
@@ -518,6 +661,21 @@
                     var phoneRegex = /^\d{10}$|^\d{3}-\d{3}-\d{4}$|^\d{3} \d{3} \d{4}$/;
                     if (phoneRegex.test(phone) == true) {
                         if (answer.length >= 5 && answer.length <= 30) {
+                            event.preventDefault();
+                            confirmBox.style.display = "block";
+                            overlay.style.display = "block";
+                            yesButton.addEventListener("click", function () {
+                                // Perform delete action
+                                confirmBox.style.display = "none";
+                                overlay.style.display = "none";
+                                form1.submit();
+                            });
+                            noButton.addEventListener("click", function () {
+                                confirmBox.style.display = "none";
+                                overlay.style.display = "none";
+                                alert("Undo successful");
+                            });
+
 
                         } else {
                             document.getElementById("regError1").innerText =
@@ -545,11 +703,8 @@
         const mySpan1 = document.getElementById('regError');
         const myAttribute = mySpan.getAttribute('data-my-attribute');
         const myAttribute1 = mySpan1.getAttribute('data-my-attribute');
-        console.log(myAttribute);
-        console.log(myAttribute1);
+
         mainFunction();
-
-
         function mainFunction() {
             if (myAttribute == "Yes") {
                 showSuccessInfToast();
