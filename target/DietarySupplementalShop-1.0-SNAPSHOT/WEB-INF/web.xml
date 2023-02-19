@@ -12,6 +12,10 @@
         <servlet-name>AccountController</servlet-name>
         <servlet-class>com.controllers.AccountController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrderController</servlet-name>
+        <servlet-class>com.controllers.OrderController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.js</url-pattern>
@@ -43,9 +47,13 @@
         <servlet-name>AccountController</servlet-name>
         <url-pattern>/Account/*</url-pattern>
     </servlet-mapping>
-        <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>AccountController</servlet-name>
         <url-pattern>/account</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderController</servlet-name>
+        <url-pattern>/order/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

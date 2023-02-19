@@ -1,11 +1,11 @@
 com\daos\AccountDAO.class
 com\controllers\HomeController.class
-com\models\Product.class
 com\controllers\AccountController.class
 com\db\DBConnection.class
-com\controllers\Constants.class
 com\daos\ProductDAO.class
-com\models\UserGoogle.class
-com\models\Account.class
 com\controllers\LoginController.class
 com\security\Encoding.class
+com\models\Product.class
+com\controllers\Constants.class
+com\models\UserGoogle.class
+com\models\Account.class
