@@ -91,17 +91,17 @@
             @media all and (min-width: 768px) and (max-width: 1023px) {
                 /* Adjust max-width and padding for container */
                 .container {
-                    max-width: 90%;
+                    max-width: 100%;
                     padding: 0 20px;
                 }
 
                 /* Adjust column widths */
                 .col-1 {
-                    flex-basis: 20%;
+                    flex-basis: 30%;
                 }
 
                 .col-2 {
-                    flex-basis: 40%;
+                    flex-basis: 0%;
                 }
 
                 .col-3 {
@@ -114,7 +114,7 @@
                 }
 
                 .col-5 {
-                    flex-basis: 0%;
+                    flex-basis: 30%;
                     display: none;
                 }
 
@@ -134,7 +134,7 @@
 
                 /* Adjust column widths */
                 .col-1 {
-                    flex-basis: 100%;
+                    flex-basis: 50%;
                 }
 
                 .col-2 {
@@ -153,7 +153,7 @@
                 }
 
                 .col-5 {
-                    flex-basis: 0%;
+                    flex-basis: 50%;
                     display: none;
                 }
 
@@ -212,16 +212,23 @@
                 font-size: 18px;
                 border: none;
                 outline: none;
-                background-color: red;
+                background: linear-gradient(to bottom, #FF6B6B, #FF8E8E);
                 color: white;
                 cursor: pointer;
                 padding: 15px;
                 border-radius: 4px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             }
 
             #myBtn:hover {
-                background-color: #555;
+                background-color: #333;
+                transition: background-color 0.2s ease-in-out;
             }
+
+            #myBtn:before {
+                content: "\2191";
+            }
+
 
             #toast {
                 position: fixed;
@@ -529,7 +536,7 @@
             </div>
         </div>
 
-        <button onclick="topFunction()" id="myBtn" title="Go to top">TOP</button>
+        <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
         <script>
             // Get the search input element
             var input = document.getElementById("search");
