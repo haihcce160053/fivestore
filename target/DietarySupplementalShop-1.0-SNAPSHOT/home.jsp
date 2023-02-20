@@ -435,7 +435,7 @@
                             while (rs_liver.next()) {
                                 if (rs_liver.getString("ProductTypeID").equals("Li")) {
                         %>
-                       <div class="col-md-2 my-3">
+                        <div class="col-md-2 my-3">
                             <div class="card">
                                 <div align="center" style="margin-bottom: 20px">
                                     <img class="card-img-top" style="width: 150px; height: 150px" src="<%= rs_liver.getString("PictureLink")%>" alt="alt"/>
@@ -544,7 +544,7 @@
                             while (rs_sleep.next()) {
                                 if (rs_sleep.getString("ProductTypeID").equals("Sleep")) {
                         %>
-                       <div class="col-md-2 my-3">
+                        <div class="col-md-2 my-3">
                             <div class="card">
                                 <div align="center" style="margin-bottom: 20px">
                                     <img class="card-img-top" style="width: 150px; height: 150px" src="<%= rs_sleep.getString("PictureLink")%>" alt="alt"/>
@@ -620,7 +620,7 @@
         <script src="${pageContext.request.contextPath}/Resources/styles/bootstrap4/popper.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/styles/bootstrap4/bootstrap.min.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/custom.js"></script>
-        
+
         <script>//Quang Qui
 
             // Lấy button xem giỏ hàng
@@ -643,6 +643,35 @@
 
             // Khởi tạo mảng sản phẩm trong giỏ hàng
             let cartItemsArray = [];
+
+            // Load dữ liệu từ cookies
+            loadCartFromCookies();
+
+            // Định nghĩa hàm loadCartFromCookies
+            function loadCartFromCookies() {
+                // Lấy giá trị của cookie với tên 'cartItems'
+                const cartItemsCookie = document.cookie.replace(/(?:(?:^|.*;\s*)cartItems\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+
+                if (cartItemsCookie) {
+                    // Nếu cookie tồn tại, chuyển đổi giá trị của cookie thành mảng sản phẩm trong giỏ hàng
+                    cartItemsArray = JSON.parse(cartItemsCookie);
+                }
+
+                // Cập nhật thông tin badge giỏ hàng
+                updateCartBadge();
+
+                // Cập nhật danh sách sản phẩm trong giỏ hàng
+                updateCartItems();
+            }
+
+            // Định nghĩa hàm saveCartToCookies
+            function saveCartToCookies() {
+                // Chuyển đổi mảng sản phẩm trong giỏ hàng thành giá trị cookie
+                const cartItemsCookie = JSON.stringify(cartItemsArray);
+
+                // Lưu giá trị cookie với tên 'cartItems'
+                document.cookie = "cartItems=" + cartItemsCookie + ";path=/";
+            }
 
             // Thêm event listener click cho button thanh toán
             checkoutBtn.addEventListener("click", checkout);
@@ -681,6 +710,9 @@
                     // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm sản phẩm vào mảng sản phẩm trong giỏ hàng
                     cartItemsArray.push({productId, productName, price, quantity: 1});
                 }
+                // Lưu mảng sản phẩm trong giỏ hàng vào cookies
+                saveCartToCookies();
+
 
                 // Cập nhật thông tin badge giỏ hàng
                 updateCartBadge();
@@ -725,6 +757,7 @@
                         if (item.quantity > 1) {
                             item.quantity--;
                             updateCartItems();
+                             saveCartToCookies();
                         }
                     });
                     div.appendChild(decreaseBtn);
@@ -739,6 +772,7 @@
                     increaseBtn.textContent = "+";
                     increaseBtn.addEventListener("click", () => {
                         item.quantity++;
+                         saveCartToCookies();
                         updateCartItems();
                     });
                     div.appendChild(increaseBtn);
@@ -760,6 +794,7 @@
                     removeBtn.addEventListener("click", () => {
                         const index = cartItemsArray.findIndex((cartItem) => cartItem.productId === item.productId);
                         cartItemsArray.splice(index, 1);
+                        saveCartToCookies();
                         updateCartBadge();
                         updateCartItems();
                     });
