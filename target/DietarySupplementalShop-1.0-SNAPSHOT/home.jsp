@@ -64,8 +64,8 @@
                 width: auto;
                 margin-top: 80px;
                 background-color: white;
-                border: 1px solid #ddd;
-                border-radius: 10px 0 0 0;
+                border: none;
+                border-radius: 20px;
                 box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
                 padding: 20px;
                 display: none;
@@ -73,9 +73,11 @@
             }
 
             #cart h3 {
-                font-size: 24px;
+                font-size: 30px;
+                font-weight: 100;
                 margin-bottom: 20px;
-                color: #20283F;
+                color: #2c2c2c;
+                font-family: 'Montserrat', sans-serif;
             }
 
             #cart ul {
@@ -90,44 +92,75 @@
                 justify-content: space-between;
                 align-items: center;
                 margin-bottom: 10px;
+                font-size: 20px;
+                color: #555;
+                font-family: 'Roboto', sans-serif;
             }
 
-            #cart li span {
-                font-size: 16px;
-                color: #20283F;
+            #cart-items {
+                list-style: none;
+                margin: 0;
+                padding: 0;
             }
 
+            #cart-items li {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 5px;
+                font-size: 14px;
+                color: #303C5F;
+            }
+            #cart-items li button {
+                background-color: transparent;
+                border: none;
+                color: #FF4E4E;
+                cursor: pointer;
+                font-size: 12px;
+
+            }
+
+            #cart-items li button:hover {
+                text-decoration: none;
+            }
             #cart-total {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 margin-bottom: 20px;
+                font-size: 24px;
+                color: #2c2c2c;
+                font-family: 'Montserrat', sans-serif;
             }
 
             #cart-total p {
-                font-size: 18px;
-                color: #20283F;
+                font-size: 14px;
+                color: #303C5F;
+                margin: 0;
             }
 
             #cart-total-amount {
                 font-weight: bold;
+                color: #2c2c2c;
+                font-family: 'Montserrat', sans-serif;
             }
 
             #checkout-button {
                 display: block;
                 width: 100%;
-                background-color: #20283F;
+                background-color: #303C5F;
                 color: white;
                 border: none;
                 border-radius: 5px;
-                font-size: 18px;
+                font-size: 24px;
                 padding: 10px 0;
                 cursor: pointer;
                 transition: background-color 0.2s ease;
+                font-family: 'Montserrat', sans-serif;
             }
 
             #checkout-button:hover {
-                background-color: #28364B;
+                background-color: #8ab5d6;
             }
 
         </style>
@@ -253,16 +286,21 @@
                 </div>
             </div>
         </header>
-        <div id="cart" style="display: none;">
-            <h3>Cart</h3>
-            <ul id="cart-items">
+        <!-- Shopping Cart -->
+        <form id="checkout-form" action="" method="">
+            <div id="cart" style="display: none;">
+                <h3>Cart</h3>
+                <ul id="cart-items">
 
-            </ul>
-            <div id="cart-total">
-                <p>Total: <span id="cart-total-amount">$0.00</span></p>
+                </ul>
+
+                <div id="cart-total">
+                    <p>Total: <span id="cart-total-amount">0 VND</span></p>
+                </div>
+                <button id="checkout-button">Checkout</button>
             </div>
-            <button id="checkout-button">Checkout</button>
-        </div>
+        </form>
+
         <!-- Modal -->
         <div class="modal fade" id="ProductDetailModal" tabindex="-1" aria-labelledby="ProductDetailModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -333,14 +371,14 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_eyes.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted" id="price-">$<%= rs_eyes.getFloat("Price")%></span>
+                                        <span class="card-text text-muted" id="price-<%= rs_eyes.getString("ProductID")%>"><%= rs_eyes.getInt("Price")%>VND</span>
 
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_eyes.getString("ProductID")%>" type="text" value="<%= rs_eyes.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_eyes.getString("ProductID")%>" type="text" value="<%= rs_eyes.getString("Description")%>" hidden>
                                         <button id="view-<%= rs_eyes.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_eyes.getString("ProductID")%>').value, document.getElementById('des-<%= rs_eyes.getString("ProductID")%>').value)">View</button>
-                                        <button id="cart-<%= rs_eyes.getString("ProductID")%>"class="btn" style="background-color: #303C5F; color: white">Add to Cart</button>
+                                        <button id="cart-<%= rs_eyes.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
@@ -369,14 +407,14 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_blood.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted" id="price-">$<%= rs_blood.getFloat("Price")%></span>
+                                        <span class="card-text text-muted" id="price-<%= rs_blood.getString("ProductID")%>"><%= rs_blood.getInt("Price")%>VND</span>
 
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_blood.getString("ProductID")%>" type="text" value="<%= rs_blood.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_blood.getString("ProductID")%>" type="text" value="<%= rs_blood.getString("Description")%>" hidden>
                                         <button id="view-<%= rs_blood.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_blood.getString("ProductID")%>').value, document.getElementById('des-<%= rs_blood.getString("ProductID")%>').value)">View</button>
-                                        <button id="cart-<%= rs_blood.getString("ProductID")%>"class="btn" style="background-color: #303C5F; color: white">Add to Cart</button>
+                                        <button id="cart-<%= rs_blood.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
@@ -397,7 +435,7 @@
                             while (rs_liver.next()) {
                                 if (rs_liver.getString("ProductTypeID").equals("Li")) {
                         %>
-                        <div class="col-md-2 my-3">
+                       <div class="col-md-2 my-3">
                             <div class="card">
                                 <div align="center" style="margin-bottom: 20px">
                                     <img class="card-img-top" style="width: 150px; height: 150px" src="<%= rs_liver.getString("PictureLink")%>" alt="alt"/>
@@ -405,14 +443,14 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_liver.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted" id="price-">$<%= rs_liver.getFloat("Price")%></span>
+                                        <span class="card-text text-muted" id="price-<%= rs_liver.getString("ProductID")%>"><%= rs_liver.getInt("Price")%>VND</span>
 
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_liver.getString("ProductID")%>" type="text" value="<%= rs_liver.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_liver.getString("ProductID")%>" type="text" value="<%= rs_liver.getString("Description")%>" hidden>
                                         <button id="view-<%= rs_liver.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_liver.getString("ProductID")%>').value, document.getElementById('des-<%= rs_liver.getString("ProductID")%>').value)">View</button>
-                                        <button id="cart-<%= rs_liver.getString("ProductID")%>"class="btn" style="background-color: #303C5F; color: white">Add to Cart</button>
+                                        <button id="cart-<%= rs_liver.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
@@ -442,13 +480,14 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_resistance.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted" id="price-">$<%= rs_resistance.getFloat("Price")%></span>
+                                        <span class="card-text text-muted" id="price-<%= rs_resistance.getString("ProductID")%>"><%= rs_resistance.getInt("Price")%>VND</span>
+
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_resistance.getString("ProductID")%>" type="text" value="<%= rs_resistance.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_resistance.getString("ProductID")%>" type="text" value="<%= rs_resistance.getString("Description")%>" hidden>
                                         <button id="view-<%= rs_resistance.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_resistance.getString("ProductID")%>').value, document.getElementById('des-<%= rs_resistance.getString("ProductID")%>').value)">View</button>
-                                        <button id="cart-<%= rs_resistance.getString("ProductID")%>"class="btn" style="background-color: #303C5F; color: white">Add to Cart</button>
+                                        <button id="cart-<%= rs_resistance.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
@@ -477,14 +516,14 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_skin.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted" id="price-">$<%= rs_skin.getFloat("Price")%></span>
+                                        <span class="card-text text-muted" id="price-<%= rs_skin.getString("ProductID")%>"><%= rs_skin.getInt("Price")%>VND</span>
 
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_skin.getString("ProductID")%>" type="text" value="<%= rs_skin.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_skin.getString("ProductID")%>" type="text" value="<%= rs_skin.getString("Description")%>" hidden>
                                         <button id="view-<%= rs_skin.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_skin.getString("ProductID")%>').value, document.getElementById('des-<%= rs_skin.getString("ProductID")%>').value)">View</button>
-                                        <button id="cart-<%= rs_skin.getString("ProductID")%>"class="btn" style="background-color: #303C5F; color: white">Add to Cart</button>
+                                        <button id="cart-<%= rs_skin.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
@@ -505,7 +544,7 @@
                             while (rs_sleep.next()) {
                                 if (rs_sleep.getString("ProductTypeID").equals("Sleep")) {
                         %>
-                        <div class="col-md-2 my-3">
+                       <div class="col-md-2 my-3">
                             <div class="card">
                                 <div align="center" style="margin-bottom: 20px">
                                     <img class="card-img-top" style="width: 150px; height: 150px" src="<%= rs_sleep.getString("PictureLink")%>" alt="alt"/>
@@ -513,14 +552,14 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_sleep.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted" id="price-">$<%= rs_sleep.getFloat("Price")%></span>
+                                        <span class="card-text text-muted" id="price-<%= rs_sleep.getString("ProductID")%>"><%= rs_sleep.getInt("Price")%>VND</span>
 
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_sleep.getString("ProductID")%>" type="text" value="<%= rs_sleep.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_sleep.getString("ProductID")%>" type="text" value="<%= rs_sleep.getString("Description")%>" hidden>
                                         <button id="view-<%= rs_sleep.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_sleep.getString("ProductID")%>').value, document.getElementById('des-<%= rs_sleep.getString("ProductID")%>').value)">View</button>
-                                        <button id="cart-<%= rs_sleep.getString("ProductID")%>"class="btn" style="background-color: #303C5F; color: white">Add to Cart</button>
+                                        <button id="cart-<%= rs_sleep.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
@@ -549,14 +588,14 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_weight.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted" id="price-<%= rs_weight.getString("ProductID")%>">$<%= rs_weight.getFloat("Price")%></span>
+                                        <span class="card-text text-muted" id="price-<%= rs_weight.getString("ProductID")%>"><%= rs_weight.getInt("Price")%>VND</span>
 
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_weight.getString("ProductID")%>" type="text" value="<%= rs_weight.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_weight.getString("ProductID")%>" type="text" value="<%= rs_weight.getString("Description")%>" hidden>
                                         <button id="view-<%= rs_weight.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_weight.getString("ProductID")%>').value, document.getElementById('des-<%= rs_weight.getString("ProductID")%>').value)">View</button>
-                                        <button id="cart-<%= rs_weight.getString("ProductID")%>"class="btn" style="background-color: #303C5F; color: white">Add to Cart</button>
+                                        <button id="cart-<%= rs_weight.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
@@ -581,34 +620,36 @@
         <script src="${pageContext.request.contextPath}/Resources/styles/bootstrap4/popper.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/styles/bootstrap4/bootstrap.min.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/custom.js"></script>
+        
         <script>//Quang Qui
-            // Get the view cart button
+
+            // Lấy button xem giỏ hàng
             const viewCartBtn = document.querySelector("#view-cart-btn");
 
-            // Add a click event listener to the view cart button
+            // Thêm event listener click cho button xem giỏ hàng
             viewCartBtn.addEventListener("click", toggleCart);
 
-            // Get the cart element
+            // Lấy phần tử giỏ hàng
             const cart = document.querySelector("#cart");
 
-            // Get the cart items element
+            // Lấy phần tử danh sách sản phẩm trong giỏ hàng
             const cartItems = document.querySelector("#cart-items");
 
-            // Get the cart total amount element
+            // Lấy phần tử hiển thị tổng giá trị trong giỏ hàng
             const cartTotalAmount = document.querySelector("#cart-total-amount");
 
-            // Get the checkout button
+            // Lấy button thanh toán
             const checkoutBtn = document.querySelector("#checkout-button");
 
-            // Initialize the cart items array
+            // Khởi tạo mảng sản phẩm trong giỏ hàng
             let cartItemsArray = [];
 
-            // Add a click event listener to the checkout button
+            // Thêm event listener click cho button thanh toán
             checkoutBtn.addEventListener("click", checkout);
 
-            // Define the toggleCart function
+            // Định nghĩa hàm toggleCart
             function toggleCart() {
-                // Toggle the display property of the cart element
+                // Toggle thuộc tính hiển thị của phần tử giỏ hàng
                 cart.style.display = cart.style.display === "none" ? "block" : "none";
             }
 
@@ -617,7 +658,7 @@
                 var addToCartButtons = document.querySelectorAll('button[id^="cart-"]');
                 for (var i = 0; i < addToCartButtons.length; i++) {
                     addToCartButtons[i].addEventListener('click', function () {
-                        // Lấy id của sản phẩm từ id của nút "Add to Cart"
+                        // Lấy thông tin của sản phẩm từ id của nút "Add to Cart"
                         var productId = this.id.split('-')[1];
                         var productName = document.getElementById("title-" + productId).value;
                         var price = document.getElementById("price-" + productId).innerHTML.replace("VND", "");
@@ -628,82 +669,127 @@
                 }
             });
 
-            // Define the addToCart function
+            // Định nghĩa hàm addToCart
             function addToCart(productId, productName, price) {
-                // Find the item in the cart items array with the same product id
+                // Tìm sản phẩm trong mảng sản phẩm trong giỏ hàng có cùng id với sản phẩm đã thêm vào
                 const cartItem = cartItemsArray.find((item) => item.productId === productId);
 
                 if (cartItem) {
-                    // If the item already exists in the cart, increase its quantity by 1
+                    // Nếu sản phẩm đã tồn tại trong giỏ hàng, tăng số lượng của nó lên 1
                     cartItem.quantity++;
                 } else {
-                    // If the item does not exist in the cart, add it to the cart items array
+                    // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm sản phẩm vào mảng sản phẩm trong giỏ hàng
                     cartItemsArray.push({productId, productName, price, quantity: 1});
                 }
 
-                // Update the cart badge
+                // Cập nhật thông tin badge giỏ hàng
                 updateCartBadge();
 
-                // Update the cart items list
+                // Cập nhật danh sách sản phẩm trong giỏ hàng
                 updateCartItems();
             }
 
-            // Define the updateCartBadge function
+            // Định nghĩa hàm updateCartBadge
             function updateCartBadge() {
-                // Get the cart badge element
+                // Lấy phần tử badge của giỏ hàng
                 const cartBadge = document.querySelector("#cart-badge");
 
-                // Get the total quantity of items in the cart items array
+                // Lấy tổng số lượng các sản phẩm trong mảng cartItemsArray
                 const totalQuantity = cartItemsArray.reduce((total, item) => total + item.quantity, 0);
 
-                // Set the text content of the cart badge element to the total quantity
+                // Đặt nội dung text của phần tử badge của giỏ hàng thành tổng số lượng sản phẩm
                 cartBadge.textContent = totalQuantity;
             }
 
-            // Define the updateCartItems function
+            // Định nghĩa hàm updateCartItems
             function updateCartItems() {
-
-                // Clear the cart items element
+                // Xóa các phần tử sản phẩm trong giỏ hàng
                 cartItems.innerHTML = "";
 
-                // Initialize the total price variable
+                // Khởi tạo biến giá tổng
                 let totalPrice = 0;
 
-                // Loop through the cart items array
+                // Lặp qua mảng các sản phẩm trong giỏ hàng
                 cartItemsArray.forEach((item) => {
-
-
-                    //
-                    totalofProduct = item.price * item.quantity;
-                    // Create a list item element
+                    // Tạo một phần tử danh sách
                     const listItem = document.createElement("li");
 
-                    // Set the text content of the list item element to the product name and quantity
-                    listItem.textContent = "" + item.productName + " " + "x" + " " + item.quantity + " = " + totalofProduct;
+                    // Tạo một phần tử div để chứa tên sản phẩm và số lượng
+                    const div = document.createElement("div");
+                    div.textContent = "" + item.productName + " " + "x" + " ";
 
-                    // Append the list item element to the cart items element
+                    // Tạo một phần tử nút để giảm số lượng sản phẩm
+                    const decreaseBtn = document.createElement("button");
+                    decreaseBtn.textContent = "-";
+                    decreaseBtn.addEventListener("click", () => {
+                        if (item.quantity > 1) {
+                            item.quantity--;
+                            updateCartItems();
+                        }
+                    });
+                    div.appendChild(decreaseBtn);
+
+                    // Tạo một phần tử span để hiển thị số lượng sản phẩm
+                    const quantitySpan = document.createElement("span");
+                    quantitySpan.textContent = " " + item.quantity;
+                    div.appendChild(quantitySpan);
+
+                    // Tạo một phần tử nút để tăng số lượng sản phẩm
+                    const increaseBtn = document.createElement("button");
+                    increaseBtn.textContent = "+";
+                    increaseBtn.addEventListener("click", () => {
+                        item.quantity++;
+                        updateCartItems();
+                    });
+                    div.appendChild(increaseBtn);
+
+                    listItem.appendChild(div);
+
+                    // Tính toán giá tổng của sản phẩm
+                    const totalProductPrice = item.price * item.quantity;
+                    totalPrice += totalProductPrice;
+
+                    // Tạo một phần tử span để hiển thị giá tổng của sản phẩm
+                    const totalProductPriceSpan = document.createElement("span");
+                    totalProductPriceSpan.textContent = "" + totalProductPrice + " VND";
+                    listItem.appendChild(totalProductPriceSpan);
+
+                    // Tạo một phần tử nút để xóa sản phẩm khỏi giỏ hàng
+                    const removeBtn = document.createElement("button");
+                    removeBtn.textContent = "Remove";
+                    removeBtn.addEventListener("click", () => {
+                        const index = cartItemsArray.findIndex((cartItem) => cartItem.productId === item.productId);
+                        cartItemsArray.splice(index, 1);
+                        updateCartBadge();
+                        updateCartItems();
+                    });
+                    listItem.appendChild(removeBtn);
+
+                    // Thêm phần tử danh sách vào giỏ hàng
                     cartItems.appendChild(listItem);
-
-                    // Add the price of the item to the total price
-                    totalPrice += item.price * item.quantity;
-
-
                 });
 
-                // Set the text content of the cart total amount element to the total price
+                // Đặt nội dung text của phần tử giá tổng của giỏ hàng thành giá tổng
                 cartTotalAmount.textContent = "" + totalPrice + " VND";
             }
+
 
             // Define the checkout function
             function checkout() {
                 // Display an alert with the total price
                 const totalPrice = parseFloat(cartTotalAmount.textContent.slice(1));
-                alert(`Total: $${totalPrice.toFixed(2)}`);
 
-                // Reset the cart items array and update the cart badge and cart items list
-                cartItemsArray = [];
-                updateCartBadge();
-                updateCartItems();
+                // Hiển thị thông báo về tổng giá trị và yêu cầu người dùng xác nhận
+                const confirmMessage = "Bạn có chắc chắn muốn đặt hàng với tổng giá trị là: " + totalPrice + " VND ?";
+                event.preventDefault();
+                const shouldCheckout = confirm(confirmMessage);
+                if (shouldCheckout) {
+                    // Gửi biểu mẫu lên servlet
+                    document.getElementById("checkout-form").submit();
+                    cartItemsArray = [];
+                    updateCartBadge();
+                    updateCartItems();
+                }
             }
 
 
