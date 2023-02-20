@@ -39,12 +39,13 @@
                 font-size: 18px;
                 border: none;
                 outline: none;
-                background: linear-gradient(to bottom, #FF6B6B, #FF8E8E);
+                background: linear-gradient(to bottom, #303C5F, #303C5F);
                 color: white;
                 cursor: pointer;
                 padding: 15px;
                 border-radius: 4px;
                 box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                background-color: #303C5F;
             }
 
             #myBtn:hover {
@@ -136,7 +137,7 @@
                             } else if (ac == null || (!ac.getUsername().equalsIgnoreCase("Admin"))) {
                             %>
                             <button type="button" class="btn me-3" style="background-color: #20283F; color: white">
-                                Giỏ hàng <span class="badge badge-light">0</span>
+                                Cart <span class="badge badge-light">0</span>
                             </button>
                             <%
                                 }
@@ -149,7 +150,7 @@
                         <div class="col-md-7 col-lg-5">
                             <div style="margin-bottom: 50px">
                                 <h2 style="text-align: center">
-                                    FIVESOTRE.VN - DIETARY SUPPLEMENTAL SHOP
+                                    FIVESOTRE.VN - DIETARY SUPPLEMENTS SHOP
                                 </h2>
                             </div>
                             <div class="row justify-content-center" style="margin-bottom: 50px">
@@ -210,7 +211,7 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_dig.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted">$<%= rs_dig.getFloat("Price")%></span>
+                                        <span class="card-text text-muted"><%= rs_dig.getFloat("Price")%></span>
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_dig.getString("ProductID")%>" type="text" value="<%= rs_dig.getString("ProductName")%>" hidden>
@@ -245,7 +246,7 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_eyes.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted">$<%= rs_eyes.getFloat("Price")%></span>
+                                        <span class="card-text text-muted"><%= rs_eyes.getFloat("Price")%></span>
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_eyes.getString("ProductID")%>" type="text" value="<%= rs_eyes.getString("ProductName")%>" hidden>
@@ -280,7 +281,7 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_blood.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted">$<%= rs_blood.getFloat("Price")%></span>
+                                        <span class="card-text text-muted"><%= rs_blood.getFloat("Price")%></span>
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_blood.getString("ProductID")%>" type="text" value="<%= rs_blood.getString("ProductName")%>" hidden>
@@ -315,7 +316,7 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_liver.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted">$<%= rs_liver.getFloat("Price")%></span>
+                                        <span class="card-text text-muted"><%= rs_liver.getFloat("Price")%></span>
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_liver.getString("ProductID")%>" type="text" value="<%= rs_liver.getString("ProductName")%>" hidden>
@@ -351,7 +352,7 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_resistance.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted">$<%= rs_resistance.getFloat("Price")%></span>
+                                        <span class="card-text text-muted"><%= rs_resistance.getFloat("Price")%></span>
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_resistance.getString("ProductID")%>" type="text" value="<%= rs_resistance.getString("ProductName")%>" hidden>
@@ -386,7 +387,7 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_skin.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted">$<%= rs_skin.getFloat("Price")%></span>
+                                        <span class="card-text text-muted"><%= rs_skin.getFloat("Price")%></span>
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_skin.getString("ProductID")%>" type="text" value="<%= rs_skin.getString("ProductName")%>" hidden>
@@ -421,7 +422,7 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_sleep.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted">$<%= rs_sleep.getFloat("Price")%></span>
+                                        <span class="card-text text-muted"><%= rs_sleep.getFloat("Price")%></span>
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_sleep.getString("ProductID")%>" type="text" value="<%= rs_sleep.getString("ProductName")%>" hidden>
@@ -456,7 +457,7 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_weight.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted">$<%= rs_weight.getFloat("Price")%></span>
+                                        <span class="card-text text-muted"><%= rs_weight.getFloat("Price")%></span>
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_weight.getString("ProductID")%>" type="text" value="<%= rs_weight.getString("ProductName")%>" hidden>
@@ -520,12 +521,10 @@
         </script>
         <script>
             $(document).ready(function () {
-
                 // When the user scrolls down 20px from the top of the document, show the button
                 window.onscroll = function () {
                     scrollFunction()
                 };
-
             });
             function scrollFunction() {
                 if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {

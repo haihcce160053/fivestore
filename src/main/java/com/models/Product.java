@@ -6,7 +6,7 @@ package com.models;
 
 /**
  *
- * @author QuangQui
+ * @author HoangLiem
  */
 public class Product {
     private String ProductID;
