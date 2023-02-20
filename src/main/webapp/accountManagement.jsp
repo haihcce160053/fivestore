@@ -602,7 +602,6 @@
                 aTag.addEventListener("click", (event) => {
                     // Get the href of the link that was clicked
                     const href = aTag.getAttribute("href");
-                    const href1 = aTag1.getAttribute("href");
 
                     // Check if the link is for changing permission or deleting account
                     if (href.includes("Change")) {
@@ -615,23 +614,29 @@
                             document.getElementById("confirm-box").style.display = "none";
                             window.location.href = href;
                         });
-                    } else if (href.includes("Delete")) {
+                    }
+                });
+            });
+
+            aTags.forEach((aTag1) => {
+                aTag1.addEventListener("click", (event) => {
+                    // Get the href of the link that was clicked
+                    const href1 = aTag1.getAttribute("href");
+                    if (href1.includes("Delete")) {
                         // Display the delete account confirm box
                         document.getElementById("overlay1").style.display = "block";
                         document.getElementById("confirm-box1").style.display = "block";
                         event.preventDefault();
                         document.getElementById("yes-button1").addEventListener("click", () => {
-
-
                             // Hide the confirmation box
                             document.getElementById("overlay1").style.display = "none";
                             document.getElementById("confirm-box1").style.display = "none";
                             window.location.href = href1;
-
                         });
                     }
                 });
             });
+
 
             // Add event listener to the "No" buttons to hide the confirm boxes
             document.getElementById("no-button").addEventListener("click", () => {
