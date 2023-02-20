@@ -39,12 +39,13 @@
                 font-size: 18px;
                 border: none;
                 outline: none;
-                background: linear-gradient(to bottom, #FF6B6B, #FF8E8E);
+                background: linear-gradient(to bottom, #303C5F, #303C5F);
                 color: white;
                 cursor: pointer;
                 padding: 15px;
                 border-radius: 4px;
                 box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                background-color: #303C5F;
             }
 
             #myBtn:hover {
@@ -136,7 +137,7 @@
                             } else if (ac == null || (!ac.getUsername().equalsIgnoreCase("Admin"))) {
                             %>
                             <button type="button" class="btn me-3" style="background-color: #20283F; color: white">
-                                Giỏ hàng <span class="badge badge-light">0</span>
+                                Cart <span class="badge badge-light">0</span>
                             </button>
                             <%
                                 }
@@ -149,7 +150,7 @@
                         <div class="col-md-7 col-lg-5">
                             <div style="margin-bottom: 50px">
                                 <h2 style="text-align: center">
-                                    FIVESOTRE.VN - DIETARY SUPPLEMENTAL SHOP
+                                    FIVESOTRE.VN - DIETARY SUPPLEMENTS SHOP
                                 </h2>
                             </div>
                             <div class="row justify-content-center" style="margin-bottom: 50px">
@@ -520,12 +521,10 @@
         </script>
         <script>
             $(document).ready(function () {
-
                 // When the user scrolls down 20px from the top of the document, show the button
                 window.onscroll = function () {
                     scrollFunction()
                 };
-
             });
             function scrollFunction() {
                 if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
