@@ -109,7 +109,7 @@ public class LoginController extends HttpServlet {
                 request.setAttribute("additionInfo", "Please insert addition data");
                 request.setAttribute("fullname", user.getName());
                 request.setAttribute("email", email);
-                request.setAttribute("username", username);
+                request.setAttribute("useremailname", username);
                 request.getRequestDispatcher("/signup.jsp").forward(request, response);
             } else {
                 session.setAttribute("informationAccount", ac);
