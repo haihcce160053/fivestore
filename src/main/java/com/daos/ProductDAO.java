@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author QuangQui
+ * @author HoangLiem
  */
 public class ProductDAO {
 
