@@ -28,6 +28,34 @@
         <!-- Jquery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+        <style>
+
+            #myBtn {
+                display: none;
+                position: fixed;
+                bottom: 10px;
+                right: 43px;
+                z-index: 99;
+                font-size: 18px;
+                border: none;
+                outline: none;
+                background: linear-gradient(to bottom, #FF6B6B, #FF8E8E);
+                color: white;
+                cursor: pointer;
+                padding: 15px;
+                border-radius: 4px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+
+            #myBtn:hover {
+                background-color: #333;
+                transition: background-color 0.2s ease-in-out;
+            }
+
+            #myBtn:before {
+                content: "\2191";
+            }
+        </style>
     </head>
     <body>
         <%
@@ -289,7 +317,7 @@
                                     <div class="d-flex justify-content-between">
                                         <span class="card-text text-muted">$<%= rs_liver.getFloat("Price")%></span>
                                     </div>
-                                   <div>
+                                    <div>
                                         <input id="title-<%= rs_liver.getString("ProductID")%>" type="text" value="<%= rs_liver.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_liver.getString("ProductID")%>" type="text" value="<%= rs_liver.getString("Description")%>" hidden>
                                         <button id="view-<%= rs_liver.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_liver.getString("ProductID")%>').value, document.getElementById('des-<%= rs_liver.getString("ProductID")%>').value)">View</button>
@@ -447,7 +475,7 @@
                 </div>
             </div>
         </main>
-
+        <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
         <!-- MDB -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
         <!-- Jquery -->
@@ -465,16 +493,40 @@
         <script src="${pageContext.request.contextPath}/Resources/Shopping-Cart/js/main.js"></script>
 
         <script>
-                                            function ShowProductDetail(title, description) {
-                                                document.getElementById("modal-title").innerHTML = title;
-                                                document.getElementById("modal-body").innerHTML = description;
-                                            }
+            function ShowProductDetail(title, description) {
+                document.getElementById("modal-title").innerHTML = title;
+                document.getElementById("modal-body").innerHTML = description;
+            }
         </script>
         <script>
-            // When the user scrolls down 20px from the top of the document, show the button
-            window.onscroll = function () {
-                scrollFunction();
-            };
+            const inputSearch = document.querySelector('input[aria-label="Search"]');
+
+            inputSearch.addEventListener('input', () => {
+                const searchText = inputSearch.value.toLowerCase();
+                const productTitles = document.querySelectorAll('.card-title');
+
+                productTitles.forEach(title => {
+                    const titleText = title.textContent.toLowerCase();
+                    const card = title.closest('.card');
+
+                    if (titleText.includes(searchText)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+
+        </script>
+        <script>
+            $(document).ready(function () {
+
+                // When the user scrolls down 20px from the top of the document, show the button
+                window.onscroll = function () {
+                    scrollFunction()
+                };
+
+            });
             function scrollFunction() {
                 if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
                     document.getElementById("myBtn").style.display = "block";

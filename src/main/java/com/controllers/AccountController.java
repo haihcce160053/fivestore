@@ -76,7 +76,8 @@ public class AccountController extends HttpServlet {
                     String[] s = path.split("/");
                     String username = s[s.length - 1];
                     AccountDAO dao = new AccountDAO();
-                    if (username.equals("Admin")) {
+                    Account ac = dao.getAccount(username);
+                    if (username.equals("Admin") || ac.getAccountTypeId().equalsIgnoreCase("AD")) {
                         request.setAttribute("mess", "Noo");
                         request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
                     } else {

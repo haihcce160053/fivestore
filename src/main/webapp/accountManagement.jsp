@@ -1,6 +1,6 @@
 <%-- 
     Document   : accountManagement
-    Created on : Feb 17, 2023, 2:24:40 PM
+    Created on : Feb 19, 2023, 1:06:54 PM
     Author     : QuangQui
 --%>
 
@@ -12,214 +12,197 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Account Management</title>
-
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/AccountInformation/style.css">
         <style>
+            /* Use variables to store commonly used colors and font sizes */
+            :root {
+                --color-gray: #6C7A89;
+                --color-light-gray: #95A5A6;
+                --color-white: #ffffff;
+                --color-shadow: rgba(0, 0, 0, 0.1);
+                --font-body: 'lato', sans-serif;
+            }
+
+            /* Set font and default styles for body */
             body {
-                color: #566787;
-                background: #303C5F;
-                font-family: 'Varela Round', sans-serif;
-                font-size: 13px;
+                font-family: var(--font-body);
             }
-            .table-responsive {
-                margin: 30px 0;
+
+            /* Center and set max-width for container */
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 10px;
             }
-            .table-wrapper {
-                min-width: 1000px;
-                background: #fff;
-                padding: 20px 25px;
-                border-radius: 5px;
-                box-shadow: 0 1px 1px rgba(0,0,0,.05);
+
+            /* Style for list items */
+            li {
+                display: flex;
+                justify-content: space-between;
+                padding: 15px 20px; /* Decrease padding */
+                margin-bottom: 10px; /* Decrease margin */
+                border-radius: 3px;
+                background-color: var(--color-white);
+                box-shadow: 0 0 9px 0 var(--color-shadow);
             }
-            .table-title {
-                padding-bottom: 15px;
-                background: #fff;
-                color: #000;
-                padding: 16px 30px;
-                margin: -20px -25px 10px;
-                border-radius: 5px;
+
+            /* Table header styles */
+            .table-header {
+                font-size: 14px;
+                text-transform: uppercase;
+                letter-spacing: 0.03em;
+                background-color: var(--color-light-gray);
             }
-            .table-title h2 {
-                margin: 5px 0 0;
-                font-size: 24px;
+
+            /* Table row styles */
+            .table-row {
+                background-color: var(--color-white);
+                box-shadow: 0 0 9px 0 var(--color-shadow);
             }
-            .table-title .btn {
-                color: #fff;
-                float: right;
-                font-size: 13px;
-                background: #303C5F;
-                border: none;
-                min-width: 50px;
-                border-radius: 2px;
-                border: none;
-                outline: none !important;
-                margin-left: 10px;
+
+            /* Column styles */
+            .col-1 {
+                flex-basis: 15%;
             }
-            .table-title .btn:hover, .table-title .btn:focus {
-                color: #566787;
-                background: #f2f2f2;
+
+            .col-2 {
+                flex-basis: 30%;
             }
-            .table-title .btn i {
-                float: left;
-                font-size: 21px;
-                margin-right: 5px;
+
+            .col-3 {
+                flex-basis: 30%;
             }
-            .table-title .btn span {
-                float: left;
-                margin-top: 2px;
+
+            .col-4 {
+                flex-basis: 15%;
             }
-            table.table tr th, table.table tr td {
-                border-color: #e9e9e9;
-                padding: 12px 15px;
-                vertical-align: middle;
+
+            .col-5 {
+                flex-basis: 10%;
             }
-            table.table tr th:first-child {
-                width: 60px;
+
+            /* Media query for tablet screens */
+            @media all and (min-width: 768px) and (max-width: 1023px) {
+                /* Adjust max-width and padding for container */
+                .container {
+                    max-width: 100%;
+                    padding: 0 20px;
+                }
+
+                /* Adjust column widths */
+                .col-1 {
+                    flex-basis: 30%;
+                }
+
+                .col-2 {
+                    flex-basis: 0%;
+                }
+
+                .col-3 {
+                    flex-basis: 40%;
+                }
+
+                .col-4 {
+                    flex-basis: 0%;
+                    display: none;
+                }
+
+                .col-5 {
+                    flex-basis: 30%;
+                    display: none;
+                }
+
+                /* Adjust column label styles */
+                .col:before {
+                    display: none;
+                }
             }
-            table.table tr th:last-child {
-                width: 100px;
+
+            /* Media query for mobile screens */
+            @media all and (max-width: 767px) {
+                /* Adjust max-width and padding for container */
+                .container {
+                    max-width: 100%;
+                    padding: 0 15px;
+                }
+
+                /* Adjust column widths */
+                .col-1 {
+                    flex-basis: 50%;
+                }
+
+                .col-2 {
+                    flex-basis: 0%;
+                    display: none;
+                }
+
+                .col-3 {
+                    flex-basis: 0%;
+                    display: none;
+                }
+
+                .col-4 {
+                    flex-basis: 0%;
+                    display: none;
+                }
+
+                .col-5 {
+                    flex-basis: 50%;
+                    display: none;
+                }
+
+                /* Adjust column label styles */
+                .col:before {
+                    display: none;
+                }
+
+                /* Adjust list item padding */
+                li {
+                    padding: 10px 15px;
+                }
+
+                /* Adjust font size for search box */
+                .search-box input[type="text"] {
+                    font-size: 12px;
+                }
             }
-            table.table-striped tbody tr:nth-of-type(odd) {
-                background-color: #fcfcfc;
-            }
-            table.table-striped.table-hover tbody tr:hover {
-                background: #f5f5f5;
-            }
-            table.table th i {
-                font-size: 13px;
-                margin: 0 5px;
-                cursor: pointer;
-            }
-            table.table td:last-child i {
-                opacity: 0.9;
-                font-size: 22px;
-                margin: 0 5px;
-            }
-            table.table td a {
-                font-weight: bold;
-                color: #566787;
-                display: inline-block;
-                text-decoration: none;
-            }
-            table.table td a:hover {
-                color: #2196F3;
-            }
-            table.table td a.settings {
-                color: #2196F3;
-            }
-            table.table td a.delete {
-                color: #F44336;
-            }
-            table.table td i {
-                font-size: 19px;
-            }
-            table.table .avatar {
-                border-radius: 50%;
-                vertical-align: middle;
-                margin-right: 10px;
-            }
-            .status {
-                font-size: 30px;
-                margin: 2px 2px 0 0;
-                display: inline-block;
-                vertical-align: middle;
-                line-height: 10px;
-            }
+
+
+            /* Search box styles */
             .search-box {
-                position: relative;
-                float: right;
+                display: flex;
+                justify-content: flex-end;
+                margin-bottom: 20px;
             }
+
             .search-box .input-group {
-                min-width: 300px;
-                position: absolute;
-                right: 0;
-            }
-            .search-box .input-group-addon, .search-box input {
-                border-color: #ddd;
-                border-radius: 0;
-            }
-            .search-box input {
-                height: 34px;
-                padding-right: 35px;
-                background: #f4fcfd;
-                border-color: #303C5F;
-                border-radius: 5px !important;
-            }
-            .search-box input:focus {
-                background: #fff;
-            }
-            .search-box .input-group-addon {
-                min-width: 35px;
-                border: none;
-                background: transparent;
-                position: absolute;
-                right: 0;
-                z-index: 9;
-                padding: 6px 0;
-            }
-            .search-box i {
-                color: #a0a5b1;
-                font-size: 19px;
                 position: relative;
-                top: 2px;
+                display: flex;
             }
-            .text-success {
-                color: #10c469;
+
+            .search-box input[type="text"] {
+                font-size: 14px;
+                padding: 10px 12px;
+                border: 1px solid var(--color-gray);
+                border-radius: 3px;
+                background-color: var(--color-white);
+                box-shadow: 0 0 9px 0 var(--color-shadow);
+                outline: none;
             }
-            .text-info {
-                color: #62c9e8;
+
+            .search-box input[type="text"]:focus {
+                border-color: var(--color-light-gray);
             }
-            .text-warning {
-                color: #FFC107;
-            }
-            .text-danger {
-                color: #ff5b5b;
-            }
-            .pagination {
-                float: right;
-                margin: 0 0 5px;
-            }
-            .pagination li a {
-                border: none;
-                font-size: 13px;
-                min-width: 30px;
-                min-height: 30px;
-                color: #999;
-                margin: 0 2px;
-                line-height: 30px;
-                border-radius: 2px !important;
-                text-align: center;
-                padding: 0 6px;
-            }
-            .pagination li a:hover {
-                color: #666;
-            }
-            .pagination li.active a, .pagination li.active a.page-link {
-                background: #03A9F4;
-            }
-            .pagination li.active a:hover {
-                background: #0397d6;
-            }
-            .pagination li.disabled i {
-                color: #ccc;
-            }
-            .pagination li i {
-                font-size: 16px;
-                padding-top: 6px
-            }
-            .hint-text {
-                float: left;
-                margin-top: 10px;
-                font-size: 13px;
-            }
+
+
+
+
             #myBtn {
                 display: none;
                 position: fixed;
@@ -229,22 +212,29 @@
                 font-size: 18px;
                 border: none;
                 outline: none;
-                background-color: red;
+                background: linear-gradient(to bottom, #FF6B6B, #FF8E8E);
                 color: white;
                 cursor: pointer;
                 padding: 15px;
                 border-radius: 4px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             }
 
             #myBtn:hover {
-                background-color: #555;
+                background-color: #333;
+                transition: background-color 0.2s ease-in-out;
             }
+
+            #myBtn:before {
+                content: "\2191";
+            }
+
 
             #toast {
                 position: fixed;
                 top: 32px;
                 right: 32px;
-                z-index: 999999999;
+                z-index: 9;
             }
 
             .toast {
@@ -344,172 +334,323 @@
                 color: rgba(0, 0, 0, 0.3);
                 cursor: pointer;
             }
-        </style>
 
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 1;
+            }
+
+            .confirm-box {
+                display: none;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: white;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+                z-index: 2;
+                max-width: 400px;
+                text-align: center;
+            }
+
+            .box-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .box-header h2 {
+                margin: 0;
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            .close-button {
+                font-size: 24px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .box-content {
+                margin-bottom: 20px;
+            }
+
+            .button-container {
+                display: flex;
+                justify-content: center;
+            }
+
+            .button-container button {
+                margin: 0 10px;
+                padding: 10px 20px;
+                border-radius: 5px;
+                border: none;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            #yes-button {
+                background-color: #e74c3c;
+                color: white;
+            }
+
+            #no-button {
+                background-color: #2ecc71;
+                color: white;
+            }
+
+            #yes-button1 {
+                background-color: #e74c3c;
+                color: white;
+            }
+
+            #no-button1 {
+                background-color: #2ecc71;
+                color: white;
+            }
+
+
+        </style>
     </head>
     <body>
-        <div id="toast" class="my-toast">
-            <div class="toast">
-                <!-- Toast content here -->
-            </div>        </div>
-            <%
-                Account ac = (Account) session.getAttribute("Account");
-                String mess = (String) request.getAttribute("mess");
-            %>
-        <nav class="navbar navbar-expand-lg" style="background-color: #303C5F;">
+        <%
+            String mess = (String) request.getAttribute("mess");
+        %>
+        <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main" style="background-color: #303C5F;     padding: 0rem 1rem;">
             <div class="container-fluid">
-                <div>
-                    <a class="navbar-brand" href="/home"
-                       style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b></a>
-                    <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
-                            data-mdb-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
-                            aria-label="Toggle navigation">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>                 
-                <div class="collapse navbar-collapse" id="navbarText">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/home" aria-current="page" style="color: white; font-weight: bold">Account Management</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/product" style="color: #566787;">Product Management</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/product" style="color: #566787;">Order Management</a>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <%if (ac == null) {%>
-                    <button type="button" class="btn px-3 me-2"
-                            style="color: white; background-color: #20283F"
-                            onclick="location.href = '/login'">
-                        Login
-                    </button>
-                    <button type="button" class="btn me-3" 
-                            style="color: white; background-color: #20283F"
-                            onclick="location.href = '/signup'">
-                        Sign Up
-                    </button>
-                    <%
-                    } else {
-                    %>
-                    <button type="button" class="btn px-3 me-2"
-                            style="color: white; background-color: #20283F"
-                            onclick="location.href = '/Account/information/<%= ac.getUsername()%>'">
-                        <%=ac.getFullname()%>
-                    </button>
-                    <%
-                        }
-                    %>
+                <!-- Brand -->
+                <a class="h4 mb-0 text-uppercase text-white d-none d-lg-inline-block"
+                   href="/">FIVE STORE - ACCOUNT
+                    Management</a>
+                <!-- User -->
+                <div class="search-box ">
+                    <div class="input-group">								
+                        <input type="text" id="search" class="form-control" placeholder="Search by Username" style="max-width: 237px; margin: 10px 0 -10px 0;">
+                    </div>
                 </div>
             </div>
         </nav>
-        <div class="container-xl" style="max-width: 1200px">
-            <div class="table-responsive">
-                <div class="table-wrapper">
-                    <div class="table-title">
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <h2>Account <b>Management</b></h2>
-                            </div>
-                            <div class="col-sm-7">
-                                <div class="search-box">
-                                    <div class="input-group">								
-                                        <input type="text" id="search" class="form-control" style="font-size: 13px;" placeholder="Search by Username">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        <div class="container" style="margin-top: 20px;">
+            <ul class="responsive-table">
+                <li class="table-header">
+                    <div class="col col-1">Username</div>
+                    <div class="col col-2">FullName</div>
+                    <div class="col col-3">Email</div>
+                    <div class="col col-4">TypeAccount</div>
+                    <div class="col col-5">Actions</div>
+                </li>
+                <%
+                    AccountDAO dao = new AccountDAO();
+                    ResultSet rs = dao.getAll();
+                    while (rs.next()) {
+                %>
+
+                <li class="table-row">
+                    <div class="col col-1" data-label="Username"><%= rs.getString("Username")%></div>
+                    <div class="col col-2" data-label="Fullname"><%= rs.getString("FullName")%></div>
+                    <div class="col col-3" data-label="Email"><%= rs.getString("Email")%></div>
+                    <%
+                        if (rs.getString("AccountTypeID").equals("AD")) {
+                    %>
+                    <div class="col col-4" data-label="TypeAccount"><i class="material-icons haha" style="padding-left: 25px; ">&#xe853;</i></div>
+                    <%
+                    } else {
+                    %>
+
+                    <div class="col col-4" data-label="TypeAccount"> <i class="material-icons haha" style="padding-left: 25px; ">&#xe7fc;</i></div>
+                    <%
+                        }
+                    %>
+                    <div class="col col-5" data-label="Action">
+                        <a href="/Account/Change/<%= rs.getString("Username")%>" class="edit" title="Change Permission" data-toggle="tooltip"><i class="material-icons">&#xe869;</i></a>
+                        <a href="/Account/Delete/<%= rs.getString("Username")%>" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                     </div>
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th style="width: 15%">Username</th>                     
-                                <th style="width: 30%">FullName</th>
-                                <th style="width: 30%">Email</th>
-                                <th style="width: 15%">TypeAccount</th>
-                                <th style="width: 10%">Actions</th>
-                            </tr>
-                        </thead>
-                        <%
-                            AccountDAO dao = new AccountDAO();
-                            ResultSet rs = dao.getAll();
-                            while (rs.next()) {
-                        %>
-                        <tbody>
-                            <tr>
-                                <td><%= rs.getString("Username")%></td>
-                                <td><%= rs.getString("FullName")%></td>
-                                <td><%= rs.getString("Email")%></td>
-                                <%
-                                    if (rs.getString("AccountTypeID").equals("AD")) {
-                                %>
-                                <td><i class="material-icons haha" style="padding-left: 25px; ">&#xe853;</i></td>
-                                <%
-                                } else {
-                                %>
-                                <td><i class="material-icons haha" style="padding-left: 25px; ">&#xe7fc;</i></td>
+                </li>
 
-                                <%
-                                    }
-                                %>
-                                <td>
-                                    <a href="/Account/Change/<%= rs.getString("Username")%>" class="edit" title="Change Permission" data-toggle="tooltip"><i class="material-icons">&#xe869;</i></a>
-                                    <a href="/Account/Delete/<%= rs.getString("Username")%>" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                        <%
-                            }
-                        %>
-                    </table>
-                </div>
-            </div>
+                <%
+                    }
+                %>
+            </ul>
         </div>
         <%
             if (mess != null) {
         %>
         <div class="row" >
-            <div class="col-lg-12" style="margin-left: 15px; margin-bottom: 15px;">
+            <div class="col-lg-12" style="margin-left: 15px;
+                 margin-bottom: 15px;">
                 <span id="regError" data-my-attribute="<%= mess%>"></span>
             </div>          
         </div>
         <%
         } else {
-
         %>
         <div class="row" >
-            <div class="col-lg-12" style="margin-left: 15px; margin-bottom: 15px;">
+            <div class="col-lg-12" style="margin-left: 15px;
+                 margin-bottom: 15px;">
                 <span id="regError" data-my-attribute=""></span>
             </div>          
         </div>
-        <%                                        }
-
+        <%
+            }
         %>
+        <div id="toast">
 
-        <button onclick="topFunction()" id="myBtn" title="Go to top">TOP</button>
+
+        </div>
+        <div class="overlay" id="overlay"></div>
+
+        <div class="confirm-box" id="confirm-box">
+            <div class="box-header">
+                <h2>Are you sure you want to change permission?</h2>
+            </div>
+            <div class="box-content">
+                <p>Permission of Account will be changed!</p>
+            </div>
+            <div class="button-container">
+                <button id="yes-button">Yes</button>
+                <button id="no-button">No</button>
+            </div>
+        </div>
+
+        <div class="overlay" id="overlay1"></div>
+
+        <div class="confirm-box" id="confirm-box1">
+            <div class="box-header">
+                <h2>Are you sure you want to delete account?</h2>
+            </div>
+            <div class="box-content">
+                <p>Account will be deleted!</p>
+            </div>
+            <div class="button-container">
+                <button id="yes-button1">Yes</button>
+                <button id="no-button1">No</button>
+            </div>
+        </div>
+
+        <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
+        <script>
+            // Get the search input element
+            var input = document.getElementById("search");
+
+            // Add event listener to the search input
+            input.addEventListener("keyup", function () {
+                // Get the filter value from the search input
+                var filter = input.value.toUpperCase();
+
+                // Get the table rows
+                var rows = document.getElementsByClassName("table-row");
+
+                // Loop through the rows and hide/show based on filter value
+                for (var i = 0; i < rows.length; i++) {
+                    var username = rows[i].getElementsByClassName("col-1")[0].textContent.toUpperCase();
+                    if (username.indexOf(filter) > -1) {
+                        rows[i].style.display = "";
+                    } else {
+                        rows[i].style.display = "none";
+                    }
+                }
+            });
+        </script>
         <script>
             $(document).ready(function () {
-                // Filter table rows based on searched term
-                $("#search").on("keyup", function () {
-                    var term = $(this).val().toLowerCase();
-                    $("table tbody tr").each(function () {
-                        $row = $(this);
-                        var name = $row.find("td:nth-child(1)").text().toLowerCase();
-                        console.log(name);
-                        if (name.search(term) < 0) {
-                            $row.hide();
-                        } else {
-                            $row.show();
-                        }
-                    });
-                });
+
                 // When the user scrolls down 20px from the top of the document, show the button
                 window.onscroll = function () {
                     scrollFunction()
+                };
+
+            });
+            function scrollFunction() {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    document.getElementById("myBtn").style.display = "block";
+                } else {
+                    document.getElementById("myBtn").style.display = "none";
+                }
+            }
+            // When the user clicks on the button, scroll to the top of the document
+            function topFunction() {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
+
+            const overlay = document.querySelector(".overlay");
+            overlay.addEventListener("click", function () {
+                overlay.style.display = "none";
+                const confirmBox = document.querySelector(".confirm-box");
+                confirmBox.style.display = "none";
+            });
+
+        </script>
+
+        <script>
+            // Get all the a tags
+            const aTags = document.querySelectorAll("a");
+            const aTag = document.querySelector('a.edit');
+            const aTag1 = document.querySelector('a.delete');
+
+            // Add event listener to each a tag
+            aTags.forEach((aTag) => {
+                aTag.addEventListener("click", (event) => {
+                    // Get the href of the link that was clicked
+                    const href = aTag.getAttribute("href");
+                    const href1 = aTag1.getAttribute("href");
+
+                    // Check if the link is for changing permission or deleting account
+                    if (href.includes("Change")) {
+                        // Display the change permission confirm box
+                        document.getElementById("overlay").style.display = "block";
+                        document.getElementById("confirm-box").style.display = "block";
+                        event.preventDefault();
+                        document.getElementById("yes-button").addEventListener("click", () => {
+                            document.getElementById("overlay").style.display = "none";
+                            document.getElementById("confirm-box").style.display = "none";
+                            window.location.href = href;
+                        });
+                    } else if (href.includes("Delete")) {
+                        // Display the delete account confirm box
+                        document.getElementById("overlay1").style.display = "block";
+                        document.getElementById("confirm-box1").style.display = "block";
+                        event.preventDefault();
+                        document.getElementById("yes-button1").addEventListener("click", () => {
+
+
+                            // Hide the confirmation box
+                            document.getElementById("overlay1").style.display = "none";
+                            document.getElementById("confirm-box1").style.display = "none";
+                            window.location.href = href1;
+
+                        });
+                    }
+                });
+            });
+
+            // Add event listener to the "No" buttons to hide the confirm boxes
+            document.getElementById("no-button").addEventListener("click", () => {
+                document.getElementById("overlay").style.display = "none";
+                document.getElementById("confirm-box").style.display = "none";
+            });
+
+            document.getElementById("no-button1").addEventListener("click", () => {
+                document.getElementById("overlay1").style.display = "none";
+                document.getElementById("confirm-box1").style.display = "none";
+            });
+
+        </script>
+        <script>
+            $(document).ready(function () {
+
+                // When the user scrolls down 20px from the top of the document, show the button
+                window.onscroll = function () {
+                    scrollFunction();
                 };
 
             });
@@ -558,7 +699,7 @@
                 toast({
                     title: 'Failed!',
                     message: 'You cannot delete account ADMIN!',
-                    type: 'success',
+                    type: 'error',
                     duration: 3000
                 });
             }
