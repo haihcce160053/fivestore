@@ -14,7 +14,7 @@ public class DBConnection {
     private static Connection conn = null;
     private String machineName = "KIENTT\\SQLEXPRESS";
     private String port = "1433";
-    private String databaseName = "FIVESTOREFULL"; //FIVESTOREFULL
+    private String databaseName = "Project"; //FIVESTOREFULL
     private String user = "sa";
     private String password = "se1605";
 
