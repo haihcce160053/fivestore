@@ -55,7 +55,10 @@ public class OrderController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/home.jsp").forward(request, response);
+                String path = request.getRequestURI();
+        if (path.endsWith("/checkout")) {
+           request.getRequestDispatcher("/newOrder.jsp").forward(request, response);
+        }
     }
 
     /**

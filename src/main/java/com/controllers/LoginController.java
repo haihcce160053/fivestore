@@ -188,6 +188,33 @@ public class LoginController extends HttpServlet {
             session.setAttribute("informationAccount", null);
             session.setAttribute("Account", null);
             response.sendRedirect(request.getContextPath() + "/");
+        } else if (request.getParameter("btnForgotPassword") != null) {
+            String username = request.getParameter("forgotUsername");
+            String answer = request.getParameter("forgotAnswer");
+            HttpSession session = request.getSession();
+            AccountDAO dao = new AccountDAO();
+            Account ac = dao.getAccount(username);
+            if (ac != null) {
+                String securityanswer = ac.getSecurityAnswer();
+                if (securityanswer.toLowerCase().trim().equals(answer.toLowerCase().trim())) {
+                    Encoding endcode = new Encoding();
+                    String password = endcode.getMd5(request.getParameter("newPassword"));
+                    ac.setPassword(password);                
+                    dao.updateAccount(ac);
+                    if (ac.getAccountTypeId().equals("AD")) {
+                        session.setAttribute("informationAccount", ac);
+                        response.sendRedirect(request.getContextPath() + "/homeAdmin");
+                    } else {
+                        session.setAttribute("informationAccount", ac);
+                        response.sendRedirect(request.getContextPath() + "/home");
+                    }
+                } else {
+                    request.setAttribute("mess", "Reset password failed");
+                    request.getRequestDispatcher("/login.jsp").forward(request, response);
+                }
+            }else{
+                response.sendRedirect(request.getContextPath() + "/login");
+            }
         } else {
             request.setAttribute("mess", "Not find button!");
             request.getRequestDispatcher("/login.jsp").forward(request, response);

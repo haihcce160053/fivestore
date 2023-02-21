@@ -79,9 +79,9 @@
             </div>
         </header>
         <div class="Container justify-center">
-            <div class="row justify-content-center" style="margin-top: 100px;">
-                <div class="col-md-4 col-sm-6 card">
-                    <h2 style="margin-top: 10px" class="row justify-content-end">Order Information</h2>
+            <div class="row justify-content-center" style="margin-top: 50px;">
+                <div class="col-md-4 col-sm-6 col-12 card">
+                    <h2 style="margin-top: 10px; margin-bottom: 10px; margin-right: 10px" class="row justify-content-end">Order Information</h2>
                     <form style="margin-top: 10px;" method="post" action="/order/checkout/">
                         <div class="form-group row">
                             <label for="txtOrderID" class="col-4 col-form-label">Order ID</label> 
@@ -92,28 +92,31 @@
                         <div class="form-group row">
                             <label for="txtUsername" class="col-4 col-form-label">Username</label> 
                             <div class="col-8">
-                                <input id="txtUsername" name="txtUsername" type="text" class="form-control">
+                                <input id="txtUsername" name="txtUsername" type="text" class="form-control" value="test" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="txtEmail" class="col-4 col-form-label">Email</label> 
                             <div class="col-8">
-                                <input id="txtEmail" name="txtEmail" type="text" class="form-control">
+                                <input id="txtEmail" name="txtEmail" type="text" class="form-control" value="exple@gmail.com" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="txtPhone" class="col-4 col-form-label">Phone</label> 
                             <div class="col-8">
-                                <input id="txtPhone" name="txtPhone" type="text" class="form-control">
+                                <input id="txtPhone" name="txtPhone" type="text" class="form-control" value="0123456789">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="txtTotalBill" class="col-4 col-form-label">Total Bill</label> 
                             <div class="col-8">
-                                <input id="txtTotalBill" name="txtTotalBill" type="text" class="form-control">
+                                <input id="txtTotalBill" name="txtTotalBill" type="text" class="form-control" value="300000 VND" readonly>
                             </div>
                         </div>
-                        <h2 class="shipping-info-text row justify-content-end">Shipping address</h2>
+                        <h2 class="shipping-info-text row justify-content-end" 
+                            style="margin-top: 10px; margin-bottom: 10px; margin-right: 10px">
+                            Shipping address
+                        </h2>
                         <div class="form-group row">
                             <label for="txtFullname" class="col-4 col-form-label">Full Name</label> 
                             <div class="col-8">
@@ -149,7 +152,23 @@
                             <div class="col-8">
                                 <input id="txtDetailAddress" name="txtDetailAddress" type="text" class="form-control">
                             </div>
-                        </div> 
+                        </div>
+                        <div class="form-group" style="margin-top: 10px;">
+                            <span id="regError" style="color:red"></span>
+                        </div>
+                        <h2 class="shipping-info-text row justify-content-end" 
+                            style="margin-top: 10px; margin-bottom: 10px; margin-right: 10px">
+                            Payment Methods
+                        </h2>
+                        <div class="form-group row">
+                            <label for="select" class="col-6 col-form-label">Chose the payment method</label>
+                            <div class="col-6">
+                                <select class="form-select form-select-sm" id="paymentMethod"aria-label=".form-select-sm">
+                                    <option value="" selected>COD</option>
+                                     <option value="" >VietQR</option>
+                                </select>
+                            </div> 
+                        </div>
                         <div class="form-group row" style="margin-bottom: 20px">
                             <div class="offset-4 col-8">
                                 <button name="submit" type="submit" class="btn btn-primary" onclick="return checkInfo()">Submit Order</button>
@@ -199,5 +218,16 @@
                                             }
                                         };
                                     }
+    </script>
+    <script>
+        function checkInfo() {
+            var phone = document.getElementById("txtPhone").value;
+            var fullname = document.getElementById("txtFullname").value;
+            var DetailAddress = document.getElementById("txtDetailAddress").value;
+            var city = document.getElementById("city").value;
+            var district = document.getElementById("district").value;
+            var ward = document.getElementById("txtDetailAddress").value;
+            if (phone != "" && fullname != "" && DetailAddress != "")
+        }
     </script>
 </html>
