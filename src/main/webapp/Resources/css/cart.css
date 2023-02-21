@@ -1,0 +1,113 @@
+
+/* 
+    Created on : Feb 21, 2023, 10:56:07 AM
+    Author     : QuangQui
+*/
+
+#cart {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: auto;
+    margin-top: 80px;
+    background-color: white;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    display: none;
+    z-index: 99999;
+}
+
+#cart h3 {
+    font-size: 30px;
+    font-weight: 100;
+    margin-bottom: 20px;
+    color: #2c2c2c;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#cart ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+#cart li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #555;
+    font-family: 'Roboto', sans-serif;
+}
+
+#cart-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#cart-items li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #303C5F;
+}
+#cart-items li button {
+    background-color: transparent;
+    border: none;
+    color: #FF4E4E;
+    cursor: pointer;
+    font-size: 12px;
+
+}
+
+#cart-items li button:hover {
+    text-decoration: none;
+}
+#cart-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #2c2c2c;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#cart-total p {
+    font-size: 14px;
+    color: #303C5F;
+    margin: 0;
+}
+
+#cart-total-amount {
+    font-weight: bold;
+    color: #2c2c2c;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#checkout-button {
+    display: block;
+    width: 100%;
+    background-color: #303C5F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 24px;
+    padding: 10px 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#checkout-button:hover {
+    background-color: #8ab5d6;
+}
+
+
