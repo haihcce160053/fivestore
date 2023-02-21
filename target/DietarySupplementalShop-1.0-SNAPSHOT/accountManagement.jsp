@@ -582,12 +582,20 @@
                 document.documentElement.scrollTop = 0;
             }
 
-            const overlay = document.querySelector(".overlay");
+            const overlay = document.getElementById("overlay");
             overlay.addEventListener("click", function () {
                 overlay.style.display = "none";
-                const confirmBox = document.querySelector(".confirm-box");
+                const confirmBox = document.getElementById("confirm-box");
                 confirmBox.style.display = "none";
             });
+            
+            const overlay1 = document.getElementById("overlay1");
+            overlay1.addEventListener("click", function () {
+                overlay1.style.display = "none";
+                const confirmBox1 = document.getElementById("confirm-box1");
+                confirmBox1.style.display = "none";
+            });
+      
 
         </script>
 

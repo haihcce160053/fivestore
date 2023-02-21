@@ -279,16 +279,16 @@
                                 <div class="col-lg-3 order-lg-2">
                                     <div class="card-profile-image">
                                         <%
-                                        if(ac.getGender().equalsIgnoreCase("Male")) {
+                                            if (ac.getGender().equalsIgnoreCase("Male")) {
                                         %>
                                         <a href="#">
                                             <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                                                  class="rounded-circle">
                                         </a>
                                         <%
-                                            } else {
+                                        } else {
                                         %>
-                                         <a href="#">
+                                        <a href="#">
                                             <img src="https://i.pinimg.com/564x/a6/58/32/a65832155622ac173337874f02b218fb--people-icon-avatar.jpg"
                                                  class="rounded-circle">
                                         </a>
@@ -791,12 +791,18 @@
         }
     </script>
     <script>
-        const overlayqu = document.querySelector(".overlay");
-        const confirmBoxqu = document.querySelector(".confirm-box");
-        overlayqu.addEventListener("click", function () {
-            overlayqu.style.display = "none";
-            confirmBoxqu.style.display = "none";
+        overlay.addEventListener("click", function () {
+            overlay.style.display = "none";
+            const confirmBox = document.getElementById("confirm-box");
+            confirmBox.style.display = "none";
         });
+
+        overlay1.addEventListener("click", function () {
+            overlay1.style.display = "none";
+            const confirmBox1 = document.getElementById("confirm-box1");
+            confirmBox1.style.display = "none";
+        });
+
 
     </script>
 </body>
