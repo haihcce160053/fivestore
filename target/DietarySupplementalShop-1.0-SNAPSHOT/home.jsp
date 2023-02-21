@@ -246,11 +246,16 @@
                             } else if (ac == null || (!ac.getUsername().equalsIgnoreCase("Admin"))) {
                             %>
                             <button id="view-cart-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white">
-                                Cart <span id="cart-badge" class="badge badge-light">0</span>
+                                MY CART <span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;">0</span>
                             </button>
                             <%
                                 }
                             %>
+
+                            <button id="view-purchase-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white">
+                                MY Purchase<span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;">0</span>
+
+                            </button>
                         </div>
                     </div>
                 </nav>
