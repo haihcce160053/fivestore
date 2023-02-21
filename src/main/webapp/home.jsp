@@ -4,6 +4,8 @@
     Author     : Huynh Chi Hai
 --%>
 
+<%@page import="java.text.NumberFormat"%>
+<%@page import="java.util.Locale"%>
 <%@page import="com.models.Account"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.daos.ProductDAO"%>
@@ -189,13 +191,13 @@
                                     if (ac != null && (ac.getAccountTypeId()).equalsIgnoreCase("AD")) {
                                 %>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/Account/Management/<%=ac.getUsername()%>" style="color: #566787;">Account Management</a>
+                                    <a class="nav-link" href="/Account/Management/<%=ac.getUsername()%>" style="color: white;">Account Management</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/product" style="color: #566787;">Product Management</a>
+                                    <a class="nav-link" href="/product" style="color: white;">Product Management</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/product" style="color: #566787;">Order Management</a>
+                                    <a class="nav-link" href="/product" style="color: white;">Order Management</a>
                                 </li>
 
                                 <%
@@ -246,10 +248,7 @@
                             %>
                             <button id="view-cart-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white">
                                 MY CART <span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;">0</span>
-
                             </button>
-
-
                             <%
                                 }
                             %>
@@ -328,7 +327,8 @@
                 <div style="margin-bottom: 40px">
                     <h5>DIGESTION</h5>
                     <div class="row">
-                        <%                            ProductDAO dao_dig = new ProductDAO();
+                        <%
+                            ProductDAO dao_dig = new ProductDAO();
                             ResultSet rs_dig = dao_dig.getAll();
                             while (rs_dig.next()) {
                                 if (rs_dig.getString("ProductTypeID").equals("Dig")) {
@@ -341,10 +341,13 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_dig.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted" id="price-<%= rs_dig.getString("ProductID")%>"><%= rs_dig.getInt("Price")%>VND</span>
-
+                                        <%
+                                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                            String formattedPrice = format.format(rs_dig.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                        %>
+                                        <span class="card-text text-muted" id="price-<%= rs_dig.getString("ProductID")%>"><b>Price: </b><%= formattedPrice %></span>
                                     </div>
-                                    <div>
+                                    <div style="margin-top: 20px">
                                         <input id="title-<%= rs_dig.getString("ProductID")%>" type="text" value="<%= rs_dig.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_dig.getString("ProductID")%>" type="text" value="<%= rs_dig.getString("Description")%>" hidden>
                                         <button id="view-<%= rs_dig.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_dig.getString("ProductID")%>').value, document.getElementById('des-<%= rs_dig.getString("ProductID")%>').value)">View</button>
@@ -377,10 +380,13 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_eyes.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted" id="price-<%= rs_eyes.getString("ProductID")%>"><%= rs_eyes.getInt("Price")%>VND</span>
-
+                                        <%
+                                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                            String formattedPrice = format.format(rs_eyes.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                        %>
+                                        <span class="card-text text-muted" id="price-<%= rs_eyes.getString("ProductID")%>"><b>Price: </b><%= formattedPrice %></span>
                                     </div>
-                                    <div>
+                                    <div style="margin-top: 20px">
                                         <input id="title-<%= rs_eyes.getString("ProductID")%>" type="text" value="<%= rs_eyes.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_eyes.getString("ProductID")%>" type="text" value="<%= rs_eyes.getString("Description")%>" hidden>
                                         <button id="view-<%= rs_eyes.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_eyes.getString("ProductID")%>').value, document.getElementById('des-<%= rs_eyes.getString("ProductID")%>').value)">View</button>
@@ -413,10 +419,13 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_blood.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted" id="price-<%= rs_blood.getString("ProductID")%>"><%= rs_blood.getInt("Price")%>VND</span>
-
+                                        <%
+                                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                            String formattedPrice = format.format(rs_blood.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                        %>
+                                        <span class="card-text text-muted" id="price-<%= rs_blood.getString("ProductID")%>"><b>Price: </b><%= formattedPrice %></span>
                                     </div>
-                                    <div>
+                                    <div style="margin-top: 20px">
                                         <input id="title-<%= rs_blood.getString("ProductID")%>" type="text" value="<%= rs_blood.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_blood.getString("ProductID")%>" type="text" value="<%= rs_blood.getString("Description")%>" hidden>
                                         <button id="view-<%= rs_blood.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_blood.getString("ProductID")%>').value, document.getElementById('des-<%= rs_blood.getString("ProductID")%>').value)">View</button>
@@ -449,10 +458,13 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_liver.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted" id="price-<%= rs_liver.getString("ProductID")%>"><%= rs_liver.getInt("Price")%>VND</span>
-
+                                        <%
+                                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                            String formattedPrice = format.format(rs_liver.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                        %>
+                                        <span class="card-text text-muted" id="price-<%= rs_liver.getString("ProductID")%>"><b>Price: </b><%= formattedPrice %></span>
                                     </div>
-                                    <div>
+                                    <div style="margin-top: 20px">
                                         <input id="title-<%= rs_liver.getString("ProductID")%>" type="text" value="<%= rs_liver.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_liver.getString("ProductID")%>" type="text" value="<%= rs_liver.getString("Description")%>" hidden>
                                         <button id="view-<%= rs_liver.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_liver.getString("ProductID")%>').value, document.getElementById('des-<%= rs_liver.getString("ProductID")%>').value)">View</button>
@@ -486,10 +498,13 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_resistance.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted" id="price-<%= rs_resistance.getString("ProductID")%>"><%= rs_resistance.getInt("Price")%>VND</span>
-
+                                        <%
+                                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                            String formattedPrice = format.format(rs_resistance.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                        %>
+                                        <span class="card-text text-muted" id="price-<%= rs_resistance.getString("ProductID")%>"><b>Price: </b><%= formattedPrice %></span>
                                     </div>
-                                    <div>
+                                    <div style="margin-top: 20px">
                                         <input id="title-<%= rs_resistance.getString("ProductID")%>" type="text" value="<%= rs_resistance.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_resistance.getString("ProductID")%>" type="text" value="<%= rs_resistance.getString("Description")%>" hidden>
                                         <button id="view-<%= rs_resistance.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_resistance.getString("ProductID")%>').value, document.getElementById('des-<%= rs_resistance.getString("ProductID")%>').value)">View</button>
@@ -522,10 +537,13 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_skin.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted" id="price-<%= rs_skin.getString("ProductID")%>"><%= rs_skin.getInt("Price")%>VND</span>
-
+                                        <%
+                                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                            String formattedPrice = format.format(rs_skin.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                        %>
+                                        <span class="card-text text-muted" id="price-<%= rs_skin.getString("ProductID")%>"><b>Price: </b><%= formattedPrice %></span>
                                     </div>
-                                    <div>
+                                    <div style="margin-top: 20px">
                                         <input id="title-<%= rs_skin.getString("ProductID")%>" type="text" value="<%= rs_skin.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_skin.getString("ProductID")%>" type="text" value="<%= rs_skin.getString("Description")%>" hidden>
                                         <button id="view-<%= rs_skin.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_skin.getString("ProductID")%>').value, document.getElementById('des-<%= rs_skin.getString("ProductID")%>').value)">View</button>
@@ -558,10 +576,13 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_sleep.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted" id="price-<%= rs_sleep.getString("ProductID")%>"><%= rs_sleep.getInt("Price")%>VND</span>
-
+                                        <%
+                                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                            String formattedPrice = format.format(rs_sleep.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                        %>
+                                        <span class="card-text text-muted" id="price-<%= rs_sleep.getString("ProductID")%>"><b>Price: </b><%= formattedPrice %></span>
                                     </div>
-                                    <div>
+                                    <div style="margin-top: 20px">
                                         <input id="title-<%= rs_sleep.getString("ProductID")%>" type="text" value="<%= rs_sleep.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_sleep.getString("ProductID")%>" type="text" value="<%= rs_sleep.getString("Description")%>" hidden>
                                         <button id="view-<%= rs_sleep.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_sleep.getString("ProductID")%>').value, document.getElementById('des-<%= rs_sleep.getString("ProductID")%>').value)">View</button>
@@ -594,10 +615,13 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_weight.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted" id="price-<%= rs_weight.getString("ProductID")%>"><%= rs_weight.getInt("Price")%>VND</span>
-
+                                        <%
+                                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                            String formattedPrice = format.format(rs_weight.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                        %>
+                                        <span class="card-text text-muted" id="price-<%= rs_weight.getString("ProductID")%>"><b>Price: </b><%= formattedPrice %></span>
                                     </div>
-                                    <div>
+                                    <div style="margin-top: 20px">
                                         <input id="title-<%= rs_weight.getString("ProductID")%>" type="text" value="<%= rs_weight.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_weight.getString("ProductID")%>" type="text" value="<%= rs_weight.getString("Description")%>" hidden>
                                         <button id="view-<%= rs_weight.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_weight.getString("ProductID")%>').value, document.getElementById('des-<%= rs_weight.getString("ProductID")%>').value)">View</button>
@@ -706,7 +730,8 @@
                         // Lấy thông tin của sản phẩm từ id của nút "Add to Cart"
                         var productId = this.id.split('-')[1];
                         var productName = document.getElementById("title-" + productId).value;
-                        var price = document.getElementById("price-" + productId).innerHTML.replace("VND", "");
+                        var price = document.getElementById("price-" + productId).innerHTML.replace("<b>Price: </b>", "").replace("đ", "").replaceAll(".", "");
+                        console.log(price);
 
                         // Gọi hàm addToCart với các tham số tương ứng
                         addToCart(productId, productName, price);
@@ -801,7 +826,7 @@
 
                     // Tạo một phần tử span để hiển thị giá tổng của sản phẩm
                     const totalProductPriceSpan = document.createElement("span");
-                    totalProductPriceSpan.textContent = "" + totalProductPrice + " VND";
+                    totalProductPriceSpan.textContent = "" + totalProductPrice.toLocaleString("vi-VN") + " đ";
                     listItem.appendChild(totalProductPriceSpan);
 
                     // Tạo một phần tử nút để xóa sản phẩm khỏi giỏ hàng
@@ -821,17 +846,16 @@
                 });
 
                 // Đặt nội dung text của phần tử giá tổng của giỏ hàng thành giá tổng
-                cartTotalAmount.textContent = "" + totalPrice + " VND";
+                cartTotalAmount.textContent = "" + totalPrice.toLocaleString("vi-VN") + " đ";
             }
 
 
             // Define the checkout function
             function checkout() {
                 // Display an alert with the total price
-                const totalPrice = parseFloat(cartTotalAmount.textContent.slice(1));
-
+                const totalPrice = cartTotalAmount.textContent;
                 // Hiển thị thông báo về tổng giá trị và yêu cầu người dùng xác nhận
-                const confirmMessage = "Bạn có chắc chắn muốn đặt hàng với tổng giá trị là: " + totalPrice + " VND ?";
+                const confirmMessage = "Bạn có chắc chắn muốn đặt hàng với tổng giá trị là: " + totalPrice + "?";
                 event.preventDefault();
                 const shouldCheckout = confirm(confirmMessage);
                 if (shouldCheckout) {

@@ -168,6 +168,34 @@
                 </nav>
             </div>
         </header>
+
+        <!-- Modal -->
+        <div class="modal fade" id="ForgotPasswordModal" tabindex="-1" aria-labelledby="ForgotPasswordLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-title">Forgot password</h5>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="post" action="/forgotpassword">
+                        <div class="modal-body" id="modal-body">
+                            <span>Username</span>
+                            <input type="text" name="forgotUsername" placeholder="Input your username" style="background-color: #E7E7E7; margin-top: 10px"> 
+                            <span>What's Your Primary School's Name?</span>
+                            <input type="text" name="forgotAnswer" placeholder="Input your answer" style="background-color: #E7E7E7; margin-top: 10px"> 
+                            <span>New password</span>
+                            <input type="password" name="newPassword" placeholder="Input your new password" style="background-color: #E7E7E7; margin-top: 10px"> 
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn" name="btnForgotPassword" style="background-color: #303C5F; color: white">Submit</button> 
+                        </div>
+                    </form>
+
+                    <!--data-mdb-dismiss="modal"-->
+                </div>
+            </div>
+        </div>
+
         <main>
             <div class="container" style="margin-top: 100px">
                 <div class="row justify-content-center">
@@ -225,7 +253,7 @@
                             %>
                             <!-- Forgot password -->
                             <div class="form-group" style="margin-top: 20px;" align="center">
-                                <a href="">Forgot password?</a>
+                                <a href="" data-mdb-toggle="modal" data-mdb-target="#ForgotPasswordModal">Forgot password?</a>
                             </div>
                             <!-- Sign in other way -->
                             <div class="orther-login" align="center" style="margin-top: 40px;">

@@ -43,6 +43,10 @@
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
+     <servlet-mapping>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/forgotpassword</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AccountController</servlet-name>
         <url-pattern>/Account/*</url-pattern>
