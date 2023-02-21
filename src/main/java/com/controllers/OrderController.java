@@ -61,7 +61,7 @@ public class OrderController extends HttpServlet {
             throws ServletException, IOException {
         String path = request.getRequestURI();
         if (path.endsWith("/Order/")) {
-            request.getRequestDispatcher("/home.jsp").forward(request, response);
+            request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
         } else {
             if (path.startsWith("/Order/OrderDetails/")) {
                 // split path to get username
