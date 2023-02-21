@@ -165,6 +165,7 @@
 
         </style>
     </head>
+
     <body>
         <%
             Account ac = (Account) session.getAttribute("informationAccount");
