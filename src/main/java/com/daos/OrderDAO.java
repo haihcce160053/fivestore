@@ -28,7 +28,7 @@ public class OrderDAO {
      
     public Order getOrder(String OrderID) {
         try {
-            String query = "select OrderID,Username,DeliveryAddress,OrderTime, OrderStatusID,TotalBill from OrderList where OrderID=?";
+            String query = "select * from OrderList where OrderID=?";
             PreparedStatement pst = conn.prepareStatement(query);
             pst.setString(1, OrderID);
             ResultSet rs = pst.executeQuery();
@@ -52,7 +52,7 @@ public class OrderDAO {
         ResultSet rs = null;
         try {
             Statement st = conn.createStatement();
-            rs = st.executeQuery("select OrderID,Username,DeliveryAddress,OrderTime, OrderStatusID,TotalBill from OrderList ");
+            rs = st.executeQuery("select * from OrderList ");
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

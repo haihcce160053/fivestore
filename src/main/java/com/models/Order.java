@@ -4,8 +4,6 @@
  */
 package com.models;
 
-import java.sql.Date;
-
 /**
  *
  * @author LEO

@@ -97,49 +97,7 @@ public class OrderController extends HttpServlet {
                         request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
                     }
 
-                }/* else {
-                    if (path.startsWith("/Account/Change/")) {
-                        String[] s = path.split("/");
-                        String username = s[s.length - 1];
-                        AccountDAO dao = new AccountDAO();
-                        Account ac = dao.getAccount(username);
-                        if (ac.getUsername().equals("Admin")) {
-                            request.setAttribute("mess", "Nooo");
-                            request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
-                        } else if (ac.getAccountTypeId().equals("CUS")) {
-                            int count = dao.setTypeAdminAccount(ac);
-                            if (count > 0) {
-                                request.setAttribute("mess", "YesA");
-                                request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
-                            } else {
-                                request.setAttribute("mess", "NoA");
-                                request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
-                            }
-                        } else if (ac.getAccountTypeId().equals("AD")) {
-                            int count = dao.setTypeCustomerAccount(ac);
-                            if (count > 0) {
-                                request.setAttribute("mess", "YesC");
-                                request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
-                            } else {
-                                request.setAttribute("mess", "NoC");
-                                request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
-                            }
-                        }
-                    } else {
-                        if (path.startsWith("/Account/Management/")) {
-                            String[] s = path.split("/");
-                            String username = s[s.length - 1];
-                            AccountDAO dao = new AccountDAO();
-                            Account ac = dao.getAccount(username);
-                            HttpSession session = (HttpSession) request.getSession();
-                            session.setAttribute("Account", ac);
-                            request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
-                        }
-                    }
                 }
-            }
-        }
-    }*/
             }
         }
     }
