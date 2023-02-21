@@ -4,12 +4,16 @@
  */
 package com.controllers;
 
+import com.daos.OrderDAO;
+import com.daos.OrderDetailsDAO;
+import com.models.Order;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -55,9 +59,88 @@ public class OrderController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                String path = request.getRequestURI();
-        if (path.endsWith("/checkout")) {
-           request.getRequestDispatcher("/newOrder.jsp").forward(request, response);
+        String path = request.getRequestURI();
+        if (path.endsWith("/Order/")) {
+            request.getRequestDispatcher("/home.jsp").forward(request, response);
+        } else {
+            if (path.startsWith("/Order/OrderDetails/")) {
+                // split path to get username
+                String[] s = path.split("/");
+                String OrderID = s[s.length - 1];
+                OrderDAO dao = new OrderDAO();
+                Order ord = dao.getOrder(OrderID);
+                if (ord != null) {
+                    HttpSession session = (HttpSession) request.getSession();
+                    session.setAttribute("Order", ord);
+                    request.getRequestDispatcher("/OrderDetails.jsp").forward(request, response);
+                }
+            } else {
+                if (path.startsWith("/Order/Delete/")) {
+                    String[] s = path.split("/");
+                    String OrderID = s[s.length - 1];
+                    OrderDAO dao = new OrderDAO();
+                    OrderDetailsDAO daos = new OrderDetailsDAO();
+                    Order ord = dao.getOrder(OrderID);
+                    if (ord.getOrderStatusID().equalsIgnoreCase("DHD") || ord.getOrderStatusID().equalsIgnoreCase("DHH")) {
+                        int count = daos.deleteOrderDetails(OrderID);
+                        int count2 = dao.deleteOrder(OrderID);
+                        if (count > 0 && count2 > 0) {
+                            request.setAttribute("mess", "YesD");
+                            request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
+
+                        } else {
+                            request.setAttribute("mess", "NoD");
+                            request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
+                        }
+                    } else {
+                        request.setAttribute("mess", "Noo");
+                        request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
+                    }
+
+                }/* else {
+                    if (path.startsWith("/Account/Change/")) {
+                        String[] s = path.split("/");
+                        String username = s[s.length - 1];
+                        AccountDAO dao = new AccountDAO();
+                        Account ac = dao.getAccount(username);
+                        if (ac.getUsername().equals("Admin")) {
+                            request.setAttribute("mess", "Nooo");
+                            request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
+                        } else if (ac.getAccountTypeId().equals("CUS")) {
+                            int count = dao.setTypeAdminAccount(ac);
+                            if (count > 0) {
+                                request.setAttribute("mess", "YesA");
+                                request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
+                            } else {
+                                request.setAttribute("mess", "NoA");
+                                request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
+                            }
+                        } else if (ac.getAccountTypeId().equals("AD")) {
+                            int count = dao.setTypeCustomerAccount(ac);
+                            if (count > 0) {
+                                request.setAttribute("mess", "YesC");
+                                request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
+                            } else {
+                                request.setAttribute("mess", "NoC");
+                                request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
+                            }
+                        }
+                    } else {
+                        if (path.startsWith("/Account/Management/")) {
+                            String[] s = path.split("/");
+                            String username = s[s.length - 1];
+                            AccountDAO dao = new AccountDAO();
+                            Account ac = dao.getAccount(username);
+                            HttpSession session = (HttpSession) request.getSession();
+                            session.setAttribute("Account", ac);
+                            request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
+                        }
+                    }
+                }
+            }
+        }
+    }*/
+            }
         }
     }
 
@@ -84,5 +167,5 @@ public class OrderController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
 }
