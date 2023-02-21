@@ -198,7 +198,8 @@
                 <div style="margin-bottom: 40px">
                     <h5>DIGESTION</h5>
                     <div class="row">
-                        <%                            ProductDAO dao_dig = new ProductDAO();
+                        <%                     
+                            ProductDAO dao_dig = new ProductDAO();
                             ResultSet rs_dig = dao_dig.getAll();
                             while (rs_dig.next()) {
                                 if (rs_dig.getString("ProductTypeID").equals("Dig")) {
@@ -211,7 +212,7 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_dig.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted"><%= rs_dig.getFloat("Price")%></span>
+                                        <span class="card-text text-muted"><%= rs_dig.getFloat("Price")%> VND</span>
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_dig.getString("ProductID")%>" type="text" value="<%= rs_dig.getString("ProductName")%>" hidden>
@@ -246,7 +247,7 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_eyes.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted"><%= rs_eyes.getFloat("Price")%></span>
+                                        <span class="card-text text-muted"><%= rs_eyes.getFloat("Price")%> VND</span>
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_eyes.getString("ProductID")%>" type="text" value="<%= rs_eyes.getString("ProductName")%>" hidden>
@@ -281,7 +282,7 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_blood.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted"><%= rs_blood.getFloat("Price")%></span>
+                                        <span class="card-text text-muted"><%= rs_blood.getFloat("Price")%> VND</span>
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_blood.getString("ProductID")%>" type="text" value="<%= rs_blood.getString("ProductName")%>" hidden>
@@ -316,7 +317,7 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_liver.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted"><%= rs_liver.getFloat("Price")%></span>
+                                        <span class="card-text text-muted"><%= rs_liver.getFloat("Price")%> VND</span>
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_liver.getString("ProductID")%>" type="text" value="<%= rs_liver.getString("ProductName")%>" hidden>
@@ -352,7 +353,7 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_resistance.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted"><%= rs_resistance.getFloat("Price")%></span>
+                                        <span class="card-text text-muted"><%= rs_resistance.getFloat("Price")%> VND</span>
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_resistance.getString("ProductID")%>" type="text" value="<%= rs_resistance.getString("ProductName")%>" hidden>
@@ -387,7 +388,7 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_skin.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted"><%= rs_skin.getFloat("Price")%></span>
+                                        <span class="card-text text-muted"><%= rs_skin.getFloat("Price")%> VND</span>
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_skin.getString("ProductID")%>" type="text" value="<%= rs_skin.getString("ProductName")%>" hidden>
@@ -422,7 +423,7 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_sleep.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted"><%= rs_sleep.getFloat("Price")%></span>
+                                        <span class="card-text text-muted"><%= rs_sleep.getFloat("Price")%> VND</span>
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_sleep.getString("ProductID")%>" type="text" value="<%= rs_sleep.getString("ProductName")%>" hidden>
@@ -457,7 +458,7 @@
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_weight.getString("ProductName")%></h6>
                                     <div class="d-flex justify-content-between">
-                                        <span class="card-text text-muted"><%= rs_weight.getFloat("Price")%></span>
+                                        <span class="card-text text-muted"><%= rs_weight.getFloat("Price")%> VND</span>
                                     </div>
                                     <div>
                                         <input id="title-<%= rs_weight.getString("ProductID")%>" type="text" value="<%= rs_weight.getString("ProductName")%>" hidden>

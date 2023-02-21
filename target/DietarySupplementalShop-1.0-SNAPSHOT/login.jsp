@@ -168,6 +168,23 @@
                 </nav>
             </div>
         </header>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="ForgotPasswordModal" tabindex="-1" aria-labelledby="ForgotPasswordLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-title">Forgot password</h5>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body">What's Your Primary School's Name?</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" style="background-color: #303C5F; color: white" data-mdb-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <main>
             <div class="container" style="margin-top: 100px">
                 <div class="row justify-content-center">
@@ -225,7 +242,7 @@
                             %>
                             <!-- Forgot password -->
                             <div class="form-group" style="margin-top: 20px;" align="center">
-                                <a href="">Forgot password?</a>
+                                <a href="" data-mdb-toggle="modal" data-mdb-target="#ForgotPasswordModal">Forgot password?</a>
                             </div>
                             <!-- Sign in other way -->
                             <div class="orther-login" align="center" style="margin-top: 40px;">
