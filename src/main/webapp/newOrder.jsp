@@ -25,9 +25,6 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
         <!-- MDB -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
-        <!-- Jquery -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     </head>
     <body>
         <%
@@ -165,7 +162,7 @@
                             <div class="col-6">
                                 <select class="form-select form-select-sm" id="paymentMethod"aria-label=".form-select-sm">
                                     <option value="" selected>COD</option>
-                                     <option value="" >VietQR</option>
+                                    <option value="" >VietQR</option>
                                 </select>
                             </div> 
                         </div>
@@ -180,54 +177,19 @@
         </div>
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script src="${pageContext.request.contextPath}/Resources/js/Address.js"></script>
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     <script>
-                                    var citis = document.getElementById("city");
-                                    var districts = document.getElementById("district");
-                                    var wards = document.getElementById("ward");
-                                    var Parameter = {
-                                        url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-                                        method: "GET",
-                                        responseType: "application/json",
-                                    };
-                                    var promise = axios(Parameter);
-                                    promise.then(function (result) {
-                                        renderCity(result.data);
-                                    });
-                                    function renderCity(data) {
-                                        for (const x of data) {
-                                            citis.options[citis.options.length] = new Option(x.Name, x.Id);
-                                        }
-                                        citis.onchange = function () {
-                                            district.length = 1;
-                                            ward.length = 1;
-                                            if (this.value != "") {
-                                                const result = data.filter(n => n.Id === this.value);
-                                                for (const k of result[0].Districts) {
-                                                    district.options[district.options.length] = new Option(k.Name, k.Id);
-                                                }
-                                            }
-                                        };
-                                        district.onchange = function () {
-                                            ward.length = 1;
-                                            const dataCity = data.filter((n) => n.Id === citis.value);
-                                            if (this.value != "") {
-                                                const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
-                                                for (const w of dataWards) {
-                                                    wards.options[wards.options.length] = new Option(w.Name, w.Id);
-                                                }
-                                            }
-                                        };
+                                    function checkInfo() {
+                                        var phone = document.getElementById("txtPhone").value;
+                                        var fullname = document.getElementById("txtFullname").value;
+                                        var DetailAddress = document.getElementById("txtDetailAddress").value;
+                                        var city = document.getElementById("city").value;
+                                        var district = document.getElementById("district").value;
+                                        var ward = document.getElementById("txtDetailAddress").value;
+                                        if (phone != "" && fullname != "" && DetailAddress != "")
                                     }
-    </script>
-    <script>
-        function checkInfo() {
-            var phone = document.getElementById("txtPhone").value;
-            var fullname = document.getElementById("txtFullname").value;
-            var DetailAddress = document.getElementById("txtDetailAddress").value;
-            var city = document.getElementById("city").value;
-            var district = document.getElementById("district").value;
-            var ward = document.getElementById("txtDetailAddress").value;
-            if (phone != "" && fullname != "" && DetailAddress != "")
-        }
     </script>
 </html>
