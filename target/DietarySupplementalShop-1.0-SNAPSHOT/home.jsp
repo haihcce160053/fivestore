@@ -507,11 +507,12 @@
         <script>
             function ShowProductDetail(title, description) {
                 document.getElementById("modal-title").innerHTML = title;
+                const productInfo = description.split(":");
+                console.log(productInfo);
                 document.getElementById("modal-body").innerHTML = description;
             }
         </script>
-        <script>
-        </script>
+
         <!-- MDB -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
         <!-- Jquery -->
@@ -520,9 +521,6 @@
 
         <!--Link Java Script-->
         <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
-        <script src="${pageContext.request.contextPath}/Resources/styles/bootstrap4/popper.js"></script>
-        <script src="${pageContext.request.contextPath}/Resources/styles/bootstrap4/bootstrap.min.js"></script>
-        <script src="${pageContext.request.contextPath}/Resources/js/custom.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/searchhome.js"></script>
