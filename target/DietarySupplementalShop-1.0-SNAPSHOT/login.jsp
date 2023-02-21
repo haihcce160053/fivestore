@@ -19,111 +19,8 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
         <!-- MDB -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
-        <!-- Jquery -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-        <!-- Style of google button -->
-        <style>
-            body {
-                background-color: #f2f2f2;
-                border-radius: 10px;
-            }
 
-            .icon {
-                background-color: #9c27b0;
-                border-radius: 50%;
-                width: 70px;
-                height: 70px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin: 0 auto;
-            }
-
-            .icon span {
-                color: white;
-                font-size: 40px;
-            }
-
-            h3 {
-                margin-bottom: 30px;
-            }
-
-            label {
-                font-weight: bold;
-            }
-
-            input[type="text"],
-            input[type="password"] {
-                border: none;
-                border-radius: 25px;
-                padding: 10px;
-                margin-bottom: 20px;
-                width: 100%;
-                box-sizing: border-box;
-                font-size: 16px;
-                background-color: #fff;
-            }
-
-            input[type="text"]:focus,
-            input[type="password"]:focus {
-                outline: none;
-            }
-
-            .submit {
-                background-color: #9c27b0;
-                color: white;
-                font-weight: bold;
-                border-radius: 25px;
-                padding: 10px 20px;
-                margin-top: 20px;
-                width: 100%;
-                box-sizing: border-box;
-                font-size: 16px;
-            }
-
-            .submit:hover {
-                background-color: #7b1fa2;
-            }
-
-            .orther-login {
-                margin-top: 20px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .orther-login .login-orther-line {
-                height: 1px;
-                width: 100px;
-                background-color: gray;
-                margin: 0 10px;
-            }
-
-            .orther-login .login-orther-text {
-                font-size: 14px;
-                color: gray;
-                margin: 0 20px;
-            }
-
-            .google-login {
-                background-color: #db4437;
-                color: white;
-                font-weight: bold;
-                border-radius: 25px;
-                padding: 10px 20px;
-                margin-top: 20px;
-                width: 100%;
-                box-sizing: border-box;
-                font-size: 16px;
-                cursor: pointer;
-            }
-
-            .google-login:hover {
-                background-color: #c62828;
-            }
-
-        </style>
+        <link href="${pageContext.request.contextPath}/Resources/css/login_signup.css" rel="stylesheet" />
     </head>
 
     <body>
@@ -277,53 +174,15 @@
                 </div>
             </div>
         </main>
-
-        <script>
-            //Validate when click login button
-            function login() {
-                var username = document.getElementById("username").value;
-                var password = document.getElementById("password").value;
-                if (username != "" && password != "") {
-                    if (username.length >= 5 && username.length <= 30) {
-                        var firstChar = username.charAt(0);
-                        var specialChars = /[^a-zA-Z0-9]/g;
-                        var numbers = /[0-9]/g;
-                        if (!numbers.test(firstChar) && !specialChars.test(firstChar)) {
-                            if (password.length >= 5 && password.length <= 30) {
-                                var lowerCase = /[a-z]/g;
-                                var upperCase = /[A-Z]/g;
-                                var numbers = /[0-9]/g;
-                                if (lowerCase.test(password) && upperCase.test(password) && numbers.test(password)) {
-                                    // Your code to process a successful login
-                                } else {
-                                    document.getElementById("loginError").innerText =
-                                            "Password must include at least one lowercase letter, one uppercase letter, and one number!";
-                                    return false;
-                                }
-                            } else {
-                                document.getElementById("loginError").innerText = "Password must be between 5 and 30 characters!";
-                                return false;
-                            }
-                        } else {
-                            document.getElementById("loginError").innerText = "Username must start with a letter!";
-                            return false;
-                        }
-                    } else {
-                        document.getElementById("loginError").innerText = "Username must be between 5 and 30 characters!";
-                        return false;
-                    }
-                } else {
-                    document.getElementById("loginError").innerText = "Please fill in your username and password!";
-                    return false;
-                }
-            }
-
-        </script>
-
+                            
         <!-- MDB -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
         <!-- Jquery -->
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <!-- Jquery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/js/login.js"></script>
     </body>
 
 </html>

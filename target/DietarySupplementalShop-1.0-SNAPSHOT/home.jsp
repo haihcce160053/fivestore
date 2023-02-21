@@ -28,8 +28,8 @@
         <!-- MDB -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
         <!-- Cart -->
-        <link href="${pageContext.request.contextPath}Resources/css/cart.css" rel="stylesheet" />
-        <link href="${pageContext.request.contextPath}Resources/css/gototop.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/Resources/css/cart.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
     </head>
 
     <body>
