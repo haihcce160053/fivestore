@@ -7,16 +7,20 @@ package com.daos;
 import com.db.DBConnection;
 import com.models.Order;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  *
- * @author trung kien
+ * 
+ *
+ * @author Trung Kien Phat Quy
  */
 public class OrderDAO {
 
@@ -35,7 +39,7 @@ public class OrderDAO {
         ResultSet rs = null;
         try {
             Statement st = conn.createStatement();
-            rs = st.executeQuery("Select * from [OrderList]");
+            rs = st.executeQuery("Select * from OrderList");
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -55,15 +59,20 @@ public class OrderDAO {
             pst.setString(1, OrderID);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                ac = new Order(rs.getString("OrderID"), rs.getString("OrderStatusID"), rs.getString("Username"), rs.getString("DeliveryAddress"), rs.getDate("OrderTime"), rs.getInt("TotalBill"));
+                ac = new Order(rs.getString("OrderID"),
+                        rs.getString("Username"),
+                        rs.getString("OrderStatusID"),
+                        rs.getString("DeliveryAddress"),
+                        Date.valueOf(rs.getDate("OrderTime").toString()),
+                        rs.getString("TotalBill"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ac;
     }
-    
-    public ResultSet getOrderByUsername(String username){
+
+    public ResultSet getOrderByUsername(String username) {
         ResultSet rs = null;
         try {
             PreparedStatement pst = conn.prepareStatement("select * from [OrderList] where Username=? ORDER BY OrderID ASC");
@@ -81,11 +90,12 @@ public class OrderDAO {
         try {
             PreparedStatement pst = conn.prepareStatement("Insert into [OrderList] values(?,?,?,?,?,?)");
             pst.setString(1, or.getOrderID());
-            pst.setString(2, or.getOrderStatusID());
-            pst.setString(3, or.getUsername());
-            pst.setString(4, or.getDeliveyAddress());
-            pst.setDate(5, or.getOderTime());
-            pst.setInt(6, or.getTotalBill());
+            pst.setString(2, or.getUsername());
+            pst.setString(3, or.getOrderStatusID());
+
+            pst.setString(4, or.getDeliveryAddress());
+            pst.setDate(5, or.getOrderTime());
+            pst.setString(6, or.getTotalBil());
 
             count = pst.executeUpdate();
         } catch (SQLException ex) {
@@ -97,7 +107,7 @@ public class OrderDAO {
     public int deleteOrder(String OrderID) {
         int count = 0;
         try {
-            PreparedStatement pst = conn.prepareStatement("delete from [Order] where OrderID=?");
+            PreparedStatement pst = conn.prepareStatement("delete from OrderList where OrderID=?");
             pst.setString(1, OrderID);
             count = pst.executeUpdate();
         } catch (SQLException ex) {
@@ -123,4 +133,5 @@ public class OrderDAO {
         }
         return check;
     }
+
 }

@@ -3,31 +3,31 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.models;
-
 import java.sql.Date;
 
 /**
  *
- * @author QuangQui
+ * @author Phat Qui Trung Kien
  */
 public class Order {
-    private String OrderID;
-    private String OrderStatusID;
-    private String Username;
-    private String DeliveyAddress;
-    private Date OderTime;
-    private int TotalBill;
 
-    public Order(String OrderID, String OrderStatusID, String Username, String DeliveyAddress, Date OderTime, int TotalBill) {
-        this.OrderID = OrderID;
-        this.OrderStatusID = OrderStatusID;
-        this.Username = Username;
-        this.DeliveyAddress = DeliveyAddress;
-        this.OderTime = OderTime;
-        this.TotalBill = TotalBill;
-    }
+    private String OrderID;
+    private String Username;
+    private String DeliveryAddress;
+    private Date OrderTime;
+    private String OrderStatusID;
+    private String TotalBil;
 
     public Order() {
+    }
+
+    public Order(String OrderID, String Username, String OrderStatusID ,String DeliveryAddress, Date OrderTime, String TotalBil) {
+        this.OrderID = OrderID;
+        this.Username = Username;
+        this.DeliveryAddress = DeliveryAddress;
+        this.OrderTime = OrderTime;
+        this.OrderStatusID = OrderStatusID;
+        this.TotalBil = TotalBil;
     }
 
     public String getOrderID() {
@@ -38,14 +38,6 @@ public class Order {
         this.OrderID = OrderID;
     }
 
-    public String getOrderStatusID() {
-        return OrderStatusID;
-    }
-
-    public void setOrderStatusID(String OrderStatusID) {
-        this.OrderStatusID = OrderStatusID;
-    }
-
     public String getUsername() {
         return Username;
     }
@@ -54,30 +46,36 @@ public class Order {
         this.Username = Username;
     }
 
-    public String getDeliveyAddress() {
-        return DeliveyAddress;
+    public String getDeliveryAddress() {
+        return DeliveryAddress;
     }
 
-    public void setDeliveyAddress(String DeliveyAddress) {
-        this.DeliveyAddress = DeliveyAddress;
+    public void setDeliveryAddress(String DeliveryAddress) {
+        this.DeliveryAddress = DeliveryAddress;
     }
 
-    public Date getOderTime() {
-        return OderTime;
+    public Date getOrderTime() {
+        return OrderTime;
     }
 
-    public void setOderTime(Date OderTime) {
-        this.OderTime = OderTime;
+    public void setOrderTime(Date OrderTime) {
+        this.OrderTime = OrderTime;
     }
 
-    public int getTotalBill() {
-        return TotalBill;
+    public String getOrderStatusID() {
+        return OrderStatusID;
     }
 
-    public void setTotalBill(int TotalBill) {
-        this.TotalBill = TotalBill;
+    public void setOrderStatusID(String OrderStatusID) {
+        this.OrderStatusID = OrderStatusID;
     }
 
-     
-    
+    public String getTotalBil() {
+        return TotalBil;
+    }
+
+    public void setTotalBil(String TotalBil) {
+        this.TotalBil = TotalBil;
+    }
+
 }

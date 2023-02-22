@@ -8,7 +8,9 @@ com\daos\ProductDAO.class
 com\controllers\LoginController.class
 com\security\Encoding.class
 com\models\Product.class
+com\daos\OrderDetailsDAO.class
 com\daos\OrderDAO.class
+com\models\OrderDetails.class
 com\controllers\Constants.class
 com\models\UserGoogle.class
 com\models\Account.class

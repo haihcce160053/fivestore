@@ -5,7 +5,9 @@
 package com.controllers;
 
 import com.daos.OrderDAO;
+
 import com.models.Account;
+import com.daos.OrderDetailsDAO;
 import com.models.Order;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,6 +20,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -64,6 +67,7 @@ public class OrderController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String path = request.getRequestURI();
+        //trung kien
         if (path.startsWith("/checkout/")) {
             String[] s = path.split("/");
             String username = null;
@@ -96,6 +100,46 @@ public class OrderController extends HttpServlet {
 
             } catch (SQLException ex) {
                 Logger.getLogger(OrderController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        //phat quy
+        if (path.endsWith("/Order/")) {
+            request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
+        } else {
+            if (path.startsWith("/Order/OrderDetails/")) {
+                // split path to get username
+                String[] s = path.split("/");
+                String OrderID = s[s.length - 1];
+                OrderDAO dao = new OrderDAO();
+                Order ord = dao.getOrder(OrderID);
+                if (ord != null) {
+                    HttpSession session = (HttpSession) request.getSession();
+                    session.setAttribute("Order", ord);
+                    request.getRequestDispatcher("/OrderDetails.jsp").forward(request, response);
+                }
+            } else {
+                if (path.startsWith("/Order/Delete/")) {
+                    String[] s = path.split("/");
+                    String OrderID = s[s.length - 1];
+                    OrderDAO dao = new OrderDAO();
+                    OrderDetailsDAO daos = new OrderDetailsDAO();
+                    Order ord = dao.getOrder(OrderID);
+                    if (ord.getOrderStatusID().equalsIgnoreCase("DHD") || ord.getOrderStatusID().equalsIgnoreCase("DHH")) {
+                        int count = daos.deleteOrderDetails(OrderID);
+                        int count2 = dao.deleteOrder(OrderID);
+                        if (count > 0 && count2 > 0) {
+                            request.setAttribute("mess", "YesD");
+                            request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
+
+                        } else {
+                            request.setAttribute("mess", "NoD");
+                            request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
+                        }
+                    } else {
+                        request.setAttribute("mess", "Noo");
+                        request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
+                    }
+                }
             }
         }
 
