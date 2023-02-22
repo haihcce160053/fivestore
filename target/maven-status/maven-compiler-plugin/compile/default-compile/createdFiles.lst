@@ -1,6 +1,7 @@
 com\controllers\OrderController.class
 com\daos\AccountDAO.class
 com\controllers\HomeController.class
+com\models\Order.class
 com\controllers\AccountController.class
 com\db\DBConnection.class
 com\daos\ProductDAO.class

@@ -4,12 +4,20 @@
  */
 package com.controllers;
 
+import com.daos.OrderDAO;
+import com.models.Account;
+import com.models.Order;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -55,10 +63,42 @@ public class OrderController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                String path = request.getRequestURI();
-        if (path.endsWith("/checkout")) {
-           request.getRequestDispatcher("/newOrder.jsp").forward(request, response);
+        String path = request.getRequestURI();
+        if (path.startsWith("/checkout/")) {
+            String[] s = path.split("/");
+            String username = null;
+            username = s[s.length - 1];
+            if (username.equals("null")) {
+                request.setAttribute("non-ac", "Please Login or signup to buy!");
+                response.sendRedirect("/login");
+                return;
+            }
+            String prefixUser = username.substring(0, 2).toUpperCase();
+            System.out.println(prefixUser);
+
+            OrderDAO dao = new OrderDAO();
+            ResultSet rs = dao.getOrderByUsername(username);
+            try {
+                String OrderID = "";
+                if (rs.next()) {
+                    while (rs.next()) {
+                        OrderID = rs.getString("OrderID");
+                    }
+                    int NewID = Integer.parseInt(OrderID.substring(3));
+                    System.out.println(prefixUser + String.format("%06d", NewID + 1));
+                    String NewOrderID = prefixUser + String.format("%06d", NewID + 1);
+                    request.setAttribute("OrderID", NewOrderID);
+                    request.getRequestDispatcher("/newOrder.jsp").forward(request, response);
+                } else {
+                    request.setAttribute("OrderID", prefixUser + "000001");
+                    request.getRequestDispatcher("/newOrder.jsp").forward(request, response);
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(OrderController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+
     }
 
     /**
@@ -72,7 +112,24 @@ public class OrderController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/home.jsp").forward(request, response);
+        String path = request.getRequestURI();
+
+//        String orderID = null;
+//        String username = null;
+//        String orderStatusID = null;
+//        String deliveryAddress = null;
+//        Date orderTime = null;
+//        int totalbill;
+//        if (path.endsWith("/order")) {
+//            if (request.getAttribute("submit") != null) {
+//                orderID = request.getAttribute("OrderID").toString();
+//                username = request.getAttribute("username").toString();
+//                String province = request.getAttribute("city").toString();
+//                String district = request.getAttribute("district").toString();
+//                String ward = request.getAttribute("ward");
+//                
+//            }
+//        }
     }
 
     /**

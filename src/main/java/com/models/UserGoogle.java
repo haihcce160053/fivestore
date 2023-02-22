@@ -6,7 +6,7 @@ package com.models;
 
 /**
  *
- * @author ASUS
+ * @author Trung Kien
  */
 public class UserGoogle {
     	private String id;

@@ -156,7 +156,14 @@
             </div>
         </header>
         <!-- Shopping Cart -->
-        <form id="checkout-form" action="" method="">
+        <% if (ac != null) {
+                String username = ac.getUsername();
+            } else {
+                String username = "null";
+            }
+        %>
+        <form id="checkout-form" action="/checkout/<%if (ac != null){%><%= ac.getUsername() %><%} else {%><%= String.valueOf(ac) %><%}%>" method="get">
+
             <div id="cart" style="display: none;">
                 <h3>Cart</h3>
                 <ul id="cart-items">

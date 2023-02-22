@@ -57,7 +57,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>OrderController</servlet-name>
-        <url-pattern>/order/*</url-pattern>
+        <url-pattern>/checkout/*</url-pattern>
     </servlet-mapping>
         <servlet-mapping>
         <servlet-name>OrderController</servlet-name>
