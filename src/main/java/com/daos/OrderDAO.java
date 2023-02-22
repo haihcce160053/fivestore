@@ -19,13 +19,13 @@ import java.util.logging.Logger;
  * @author LEO
  */
 public class OrderDAO {
-    
+
     private Connection conn = null;
 
     public OrderDAO() {
         conn = DBConnection.getConnection();
     }
-     
+
     public Order getOrder(String OrderID) {
         try {
             String query = "select * from OrderList where OrderID=?";
@@ -47,7 +47,7 @@ public class OrderDAO {
         }
         return null;
     }
-    
+
     public ResultSet getAll() {
         ResultSet rs = null;
         try {
@@ -58,8 +58,8 @@ public class OrderDAO {
         }
         return rs;
     }
-    
-     public int deleteOrder(String OrderID) {
+
+    public int deleteOrder(String OrderID) {
         int count = 0;
         try {
             PreparedStatement pst = conn.prepareStatement("delete from OrderList where OrderID=?");
@@ -70,6 +70,5 @@ public class OrderDAO {
         }
         return count;
     }
-     
-    
+
 }
