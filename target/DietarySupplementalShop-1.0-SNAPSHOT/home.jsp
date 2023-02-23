@@ -4,6 +4,7 @@
     Author     : Huynh Chi Hai
 --%>
 
+<%@page import="com.daos.OrderDAO"%>
 <%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.Locale"%>
 <%@page import="com.models.Account"%>
@@ -116,11 +117,27 @@
                             <%
                                 }
                             %>
+                            <%
+                                if (ac != null) {
+                                    OrderDAO dao = new OrderDAO();
+                                    int countOfOrder = dao.getNumberOrderByUsername(ac.getUsername());
+                            %>
+                            <button id="view-purchase-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white" 
+                                    onclick="location.href = '/Account/Order/<%= ac.getUsername()%>'">
+                                MY Purchase<span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;"><%=countOfOrder%></span>
 
-                            <button id="view-purchase-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white">
+                            </button>
+                            <%
+                            } else {
+                            %>
+                            <button id="view-purchase-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white"
+                                    >
                                 MY Purchase<span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;">0</span>
 
                             </button>
+                            <%
+                                }
+                            %>
                         </div>
                     </div>
                 </nav>
@@ -129,7 +146,7 @@
                         <div class="col-md-7 col-lg-5">
                             <div style="margin-bottom: 50px">
                                 <h2 style="text-align: center">
-                                    FIVESOTRE.VN - DIETARY SUPPLEMENTS SHOP
+                                    FIVESTORE.VN - DIETARY SUPPLEMENTS SHOP
                                 </h2>
                             </div>
                             <div class="row justify-content-center" style="margin-bottom: 50px">
@@ -156,7 +173,14 @@
             </div>
         </header>
         <!-- Shopping Cart -->
-        <form id="checkout-form" action="" method="">
+        <% if (ac != null) {
+                String username = ac.getUsername();
+            } else {
+                String username = "null";
+            }
+        %>
+        <form id="checkout-form" action="/checkout/<%if (ac != null) {%><%= ac.getUsername()%><%} else {%><%= String.valueOf(ac)%><%}%>" method="get">
+
             <div id="cart" style="display: none;">
                 <h3>Cart</h3>
                 <ul id="cart-items">

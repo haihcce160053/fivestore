@@ -25,6 +25,8 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
         <!-- MDB -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/Resources/css/cart.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
     </head>
     <body>
         <%
@@ -49,13 +51,13 @@
                                     if (ac != null && (ac.getAccountTypeId()).equalsIgnoreCase("AD")) {
                                 %>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/Account/Management/<%=ac.getUsername()%>" style="color: #566787;">Account Management</a>
+                                    <a class="nav-link" href="/Account/Management/<%=ac.getUsername()%>" style="color: white;">Account Management</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/product" style="color: #566787;">Product Management</a>
+                                    <a class="nav-link" href="/product" style="color: white;">Product Management</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/product" style="color: #566787;">Order Management</a>
+                                    <a class="nav-link" href="/product" style="color: white;">Order Management</a>
                                 </li>
 
                                 <%
@@ -72,36 +74,83 @@
                                 %>
                             </ul>
                         </div>
+                        <div>
+                            <%
+                                if (ac == null) {
+                            %>
+                            <button type="button" class="btn px-3 me-2"
+                                    style="color: white; background-color: #20283F"
+                                    onclick="location.href = '/login'">
+                                Login
+                            </button>
+                            <button type="button" class="btn me-3" 
+                                    style="color: white; background-color: #20283F"
+                                    onclick="location.href = '/signup'">
+                                Sign Up
+                            </button>
+                            <%
+                            } else {
+                            %>
+                            <button type="button" class="btn px-3 me-2"
+                                    style="color: white; background-color: #20283F"
+                                    onclick="location.href = '/Account/information/<%= ac.getUsername()%>'">
+                                <%=ac.getFullname()%>
+                            </button>
+                            <%
+                                }
+                            %>
+                            <%
+                                if (ac != null && ac.getUsername().equalsIgnoreCase("Admin")) {
+                            %>
+
+                            <%
+                            } else if (ac == null || (!ac.getUsername().equalsIgnoreCase("Admin"))) {
+                            %>
+                            <button id="view-cart-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white">
+                                MY CART <span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;">0</span>
+                            </button>
+                            <%
+                                }
+                            %>
+
+                            <button id="view-purchase-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white">
+                                MY Purchase<span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;">0</span>
+
+                            </button>
+                        </div>
                     </div>
-            </div>
+                </nav>
         </header>
         <div class="Container justify-center">
             <div class="row justify-content-center" style="margin-top: 50px;">
                 <div class="col-md-4 col-sm-6 col-12 card">
                     <h2 style="margin-top: 10px; margin-bottom: 10px; margin-right: 10px" class="row justify-content-end">Order Information</h2>
-                    <form style="margin-top: 10px;" method="post" action="/order/checkout/">
+                    <form style="margin-top: 10px;" method="post" action="/order">
                         <div class="form-group row">
                             <label for="txtOrderID" class="col-4 col-form-label">Order ID</label> 
                             <div class="col-8">
-                                <input id="txtOrderID" name="txtOrderID" type="text" class="form-control" value="test" readonly>
+                                <% if(request.getAttribute("OrderID") != null){ %>
+                                <input id="txtOrderID" name="txtOrderID" type="text" class="form-control" value="<%= request.getAttribute("OrderID") %>" readonly>
+                                <%  }%>
                             </div>
                         </div>
+                            <% if (ac != null){  %>
                         <div class="form-group row">
                             <label for="txtUsername" class="col-4 col-form-label">Username</label> 
                             <div class="col-8">
-                                <input id="txtUsername" name="txtUsername" type="text" class="form-control" value="test" readonly>
+                                <input id="txtUsername" name="txtUsername" type="text" class="form-control" value="<%=ac.getUsername() %>" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="txtEmail" class="col-4 col-form-label">Email</label> 
                             <div class="col-8">
-                                <input id="txtEmail" name="txtEmail" type="text" class="form-control" value="exple@gmail.com" readonly>
+                                <input id="txtEmail" name="txtEmail" type="text" class="form-control" value="<%=ac.getEmail()%>" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="txtPhone" class="col-4 col-form-label">Phone</label> 
                             <div class="col-8">
-                                <input id="txtPhone" name="txtPhone" type="text" class="form-control" value="0123456789">
+                                <input id="txtPhone" name="txtPhone" type="text" class="form-control" value="<%="0" + ac.getPhoneNumber() %>">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -117,9 +166,10 @@
                         <div class="form-group row">
                             <label for="txtFullname" class="col-4 col-form-label">Full Name</label> 
                             <div class="col-8">
-                                <input id="txtFullname" name="txtFullname" type="text" class="form-control">
+                                <input id="txtFullname" name="txtFullname" type="text" class="form-control" value="<%=ac.getFullname() %>">
                             </div>
                         </div> 
+                        <% }%>
                         <div class="form-group row">
                             <label for="select" class="col-4 col-form-label">City</label>
                             <div class="col-8">

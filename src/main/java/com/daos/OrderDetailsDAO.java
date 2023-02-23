@@ -21,11 +21,18 @@ public class OrderDetailsDAO {
     
     private Connection conn = null;
 
+    /**
+     *
+     */
     public OrderDetailsDAO() {
         conn = DBConnection.getConnection();
     }
     
-     public ResultSet getAll() {
+    /**
+     *
+     * @return
+     */
+    public ResultSet getAll() {
         ResultSet rs = null;
         try {
             Statement st = conn.createStatement();
@@ -36,6 +43,11 @@ public class OrderDetailsDAO {
         return rs;
     }
      
+    /**
+     *
+     * @param OrderID
+     * @return
+     */
     public int deleteOrderDetails(String OrderID) {
         int count = 0;
         try {

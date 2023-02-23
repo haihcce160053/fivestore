@@ -7,6 +7,7 @@ package com.daos;
 import com.db.DBConnection;
 import com.models.Order;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,49 +17,110 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author LEO
+ *
+ *
+ * @author Trung Kien Phat Quy Quang Qui
  */
 public class OrderDAO {
 
     private Connection conn = null;
 
+    /**
+     *
+     */
     public OrderDAO() {
         conn = DBConnection.getConnection();
     }
 
-    public Order getOrder(String OrderID) {
-        try {
-            String query = "select * from OrderList where OrderID=?";
-            PreparedStatement pst = conn.prepareStatement(query);
-            pst.setString(1, OrderID);
-            ResultSet rs = pst.executeQuery();
-            while (rs.next()) {
-                String od_OrderID = rs.getString("OrderID");
-                String od_Username = rs.getString("Username");
-                String od_DeliveryAddress = rs.getString("DeliveryAddress");
-                String od_OrderTime = rs.getString("OrderTime");
-                String od_OrderStatusID = rs.getString("OrderStatusID");
-                String od_TotalBill = rs.getString("TotalBill");
-                Order ord = new Order(od_OrderID, od_Username, od_DeliveryAddress, od_OrderTime, od_OrderStatusID, od_TotalBill);
-                return ord;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
+    /**
+     * Phuong thuc nay dung de lay tat ca thong tin cua cac KH trong csdl
+     *
+     * @return mot ResultSet chua danh sach khach hang
+     */
     public ResultSet getAll() {
         ResultSet rs = null;
         try {
             Statement st = conn.createStatement();
-            rs = st.executeQuery("select * from OrderList ");
+            rs = st.executeQuery("Select * from OrderList");
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return rs;
     }
 
+    /**
+     *
+     *
+     * @param OrderID
+     * @return
+     */
+    public Order getOrder(String OrderID) {
+        Order ac = null;
+        try {
+            PreparedStatement pst = conn.prepareStatement("select * from OrderList where OrderID=?");
+            pst.setString(1, OrderID);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                ac = new Order(rs.getString("OrderID"),
+                        rs.getString("Username"),
+                        rs.getString("OrderStatusID"),
+                        rs.getString("DeliveryAddress"),
+                        Date.valueOf(rs.getDate("OrderTime").toString()),
+                        rs.getString("TotalBill"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ac;
+    }
+
+    /**
+     *
+     * @param username
+     * @return
+     */
+    public ResultSet getOrderByUsername(String username) {
+        ResultSet rs = null;
+        try {
+            PreparedStatement pst = conn.prepareStatement("select * from [OrderList] where Username=? ORDER BY OrderID ASC");
+            pst.setString(1, username);
+            rs = pst.executeQuery();
+            System.out.println(rs);
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+
+    /**
+     *
+     * @param or
+     * @return
+     */
+    public int addOrder(Order or) {
+        int count = 0;
+        try {
+            PreparedStatement pst = conn.prepareStatement("Insert into [OrderList] values(?,?,?,?,?,?)");
+            pst.setString(1, or.getOrderID());
+            pst.setString(2, or.getUsername());
+            pst.setString(3, or.getOrderStatusID());
+
+            pst.setString(4, or.getDeliveryAddress());
+            pst.setDate(5, or.getOrderTime());
+            pst.setString(6, or.getTotalBil());
+
+            count = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+
+    /**
+     *
+     * @param OrderID
+     * @return
+     */
     public int deleteOrder(String OrderID) {
         int count = 0;
         try {
@@ -71,4 +133,46 @@ public class OrderDAO {
         return count;
     }
 
+    // Written by Quang Qui
+    /**
+     *
+     * @param Username
+     * @return
+     */
+    public int getNumberOrderByUsername(String Username) {
+        int count = 0;
+        ResultSet rs = null;
+        try {
+            PreparedStatement pst = conn.prepareStatement("select * from [OrderList] where Username=?");
+            pst.setString(1, Username);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                count++;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+    // Written by Quang Qui
+    /**
+     *
+     * @param OrderStatusID
+     * @return
+     */
+    public String getNameOfStatusOrder(String OrderStatusID) {
+        ResultSet rs = null;
+        String name = "";
+        try {
+            PreparedStatement pst = conn.prepareStatement("select OrderStatusName from OrderStatus Where OrderStatusID=?");
+            pst.setString(1, OrderStatusID);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                name = rs.getString("OrderStatusName");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return name;
+    }
 }

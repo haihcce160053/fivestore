@@ -20,7 +20,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/AccountInformation/style.css">
         <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
-         <link href="${pageContext.request.contextPath}/Resources/css/orderManagement.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/Resources/css/orderManagement.css" rel="stylesheet" />
     </head>
     <body>
         <%
@@ -112,17 +112,16 @@
 
         <div class="confirm-box" id="confirm-box">
             <div class="box-header">
-                <h2>Are you sure you want to delete this order?</h2>
+                <h2>Are you sure you want to change permission?</h2>
             </div>
             <div class="box-content">
-                <p></p>
+                <p>Permission of Account will be changed!</p>
             </div>
             <div class="button-container">
                 <button id="yes-button">Yes</button>
                 <button id="no-button">No</button>
             </div>
-        </div> 
-
+        </div>
         <div class="overlay" id="overlay1"></div>
 
         <div class="confirm-box" id="confirm-box1">
@@ -140,7 +139,7 @@
 
         <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
         <script src="${pageContext.request.contextPath}/Resources/js/comfirmboxAc.js"></script>
-         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
-         <script src="${pageContext.request.contextPath}/Resources/js/showmessageordermanagement.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/js/showmessageordermanagement.js"></script>
     </body>
 </html>
