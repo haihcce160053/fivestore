@@ -125,20 +125,20 @@
             <div class="row justify-content-center" style="margin-top: 50px;">
                 <div class="col-md-4 col-sm-6 col-12 card">
                     <h2 style="margin-top: 10px; margin-bottom: 10px; margin-right: 10px" class="row justify-content-end">Order Information</h2>
-                    <form style="margin-top: 10px;" method="post" action="/order">
+                    <form id="newOrderForm" style="margin-top: 10px;" method="post" action="/order">
                         <div class="form-group row">
                             <label for="txtOrderID" class="col-4 col-form-label">Order ID</label> 
                             <div class="col-8">
-                                <% if(request.getAttribute("OrderID") != null){ %>
-                                <input id="txtOrderID" name="txtOrderID" type="text" class="form-control" value="<%= request.getAttribute("OrderID") %>" readonly>
+                                <% if (request.getAttribute("OrderID") != null) {%>
+                                <input id="txtOrderID" name="txtOrderID" type="text" class="form-control" value="<%= request.getAttribute("OrderID")%>" readonly>
                                 <%  }%>
                             </div>
                         </div>
-                            <% if (ac != null){  %>
+                        <% if (ac != null) {%>
                         <div class="form-group row">
                             <label for="txtUsername" class="col-4 col-form-label">Username</label> 
                             <div class="col-8">
-                                <input id="txtUsername" name="txtUsername" type="text" class="form-control" value="<%=ac.getUsername() %>" readonly>
+                                <input id="txtUsername" name="txtUsername" type="text" class="form-control" value="<%=ac.getUsername()%>" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -150,13 +150,13 @@
                         <div class="form-group row">
                             <label for="txtPhone" class="col-4 col-form-label">Phone</label> 
                             <div class="col-8">
-                                <input id="txtPhone" name="txtPhone" type="text" class="form-control" value="<%="0" + ac.getPhoneNumber() %>">
+                                <input id="txtPhone" name="txtPhone" type="text" class="form-control" value="<%="0" + ac.getPhoneNumber()%>">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="txtTotalBill" class="col-4 col-form-label">Total Bill</label> 
                             <div class="col-8">
-                                <input id="txtTotalBill" name="txtTotalBill" type="text" class="form-control" value="300000 VND" readonly>
+                                <input id="txtTotalBill" name="txtTotalBill" type="number" class="form-control" value="300000 VND" readonly>
                             </div>
                         </div>
                         <h2 class="shipping-info-text row justify-content-end" 
@@ -166,33 +166,33 @@
                         <div class="form-group row">
                             <label for="txtFullname" class="col-4 col-form-label">Full Name</label> 
                             <div class="col-8">
-                                <input id="txtFullname" name="txtFullname" type="text" class="form-control" value="<%=ac.getFullname() %>">
+                                <input id="txtFullname" name="txtFullname" type="text" class="form-control" value="<%=ac.getFullname()%>">
                             </div>
                         </div> 
                         <% }%>
                         <div class="form-group row">
-                            <label for="select" class="col-4 col-form-label">City</label>
+                            <label for="select" for="input" class="col-4 col-form-label"">City</label>
                             <div class="col-8">
-                                <select class="form-select form-select-sm mb-3 " id="city" name="city" aria-label=".form-select-sm">
+                                <select class="form-select form-select-sm mb-3 " id="ls_province" name="ls_province" aria-label=".form-select-sm">
                                     <option value="" selected>Chọn tỉnh thành</option>           
                                 </select>
-                            </div> 
+                            </div>
                         </div> 
                         <div class="form-group row">
-                            <label for="select" class="col-4 col-form-label">District</label>
+                            <label for="select" for="input"  class="col-4 col-form-label">District</label>
                             <div class="col-8">
-                                <select class="form-select form-select-sm mb-3" id="district" name="district" aria-label=".form-select-sm">
+                                <select class="form-select form-select-sm mb-3" id="ls_district" name="ls_district" aria-label=".form-select-sm">
                                     <option value="" selected>Chọn quận huyện</option>
                                 </select>
-                            </div> 
-                        </div> 
+                            </div>
+                        </div>
                         <div class="form-group row">
-                            <label for="select" class="col-4 col-form-label">Ward</label>
+                            <label for="select" for="input" class="col-4 col-form-label">Ward</label>
                             <div class="col-8">
-                                <select class="form-select form-select-sm" id="ward" name="ward" aria-label=".form-select-sm">
+                                <select class="form-select form-select-sm" id="ls_ward" name="ls_ward"  aria-label=".form-select-sm" >
                                     <option value="" selected>Chọn phường xã</option>
                                 </select>
-                            </div> 
+                            </div>
                         </div>
                         <div class="form-group row">
                             <label for="txtDetailAddress" class="col-4 col-form-label">Street name, building, house number,...</label> 
@@ -218,7 +218,7 @@
                         </div>
                         <div class="form-group row" style="margin-bottom: 20px">
                             <div class="offset-4 col-8">
-                                <button name="submit" type="submit" class="btn btn-primary" onclick="return checkInfo()">Submit Order</button>
+                                <button name="submit" type="submit" class="btn btn-primary" value="submit">Submit Order</button>
                             </div>
                         </div>
                     </form>
@@ -226,20 +226,20 @@
             </div>
         </div>
     </body>
+    <script src="${pageContext.request.contextPath}/Resources/js/vietnameselocation/vietnamlocalselector.js"></script> 
+    <script>
+                                        var localpicker = new LocalPicker({
+                                            province: "ls_province",
+                                            district: "ls_district",
+                                            ward: "ls_ward"
+                                        });
+                                        s
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-    <script src="${pageContext.request.contextPath}/Resources/js/Address.js"></script>
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     <script>
-                                    function checkInfo() {
-                                        var phone = document.getElementById("txtPhone").value;
-                                        var fullname = document.getElementById("txtFullname").value;
-                                        var DetailAddress = document.getElementById("txtDetailAddress").value;
-                                        var city = document.getElementById("city").value;
-                                        var district = document.getElementById("district").value;
-                                        var ward = document.getElementById("txtDetailAddress").value;
-                                        if (phone != "" && fullname != "" && DetailAddress != "")
-                                    }
+
     </script>
 </html>

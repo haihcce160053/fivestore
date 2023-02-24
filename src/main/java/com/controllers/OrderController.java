@@ -158,23 +158,25 @@ public class OrderController extends HttpServlet {
             throws ServletException, IOException {
         String path = request.getRequestURI();
 
-//        String orderID = null;
-//        String username = null;
-//        String orderStatusID = null;
-//        String deliveryAddress = null;
-//        Date orderTime = null;
-//        int totalbill;
-//        if (path.endsWith("/order")) {
-//            if (request.getAttribute("submit") != null) {
-//                orderID = request.getAttribute("OrderID").toString();
-//                username = request.getAttribute("username").toString();
-//                String province = request.getAttribute("city").toString();
-//                String district = request.getAttribute("district").toString();
-//                String ward = request.getAttribute("ward");
-//                
-//            }
-//        }
+        String orderID = null;
+        String username = null;
+        String orderStatusID = null;
+        String deliveryAddress = null;
+        Date orderTime = null;
+        int totalbill;
+
+        orderID = request.getParameter("txtOrderID");
+        username = request.getParameter("txtUsername");
+        String province =request.getParameter("ls_province");
+        String district =request.getParameter("ls_district");
+        String ward = request.getParameter("ls_ward");
+        String detailAddress = request.getParameter("txtDetailAddress");
+        deliveryAddress = detailAddress + ", " + ward + ", " + district + ", " + province;
+        System.out.println(deliveryAddress);
+
     }
+    
+
 
     /**
      * Returns a short description of the servlet.

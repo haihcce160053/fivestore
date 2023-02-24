@@ -63,6 +63,10 @@
         <servlet-name>OrderController</servlet-name>
         <url-pattern>/checkout</url-pattern>
     </servlet-mapping>
+        <servlet-mapping>
+        <servlet-name>OrderController</servlet-name>
+        <url-pattern>/order</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>OrderController</servlet-name>
         <url-pattern>/Order/*</url-pattern>
