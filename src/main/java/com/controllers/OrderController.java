@@ -6,7 +6,6 @@ package com.controllers;
 
 import com.daos.OrderDAO;
 
-import com.models.Account;
 import com.daos.OrderDetailsDAO;
 import com.models.Order;
 import java.io.IOException;
@@ -15,12 +14,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jakarta.servlet.http.HttpSession;
+import java.sql.Date;
 
 /**
  *
@@ -138,6 +137,30 @@ public class OrderController extends HttpServlet {
                     } else {
                         request.setAttribute("mess", "Noo");
                         request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
+                    }
+                } else {
+                    //Quang QuiS
+                    if (path.startsWith("/Order/Cancel/Delete/")) {
+                        String[] s = path.split("/");
+                        String OrderID = s[s.length - 1];
+                        OrderDAO dao = new OrderDAO();
+                        OrderDetailsDAO daos = new OrderDetailsDAO();
+                        Order ord = dao.getOrder(OrderID);
+                        if (ord.getOrderStatusID().equalsIgnoreCase("DHD") || ord.getOrderStatusID().equalsIgnoreCase("DHH")) {
+                            int count = daos.deleteOrderDetails(OrderID);
+                            int count2 = dao.deleteOrder(OrderID);
+                            if (count > 0 && count2 > 0) {
+                                request.setAttribute("mess", "YesD");
+                                request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
+
+                            } else {
+                                request.setAttribute("mess", "NoD");
+                                request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
+                            }
+                        } else {
+                            request.setAttribute("mess", "Noo");
+                            request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
+                        }
                     }
                 }
             }

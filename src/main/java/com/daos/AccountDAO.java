@@ -251,12 +251,12 @@ public class AccountDAO {
             pst.setString(1, username);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                    count++;
-                }
-            }catch (SQLException ex) {
+                count++;
+            }
+        } catch (SQLException ex) {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-            return count;
-        }
-
+        return count;
     }
+
+}

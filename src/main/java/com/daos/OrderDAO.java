@@ -12,20 +12,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  *
- * 
  *
- * @author Trung Kien Phat Quy
+ *
+ * @author Trung Kien Phat Quy Quang Qui
  */
 public class OrderDAO {
 
     private Connection conn = null;
 
+    /**
+     *
+     */
     public OrderDAO() {
         conn = DBConnection.getConnection();
     }
@@ -72,6 +74,11 @@ public class OrderDAO {
         return ac;
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     public ResultSet getOrderByUsername(String username) {
         ResultSet rs = null;
         try {
@@ -85,6 +92,11 @@ public class OrderDAO {
         return rs;
     }
 
+    /**
+     *
+     * @param or
+     * @return
+     */
     public int addOrder(Order or) {
         int count = 0;
         try {
@@ -104,6 +116,11 @@ public class OrderDAO {
         return count;
     }
 
+    /**
+     *
+     * @param OrderID
+     * @return
+     */
     public int deleteOrder(String OrderID) {
         int count = 0;
         try {
@@ -116,22 +133,46 @@ public class OrderDAO {
         return count;
     }
 
-    public boolean checkOrder(String input) {
+    // Written by Quang Qui
+    /**
+     *
+     * @param Username
+     * @return
+     */
+    public int getNumberOrderByUsername(String Username) {
+        int count = 0;
         ResultSet rs = null;
-        boolean check = false;
         try {
-            Statement st = conn.createStatement();
-            rs = st.executeQuery("Select OrderID from [Order]");
+            PreparedStatement pst = conn.prepareStatement("select * from [OrderList] where Username=?");
+            pst.setString(1, Username);
+            rs = pst.executeQuery();
             while (rs.next()) {
-                if (input.equals(rs.getString("OrderID"))) {
-                    check = true;
-                    break;
-                }
+                count++;
             }
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return check;
+        return count;
     }
-
+    // Written by Quang Qui
+    /**
+     *
+     * @param OrderStatusID
+     * @return
+     */
+    public String getNameOfStatusOrder(String OrderStatusID) {
+        ResultSet rs = null;
+        String name = "";
+        try {
+            PreparedStatement pst = conn.prepareStatement("select OrderStatusName from OrderStatus Where OrderStatusID=?");
+            pst.setString(1, OrderStatusID);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                name = rs.getString("OrderStatusName");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return name;
+    }
 }

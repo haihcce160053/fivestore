@@ -110,6 +110,7 @@ public class LoginController extends HttpServlet {
                 request.setAttribute("fullname", user.getName());
                 request.setAttribute("email", email);
                 request.setAttribute("username", username);
+                request.setAttribute("loginwithgg", "Yes");
                 request.getRequestDispatcher("/signup.jsp").forward(request, response);
             } else {
                 session.setAttribute("informationAccount", ac);
@@ -132,6 +133,7 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (request.getParameter("btnSignUp") != null) {
+            //Quang Qui
             HttpSession session = request.getSession();
             AccountDAO dao = new AccountDAO();
             String username = request.getParameter("username");
@@ -144,13 +146,20 @@ public class LoginController extends HttpServlet {
                 String phonenumber = request.getParameter("phoneNumber");
                 String gender = request.getParameter("gender");
                 String email = request.getParameter("email");
+                String loginwithgg = request.getParameter("btnGG");
                 String accounttypeid = "CUS";
                 Account st = new Account(username, password, securityanswer, fullname, phonenumber, gender, email, accounttypeid);
                 int count = dao.addNew(st);
                 int count2 = dao.addNewInformation(st);
                 if (count > 0 && count2 > 0) {
-                    request.setAttribute("mess", "Sign Up Successfully! You can sign in now!");
-                    response.sendRedirect(request.getContextPath() + "/login");
+                    if (loginwithgg != null) {
+                        session.setAttribute("informationAccount", st);
+                        response.sendRedirect(request.getContextPath() + "/home");
+                    } else {
+                        request.setAttribute("mess", "Sign Up Successfully! You can sign in now!");
+                        response.sendRedirect(request.getContextPath() + "/login");
+                    }
+
                 } else {
                     request.setAttribute("mess", "Sign Up Failed! Please Sign Up again!");
                     request.getRequestDispatcher("/signup.jsp").forward(request, response);
@@ -199,7 +208,7 @@ public class LoginController extends HttpServlet {
                 if (securityanswer.toLowerCase().trim().equals(answer.toLowerCase().trim())) {
                     Encoding endcode = new Encoding();
                     String password = endcode.getMd5(request.getParameter("newPassword"));
-                    ac.setPassword(password);                
+                    ac.setPassword(password);
                     dao.updateAccount(ac);
                     if (ac.getAccountTypeId().equals("AD")) {
                         session.setAttribute("informationAccount", ac);
@@ -212,7 +221,7 @@ public class LoginController extends HttpServlet {
                     request.setAttribute("mess", "Reset password failed");
                     request.getRequestDispatcher("/login.jsp").forward(request, response);
                 }
-            }else{
+            } else {
                 response.sendRedirect(request.getContextPath() + "/login");
             }
         } else {
