@@ -536,13 +536,11 @@
                 document.getElementById("modal-body").innerHTML = description;
             }
         </script>
-
         <!-- MDB -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
         <!-- Jquery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-
         <!--Link Java Script-->
         <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>

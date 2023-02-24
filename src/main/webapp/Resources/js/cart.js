@@ -78,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function () {
             var productId = this.id.split('-')[1];
             var productName = document.getElementById("title-" + productId).value;
             var price = document.getElementById("price-" + productId).innerHTML.replace("<b>Price: </b>", "").replace("đ", "").replaceAll(".", "");
-            console.log(price);
 
             // Gọi hàm addToCart với các tham số tương ứng
             addToCart(productId, productName, price);
@@ -136,13 +135,12 @@ function updateCartItems() {
 
         // Tạo một phần tử div để chứa tên sản phẩm và số lượng
         const div = document.createElement("div");
-        div.textContent = "" + item.productName + " " + "x" + " ";
+        div.textContent = item.productId + " " + item.productName + " " + "x" + " ";
 
         // Tạo một phần tử nút để giảm số lượng sản phẩm
         const decreaseBtn = document.createElement("button");
         decreaseBtn.textContent = "-";
         decreaseBtn.addEventListener("click", () => {
-            console.log(item.quantity);
             if (item.quantity > 1) {
                 item.quantity--;
                 updateCartItems();
