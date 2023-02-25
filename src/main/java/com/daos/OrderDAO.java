@@ -102,8 +102,8 @@ public class OrderDAO {
         try {
             PreparedStatement pst = conn.prepareStatement("Insert into [OrderList] values(?,?,?,?,?,?)");
             pst.setString(1, or.getOrderID());
-            pst.setString(2, or.getUsername());
-            pst.setString(3, or.getOrderStatusID());
+            pst.setString(3, or.getUsername());
+            pst.setString(2, or.getOrderStatusID());
 
             pst.setString(4, or.getDeliveryAddress());
             pst.setDate(5, or.getOrderTime());

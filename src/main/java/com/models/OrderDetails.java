@@ -97,6 +97,11 @@ public class OrderDetails {
     public void setTotalPrice(String TotalPrice) {
         this.TotalPrice = TotalPrice;
     }
+
+    @Override
+    public String toString() {
+        return "OrderDetails{" + "OrderID=" + OrderID + ", ProductID=" + ProductID + ", Quatity=" + Quatity + ", TotalPrice=" + TotalPrice + '}';
+    }
     
     
 }

@@ -45,6 +45,27 @@ public class ProductDAO {
     }
 
     /**
+     *
+     * @author Trung Kien
+     * @param ProductID
+     * @return the price on this product
+     */
+    public int getUnitPrice(String ProductID) {
+        int unitPrice = 0;
+        try {
+            PreparedStatement pst = conn.prepareStatement("select Price from ProductInformation where ProductID=?");
+            pst.setString(1, ProductID);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()){
+                 unitPrice = rs.getInt("Price");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return unitPrice;
+    }
+
+    /**
      * Lay thong tin cua mot khach hang dua vao makh
      *
      * @param ProductID
@@ -97,8 +118,8 @@ public class ProductDAO {
         }
         return count;
     }
-    
-     /**
+
+    /**
      *
      * @param pd
      * @return
@@ -120,7 +141,7 @@ public class ProductDAO {
         }
         return count;
     }
-    
+
     /**
      *
      * @param ProductID
@@ -137,7 +158,7 @@ public class ProductDAO {
         }
         return count;
     }
-    
+
     /**
      *
      * @param ProductID
@@ -154,8 +175,7 @@ public class ProductDAO {
         }
         return count;
     }
-    
-    
+
     /**
      *
      * @param pd
@@ -175,8 +195,8 @@ public class ProductDAO {
         }
         return count;
     }
-    
-     /**
+
+    /**
      *
      * @param pd
      * @return

@@ -5,6 +5,7 @@
 package com.daos;
 
 import com.db.DBConnection;
+import com.models.OrderDetails;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +19,7 @@ import java.util.logging.Logger;
  * @author LEO
  */
 public class OrderDetailsDAO {
-    
+
     private Connection conn = null;
 
     /**
@@ -27,7 +28,7 @@ public class OrderDetailsDAO {
     public OrderDetailsDAO() {
         conn = DBConnection.getConnection();
     }
-    
+
     /**
      *
      * @return
@@ -42,7 +43,22 @@ public class OrderDetailsDAO {
         }
         return rs;
     }
-     
+
+    public int addOrderDetails(OrderDetails orderDetails) {
+        int count = 0;
+        try {
+            PreparedStatement pst = conn.prepareStatement("Insert into OrderDetails values(?,?,?,?)");
+            pst.setString(1, orderDetails.getOrderID());
+            pst.setString(2, orderDetails.getProductID());
+            pst.setString(3, orderDetails.getQuatity());
+            pst.setString(4, orderDetails.getTotalPrice());
+            count = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDetailsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+
     /**
      *
      * @param OrderID

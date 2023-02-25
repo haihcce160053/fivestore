@@ -7,7 +7,10 @@ package com.controllers;
 import com.daos.OrderDAO;
 
 import com.daos.OrderDetailsDAO;
+import com.daos.ProductDAO;
 import com.models.Order;
+import com.models.OrderDetails;
+import com.models.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -83,9 +86,11 @@ public class OrderController extends HttpServlet {
             ResultSet rs = dao.getOrderByUsername(username);
             try {
                 String OrderID = "";
+                //check rs empty
                 if (rs.next()) {
-                    while (rs.next()) {
-                        OrderID = rs.getString("OrderID");
+                    ResultSet rs2 = dao.getOrderByUsername(username);
+                    while (rs2.next()) {
+                        OrderID = rs2.getString("OrderID");
                     }
                     int NewID = Integer.parseInt(OrderID.substring(3));
                     System.out.println(prefixUser + String.format("%06d", NewID + 1));
@@ -93,6 +98,7 @@ public class OrderController extends HttpServlet {
                     request.setAttribute("OrderID", NewOrderID);
                     request.getRequestDispatcher("/newOrder.jsp").forward(request, response);
                 } else {
+                    rs.close();
                     request.setAttribute("OrderID", prefixUser + "000001");
                     request.getRequestDispatcher("/newOrder.jsp").forward(request, response);
                 }
@@ -180,26 +186,59 @@ public class OrderController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String path = request.getRequestURI();
+        if (path.endsWith("/Order/new")) {
+            //init the parameter
+            OrderDAO orderDao = new OrderDAO();
+            OrderDetailsDAO orderDetailsDao = new OrderDetailsDAO();
+            ProductDAO productDao = new ProductDAO();
 
-        String orderID = null;
-        String username = null;
-        String orderStatusID = null;
-        String deliveryAddress = null;
-        Date orderTime = null;
-        int totalbill;
+            String orderID = null;
+            String username = null;
+            String orderStatusID = null;
+            String deliveryAddress = null;
+            Date orderTime = null;
+            int totalbill;
 
-        orderID = request.getParameter("txtOrderID");
-        username = request.getParameter("txtUsername");
-        String province =request.getParameter("ls_province");
-        String district =request.getParameter("ls_district");
-        String ward = request.getParameter("ls_ward");
-        String detailAddress = request.getParameter("txtDetailAddress");
-        deliveryAddress = detailAddress + ", " + ward + ", " + district + ", " + province;
-        System.out.println(deliveryAddress);
+            //get info form post mothod
+            orderID = request.getParameter("txtOrderID");
+            username = request.getParameter("txtUsername");
+            String province = request.getParameter("ls_province");
+            String district = request.getParameter("ls_district");
+            String ward = request.getParameter("ls_ward");
+            String detailAddress = request.getParameter("txtDetailAddress");
+            String totalPrice = request.getParameter("txtTotalBill");
+            String Cart = request.getParameter("blind");
+
+            //when order success create
+            //split the carf info into list
+            String[] listProduct = Cart.split("/");
+            String ProductID = null;
+            int quantity = 0;
+            for (String productOrder : listProduct) {
+                ProductID = productOrder.substring(0, productOrder.indexOf(' ')); //get product id
+                quantity = Integer.valueOf(productOrder.substring(productOrder.indexOf("<<") + 2, productOrder.indexOf(">>"))); //get quantity
+                int unitPrice = productDao.getUnitPrice(ProductID);
+
+                OrderDetails orderDetails = new OrderDetails(orderID, ProductID, Integer.toString(quantity), Integer.toString(unitPrice * quantity));
+                System.out.println(orderDetails.toString());
+                orderDetailsDao.addOrderDetails(orderDetails);
+
+            }
+            deliveryAddress = detailAddress + ", " + ward + ", " + district + ", " + province;
+            java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
+            orderTime = date;
+            //new order
+            Order ord = new Order(orderID, username, "DXN", deliveryAddress, orderTime, totalPrice);
+            if (orderDao.addOrder(ord) > 0) {
+                request.setAttribute("mess", "http://localhost:8080/");
+                request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
+            } else {
+                request.setAttribute("mess", "http://localhost:8080/checkout");
+                request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
+            }
+        }
 
     }
-    
-
 
     /**
      * Returns a short description of the servlet.
