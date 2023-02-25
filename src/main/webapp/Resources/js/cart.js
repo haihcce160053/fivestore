@@ -142,10 +142,17 @@ function updateCartItems() {
         const decreaseBtn = document.createElement("button");
         decreaseBtn.textContent = "-";
         decreaseBtn.addEventListener("click", () => {
+            console.log(item.quantity);
             if (item.quantity > 1) {
                 item.quantity--;
                 updateCartItems();
                 saveCartToCookies();
+            } else {
+                const index = cartItemsArray.findIndex((cartItem) => cartItem.productId === item.productId);
+                cartItemsArray.splice(index, 1);
+                saveCartToCookies();
+                updateCartBadge();
+                updateCartItems();
             }
         });
         div.appendChild(decreaseBtn);

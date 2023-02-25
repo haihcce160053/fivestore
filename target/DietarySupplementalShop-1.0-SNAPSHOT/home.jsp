@@ -58,10 +58,10 @@
                                     <a class="nav-link" href="/Account/Management/<%=ac.getUsername()%>" style="color: white;">Account Management</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/product" style="color: white;">Product Management</a>
+                                    <a class="nav-link" href="" style="color: white;">Product Management</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/product" style="color: white;">Order Management</a>
+                                    <a class="nav-link" href="/Order/" style="color: white;">Order Management</a>
                                 </li>
 
                                 <%
@@ -119,7 +119,6 @@
 
                             <button id="view-purchase-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white">
                                 MY Purchase<span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;">0</span>
-
                             </button>
                         </div>
                     </div>
@@ -507,11 +506,12 @@
         <script>
             function ShowProductDetail(title, description) {
                 document.getElementById("modal-title").innerHTML = title;
+                const productInfo = description.split(":");
+                console.log(productInfo);
                 document.getElementById("modal-body").innerHTML = description;
             }
         </script>
-        <script>
-        </script>
+
         <!-- MDB -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
         <!-- Jquery -->
@@ -520,9 +520,6 @@
 
         <!--Link Java Script-->
         <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
-        <script src="${pageContext.request.contextPath}/Resources/styles/bootstrap4/popper.js"></script>
-        <script src="${pageContext.request.contextPath}/Resources/styles/bootstrap4/bootstrap.min.js"></script>
-        <script src="${pageContext.request.contextPath}/Resources/js/custom.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/searchhome.js"></script>
