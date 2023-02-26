@@ -77,7 +77,7 @@ public class AccountController extends HttpServlet {
                     String username = s[s.length - 1];
                     AccountDAO dao = new AccountDAO();
                     Account ac = dao.getAccount(username);
-                    if ((username.equalsIgnoreCase("Admin")) || (ac.getAccountTypeId().equalsIgnoreCase("AD")) ) {
+                    if ((username.equalsIgnoreCase("Admin")) || (ac.getAccountTypeId().equalsIgnoreCase("AD"))) {
                         request.setAttribute("mess", "Noo");
                         request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
                     } else {
@@ -130,6 +130,16 @@ public class AccountController extends HttpServlet {
                             HttpSession session = (HttpSession) request.getSession();
                             session.setAttribute("Account", ac);
                             request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
+                        } else {
+                            if (path.startsWith("/Account/Order/")) {
+                                String[] s = path.split("/");
+                                String username = s[s.length - 1];
+                                AccountDAO dao = new AccountDAO();
+                                Account ac = dao.getAccount(username);
+                                HttpSession session = (HttpSession) request.getSession();
+                                session.setAttribute("Account", ac);
+                                request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
+                            }
                         }
                     }
                 }

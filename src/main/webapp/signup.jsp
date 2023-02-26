@@ -33,12 +33,14 @@
             String fullname = null;
             String username = null;
             String email = null;
+            String loginwithgg = null;
             boolean googleLogin = (boolean) request.getAttribute("googleLogin");
             if (googleLogin) {
                 additionInfo = (String) request.getAttribute("additionInfo");
                 fullname = (String) request.getAttribute("fullname");
                 username = (String) request.getAttribute("username");
                 email = (String) request.getAttribute("email");
+                loginwithgg = (String) request.getAttribute("loginwithgg");
             }
         %>
         <header id="page-header">
@@ -154,6 +156,13 @@
                                                                                                              style="color: red;">*</label>
                                     <input type="text" name="phoneNumber" id="phoneNumber" class="form-control rounded-left"
                                            placeholder="Please enter your phone number!">
+                                    <%
+                                        if (loginwithgg != null) {
+                                    %>
+                                    <input type="text" name="btnGG" hidden value="<%=loginwithgg%>">
+                                    <%
+                                        }
+                                    %>
                                 </div>
                                 <!-- Input email -->
                                 <div class="form-group">

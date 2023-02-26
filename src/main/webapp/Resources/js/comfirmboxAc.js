@@ -55,7 +55,7 @@ aTags.forEach((aTag1) => {
                 document.getElementById("confirm-box1").style.display = "none";
                 window.location.href = href1;
             });
-        }
+        } 
     });
 });
 

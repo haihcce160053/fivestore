@@ -1,17 +1,20 @@
 <%-- 
-    Document   : OrderManagement
-    Created on : Feb 19, 2023, 8:50:40 PM
-    Author     : LEO
+    Document   : myOrder
+    Created on : Feb 22, 2023, 3:38:47 PM
+    Author     : QuangQui
 --%>
-<%@page import="com.models.Order"%>
+
+<%@page import="java.text.NumberFormat"%>
+<%@page import="java.util.Locale"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.daos.OrderDAO"%>
+<%@page import="com.models.Account"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Order Management</title>
+        <title>My Purchase</title>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
@@ -20,36 +23,37 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/AccountInformation/style.css">
         <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
-        <link href="${pageContext.request.contextPath}/Resources/css/orderManagement.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/Resources/css/myorder.css" rel="stylesheet" />
     </head>
+
+    <%
+        String mess = (String) request.getAttribute("mess");
+        String mess1 = null;
+        Account ac = (Account) session.getAttribute("Account");
+    %>
     <body>
-        <%
-            String mess = (String) request.getAttribute("mess");
-        %>
         <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main" style="background-color: #303C5F;     padding: 0rem 1rem;">
             <div class="container-fluid">
                 <!-- Brand -->
                 <a class="h4 mb-0 text-uppercase text-white d-none d-lg-inline-block"
-                   href="/">FIVE STORE - Order
-                    Management</a>
+                   href="/">FIVE STORE - MY Purchase
+                </a>
                 <!-- User -->
                 <div class="search-box ">
-                    <div class="col-lg-12 p-0" style="margin-top: 20px;">
-                        <select class="form-control" id="exampleFormControlSelect1">
-                            <option>Search By Status</option>
-                            <option>Đã Liên Hệ</option>
-                            <option>Không Liên Hệ Được</option>
-                            <option>Đang Xác Nhận</option>                           
-                            <option>Đang Vận Chuyển</option>
-                            <option>Đã Nhận Hàng</option>
-                            <option>Không Nhận Hàng</option>
-                            <option>Ðã Hoàn Hàng</option>
-                            <option>Đã Hủy Đơn</option>
-                        </select>
+                    <div class="input-group">								
+                        <input type="text" id="search" class="form-control" placeholder="Search by OrderID" style="max-width: 237px; margin: 10px 0 -10px 0;">
                     </div>
                 </div>
             </div>
         </nav>
+        <%
+            if (ac != null) {
+                OrderDAO dao = new OrderDAO();
+                ResultSet rs = dao.getOrderByUsername(ac.getUsername());
+                int orderbyusername = dao.getNumberOrderByUsername(ac.getUsername());
+                if (orderbyusername != 0) {
+
+        %>
         <div class="container" style="margin-top: 20px;">
             <ul class="responsive-table">
                 <li class="table-header">
@@ -61,21 +65,22 @@
                     <div class="col col-6">TotalBill</div>
                     <div class="col col-7">Actions</div>
                 </li>
-                <%
-                    OrderDAO dao = new OrderDAO();
-                    ResultSet rs = dao.getAll();
-                    while (rs.next()) {
+                <%                    while (rs.next()) {
                 %>
                 <li class="table-row">
                     <div class="col col-1" data-label="OrderID"><%= rs.getString("OrderID")%></div>
                     <div class="col col-2" data-label="UserName"><%= rs.getString("Username")%></div>
                     <div class="col col-3" data-label="DeliveryAddress"><%= rs.getString("DeliveryAddress")%></div> 
                     <div class="col col-4" data-label="OrderTIme"><%= rs.getString("OrderTime")%></div> 
-                    <div class="col col-5" data-label="Status"><%= rs.getString("OrderStatusID")%></div>
-                    <div class="col col-6" data-label="TotalBill"><%= rs.getString("TotalBill")%></div>
+                    <div class="col col-5" data-label="Status"><%String nameOfStatusOrder = dao.getNameOfStatusOrder(rs.getString("OrderStatusID"));%><%=nameOfStatusOrder%></div>
+                    <%
+                        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                        String formattedPrice = format.format(rs.getInt("TotalBill")).replace("₫", "VND").replaceAll("\\s", "");
+                    %>
+                    <div class="col col-6" data-label="TotalBill"><%=formattedPrice%></div>
                     <div class="col col-7" data-label="Action">
                         <a href="/Order/OrderDetails/<%= rs.getString("OrderID")%>" class="edit" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xe417;</i></a>
-                        <a href="/Order/Delete/<%= rs.getString("OrderID")%>" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                        <a href="/Order/Cancel/Delete/<%= rs.getString("OrderID")%>" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                     </div>
                 </li>
                 <%
@@ -84,8 +89,15 @@
             </ul>
         </div>
         <%
-            if (mess != null) {
+        } else {
+            mess1 = "Not";
         %>
+        <a href="/"><img src="https://thumbs.dreamstime.com/b/order-now-premium-red-tag-sign-order-now-isolated-premium-red-tag-sign-abstract-illustration-124737434.jpg" alt="alt" style="width: auto"/></a>
+            <%
+                    }
+                }
+                if (mess != null) {
+            %>
         <div class="row" >
             <div class="col-lg-12" style="margin-left: 15px;
                  margin-bottom: 15px;">
@@ -98,7 +110,7 @@
         <div class="row" >
             <div class="col-lg-12" style="margin-left: 15px;
                  margin-bottom: 15px;">
-                <span id="regError" data-my-attribute=""></span>
+                <span id="regError" data-my-attribute="<%= mess1%>"></span>
             </div>          
         </div>
         <%
@@ -126,20 +138,72 @@
 
         <div class="confirm-box" id="confirm-box1">
             <div class="box-header">
-                <h2>Are you sure you want to delete this order?</h2>
+                <h2>Are you sure you want to cancel this order?</h2>
             </div>
             <div class="box-content">
-                <p>Order will be deleted!</p>
+                <p>Order will be canceled!</p>
             </div>
             <div class="button-container">
                 <button id="yes-button1">Yes</button>
                 <button id="no-button1">No</button>
             </div>
         </div>
-
         <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
-        <script src="${pageContext.request.contextPath}/Resources/js/comfirmboxAc.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
-        <script src="${pageContext.request.contextPath}/Resources/js/showmessageordermanagement.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/js/searchAc.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/js/comfirmboxAc.js"></script>
+        <script>
+            const mySpan1 = document.getElementById('regError');
+            const myAttribute1 = mySpan1.getAttribute('data-my-attribute');
+            mainFunction();
+
+            function mainFunction() {
+                if (myAttribute1 == "Noo") {
+                    showErrorDeleteAdToast();
+                } else if (myAttribute1 == "YesD") {
+                    showSuccessDeleteToast();
+                } else if (myAttribute1 == "NoD") {
+                    showErrorDeleteToast();
+                } else if (myAttribute1 == "Not") {
+                    showOrderToast();
+                } else {
+                    return;
+                }
+            }
+
+            function showErrorDeleteAdToast() {
+                toast({
+                    title: 'Failed!',
+                    message: 'You cannot cancel this order! ',
+                    type: 'error',
+                    duration: 3000
+                });
+            }
+
+            function showSuccessDeleteToast() {
+                toast({
+                    title: 'Successfully!',
+                    message: 'Cancel Order Successfully!',
+                    type: 'success',
+                    duration: 3000
+                });
+            }
+            function showErrorDeleteToast() {
+                toast({
+                    title: 'Failed!!',
+                    message: 'Cancel Order Unsuccessfully!',
+                    type: 'error',
+                    duration: 3000
+                });
+            }
+
+            function showOrderToast() {
+                toast({
+                    title: 'Notice!',
+                    message: 'You do not have any orders!',
+                    type: 'error',
+                    duration: 10000
+                });
+            }</script>
     </body>
 </html>

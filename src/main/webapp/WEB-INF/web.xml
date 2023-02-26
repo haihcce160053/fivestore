@@ -43,7 +43,7 @@
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
-     <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/forgotpassword</url-pattern>
     </servlet-mapping>
@@ -57,11 +57,19 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>OrderController</servlet-name>
-        <url-pattern>/Order/*</url-pattern>
+        <url-pattern>/checkout/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderController</servlet-name>
+        <url-pattern>/checkout</url-pattern>
     </servlet-mapping>
         <servlet-mapping>
         <servlet-name>OrderController</servlet-name>
-        <url-pattern>/checkout</url-pattern>
+        <url-pattern>/order</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderController</servlet-name>
+        <url-pattern>/Order/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

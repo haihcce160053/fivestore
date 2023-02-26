@@ -4,6 +4,7 @@
     Author     : ASUS
 --%>
 
+<%@page import="com.daos.OrderDAO"%>
 <%@page import="com.models.Account"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.daos.ProductDAO"%>
@@ -14,8 +15,6 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>FIVESTORE - Order Information</title>
-        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>FIVESTORE - Dietary supplemental shop</title>
         <link rel="icon" type="image/x-icon" href="HCDATAFILE/img/logo-only.png">
@@ -25,8 +24,11 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
         <!-- MDB -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/Resources/css/cart.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
     </head>
-    <body>
+
+    <body>        
         <%
             Account ac = (Account) session.getAttribute("informationAccount");
         %>
@@ -49,13 +51,13 @@
                                     if (ac != null && (ac.getAccountTypeId()).equalsIgnoreCase("AD")) {
                                 %>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/Account/Management/<%=ac.getUsername()%>" style="color: #566787;">Account Management</a>
+                                    <a class="nav-link" href="/Account/Management/<%=ac.getUsername()%>" style="color: white;">Account Management</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/product" style="color: #566787;">Product Management</a>
+                                    <a class="nav-link" href="" style="color: white;">Product Management</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/product" style="color: #566787;">Order Management</a>
+                                    <a class="nav-link" href="/Order/" style="color: white;">Order Management</a>
                                 </li>
 
                                 <%
@@ -72,42 +74,104 @@
                                 %>
                             </ul>
                         </div>
-                    </div>
+                        <div>
+                            <%
+                                if (ac == null) {
+                            %>
+                            <button type="button" class="btn px-3 me-2"
+                                    style="color: white; background-color: #20283F"
+                                    onclick="location.href = '/login'">
+                                Login
+                            </button>
+                            <button type="button" class="btn me-3" 
+                                    style="color: white; background-color: #20283F"
+                                    onclick="location.href = '/signup'">
+                                Sign Up
+                            </button>
+                            <%
+                            } else {
+                            %>
+                            <button type="button" class="btn px-3 me-2"
+                                    style="color: white; background-color: #20283F;"
+                                    onclick="location.href = '/Account/information/<%= ac.getUsername()%>'">
+                                <%=ac.getFullname()%>
+                            </button>
+                            <%
+                                }
+                                if (ac != null && ac.getUsername().equalsIgnoreCase("Admin")) {
+                            %>
+
+                            <%
+                            } else if (ac == null || (!ac.getUsername().equalsIgnoreCase("Admin"))) {
+                            %>
+                            <button id="view-cart-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white">
+                                MY CART <span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;">0</span>
+                            </button>
+                            <%
+                                }
+                            %>
+                            <%
+                                if (ac != null) {
+                                    OrderDAO dao = new OrderDAO();
+                                    int countOfOrder = dao.getNumberOrderByUsername(ac.getUsername());
+                            %>
+                            <button id="view-purchase-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white" 
+                                    onclick="location.href = '/Account/Order/<%= ac.getUsername()%>'">
+                                MY Purchase<span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;"><%=countOfOrder%></span>
+
+                            </button>
+                            <%
+                            } else {
+                            %>
+                            <button id="view-purchase-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white"
+                                    >
+                                MY Purchase<span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;">0</span>
+
+                            </button>
+                            <%
+                                }
+                            %>
+                        </div>
+                </nav>
             </div>
         </header>
+
         <div class="Container justify-center">
             <div class="row justify-content-center" style="margin-top: 50px;">
                 <div class="col-md-4 col-sm-6 col-12 card">
                     <h2 style="margin-top: 10px; margin-bottom: 10px; margin-right: 10px" class="row justify-content-end">Order Information</h2>
-                    <form style="margin-top: 10px;" method="post" action="/order/checkout/">
+                    <form id="newOrderForm" style="margin-top: 10px;" method="" action="#">
                         <div class="form-group row">
                             <label for="txtOrderID" class="col-4 col-form-label">Order ID</label> 
                             <div class="col-8">
-                                <input id="txtOrderID" name="txtOrderID" type="text" class="form-control" value="test" readonly>
+                                <% if (request.getAttribute("OrderID") != null) {%>
+                                <input id="txtOrderID" name="txtOrderID" type="text" class="form-control" value="<%= request.getAttribute("OrderID")%>" readonly>
+                                <%  }%>
                             </div>
                         </div>
+                        <% if (ac != null) {%>
                         <div class="form-group row">
                             <label for="txtUsername" class="col-4 col-form-label">Username</label> 
                             <div class="col-8">
-                                <input id="txtUsername" name="txtUsername" type="text" class="form-control" value="test" readonly>
+                                <input id="txtUsername" name="txtUsername" type="text" class="form-control" value="<%=ac.getUsername()%>" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="txtEmail" class="col-4 col-form-label">Email</label> 
                             <div class="col-8">
-                                <input id="txtEmail" name="txtEmail" type="text" class="form-control" value="exple@gmail.com" readonly>
+                                <input id="txtEmail" name="txtEmail" type="text" class="form-control" value="<%=ac.getEmail()%>" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="txtPhone" class="col-4 col-form-label">Phone</label> 
                             <div class="col-8">
-                                <input id="txtPhone" name="txtPhone" type="text" class="form-control" value="0123456789">
+                                <input id="txtPhone" name="txtPhone" type="text" class="form-control" value="<%="0" + ac.getPhoneNumber()%>">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="txtTotalBill" class="col-4 col-form-label">Total Bill</label> 
                             <div class="col-8">
-                                <input id="txtTotalBill" name="txtTotalBill" type="text" class="form-control" value="300000 VND" readonly>
+                                <input id="txtTotalBill" name="txtTotalBill" type="number" class="form-control" value="" readonly>
                             </div>
                         </div>
                         <h2 class="shipping-info-text row justify-content-end" 
@@ -117,32 +181,33 @@
                         <div class="form-group row">
                             <label for="txtFullname" class="col-4 col-form-label">Full Name</label> 
                             <div class="col-8">
-                                <input id="txtFullname" name="txtFullname" type="text" class="form-control">
+                                <input id="txtFullname" name="txtFullname" type="text" class="form-control" value="<%=ac.getFullname()%>">
+                            </div>
+                        </div> 
+                        <% }%>
+                        <div class="form-group row">
+                            <label for="select" for="input" class="col-4 col-form-label"">City</label>
+                            <div class="col-8">
+                                <select class="form-select form-select-sm mb-3 " id="ls_province" name="ls_province" aria-label=".form-select-sm">
+                                    <option value="" selected>Chọn tỉnh thành</option>           
+                                </select>
                             </div>
                         </div> 
                         <div class="form-group row">
-                            <label for="select" class="col-4 col-form-label">City</label>
+                            <label for="select" for="input"  class="col-4 col-form-label">District</label>
                             <div class="col-8">
-                                <select class="form-select form-select-sm mb-3 " id="city" name="city" aria-label=".form-select-sm">
-                                    <option value="" selected>Chọn tỉnh thành</option>           
-                                </select>
-                            </div> 
-                        </div> 
-                        <div class="form-group row">
-                            <label for="select" class="col-4 col-form-label">District</label>
-                            <div class="col-8">
-                                <select class="form-select form-select-sm mb-3" id="district" name="district" aria-label=".form-select-sm">
+                                <select class="form-select form-select-sm mb-3" id="ls_district" name="ls_district" aria-label=".form-select-sm">
                                     <option value="" selected>Chọn quận huyện</option>
                                 </select>
-                            </div> 
-                        </div> 
+                            </div>
+                        </div>
                         <div class="form-group row">
-                            <label for="select" class="col-4 col-form-label">Ward</label>
+                            <label for="select" for="input" class="col-4 col-form-label">Ward</label>
                             <div class="col-8">
-                                <select class="form-select form-select-sm" id="ward" name="ward" aria-label=".form-select-sm">
+                                <select class="form-select form-select-sm" id="ls_ward" name="ls_ward"  aria-label=".form-select-sm" >
                                     <option value="" selected>Chọn phường xã</option>
                                 </select>
-                            </div> 
+                            </div>
                         </div>
                         <div class="form-group row">
                             <label for="txtDetailAddress" class="col-4 col-form-label">Street name, building, house number,...</label> 
@@ -166,30 +231,86 @@
                                 </select>
                             </div> 
                         </div>
+                        <!-- shopping cart -->
+                        <div id="cart" style="display: none;">
+                            <h3>Cart</h3>
+                            <ul id="cart-items">
+
+                            </ul>
+                            <div id="cart-total">
+                                <p>Total: <span id="cart-total-amount"></span></p>
+                            </div>
+                            <input type="text" id="blind" name="blind" value="" hidden="true" />
+                        </div>
                         <div class="form-group row" style="margin-bottom: 20px">
                             <div class="offset-4 col-8">
-                                <button name="submit" type="submit" class="btn btn-primary" onclick="return checkInfo()">Submit Order</button>
+                                <button name="submit" type="submit" class="btn btn-primary" value="submit" onclick="getValue()">Submit Order</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+        <script>
+            var localpicker = new LocalPicker({
+                province: "ls_province",
+                district: "ls_district",
+                ward: "ls_ward"
+            });
+        </script>
+        <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/js/vietnameselocation/vietnamlocalselector.js"></script> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+        <!-- Jquery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
+        <script> // Quang Qui: Xử lý lấy số tiền trong giỏ hàng vào ô input
+            
+            // Lấy thẻ span trong div chứa tổng tiền
+            var cartTotalSpan = document.getElementById("cart-total-amount");
+            // Lấy thẻ input
+            var totalBillInput = document.getElementById("txtTotalBill");
+            // Thiết lập giá trị ban đầu cho thẻ input
+            var totalBill = cartTotalSpan.innerText;
+            totalBill = totalBill.replaceAll(".", "").replace(" đ", "");
+            totalBillInput.value = totalBill;
+            // Lắng nghe sự kiện thay đổi trên thẻ span
+            cartTotalSpan.addEventListener('DOMSubtreeModified', function () {
+                // Cập nhật giá trị của thẻ input tại đây
+                var he = cartTotalSpan.innerText;
+                he = he.replaceAll(".", "").replace(" đ", "");
+                totalBillInput.value = he;
+            });
+        </script> 
+
+        <script>
+            //Quang Qui
+            //Khi bấm vào nút submit order thì sẽ xử lý giỏ hàng thành chuỗi gửi lên servlet
+            function getValue() {
+                event.preventDefault(); // Tạm thời ngưng cái sự kiện submit gửi lên servlet để nhìn cái chuỗi sau khi xử lý
+                //Ô input ẩn trong form có id là blind
+                const inputElement = document.getElementById("blind");
+               
+                const ulElement = document.getElementById('cart-items');
+                const liElements = ulElement.querySelectorAll('li');
+
+                let items = "";
+                for (let i = 0; i < liElements.length; i++) {
+                    const divElement = liElements[i].querySelector('div');
+                    const spanElements = liElements[i].querySelectorAll('span');
+                    const itemString = divElement.textContent.trim() + ":" + spanElements[1].textContent.trim();
+                    items += itemString + "/";
+                }
+
+                // Loại bỏ các ký tự đặc biệt khỏi chuỗi bằng phương thức replace()
+                items = items.replaceAll("-", "").replaceAll("+", "").replaceAll("Remove", "").replaceAll(".", "").replaceAll("x", "").replaceAll("đ", "").replaceAll("   ", ":");
+
+                //Chuỗi sau khi xử lý sẽ gán vào ô input ẩn để tiện trên Servlet lấy data
+                inputElement.value = items;
+                console.log(items);
+
+            }
+        </script>
     </body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-    <script src="${pageContext.request.contextPath}/Resources/js/Address.js"></script>
-    <!-- Jquery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-    <script>
-                                    function checkInfo() {
-                                        var phone = document.getElementById("txtPhone").value;
-                                        var fullname = document.getElementById("txtFullname").value;
-                                        var DetailAddress = document.getElementById("txtDetailAddress").value;
-                                        var city = document.getElementById("city").value;
-                                        var district = document.getElementById("district").value;
-                                        var ward = document.getElementById("txtDetailAddress").value;
-                                        if (phone != "" && fullname != "" && DetailAddress != "")
-                                    }
-    </script>
 </html>

@@ -6,7 +6,7 @@ package com.models;
 
 /**
  *
- * @author ASUS
+ * @author Trung Kien
  */
 public class UserGoogle {
     	private String id;
@@ -23,10 +23,23 @@ public class UserGoogle {
 
 	private String picture;
 
-	public UserGoogle() {
+    /**
+     *
+     */
+    public UserGoogle() {
 	}
 
-	public UserGoogle(String id, String email, boolean verified_email, String name, String given_name, String family_name, String picture) {
+    /**
+     *
+     * @param id
+     * @param email
+     * @param verified_email
+     * @param name
+     * @param given_name
+     * @param family_name
+     * @param picture
+     */
+    public UserGoogle(String id, String email, boolean verified_email, String name, String given_name, String family_name, String picture) {
 		this.id = id;
 		this.email = email;
 		this.verified_email = verified_email;
@@ -36,63 +49,123 @@ public class UserGoogle {
 		this.picture = picture;
 	}
 
-	public String getId() {
+    /**
+     *
+     * @return
+     */
+    public String getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+    /**
+     *
+     * @param id
+     */
+    public void setId(String id) {
 		this.id = id;
 	}
 
-	public String getEmail() {
+    /**
+     *
+     * @return
+     */
+    public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email) {
+    /**
+     *
+     * @param email
+     */
+    public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public boolean isVerified_email() {
+    /**
+     *
+     * @return
+     */
+    public boolean isVerified_email() {
 		return verified_email;
 	}
 
-	public void setVerified_email(boolean verified_email) {
+    /**
+     *
+     * @param verified_email
+     */
+    public void setVerified_email(boolean verified_email) {
 		this.verified_email = verified_email;
 	}
 
-	public String getName() {
+    /**
+     *
+     * @return
+     */
+    public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+    /**
+     *
+     * @param name
+     */
+    public void setName(String name) {
 		this.name = name;
 	}
 
-	public String getGiven_name() {
+    /**
+     *
+     * @return
+     */
+    public String getGiven_name() {
 		return given_name;
 	}
 
-	public void setGiven_name(String given_name) {
+    /**
+     *
+     * @param given_name
+     */
+    public void setGiven_name(String given_name) {
 		this.given_name = given_name;
 	}
 
-	public String getFamily_name() {
+    /**
+     *
+     * @return
+     */
+    public String getFamily_name() {
 		return family_name;
 	}
 
-	public void setFamily_name(String family_name) {
+    /**
+     *
+     * @param family_name
+     */
+    public void setFamily_name(String family_name) {
 		this.family_name = family_name;
 	}
 
-	public String getPicture() {
+    /**
+     *
+     * @return
+     */
+    public String getPicture() {
 		return picture;
 	}
 
-	public void setPicture(String picture) {
+    /**
+     *
+     * @param picture
+     */
+    public void setPicture(String picture) {
 		this.picture = picture;
 	}
 
-	@Override
+    /**
+     *
+     * @return
+     */
+    @Override
 	public String toString() {
 		return "UserGoogleDto{" + "id=" + id + ", email=" + email + ", verified_email=" + verified_email + ", name=" + name + ", given_name=" + given_name + ", family_name=" + family_name + ", picture=" + picture + '}';
 	}
