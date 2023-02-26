@@ -152,7 +152,7 @@ public class OrderController extends HttpServlet {
                         OrderDAO dao = new OrderDAO();
                         OrderDetailsDAO daos = new OrderDetailsDAO();
                         Order ord = dao.getOrder(OrderID);
-                        if (ord.getOrderStatusID().equalsIgnoreCase("DHD") || ord.getOrderStatusID().equalsIgnoreCase("DHH")) {
+                        if (ord.getOrderStatusID().equalsIgnoreCase("DXN")) {
                             int count = daos.deleteOrderDetails(OrderID);
                             int count2 = dao.deleteOrder(OrderID);
                             if (count > 0 && count2 > 0) {
@@ -187,55 +187,75 @@ public class OrderController extends HttpServlet {
             throws ServletException, IOException {
         String path = request.getRequestURI();
         if (path.endsWith("/Order/new")) {
-            //init the parameter
+            //init DAOS
             OrderDAO orderDao = new OrderDAO();
             OrderDetailsDAO orderDetailsDao = new OrderDetailsDAO();
             ProductDAO productDao = new ProductDAO();
 
-            String orderID = null;
-            String username = null;
-            String orderStatusID = null;
-            String deliveryAddress = null;
-            Date orderTime = null;
-            int totalbill;
+            //get information account form post mothod
+            String orderID = request.getParameter("txtOrderID");
+            String username = request.getParameter("txtUsername");
 
-            //get info form post mothod
-            orderID = request.getParameter("txtOrderID");
-            username = request.getParameter("txtUsername");
+            //Get all input Address
             String province = request.getParameter("ls_province");
             String district = request.getParameter("ls_district");
             String ward = request.getParameter("ls_ward");
             String detailAddress = request.getParameter("txtDetailAddress");
-            String totalPrice = request.getParameter("txtTotalBill");
+
+            //Join Address
+            String deliveryAddress = detailAddress + ", " + ward + ", " + district + ", " + province;
+
+            //Get Bill of Order
+            String totalbill = request.getParameter("txtTotalBill");
+
+            //Get list of product of order
             String Cart = request.getParameter("blind");
 
-            //when order success create
-            //split the carf info into list
-            String[] listProduct = Cart.split("/");
-            String ProductID = null;
-            int quantity = 0;
-            for (String productOrder : listProduct) {
-                ProductID = productOrder.substring(0, productOrder.indexOf(' ')); //get product id
-                quantity = Integer.valueOf(productOrder.substring(productOrder.indexOf("<<") + 2, productOrder.indexOf(">>"))); //get quantity
-                int unitPrice = productDao.getUnitPrice(ProductID);
-
-                OrderDetails orderDetails = new OrderDetails(orderID, ProductID, Integer.toString(quantity), Integer.toString(unitPrice * quantity));
-                System.out.println(orderDetails.toString());
-                orderDetailsDao.addOrderDetails(orderDetails);
-
-            }
-            deliveryAddress = detailAddress + ", " + ward + ", " + district + ", " + province;
+            //Set date of order
             java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
-            orderTime = date;
-            //new order
-            Order ord = new Order(orderID, username, "DXN", deliveryAddress, orderTime, totalPrice);
-            if (orderDao.addOrder(ord) > 0) {
-                request.setAttribute("mess", "http://localhost:8080/");
-                request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
+            Date orderTime = date;
+
+            // Create Order in OrderList first
+            Order ord = new Order(orderID, username, "DXN", deliveryAddress, orderTime, totalbill);
+
+            //Add order in db table OrderList
+            int check = orderDao.addOrder(ord);
+
+            //if add them orderList successfully
+            if (check > 0) {
+                //when order success create split the cart info into list
+                String[] listProduct = Cart.split("/");
+                int check1 = 0;
+                //use loop to add them in OrderDetails
+                for (String productOrder : listProduct) {
+                    String ProductID = productOrder.substring(0, productOrder.indexOf(' ')); //get product id
+                    int quantity = Integer.valueOf(productOrder.substring(productOrder.indexOf("<<") + 2, productOrder.indexOf(">>"))); //get quantity
+                    int unitPrice = productDao.getUnitPrice(ProductID);
+                    //Add them in db table OrderDetails
+                    OrderDetails orderDetails = new OrderDetails(orderID, ProductID, Integer.toString(quantity), Integer.toString(unitPrice * quantity));
+                    check1 = orderDetailsDao.addOrderDetails(orderDetails);
+                    //If add unsuccessfull then exit loop
+                    if (check1 <= 0) {
+                        break;
+                    }
+                }
+                if (check1 <= 0) {
+                    orderDao.deleteOrder(orderID);
+                    request.setAttribute("link", "http://localhost:8080/checkout");
+                    request.setAttribute("mess", "No");
+                    request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
+                } else {
+                    request.setAttribute("link", "http://localhost:8080/");
+                    request.setAttribute("mess", "Yes");
+                    request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
+                }
+
             } else {
-                request.setAttribute("mess", "http://localhost:8080/checkout");
+                request.setAttribute("link", "http://localhost:8080/checkout");
+                request.setAttribute("mess", "Noo");
                 request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
             }
+
         }
 
     }
