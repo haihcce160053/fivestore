@@ -89,17 +89,27 @@
             const mySpan1 = document.getElementById('regError');
             const myAttribute1 = mySpan1.getAttribute('data-my-attribute');
             mainFunction();
+            
+            
+            
 
             function mainFunction() {
                 if (myAttribute1 == "Noo") {
                     showErrorOrderList();
                 } else if (myAttribute1 == "Yes") {
                     showSuccessOrder();
+                    deleteCartItemsCookie();
                 } else if (myAttribute1 == "No") {
                     showErrorOrder();
                 } else {
                     return;
                 }
+            }
+            
+            function deleteCartItemsCookie() {
+                // Set the expiration date to a date in the past
+                const pastDate = new Date(0);
+                document.cookie = "cartItems=; expires=" + pastDate.toUTCString() + "; path=/";
             }
 
             function showErrorOrderList() {

@@ -71,7 +71,7 @@
                     <div class="col col-1" data-label="OrderID"><%= rs.getString("OrderID")%></div>
                     <div class="col col-2" data-label="UserName"><%= rs.getString("Username")%></div>
                     <div class="col col-3" data-label="DeliveryAddress"><%= rs.getString("DeliveryAddress")%></div> 
-                    <div class="col col-4" data-label="OrderTIme"><%= rs.getString("OrderTime")%></div> 
+                    <div class="col col-4" data-label="OrderTIme"><%= rs.getDate("OrderTime")%></div> 
                     <div class="col col-5" data-label="Status"><%String nameOfStatusOrder = dao.getNameOfStatusOrder(rs.getString("OrderStatusID"));%><%=nameOfStatusOrder%></div>
                     <%
                         NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));

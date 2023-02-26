@@ -240,6 +240,7 @@ public class OrderController extends HttpServlet {
                     }
                 }
                 if (check1 <= 0) {
+                    orderDetailsDao.deleteOrderDetails(orderID);
                     orderDao.deleteOrder(orderID);
                     request.setAttribute("link", "http://localhost:8080/");
                     request.setAttribute("mess", "No");
