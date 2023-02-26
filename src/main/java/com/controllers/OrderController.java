@@ -241,7 +241,7 @@ public class OrderController extends HttpServlet {
                 }
                 if (check1 <= 0) {
                     orderDao.deleteOrder(orderID);
-                    request.setAttribute("link", "http://localhost:8080/checkout");
+                    request.setAttribute("link", "http://localhost:8080/");
                     request.setAttribute("mess", "No");
                     request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
                 } else {
@@ -251,7 +251,7 @@ public class OrderController extends HttpServlet {
                 }
 
             } else {
-                request.setAttribute("link", "http://localhost:8080/checkout");
+                request.setAttribute("link", "http://localhost:8080/");
                 request.setAttribute("mess", "Noo");
                 request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
             }
