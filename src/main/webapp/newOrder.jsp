@@ -343,12 +343,12 @@
         <div class="popup-backdrop"></div>
         <div id="vietqr-popup" class="popup">
             <span class="popup-close">&#10006;</span>
-            <img src="https://dummyimage.com/300x300/000/fff&text=QR+code" alt="VietQR code">
+            <img src="https://img.vietqr.io/image/BIDV-741100000929461-compact.png" alt="VietQR code">
             <p>Banking information:</p>
             <ul>
-                <li>Bank name: ACB</li>
-                <li>Account number: 123456789</li>
-                <li>Account name: Nguyen Van A</li>
+                <li>Bank name: BIDV</li>
+                <li>Account number: 741100000929461</li>
+                <li>Account name: TRAN TRUNG KIEN</li>
             </ul>
         </div>
 

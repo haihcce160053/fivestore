@@ -191,6 +191,7 @@ public class OrderController extends HttpServlet {
             //get information account form post mothod
             String orderID = request.getParameter("txtOrderID");
             String username = request.getParameter("txtUsername");
+            String phone = request.getParameter("txtPhone");
 
             //Get all input Address
             String province = request.getParameter("ls_province");
@@ -199,7 +200,7 @@ public class OrderController extends HttpServlet {
             String detailAddress = request.getParameter("txtDetailAddress");
 
             //Join Address
-            String deliveryAddress = detailAddress + ", " + ward + ", " + district + ", " + province;
+            String deliveryAddress = phone + ", " + detailAddress + ", " + ward + ", " + district + ", " + province;
 
             //Get Bill of Order
             String totalbill = request.getParameter("txtTotalBill");
