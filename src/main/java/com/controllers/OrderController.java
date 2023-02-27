@@ -146,12 +146,11 @@ public class OrderController extends HttpServlet {
                         String[] s = path.split("/");
                         String OrderID = s[s.length - 1];
                         OrderDAO dao = new OrderDAO();
-                        OrderDetailsDAO daos = new OrderDetailsDAO();
                         Order ord = dao.getOrder(OrderID);
                         if (ord.getOrderStatusID().equalsIgnoreCase("DXN")) {
-                            int count = daos.deleteOrderDetails(OrderID);
-                            int count2 = dao.deleteOrder(OrderID);
-                            if (count > 0 && count2 > 0) {
+                            String cancel = "DHD";
+                            int count = dao.setStatusOrder(OrderID, cancel);
+                            if (count > 0) {
                                 request.setAttribute("mess", "YesD");
                                 request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
 
@@ -159,9 +158,34 @@ public class OrderController extends HttpServlet {
                                 request.setAttribute("mess", "NoD");
                                 request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
                             }
+                        } else if (ord.getOrderStatusID().equalsIgnoreCase("DHD")) {
+                            request.setAttribute("mess", "NoC");
+                            request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
                         } else {
                             request.setAttribute("mess", "Noo");
                             request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
+                        }
+                    } else {
+                        if (path.startsWith("/Order/Change/Reorder/")) {
+                            String[] s = path.split("/");
+                            String OrderID = s[s.length - 1];
+                            OrderDAO dao = new OrderDAO();
+                            Order ord = dao.getOrder(OrderID);
+                            if (ord.getOrderStatusID().equalsIgnoreCase("DHD")) {
+                                String cancel = "DXN";
+                                int count = dao.setStatusOrder(OrderID, cancel);
+                                if (count > 0) {
+                                    request.setAttribute("mess", "YesR");
+                                    request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
+
+                                } else {
+                                    request.setAttribute("mess", "NoR");
+                                    request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
+                                }
+                            } else {
+                                request.setAttribute("mess", "NooR");
+                                request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
+                            }
                         }
                     }
                 }

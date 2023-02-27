@@ -45,16 +45,16 @@
                 <!-- User -->
                 <div class="search-box">
                     <div style="margin-top: 20px;">
-                        <select class="form-control" id="exampleFormControlSelect1">
-                            <option>Search By Status</option>
-                            <option>Đã Liên Hệ</option>
-                            <option>Không Liên Hệ Được</option>
-                            <option>Đang Xác Nhận</option>                           
-                            <option>Đang Vận Chuyển</option>
-                            <option>Đã Nhận Hàng</option>
-                            <option>Không Nhận Hàng</option>
-                            <option>Ðã Hoàn Hàng</option>
-                            <option>Đã Hủy Đơn</option>
+                        <select class="form-control" id="AllSelect">
+                            <option value="All">All</option>
+                            <option value="Đang Xác Nhận">Đang Xác Nhận</option>
+                            <option value="Đã chuyển khoản / Đang Xác Nhận">Đã chuyển khoản / Đang Xác Nhận</option>    
+                            <option value="Đã Liên Hệ">Đã Liên Hệ</option>
+                            <option value="Không Liên Hệ Được">Không Liên Hệ Được</option>                             
+                            <option value="Đang Vận Chuyển">Đang Vận Chuyển</option>
+                            <option value="Đã Nhận Hàng">Đã Nhận Hàng</option>
+                            <option value="Không Nhận Hàng">Không Nhận Hàng</option>
+                            <option value="Đã Hủy Đơn">Đã Hủy Đơn</option>
                         </select>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                         <div class="col col-2" data-label="UserName"><%= rs.getString("Username")%></div>
                         <div class="col col-3" data-label="DeliveryAddress"><%= rs.getString("DeliveryAddress")%></div> 
                         <div class="col col-4" data-label="OrderTIme"><%= rs.getString("OrderTime")%></div> 
-                        <div class="col col-5" data-label="Status"><%= rs.getString("OrderStatusID")%></div>
+                        <div class="col col-5" data-label="Status"><%String nameOfStatusOrder = dao.getNameOfStatusOrder(rs.getString("OrderStatusID"));%><%=nameOfStatusOrder%></div>
                         <div class="col col-6" data-label="TotalBill"><%= rs.getString("TotalBill")%></div>
                         <div class="col col-7" data-label="Action">
                             <a href="/Order/OrderDetails/<%= rs.getString("OrderID")%>" class="edit" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xe417;</i></a>
@@ -151,6 +151,25 @@
             %>
 
         </main>
+        <script>
+            const selectElement = document.getElementById("AllSelect");
+            const tableRows = document.querySelectorAll(".table-row");
+
+            selectElement.addEventListener("change", (event) => {
+                const selectedValue = event.target.value;
+                tableRows.forEach((row) => {
+                    const statusElement = row.querySelector("[data-label='Status']");
+                    const statusValue = statusElement.textContent.trim();
+                    if (selectedValue === "All" || selectedValue === statusValue) {
+                        row.style.display = "flex";
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+            });
+
+        </script>
+
         <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
         <script src="${pageContext.request.contextPath}/Resources/js/comfirmboxAc.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
