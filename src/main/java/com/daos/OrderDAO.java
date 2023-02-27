@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.daos;
 
 import com.db.DBConnection;
@@ -86,6 +82,36 @@ public class OrderDAO {
             pst.setString(1, username);
             rs = pst.executeQuery();
             System.out.println(rs);
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+
+    public ResultSet getOrderByDay(String day) {
+        ResultSet rs = null;
+        try {
+            PreparedStatement pst = conn.prepareStatement("select OrderList.OrderID, OrderDetails.ProductID, OrderList.Username, OrderList.OrderTime, OrderDetails.Quantity, OrderDetails.TotalPrice \n"
+                    + "from OrderList left outer join OrderDetails \n"
+                    + "on OrderList.OrderID = OrderDetails.OrderID where OrderList.OrderTime = ?");
+            pst.setString(1, day);
+            rs = pst.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+
+    public ResultSet getOrderByMonth(String month, String year) {
+        ResultSet rs = null;
+        try {
+            PreparedStatement pst = conn.prepareStatement("SELECT OrderList.OrderID, OrderDetails.ProductID, OrderList.Username, OrderList.OrderTime, OrderDetails.Quantity, OrderDetails.TotalPrice\n"
+                    + "FROM OrderList\n"
+                    + "LEFT OUTER JOIN OrderDetails ON OrderList.OrderID = OrderDetails.OrderID\n"
+                    + "WHERE MONTH(OrderList.OrderTime) = ? AND YEAR(OrderList.OrderTime) = ?");
+            pst.setString(1, month);
+            pst.setString(2, year);
+            rs = pst.executeQuery();
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

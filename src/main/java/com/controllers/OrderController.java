@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -191,7 +192,9 @@ public class OrderController extends HttpServlet {
                 }
             }
         }
-
+        if (path.endsWith("/Statistics")) {
+            request.getRequestDispatcher("/statistics.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -228,7 +231,7 @@ public class OrderController extends HttpServlet {
 
             //Get Bill of Order
             String totalbill = request.getParameter("txtTotalBill");
-            
+
             //Get payment method
             String paymentMethod = request.getParameter("paymentMethod");
 
@@ -241,8 +244,8 @@ public class OrderController extends HttpServlet {
 
             // Create Order in OrderList first
             Order ord;
-            if (paymentMethod.equals("VietQR")){
-                 ord = new Order(orderID, username, "DCK", deliveryAddress, orderTime, totalbill);
+            if (paymentMethod.equals("VietQR")) {
+                ord = new Order(orderID, username, "DCK", deliveryAddress, orderTime, totalbill);
             } else {
                 ord = new Order(orderID, username, "DXN", deliveryAddress, orderTime, totalbill);
             }
@@ -285,7 +288,37 @@ public class OrderController extends HttpServlet {
                 request.setAttribute("mess", "Noo");
                 request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
             }
+        }
 
+        if (request.getParameter("statistics-by-day") != null) {
+            if (request.getParameter("choose-day") != null && request.getParameter("choose-day").length() != 0) {
+                OrderDAO dao = new OrderDAO();
+                ResultSet rs = dao.getOrderByDay(request.getParameter("choose-day"));
+                request.setAttribute("statistics-by-day-attribute", rs);
+                request.getRequestDispatcher("/statistics.jsp").forward(request, response);
+                request.setAttribute("statistics-by-month-attribute", null);
+            } else {
+                request.setAttribute("statistics-by-day-attribute", null);
+                request.setAttribute("statistics-by-month-attribute", null);
+                response.sendRedirect(request.getContextPath() + "/statistics");
+            }
+        }
+
+        if (request.getParameter("statistics-by-month") != null) {
+            if (request.getParameter("choose-month") != null && request.getParameter("choose-month").length() != 0) {
+                OrderDAO dao = new OrderDAO();
+                String[] date = request.getParameter("choose-month").split("-");
+                String month = date[1];
+                String year = date[0];
+                ResultSet rs = dao.getOrderByMonth(month, year);
+                request.setAttribute("statistics-by-month-attribute", rs);
+                request.getRequestDispatcher("/statistics.jsp").forward(request, response);
+                request.setAttribute("statistics-by-day-attribute", null);
+            } else {
+                request.setAttribute("statistics-by-month-attribute", null);
+                request.setAttribute("statistics-by-day-attribute", null);
+                response.sendRedirect(request.getContextPath() + "/statistics");
+            }
         }
 
     }

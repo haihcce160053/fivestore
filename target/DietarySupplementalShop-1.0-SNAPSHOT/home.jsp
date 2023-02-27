@@ -21,7 +21,6 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>FIVESTORE - Dietary supplemental shop</title>
-        <link rel="icon" type="image/x-icon" href="HCDATAFILE/img/logo-only.png">
         <!-- Font Awesome -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
         <!-- Google Fonts -->
@@ -64,7 +63,10 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="/Order/" style="color: white;">Order Management</a>
                                 </li>
-
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Statistics" style="color: white;">Revenue statistics</a>
+                                </li>
+                                
                                 <%
                                 } else {
                                 %>
@@ -179,7 +181,6 @@
             }
         %>
         <form id="checkout-form" action="/checkout/<%if (ac != null) {%><%= ac.getUsername()%><%} else {%><%= String.valueOf(ac)%><%}%>" method="get">
-
             <div id="cart" style="display: none;">
                 <h3>Cart</h3>
                 <ul id="cart-items">

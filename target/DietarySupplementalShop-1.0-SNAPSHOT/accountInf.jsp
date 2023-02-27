@@ -323,7 +323,8 @@
                                             </div>
                                         </div>
 
-                                        <%                                                if (mess1 != null) {
+                                        <%                                                
+                                            if (mess1 != null) {
                                         %>
 
                                         <span id="" data-my-attribute="my-value"></span>
