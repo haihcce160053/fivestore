@@ -89,10 +89,7 @@
             const mySpan1 = document.getElementById('regError');
             const myAttribute1 = mySpan1.getAttribute('data-my-attribute');
             mainFunction();
-            
-            
-            
-
+           
             function mainFunction() {
                 if (myAttribute1 == "Noo") {
                     showErrorOrderList();

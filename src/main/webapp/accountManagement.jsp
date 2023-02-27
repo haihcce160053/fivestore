@@ -30,115 +30,121 @@
             if (ac.getAccountTypeId().equalsIgnoreCase("AD")) {
                 String mess = (String) request.getAttribute("mess");
         %>
-        <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main" style="background-color: #303C5F;     padding: 0rem 1rem;">
-            <div class="container-fluid">
-                <!-- Brand -->
-                <a class="h4 mb-0 text-uppercase text-white d-none d-lg-inline-block"
-                   href="/">FIVE STORE - ACCOUNT
-                    Management</a>
-                <!-- User -->
-                <div class="search-box ">
-                    <div class="input-group">								
-                        <input type="text" id="search" class="form-control" placeholder="Search by Username" style="max-width: 237px; margin: 10px 0 -10px 0;">
+        <header id="page-header">
+            <div class="page-container">
+                <nav class="navbar navbar-expand-lg" id="navbar-main" style="background-color: #303C5F;">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="/home" style="color: white; font-size: 25px;"><b>FIVESTORE.VN - Account management</b></a>
                     </div>
-                </div>
+                </nav>
             </div>
-        </nav>
-        <div class="container" style="margin-top: 20px;">
-            <ul class="responsive-table">
-                <li class="table-header">
-                    <div class="col col-1">Username</div>
-                    <div class="col col-2">FullName</div>
-                    <div class="col col-3">Email</div>
-                    <div class="col col-4">TypeAccount</div>
-                    <div class="col col-5">Actions</div>
-                </li>
-                <%                    AccountDAO dao = new AccountDAO();
-                    ResultSet rs = dao.getAll();
-                    while (rs.next()) {
-                %>
+        </header>
 
-                <li class="table-row">
-                    <div class="col col-1" data-label="Username"><%= rs.getString("Username")%></div>
-                    <div class="col col-2" data-label="Fullname"><%= rs.getString("FullName")%></div>
-                    <div class="col col-3" data-label="Email"><%= rs.getString("Email")%></div>
+        <main>
+            <div class="container" style="margin-top: 20px;">
+                <!-- User -->
+                <div class="search-box">
+                   <input type="text" id="search" class="form-control" placeholder="Search by Username" style="max-width: 237px; margin: 10px 0 -10px 0;">
+                </div>
+
+                <ul class="responsive-table">
+                    <li class="table-header" style="color: white">
+                        <div class="col col-1">Username</div>
+                        <div class="col col-2">FullName</div>
+                        <div class="col col-3">Email</div>
+                        <div class="col col-4">TypeAccount</div>
+                        <div class="col col-5">Actions</div>
+                    </li>
                     <%
-                        if (rs.getString("AccountTypeID").equals("AD")) {
-                    %>
-                    <div class="col col-4" data-label="TypeAccount"><i class="material-icons haha" style="padding-left: 25px; ">&#xe853;</i></div>
-                    <%
-                    } else {
+                        AccountDAO dao = new AccountDAO();
+                        ResultSet rs = dao.getAll();
+                        while (rs.next()) {
                     %>
 
-                    <div class="col col-4" data-label="TypeAccount"> <i class="material-icons haha" style="padding-left: 25px; ">&#xe7fc;</i></div>
+                    <li class="table-row">
+                        <div class="col col-1" data-label="Username"><%= rs.getString("Username")%></div>
+                        <div class="col col-2" data-label="Fullname"><%= rs.getString("FullName")%></div>
+                        <div class="col col-3" data-label="Email"><%= rs.getString("Email")%></div>
+                        <%
+                            if (rs.getString("AccountTypeID").equals("AD")) {
+                        %>
+                        <div class="col col-4" data-label="TypeAccount"><i class="material-icons haha" style="padding-left: 25px; ">&#xe853;</i></div>
+                        <%
+                        } else {
+                        %>
+
+                        <div class="col col-4" data-label="TypeAccount"> <i class="material-icons haha" style="padding-left: 25px; ">&#xe7fc;</i></div>
+                        <%
+                            }
+                        %>
+                        <div class="col col-5" data-label="Action">
+                            <a href="/Account/Change/<%= rs.getString("Username")%>" class="edit" title="Change Permission" data-toggle="tooltip"><i class="material-icons">&#xe869;</i></a>
+                            <a href="/Account/Delete/<%= rs.getString("Username")%>" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                        </div>
+                    </li>
+
                     <%
                         }
                     %>
-                    <div class="col col-5" data-label="Action">
-                        <a href="/Account/Change/<%= rs.getString("Username")%>" class="edit" title="Change Permission" data-toggle="tooltip"><i class="material-icons">&#xe869;</i></a>
-                        <a href="/Account/Delete/<%= rs.getString("Username")%>" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                    </div>
-                </li>
-
-                <%
-                    }
-                %>
-            </ul>
-        </div>
-        <%
-            if (mess != null) {
-        %>
-        <div class="row" >
-            <div class="col-lg-12" style="margin-left: 15px;
-                 margin-bottom: 15px;">
-                <span id="regError" data-my-attribute="<%= mess%>"></span>
-            </div>          
-        </div>
-        <%
-        } else {
-        %>
-        <div class="row" >
-            <div class="col-lg-12" style="margin-left: 15px;
-                 margin-bottom: 15px;">
-                <span id="regError" data-my-attribute=""></span>
-            </div>          
-        </div>
-        <%
-            }
-        %>
-        <div id="toast">
+                </ul>
+            </div>
+            <%
+                if (mess != null) {
+            %>
+            <div class="row" >
+                <div class="col-lg-12" style="margin-left: 15px;
+                     margin-bottom: 15px;">
+                    <span id="regError" data-my-attribute="<%= mess%>"></span>
+                </div>          
+            </div>
+            <%
+            } else {
+            %>
+            <div class="row" >
+                <div class="col-lg-12" style="margin-left: 15px;
+                     margin-bottom: 15px;">
+                    <span id="regError" data-my-attribute=""></span>
+                </div>          
+            </div>
+            <%
+                }
+            %>
+            <div id="toast">
 
 
-        </div>
-        <div class="overlay" id="overlay"></div>
+            </div>
+            <div class="overlay" id="overlay">
+                
+            </div>
 
-        <div class="confirm-box" id="confirm-box">
-            <div class="box-header">
-                <h2>Are you sure you want to change permission?</h2>
+            <div class="confirm-box" id="confirm-box">
+                <div class="box-header">
+                    <h2>Are you sure you want to change permission?</h2>
+                </div>
+                <div class="box-content">
+                    <p>Permission of Account will be changed!</p>
+                </div>
+                <div class="button-container">
+                    <button id="yes-button">Yes</button>
+                    <button id="no-button">No</button>
+                </div>
             </div>
-            <div class="box-content">
-                <p>Permission of Account will be changed!</p>
-            </div>
-            <div class="button-container">
-                <button id="yes-button">Yes</button>
-                <button id="no-button">No</button>
-            </div>
-        </div>
 
-        <div class="overlay" id="overlay1"></div>
+            <div class="overlay" id="overlay1"></div>
 
-        <div class="confirm-box" id="confirm-box1">
-            <div class="box-header">
-                <h2>Are you sure you want to delete account?</h2>
+            <div class="confirm-box" id="confirm-box1">
+                <div class="box-header">
+                    <h2>Are you sure you want to delete account?</h2>
+                </div>
+                <div class="box-content">
+                    <p>Account will be deleted!</p>
+                </div>
+                <div class="button-container">
+                    <button id="yes-button1">Yes</button>
+                    <button id="no-button1">No</button>
+                </div>
             </div>
-            <div class="box-content">
-                <p>Account will be deleted!</p>
-            </div>
-            <div class="button-container">
-                <button id="yes-button1">Yes</button>
-                <button id="no-button1">No</button>
-            </div>
-        </div>
+        </main>
 
 
         <%
