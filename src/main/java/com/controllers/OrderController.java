@@ -228,6 +228,9 @@ public class OrderController extends HttpServlet {
 
             //Get Bill of Order
             String totalbill = request.getParameter("txtTotalBill");
+            
+            //Get payment method
+            String paymentMethod = request.getParameter("paymentMethod");
 
             //Get list of product of order
             String Cart = request.getParameter("blind");
@@ -237,7 +240,12 @@ public class OrderController extends HttpServlet {
             Date orderTime = date;
 
             // Create Order in OrderList first
-            Order ord = new Order(orderID, username, "DXN", deliveryAddress, orderTime, totalbill);
+            Order ord;
+            if (paymentMethod.equals("VietQR")){
+                 ord = new Order(orderID, username, "DCK", deliveryAddress, orderTime, totalbill);
+            } else {
+                ord = new Order(orderID, username, "DXN", deliveryAddress, orderTime, totalbill);
+            }
 
             //Add order in db table OrderList
             int check = orderDao.addOrder(ord);

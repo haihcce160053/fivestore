@@ -332,7 +332,7 @@
                         <div class="form-group row">
                             <label for="select" class="col-6 col-form-label">Payment Option</label>
                             <div class="col-6">
-                                <select class="form-select " id="paymentMethod"aria-label=".form-select-sm">
+                                <select class="form-select " id="paymentMethod" name="paymentMethod" aria-label=".form-select-sm">
                                     <option value="" selected> Chọn phương thức thanh toán</option>
                                     <option value="COD">Payment on delivery(COD)</option>
                                     <option value="VietQR" >VietQR</option>
