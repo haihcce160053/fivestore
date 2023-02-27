@@ -140,7 +140,7 @@
             <div class="row justify-content-center" style="margin-top: 50px;">
                 <div class="col-md-4 col-sm-6 col-12 card">
                     <h2 style="margin-top: 10px; margin-bottom: 10px; margin-right: 10px" class="row justify-content-end">Order Information</h2>
-                    <form id="newOrderForm" style="margin-top: 10px;" method="" action="#">
+                    <form id="newOrderForm" style="margin-top: 10px;" method="post" action="/Order/new">
                         <div class="form-group row">
                             <label for="txtOrderID" class="col-4 col-form-label">Order ID</label> 
                             <div class="col-8">
@@ -171,7 +171,7 @@
                         <div class="form-group row">
                             <label for="txtTotalBill" class="col-4 col-form-label">Total Bill</label> 
                             <div class="col-8">
-                                <input id="txtTotalBill" name="txtTotalBill" type="number" class="form-control" value="" readonly>
+                                <input id="txtTotalBill" name="txtTotalBill" type="text" class="form-control" value="" readonly>
                             </div>
                         </div>
                         <h2 class="shipping-info-text row justify-content-end" 
@@ -251,47 +251,47 @@
                 </div>
             </div>
         </div>
-        <script>
-            var localpicker = new LocalPicker({
-                province: "ls_province",
-                district: "ls_district",
-                ward: "ls_ward"
-            });
-        </script>
         <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/vietnameselocation/vietnamlocalselector.js"></script> 
+        <script>
+                            var localpicker = new LocalPicker({
+                                province: "ls_province",
+                                district: "ls_district",
+                                ward: "ls_ward"
+                            });
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
         <!-- Jquery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 
         <script> // Quang Qui: Xử lý lấy số tiền trong giỏ hàng vào ô input
-            
-            // Lấy thẻ span trong div chứa tổng tiền
-            var cartTotalSpan = document.getElementById("cart-total-amount");
-            // Lấy thẻ input
-            var totalBillInput = document.getElementById("txtTotalBill");
-            // Thiết lập giá trị ban đầu cho thẻ input
-            var totalBill = cartTotalSpan.innerText;
-            totalBill = totalBill.replaceAll(".", "").replace(" đ", "");
-            totalBillInput.value = totalBill;
-            // Lắng nghe sự kiện thay đổi trên thẻ span
-            cartTotalSpan.addEventListener('DOMSubtreeModified', function () {
-                // Cập nhật giá trị của thẻ input tại đây
-                var he = cartTotalSpan.innerText;
-                he = he.replaceAll(".", "").replace(" đ", "");
-                totalBillInput.value = he;
-            });
+
+                                    // Lấy thẻ span trong div chứa tổng tiền
+                                    var cartTotalSpan = document.getElementById("cart-total-amount");
+                                    // Lấy thẻ input
+                                    var totalBillInput = document.getElementById("txtTotalBill");
+                                    // Thiết lập giá trị ban đầu cho thẻ input
+                                    var totalBill = cartTotalSpan.innerText;
+                                    totalBill = totalBill.replaceAll(".", "").replace(" đ", "");
+                                    totalBillInput.value = totalBill;
+                                    // Lắng nghe sự kiện thay đổi trên thẻ span
+                                    cartTotalSpan.addEventListener('DOMSubtreeModified', function () {
+                                        // Cập nhật giá trị của thẻ input tại đây
+                                        var he = cartTotalSpan.innerText;
+                                        he = he.replaceAll(".", "").replace(" đ", "");
+                                        totalBillInput.value = he;
+                                    });
         </script> 
 
         <script>
             //Quang Qui
             //Khi bấm vào nút submit order thì sẽ xử lý giỏ hàng thành chuỗi gửi lên servlet
             function getValue() {
-                event.preventDefault(); // Tạm thời ngưng cái sự kiện submit gửi lên servlet để nhìn cái chuỗi sau khi xử lý
+//                event.preventDefault(); // Tạm thời ngưng cái sự kiện submit gửi lên servlet để nhìn cái chuỗi sau khi xử lý
                 //Ô input ẩn trong form có id là blind
                 const inputElement = document.getElementById("blind");
-               
+
                 const ulElement = document.getElementById('cart-items');
                 const liElements = ulElement.querySelectorAll('li');
 
@@ -304,7 +304,7 @@
                 }
 
                 // Loại bỏ các ký tự đặc biệt khỏi chuỗi bằng phương thức replace()
-                items = items.replaceAll("-", "").replaceAll("+", "").replaceAll("Remove", "").replaceAll(".", "").replaceAll("x", "").replaceAll("đ", "").replaceAll("   ", ":");
+                items = items.replaceAll("- ", "<<").replaceAll("+", ">>").replaceAll("Remove", "").replaceAll(".", "").replaceAll("x", "").replaceAll("đ", "").replaceAll("   ", "|");
 
                 //Chuỗi sau khi xử lý sẽ gán vào ô input ẩn để tiện trên Servlet lấy data
                 inputElement.value = items;

@@ -5,6 +5,7 @@
 package com.daos;
 
 import com.db.DBConnection;
+import com.models.OrderDetails;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +19,7 @@ import java.util.logging.Logger;
  * @author LEO
  */
 public class OrderDetailsDAO {
-    
+
     private Connection conn = null;
 
     /**
@@ -27,7 +28,7 @@ public class OrderDetailsDAO {
     public OrderDetailsDAO() {
         conn = DBConnection.getConnection();
     }
-    
+
     /**
      *
      * @return
@@ -36,13 +37,33 @@ public class OrderDetailsDAO {
         ResultSet rs = null;
         try {
             Statement st = conn.createStatement();
-            rs = st.executeQuery("Select * from OrderDetails");
+            rs = st.executeQuery("Select * from [OrderDetails]");
         } catch (SQLException ex) {
             Logger.getLogger(OrderDetailsDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return rs;
     }
-     
+
+    /**
+     *
+     * @param order
+     * @return
+     */
+    public int addOrderDetails(OrderDetails order) {
+        int count = 0;
+        try {
+            PreparedStatement pst = conn.prepareStatement("Insert into [OrderDetails] values(?,?,?,?)");
+            pst.setString(1, order.getOrderID());
+            pst.setString(2, order.getProductID());
+            pst.setInt(3, Integer.valueOf(order.getQuatity()));
+            pst.setInt(4, Integer.valueOf(order.getTotalPrice()));
+            count = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDetailsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+
     /**
      *
      * @param OrderID
@@ -51,7 +72,7 @@ public class OrderDetailsDAO {
     public int deleteOrderDetails(String OrderID) {
         int count = 0;
         try {
-            PreparedStatement pst = conn.prepareStatement("delete from OrderDetails where OrderID=?");
+            PreparedStatement pst = conn.prepareStatement("delete from [OrderDetails] where OrderID=?");
             pst.setString(1, OrderID);
             count = pst.executeUpdate();
         } catch (SQLException ex) {
