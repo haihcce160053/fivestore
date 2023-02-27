@@ -27,6 +27,22 @@
         <link href="${pageContext.request.contextPath}/Resources/css/cart.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
         <style>
+            .form-select{
+                margin-bottom: 5px;
+            }
+            form button{
+                
+            }
+            .card{
+                color: #303C5F;
+                background-color: #303C5F;
+            }
+            .card label{
+                color: #ffffff;
+            }
+            .card h2{
+              color: #ffffff;
+            }
             .error-container {
                 display: none;
                 margin-bottom: 10px;
@@ -221,10 +237,9 @@
                 </nav>
             </div>
         </header>
-
         <div class="Container justify-center">
             <div class="row justify-content-center" style="margin-top: 50px;">
-                <div class="col-md-4 col-sm-6 col-12 card">
+                <div class="col-md-5 col-sm-9 col-11 card">
                     <h2 style="margin-top: 10px; margin-bottom: 10px; margin-right: 10px" class="row justify-content-end">Order Information</h2>
                     <form id="newOrderForm" style="margin-top: 10px;" method="post" action="/Order/new">
                         <div class="form-group row">
@@ -255,7 +270,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="txtTotalBill" class="col-4 col-form-label">Total Bill</label> 
+                            <label for="txtTotalBill" class="col-4 col-form-label">Total Payment</label> 
                             <div class="col-8">
                                 <input id="txtTotalBill" name="txtTotalBill" type="text" class="form-control" value="" readonly>
                             </div>
@@ -274,7 +289,7 @@
                         <div class="form-group row">
                             <label for="select" for="input" class="col-4 col-form-label"">City</label>
                             <div class="col-8">
-                                <select class="form-select form-select-sm mb-3 " id="ls_province" name="ls_province" aria-label=".form-select-sm">
+                                <select class="form-select " id="ls_province" name="ls_province" aria-label=".form-select-sm">
                                     <option value="" selected>Chọn tỉnh thành</option>           
                                 </select>
                             </div>
@@ -282,7 +297,7 @@
                         <div class="form-group row">
                             <label for="select" for="input"  class="col-4 col-form-label">District</label>
                             <div class="col-8">
-                                <select class="form-select form-select-sm mb-3" id="ls_district" name="ls_district" aria-label=".form-select-sm">
+                                <select class="form-select " id="ls_district" name="ls_district" aria-label=".form-select-sm">
                                     <option value="" selected>Chọn quận huyện</option>
                                 </select>
                             </div>
@@ -290,7 +305,7 @@
                         <div class="form-group row">
                             <label for="select" for="input" class="col-4 col-form-label">Ward</label>
                             <div class="col-8">
-                                <select class="form-select form-select-sm" id="ls_ward" name="ls_ward"  aria-label=".form-select-sm" >
+                                <select class="form-select " id="ls_ward" name="ls_ward"  aria-label=".form-select-sm" >
                                     <option value="" selected>Chọn phường xã</option>
                                 </select>
                             </div>
@@ -306,12 +321,12 @@
                         </div>
                         <h2 class="shipping-info-text row justify-content-end" 
                             style="margin-top: 10px; margin-bottom: 10px; margin-right: 10px">
-                            Payment Methods
+                            Payment
                         </h2>
                         <div class="form-group row">
-                            <label for="select" class="col-6 col-form-label">Select a payment method</label>
+                            <label for="select" class="col-6 col-form-label">Payment Option</label>
                             <div class="col-6">
-                                <select class="form-select form-select-sm" id="paymentMethod"aria-label=".form-select-sm">
+                                <select class="form-select " id="paymentMethod"aria-label=".form-select-sm">
                                     <option value="" selected> Chọn phương thức thanh toán</option>
                                     <option value="COD">Payment on delivery(COD)</option>
                                     <option value="VietQR" >VietQR</option>
@@ -330,8 +345,8 @@
                             <input type="text" id="blind" name="blind" value="" hidden="true" />
                         </div>
                         <div class="form-group row" style="margin-bottom: 20px">
-                            <div class="offset-4 col-8">
-                                <button name="submit" type="submit" class="btn btn-primary" value="submit" onclick="getValue()">Submit Order</button>
+                            <div class="offset-5">
+                                <button name="submit" type="submit" class="btn btn-primary " value="submit" onclick="getValue()">Place Order</button>
                             </div>
                         </div>
                         <div id="error-messages"></div>
@@ -343,13 +358,7 @@
         <div class="popup-backdrop"></div>
         <div id="vietqr-popup" class="popup">
             <span class="popup-close">&#10006;</span>
-            <img src="https://img.vietqr.io/image/BIDV-741100000929461-compact.png" alt="VietQR code">
-            <p>Banking information:</p>
-            <ul>
-                <li>Bank name: BIDV</li>
-                <li>Account number: 741100000929461</li>
-                <li>Account name: TRAN TRUNG KIEN</li>
-            </ul>
+            <img src="https://img.vietqr.io/image/970418-74110000929461-s0Kd2aq.jpg?accountName=TRAN%20TRUNG%20KIEN" alt="VietQR code">
         </div>
 
         <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>
