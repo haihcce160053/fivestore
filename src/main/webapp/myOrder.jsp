@@ -20,7 +20,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/AccountInformation/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/css/accountinformation.css">
         <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/myorder.css" rel="stylesheet" />
