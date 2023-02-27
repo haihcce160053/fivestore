@@ -26,6 +26,92 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/cart.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
+        <style>
+            .error-container {
+                display: none;
+                margin-bottom: 10px;
+                padding: 10px;
+                border-radius: 5px;
+                background-color: #f8d7da;
+                color: #721c24;
+            }
+
+            .error-container.show {
+                display: block;
+            }
+
+            .error-message {
+                margin: 0;
+            }
+            .popup {
+                display: none;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: #fff;
+                border-radius: 10px;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+                z-index: 999;
+                padding: 20px;
+            }
+
+            .popup.show {
+                display: block;
+            }
+
+            .popup h2 {
+                font-size: 24px;
+                font-weight: bold;
+                margin-top: 0;
+                margin-bottom: 10px;
+            }
+
+            .popup p {
+                font-size: 18px;
+                line-height: 1.5;
+                margin-bottom: 20px;
+            }
+
+            .popup img {
+                display: block;
+                max-width: 100%;
+                height: auto;
+                margin-bottom: 20px;
+            }
+
+            .popup span {
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                font-size: 18px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            .popup span:hover {
+                background-color: #0069d9;
+            }
+
+            .popup-backdrop {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                backdrop-filter: blur(5px);
+                z-index: 998;
+                display: none;
+            }
+
+            .popup-backdrop.show {
+                display: block;
+            }
+
+
+        </style>
     </head>
 
     <body>        
@@ -223,11 +309,12 @@
                             Payment Methods
                         </h2>
                         <div class="form-group row">
-                            <label for="select" class="col-6 col-form-label">Chose the payment method</label>
+                            <label for="select" class="col-6 col-form-label">Select a payment method</label>
                             <div class="col-6">
                                 <select class="form-select form-select-sm" id="paymentMethod"aria-label=".form-select-sm">
-                                    <option value="" selected>COD</option>
-                                    <option value="" >VietQR</option>
+                                    <option value="" selected> Chọn phương thức thanh toán</option>
+                                    <option value="COD">Payment on delivery(COD)</option>
+                                    <option value="VietQR" >VietQR</option>
                                 </select>
                             </div> 
                         </div>
@@ -247,18 +334,32 @@
                                 <button name="submit" type="submit" class="btn btn-primary" value="submit" onclick="getValue()">Submit Order</button>
                             </div>
                         </div>
+                        <div id="error-messages"></div>
                     </form>
                 </div>
             </div>
         </div>
+        <!-- Pop-up QR code -->       
+        <div class="popup-backdrop"></div>
+        <div id="vietqr-popup" class="popup">
+            <span class="popup-close">&#10006;</span>
+            <img src="https://dummyimage.com/300x300/000/fff&text=QR+code" alt="VietQR code">
+            <p>Banking information:</p>
+            <ul>
+                <li>Bank name: ACB</li>
+                <li>Account number: 123456789</li>
+                <li>Account name: Nguyen Van A</li>
+            </ul>
+        </div>
+
         <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/vietnameselocation/vietnamlocalselector.js"></script> 
         <script>
-                            var localpicker = new LocalPicker({
-                                province: "ls_province",
-                                district: "ls_district",
-                                ward: "ls_ward"
-                            });
+                                    var localpicker = new LocalPicker({
+                                        province: "ls_province",
+                                        district: "ls_district",
+                                        ward: "ls_ward"
+                                    });
         </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
         <!-- Jquery -->
@@ -311,6 +412,89 @@
                 console.log(items);
 
             }
+        </script>
+        <script>// get form elements
+            const form = document.getElementById("newOrderForm");
+            const fullNameInput = document.getElementById("txtFullname");
+            const detailAddressInput = document.getElementById("txtDetailAddress");
+            const provinceSelect = document.getElementById("ls_province");
+            const districtSelect = document.getElementById("ls_district");
+            const wardSelect = document.getElementById("ls_ward");
+            const paymentMethodSelect = document.getElementById("paymentMethod");
+            const errorElement = document.getElementById("regError");
+
+// add event listener to form
+            form.addEventListener("submit", (event) => {
+                let messages = [];
+
+                // validate Full Name field
+                if (fullNameInput.value === "" || fullNameInput.value == null) {
+                    messages.push("Full Name is required");
+                }
+
+                // validate Detail Address field
+                if (detailAddressInput.value === "" || detailAddressInput.value == null) {
+                    messages.push("Detail Address is required");
+                }
+
+                // validate Province select
+                if (provinceSelect.value === "" || provinceSelect.value == null) {
+                    messages.push("Province is required");
+                }
+
+                // validate District select
+                if (districtSelect.value === "" || districtSelect.value == null) {
+                    messages.push("District is required");
+                }
+
+                // validate Ward select
+                if (wardSelect.value === "" || wardSelect.value == null) {
+                    messages.push("Ward is required");
+                }
+
+                // validate Payment Method select
+                if (paymentMethodSelect.value === "" || paymentMethodSelect.value == null) {
+                    messages.push("Payment Method is required");
+                }
+
+                // display error messages
+                if (messages.length > 0) {
+                    event.preventDefault();
+                    errorElement.innerText = messages.join(", ");
+                }
+            });
+        </script>
+        <script>
+            const closeBtn = document.querySelector('.popup-close');
+            const backdrop = document.querySelector('.popup-backdrop');
+            var popup = document.getElementById("vietqr-popup");
+// Lắng nghe sự kiện onchange của thẻ <select>
+            paymentMethodSelect.addEventListener("change", function () {
+                // Lấy giá trị được chọn
+                var selectedValue = paymentMethodSelect.value;
+
+                // Nếu giá trị được chọn là "VietQR"
+                if (selectedValue === "VietQR") {
+                    // Hiển thị pop-up
+                    popup.style.display = "block";
+                    backdrop.classList.add('show');
+                } else {
+                    // Ẩn pop-up nếu không chọn "VietQR"
+                    popup.style.display = "none";
+                    backdrop.sclassList.remove('show');
+                }
+            });
+
+            closeBtn.addEventListener('click', function () {
+                popup.style.display = "none";
+                backdrop.classList.remove('show');
+            });
+
+            backdrop.addEventListener('click', function () {
+                popup.style.display = "none";
+                backdrop.classList.remove('show');
+            });
+
         </script>
     </body>
 </html>
