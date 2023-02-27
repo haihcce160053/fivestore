@@ -67,8 +67,6 @@ public class AccountController extends HttpServlet {
                 AccountDAO dao = new AccountDAO();
                 Account ac = dao.getAccount(username);
                 if (ac != null) {
-                    HttpSession session = (HttpSession) request.getSession();
-                    session.setAttribute("Account", ac);
                     request.getRequestDispatcher("/accountInf.jsp").forward(request, response);
                 }
             } else {
@@ -78,12 +76,14 @@ public class AccountController extends HttpServlet {
                     AccountDAO dao = new AccountDAO();
                     Account ac = dao.getAccount(username);
                     if ((username.equalsIgnoreCase("Admin")) || (ac.getAccountTypeId().equalsIgnoreCase("AD"))) {
+
                         request.setAttribute("mess", "Noo");
                         request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
                     } else {
                         int count = dao.deleteAccountInformation(username);
                         int count2 = dao.deleteAccount(username);
                         if (count > 0 && count2 > 0) {
+                            HttpSession session = (HttpSession) request.getSession();
                             request.setAttribute("mess", "YesD");
                             request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
 
@@ -103,6 +103,7 @@ public class AccountController extends HttpServlet {
                             request.setAttribute("mess", "Nooo");
                             request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
                         } else if (ac.getAccountTypeId().equals("CUS")) {
+
                             int count = dao.setTypeAdminAccount(ac);
                             if (count > 0) {
                                 request.setAttribute("mess", "YesA");
@@ -137,7 +138,7 @@ public class AccountController extends HttpServlet {
                                 AccountDAO dao = new AccountDAO();
                                 Account ac = dao.getAccount(username);
                                 HttpSession session = (HttpSession) request.getSession();
-                                session.setAttribute("Account", ac);
+                                session.setAttribute("informationAccount", ac);
                                 request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
                             }
                         }

@@ -26,7 +26,9 @@
     </head>
     <body>
         <%
-            String mess = (String) request.getAttribute("mess");
+            Account ac = (Account) session.getAttribute("informationAccount");
+            if (ac.getAccountTypeId().equalsIgnoreCase("AD")) {
+                String mess = (String) request.getAttribute("mess");
         %>
         <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main" style="background-color: #303C5F;     padding: 0rem 1rem;">
             <div class="container-fluid">
@@ -51,8 +53,7 @@
                     <div class="col col-4">TypeAccount</div>
                     <div class="col col-5">Actions</div>
                 </li>
-                <%
-                    AccountDAO dao = new AccountDAO();
+                <%                    AccountDAO dao = new AccountDAO();
                     ResultSet rs = dao.getAll();
                     while (rs.next()) {
                 %>
@@ -138,6 +139,12 @@
                 <button id="no-button1">No</button>
             </div>
         </div>
+
+
+        <%
+            }
+
+        %>
 
         <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>

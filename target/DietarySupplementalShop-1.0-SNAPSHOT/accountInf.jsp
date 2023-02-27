@@ -21,7 +21,7 @@
     </head>
     <body>
         <%
-            Account ac = (Account) session.getAttribute("Account");
+            Account ac = (Account) session.getAttribute("informationAccount");
             String mess = (String) request.getAttribute("mess");
             String mess1 = (String) request.getAttribute("mess1");
             AccountDAO dao = new AccountDAO();

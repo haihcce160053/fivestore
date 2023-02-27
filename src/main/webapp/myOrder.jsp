@@ -29,7 +29,7 @@
     <%
         String mess = (String) request.getAttribute("mess");
         String mess1 = null;
-        Account ac = (Account) session.getAttribute("Account");
+        Account ac = (Account) session.getAttribute("informationAccount");
     %>
     <body>
         <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main" style="background-color: #303C5F;     padding: 0rem 1rem;">

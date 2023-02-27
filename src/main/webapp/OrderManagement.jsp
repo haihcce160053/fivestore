@@ -3,6 +3,7 @@
     Created on : Feb 19, 2023, 8:50:40 PM
     Author     : LEO
 --%>
+<%@page import="com.models.Account"%>
 <%@page import="com.models.Order"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.daos.OrderDAO"%>
@@ -24,7 +25,9 @@
     </head>
     <body>
         <%
-            String mess = (String) request.getAttribute("mess");
+            Account ac = (Account) session.getAttribute("informationAccount");
+            if (ac.getAccountTypeId().equalsIgnoreCase("AD")) {
+                String mess = (String) request.getAttribute("mess");
         %>
         <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main" style="background-color: #303C5F;     padding: 0rem 1rem;">
             <div class="container-fluid">
@@ -136,7 +139,9 @@
                 <button id="no-button1">No</button>
             </div>
         </div>
-
+        <%
+            }
+        %>
         <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
         <script src="${pageContext.request.contextPath}/Resources/js/comfirmboxAc.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
