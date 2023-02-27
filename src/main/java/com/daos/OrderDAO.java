@@ -154,6 +154,7 @@ public class OrderDAO {
         }
         return count;
     }
+
     // Written by Quang Qui
     /**
      *
@@ -174,5 +175,24 @@ public class OrderDAO {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return name;
+    }
+
+    /**
+     *
+     * @param OrderID
+     * @return
+     */
+    public int setStatusOrder(String OrderID, String OrderStatusID) {
+        ResultSet rs = null;
+        int count = 0;
+        try {
+            PreparedStatement pst = conn.prepareStatement("update OrderList set OrderStatusID=? where OrderID=?");
+            pst.setString(1, OrderStatusID);
+            pst.setString(2, OrderID);
+            count = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
     }
 }

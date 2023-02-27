@@ -29,7 +29,7 @@
     <%
         String mess = (String) request.getAttribute("mess");
         String mess1 = null;
-        Account ac = (Account) session.getAttribute("Account");
+        Account ac = (Account) session.getAttribute("informationAccount");
     %>
     <body>
         <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main" style="background-color: #303C5F;     padding: 0rem 1rem;">
@@ -80,7 +80,19 @@
                     <div class="col col-6" data-label="TotalBill"><%=formattedPrice%></div>
                     <div class="col col-7" data-label="Action">
                         <a href="/Order/OrderDetails/<%= rs.getString("OrderID")%>" class="edit" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xe417;</i></a>
-                        <a href="/Order/Cancel/Delete/<%= rs.getString("OrderID")%>" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                        <%
+                            if (rs.getString("OrderStatusID").equalsIgnoreCase("DHD")) {
+                        %>
+                        <a href="/Order/Change/Reorder/<%= rs.getString("OrderID")%>" class="edit" title="Re-order" data-toggle="tooltip"><span class="material-icons">update</span></a>
+
+
+                        <%
+                        } else {
+                        %>
+                        <a href="/Order/Cancel/Delete/<%= rs.getString("OrderID")%>" class="delete" title="Cancel" data-toggle="tooltip"><span class="material-icons">cancel</span></a>
+                        <%
+                            }
+                        %>
                     </div>
                 </li>
                 <%
@@ -124,10 +136,10 @@
 
         <div class="confirm-box" id="confirm-box">
             <div class="box-header">
-                <h2>Are you sure you want to change permission?</h2>
+                <h2>Are you sure you want to re-order?</h2>
             </div>
             <div class="box-content">
-                <p>Permission of Account will be changed!</p>
+                <p>Your order will be ordered again!</p>
             </div>
             <div class="button-container">
                 <button id="yes-button">Yes</button>
@@ -155,32 +167,39 @@
         <script>
             const mySpan1 = document.getElementById('regError');
             const myAttribute1 = mySpan1.getAttribute('data-my-attribute');
+            console.log(myAttribute1);
             mainFunction();
 
             function mainFunction() {
                 if (myAttribute1 == "Noo") {
-                    showErrorDeleteAdToast();
+                    ShowErrorNotCancel();
                 } else if (myAttribute1 == "YesD") {
-                    showSuccessDeleteToast();
+                    showSuccessCancel();
                 } else if (myAttribute1 == "NoD") {
-                    showErrorDeleteToast();
+                    showErrorCancel();
                 } else if (myAttribute1 == "Not") {
                     showOrderToast();
+                } else if (myAttribute1 == "YesR") {
+                    showSuccessReorder();
+                } else if (myAttribute1 == "NoR") {
+                    showErrorReorder();
+                } else if (myAttribute1 == "NooR") {
+                    showErrorReorder();
                 } else {
                     return;
                 }
             }
 
-            function showErrorDeleteAdToast() {
+            function ShowErrorNotCancel() {
                 toast({
-                    title: 'Failed!',
-                    message: 'You cannot cancel this order! ',
+                    title: 'You cannot cancel this order!',
+                    message: 'You can only cancel if the order is in the status of confirmation!',
                     type: 'error',
-                    duration: 3000
+                    duration: 5000
                 });
             }
 
-            function showSuccessDeleteToast() {
+            function showSuccessCancel() {
                 toast({
                     title: 'Successfully!',
                     message: 'Cancel Order Successfully!',
@@ -188,7 +207,7 @@
                     duration: 3000
                 });
             }
-            function showErrorDeleteToast() {
+            function showErrorCancel() {
                 toast({
                     title: 'Failed!!',
                     message: 'Cancel Order Unsuccessfully!',
@@ -202,8 +221,25 @@
                     title: 'Notice!',
                     message: 'You do not have any orders!',
                     type: 'error',
-                    duration: 10000
+                    duration: 3000
                 });
-            }</script>
+            }
+            function showSuccessReorder() {
+                toast({
+                    title: 'Successfully!',
+                    message: 'Re-Order Successfully!',
+                    type: 'success',
+                    duration: 3000
+                });
+            }
+            function showErrorReorder() {
+                toast({
+                    title: 'Failed!!',
+                    message: 'Re-Order Unsuccessfully!',
+                    type: 'error',
+                    duration: 3000
+                });
+            }
+        </script>
     </body>
 </html>
