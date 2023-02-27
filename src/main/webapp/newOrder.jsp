@@ -31,7 +31,7 @@
                 margin-bottom: 5px;
             }
             form button{
-                
+
             }
             .card{
                 color: #303C5F;
@@ -41,7 +41,7 @@
                 color: #ffffff;
             }
             .card h2{
-              color: #ffffff;
+                color: #ffffff;
             }
             .error-container {
                 display: none;
@@ -126,6 +126,11 @@
                 display: block;
             }
 
+            .hidden {
+                display: none;
+            }
+
+
 
         </style>
     </head>
@@ -133,6 +138,7 @@
     <body>        
         <%
             Account ac = (Account) session.getAttribute("informationAccount");
+            String linkQRcode = "https://img.vietqr.io/image/970418-74110000929461-s0Kd2aq.jpg?accountName=TRAN%20TRUNG%20KIEN&";
         %>
         <header id="page-header">
             <div class="page-container">
@@ -206,7 +212,7 @@
                             <%
                             } else if (ac == null || (!ac.getUsername().equalsIgnoreCase("Admin"))) {
                             %>
-                            <button id="view-cart-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white">
+                            <button id="view-cart-btn" id="mycart" type="button" class="btn me-3" style="background-color: #20283F; color: white">
                                 MY CART <span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;">0</span>
                             </button>
                             <%
@@ -343,6 +349,7 @@
                                 <p>Total: <span id="cart-total-amount"></span></p>
                             </div>
                             <input type="text" id="blind" name="blind" value="" hidden="true" />
+                            <input type="text" id="linkQR" name="" value="<%=linkQRcode%>amount=" hidden="true" />
                         </div>
                         <div class="form-group row" style="margin-bottom: 20px">
                             <div class="offset-5">
@@ -357,11 +364,15 @@
         <!-- Pop-up QR code -->       
         <div class="popup-backdrop"></div>
         <div id="vietqr-popup" class="popup">
-            <span class="popup-close">&#10006;</span>
-            <img src="https://img.vietqr.io/image/970418-74110000929461-s0Kd2aq.jpg?accountName=TRAN%20TRUNG%20KIEN" alt="VietQR code">
+
+            <img id="txtQRCode" alt="VietQR code">
+            <label>
+                <input type="checkbox" id="confirm-checkbox"> Tôi đã chuyển khoản và đồng ý đặt hàng với các sản phẩm trong giỏ hàng!
+            </label>
+            <span class="popup-close" >✔</span>
         </div>
 
-        <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>
+
         <script src="${pageContext.request.contextPath}/Resources/js/vietnameselocation/vietnamlocalselector.js"></script> 
         <script>
                                     var localpicker = new LocalPicker({
@@ -379,19 +390,55 @@
 
                                     // Lấy thẻ span trong div chứa tổng tiền
                                     var cartTotalSpan = document.getElementById("cart-total-amount");
+
                                     // Lấy thẻ input
                                     var totalBillInput = document.getElementById("txtTotalBill");
+
+                                    // 
+                                    var linkQRCode = document.getElementById("linkQR");
+                                    var linkQRCodeOrgirin = linkQRCode.value;
+
                                     // Thiết lập giá trị ban đầu cho thẻ input
                                     var totalBill = cartTotalSpan.innerText;
                                     totalBill = totalBill.replaceAll(".", "").replace(" đ", "");
                                     totalBillInput.value = totalBill;
+
+                                    linkQRCode.value += totalBill;
+
+
                                     // Lắng nghe sự kiện thay đổi trên thẻ span
                                     cartTotalSpan.addEventListener('DOMSubtreeModified', function () {
                                         // Cập nhật giá trị của thẻ input tại đây
                                         var he = cartTotalSpan.innerText;
                                         he = he.replaceAll(".", "").replace(" đ", "");
                                         totalBillInput.value = he;
+                                        linkQRCode.value = "";
+                                        linkQRCode.value = linkQRCodeOrgirin;
+                                        linkQRCode.value += he;
+                                        linkQRCode.value += "&addInfo=Payment%20OrderID%20";
+                                        //Sau khi ghép thành công số tiền cần chuyển thì tiếp tục nối chuỗi gồm mã đơn hàng 
+                                        var orderID = document.getElementById("txtOrderID");
+                                        linkQRCode.value += orderID.value + "%20";
+                                        //Sau khi ghép thành công mã đơn hàng thì tiếp tục nối chuỗi username
+                                        var username = document.getElementById("txtUsername");
+                                        linkQRCode.value += username.value;
+                                        //Sau khi ghép thành công username thì set src cho the img
+                                        var imgQR = document.getElementById("txtQRCode");
+                                        imgQR.setAttribute('src', linkQRCode.value);
                                     });
+
+                                    linkQRCode.value += "&addInfo=Payment%20OrderID%20";
+                                    //Sau khi ghép thành công số tiền cần chuyển thì tiếp tục nối chuỗi gồm mã đơn hàng 
+                                    var orderID = document.getElementById("txtOrderID");
+                                    linkQRCode.value += orderID.value + "%20";
+                                    //Sau khi ghép thành công mã đơn hàng thì tiếp tục nối chuỗi username
+                                    var username = document.getElementById("txtUsername");
+                                    linkQRCode.value += username.value;
+                                    //Sau khi ghép thành công username thì set src cho the img
+                                    var imgQR = document.getElementById("txtQRCode");
+                                    imgQR.setAttribute('src', linkQRCode.value);
+
+
         </script> 
 
         <script>
@@ -422,7 +469,8 @@
 
             }
         </script>
-        <script>// get form elements
+        <script>
+            // get form elements
             const form = document.getElementById("newOrderForm");
             const fullNameInput = document.getElementById("txtFullname");
             const detailAddressInput = document.getElementById("txtDetailAddress");
@@ -432,7 +480,7 @@
             const paymentMethodSelect = document.getElementById("paymentMethod");
             const errorElement = document.getElementById("regError");
 
-// add event listener to form
+            // add event listener to form
             form.addEventListener("submit", (event) => {
                 let messages = [];
 
@@ -473,11 +521,13 @@
                 }
             });
         </script>
+        <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>
         <script>
+            const checkbox = document.getElementById('confirm-checkbox');
             const closeBtn = document.querySelector('.popup-close');
             const backdrop = document.querySelector('.popup-backdrop');
             var popup = document.getElementById("vietqr-popup");
-// Lắng nghe sự kiện onchange của thẻ <select>
+            // Lắng nghe sự kiện onchange của thẻ <select>
             paymentMethodSelect.addEventListener("change", function () {
                 // Lấy giá trị được chọn
                 var selectedValue = paymentMethodSelect.value;
@@ -504,6 +554,15 @@
                 backdrop.classList.remove('show');
             });
 
+            checkbox.addEventListener('change', (event) => {
+                if (event.target.checked) {
+                    const viewCartBtn = document.querySelector("#view-cart-btn");
+                    viewCartBtn.removeEventListener("click", toggleCart);
+                }
+            });
+
+
         </script>
+
     </body>
 </html>
