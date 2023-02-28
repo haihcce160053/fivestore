@@ -80,4 +80,16 @@ public class OrderDetailsDAO {
         }
         return count;
     }
+
+    public ResultSet getOrderDetails(String OrderID) {
+        ResultSet ac = null;
+        try {
+            PreparedStatement pst = conn.prepareStatement("select * from [OrderDetails] where OrderID=?");
+            pst.setString(1, OrderID);
+            ac = pst.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDetailsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ac;
+    }
 }

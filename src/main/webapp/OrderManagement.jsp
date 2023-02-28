@@ -3,6 +3,8 @@
     Created on : Feb 19, 2023, 8:50:40 PM
     Author     : LEO
 --%>
+<%@page import="java.util.Locale"%>
+<%@page import="java.text.NumberFormat"%>
 <%@page import="com.models.Account"%>
 <%@page import="com.models.Order"%>
 <%@page import="java.sql.ResultSet"%>
@@ -80,9 +82,13 @@
                         <div class="col col-3" data-label="DeliveryAddress"><%= rs.getString("DeliveryAddress")%></div> 
                         <div class="col col-4" data-label="OrderTIme"><%= rs.getString("OrderTime")%></div> 
                         <div class="col col-5" data-label="Status"><%String nameOfStatusOrder = dao.getNameOfStatusOrder(rs.getString("OrderStatusID"));%><%=nameOfStatusOrder%></div>
-                        <div class="col col-6" data-label="TotalBill"><%= rs.getString("TotalBill")%></div>
+                         <%
+                        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                        String formattedPrice = format.format(rs.getInt("TotalBill")).replace("₫", "VND").replaceAll("\\s", "");
+                    %>
+                        <div class="col col-6" data-label="TotalBill"><%= formattedPrice%></div>
                         <div class="col col-7" data-label="Action">
-                            <a href="/Order/OrderDetails/<%= rs.getString("OrderID")%>" class="edit" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xe417;</i></a>
+                            <a href="/Order/Detail/<%= rs.getString("OrderID")%>" class="edit" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xe417;</i></a>
                             <a href="/Order/Delete/<%= rs.getString("OrderID")%>" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                         </div>
                     </li>
