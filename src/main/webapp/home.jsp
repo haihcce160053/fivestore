@@ -10,7 +10,6 @@
 <%@page import="com.models.Account"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.daos.ProductDAO"%>
-<!--THIS PAGE USING FOR TESTING !!!-->
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
