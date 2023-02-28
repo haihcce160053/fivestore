@@ -79,7 +79,7 @@
                     %>
                     <div class="col col-6" data-label="TotalBill"><%=formattedPrice%></div>
                     <div class="col col-7" data-label="Action">
-                        <a href="/Order/OrderDetails/<%= rs.getString("OrderID")%>" class="edit" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xe417;</i></a>
+                        <a href="/Order/Detail/<%= rs.getString("OrderID")%>" class="edit" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xe417;</i></a>
                         <%
                             if (rs.getString("OrderStatusID").equalsIgnoreCase("DHD")) {
                         %>

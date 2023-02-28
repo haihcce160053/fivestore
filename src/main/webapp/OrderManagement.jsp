@@ -48,7 +48,7 @@
                         <select class="form-control" id="AllSelect">
                             <option value="All">All</option>
                             <option value="Đang Xác Nhận">Đang Xác Nhận</option>
-                            <option value="Đã chuyển khoản / Đang Xác Nhận">Đã chuyển khoản / Đang Xác Nhận</option>    
+                            <option value="Đã Chuyển Khoản">Đã chuyển khoản / Đang Xác Nhận</option>    
                             <option value="Đã Liên Hệ">Đã Liên Hệ</option>
                             <option value="Không Liên Hệ Được">Không Liên Hệ Được</option>                             
                             <option value="Đang Vận Chuyển">Đang Vận Chuyển</option>
