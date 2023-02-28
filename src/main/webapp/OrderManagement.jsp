@@ -82,7 +82,7 @@
                         <div class="col col-5" data-label="Status"><%String nameOfStatusOrder = dao.getNameOfStatusOrder(rs.getString("OrderStatusID"));%><%=nameOfStatusOrder%></div>
                         <div class="col col-6" data-label="TotalBill"><%= rs.getString("TotalBill")%></div>
                         <div class="col col-7" data-label="Action">
-                            <a href="/Order/OrderDetails/<%= rs.getString("OrderID")%>" class="edit" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xe417;</i></a>
+                            <a href="/Order/Detail/<%= rs.getString("OrderID")%>" class="edit" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xe417;</i></a>
                             <a href="/Order/Delete/<%= rs.getString("OrderID")%>" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                         </div>
                     </li>

@@ -108,15 +108,14 @@ public class OrderController extends HttpServlet {
         if (path.endsWith("/Order/")) {
             request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
         } else {
-            if (path.startsWith("/Order/OrderDetails/")) {
+            if (path.startsWith("/Order/Detail/")) {
                 // split path to get username
                 String[] s = path.split("/");
                 String OrderID = s[s.length - 1];
                 OrderDAO dao = new OrderDAO();
                 Order ord = dao.getOrder(OrderID);
                 if (ord != null) {
-                    HttpSession session = (HttpSession) request.getSession();
-                    session.setAttribute("Order", ord);
+                    request.setAttribute("Order", OrderID);
                     request.getRequestDispatcher("/OrderDetails.jsp").forward(request, response);
                 }
             } else {
