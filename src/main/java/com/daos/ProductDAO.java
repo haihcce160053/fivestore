@@ -36,7 +36,7 @@ public class ProductDAO {
         try {
             Statement st = conn.createStatement();
             rs = st.executeQuery("select t1.ProductID,t1.ProductName,t1.PictureLink,t1.Description,\n"
-                    + "t2.ProductTypeID,t2.Quantity,t2.Price,t2.EXP,t2.Origin,t2.SoleAmount\n"
+                    + "t2.ProductTypeID,t2.Quantity,t2.Price,t2.EXP,t2.Origin,t2.SoldAmount\n"
                     + "from Product t1 left outer join ProductInformation t2 on t1.ProductID = t2.ProductID");
         } catch (SQLException ex) {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,7 +75,7 @@ public class ProductDAO {
         Product st = null;
         try {
             PreparedStatement pst = conn.prepareStatement("select t1.ProductID,t1.ProductName,t1.PictureLink,t1.Description,\n"
-                    + "t2.ProductTypeID,t2.Quantity,t2.Price,t2.EXP,t2.Origin,t2.SoleAmount\n"
+                    + "t2.ProductTypeID,t2.Quantity,t2.Price,t2.EXP,t2.Origin,t2.SoldAmount\n"
                     + "from Product t1 left outer join ProductInformation t2 on t1.ProductID = t2.ProductID where t1.ProductID = ?");
             pst.setString(1, ProductID);
             ResultSet rs = pst.executeQuery();
@@ -204,7 +204,7 @@ public class ProductDAO {
     public int updateProductInformation(Product pd) {
         int count = 0;
         try {
-            PreparedStatement pst = conn.prepareStatement("update ProductInformation set ProductTypeID=?, Quantity=?, Price=?, EXP=?, Origin=?, SoleAmount=? where ProductID=?");
+            PreparedStatement pst = conn.prepareStatement("update ProductInformation set ProductTypeID=?, Quantity=?, Price=?, EXP=?, Origin=?, SoldAmount=? where ProductID=?");
             pst.setString(1, pd.getProductTypeID());
             pst.setInt(2, pd.getQuantity());
             pst.setInt(3, pd.getPrice());
