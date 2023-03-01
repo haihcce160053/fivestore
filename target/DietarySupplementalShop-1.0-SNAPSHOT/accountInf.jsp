@@ -21,10 +21,11 @@
     </head>
     <body>
         <%
-            Account ac = (Account) session.getAttribute("informationAccount");
+           String username = (String) request.getAttribute("username");
             String mess = (String) request.getAttribute("mess");
             String mess1 = (String) request.getAttribute("mess1");
             AccountDAO dao = new AccountDAO();
+            Account ac = dao.getAccount(username);
             int ordered = dao.getOrdered(ac.getUsername());
         %>
         <div class="main-content">

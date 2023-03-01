@@ -64,9 +64,8 @@ public class AccountController extends HttpServlet {
                 // split path to get username
                 String[] s = path.split("/");
                 String username = s[s.length - 1];
-                AccountDAO dao = new AccountDAO();
-                Account ac = dao.getAccount(username);
-                if (ac != null) {
+                if (username != null) {
+                    request.setAttribute("username", username);
                     request.getRequestDispatcher("/accountInf.jsp").forward(request, response);
                 }
             } else {
@@ -76,14 +75,13 @@ public class AccountController extends HttpServlet {
                     AccountDAO dao = new AccountDAO();
                     Account ac = dao.getAccount(username);
                     if ((username.equalsIgnoreCase("Admin")) || (ac.getAccountTypeId().equalsIgnoreCase("AD"))) {
-
+                        
                         request.setAttribute("mess", "Noo");
                         request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
                     } else {
                         int count = dao.deleteAccountInformation(username);
                         int count2 = dao.deleteAccount(username);
                         if (count > 0 && count2 > 0) {
-                            HttpSession session = (HttpSession) request.getSession();
                             request.setAttribute("mess", "YesD");
                             request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
 
@@ -173,23 +171,13 @@ public class AccountController extends HttpServlet {
             int count = dao.updateAccountInformation(ac);
             int count2 = dao.updateAccount(ac);
             if (count > 0 && count2 > 0) {
-                HttpSession session = request.getSession();
-                session.setAttribute("Account", ac);
-                session.setAttribute("informationAccount", ac);
+                request.setAttribute("username", username);
                 request.setAttribute("mess1", "Yes");
-                // Tạo URL trả về trang trước đó
-                String previousPage = response.encodeRedirectURL(request.getHeader("Referer"));
-
-                // Chuyển hướng đến trang trước đó
-                response.sendRedirect(previousPage);
+                request.getRequestDispatcher("/accountInf.jsp").forward(request, response);
 
             } else {
                 request.setAttribute("mess1", "No");
-                // Tạo URL trả về trang trước đó
-                String previousPage = response.encodeRedirectURL(request.getHeader("Referer"));
-
-                // Chuyển hướng đến trang trước đó
-                response.sendRedirect(previousPage);
+                request.getRequestDispatcher("/accountInf.jsp").forward(request, response);
             }
         } else {
             if (request.getParameter("btnChangePassword") != null) {
@@ -208,23 +196,14 @@ public class AccountController extends HttpServlet {
                     Account ac = new Account(username, newpassword, old.getSecurityAnswer(), old.getFullname(), old.getPhoneNumber(), old.getGender(), old.getEmail(), old.getAccountTypeId());
                     int count = dao.updateAccount(ac);
                     if (count > 0) {
-                        HttpSession session = request.getSession();
-                        session.setAttribute("Account", ac);
+                        request.setAttribute("username", username);
                         request.setAttribute("mess", "Yes");
-                        // Tạo URL trả về trang trước đó
-                        String previousPage = response.encodeRedirectURL(request.getHeader("Referer"));
-
-                        // Chuyển hướng đến trang trước đó
-                        response.sendRedirect(previousPage);
+                        request.getRequestDispatcher("/accountInf.jsp").forward(request, response);
 
                     } else {
-                        HttpSession session = request.getSession();
                         request.setAttribute("mess", "No");
-                        // Tạo URL trả về trang trước đó
-                        String previousPage = response.encodeRedirectURL(request.getHeader("Referer"));
-
-                        // Chuyển hướng đến trang trước đó
-                        response.sendRedirect(previousPage);
+                        request.setAttribute("username", username);
+                        request.getRequestDispatcher("/accountInf.jsp").forward(request, response);
                     }
                 }
             }
