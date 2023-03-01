@@ -10,15 +10,12 @@
 <%@page import="com.models.Account"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.daos.ProductDAO"%>
-<!--THIS PAGE USING FOR TESTING !!!-->
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>FIVESTORE - Home page</title>
-        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>FIVESTORE - Dietary supplemental shop</title>
         <!-- Font Awesome -->
