@@ -177,11 +177,19 @@ public class AccountController extends HttpServlet {
                 session.setAttribute("Account", ac);
                 session.setAttribute("informationAccount", ac);
                 request.setAttribute("mess1", "Yes");
-                request.getRequestDispatcher("/accountInf.jsp").forward(request, response);
+                // Tạo URL trả về trang trước đó
+                String previousPage = response.encodeRedirectURL(request.getHeader("Referer"));
+
+                // Chuyển hướng đến trang trước đó
+                response.sendRedirect(previousPage);
 
             } else {
                 request.setAttribute("mess1", "No");
-                request.getRequestDispatcher("/accountInf.jsp").forward(request, response);
+                // Tạo URL trả về trang trước đó
+                String previousPage = response.encodeRedirectURL(request.getHeader("Referer"));
+
+                // Chuyển hướng đến trang trước đó
+                response.sendRedirect(previousPage);
             }
         } else {
             if (request.getParameter("btnChangePassword") != null) {
@@ -203,12 +211,20 @@ public class AccountController extends HttpServlet {
                         HttpSession session = request.getSession();
                         session.setAttribute("Account", ac);
                         request.setAttribute("mess", "Yes");
-                        request.getRequestDispatcher("/accountInf.jsp").forward(request, response);
+                        // Tạo URL trả về trang trước đó
+                        String previousPage = response.encodeRedirectURL(request.getHeader("Referer"));
+
+                        // Chuyển hướng đến trang trước đó
+                        response.sendRedirect(previousPage);
 
                     } else {
                         HttpSession session = request.getSession();
                         request.setAttribute("mess", "No");
-                        request.getRequestDispatcher("/accountInf.jsp").forward(request, response);
+                        // Tạo URL trả về trang trước đó
+                        String previousPage = response.encodeRedirectURL(request.getHeader("Referer"));
+
+                        // Chuyển hướng đến trang trước đó
+                        response.sendRedirect(previousPage);
                     }
                 }
             }
