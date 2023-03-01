@@ -53,31 +53,21 @@
                                 <%
                                     if (ac != null && (ac.getAccountTypeId()).equalsIgnoreCase("AD")) {
                                 %>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/Account/Management/<%=ac.getUsername()%>" style="color: white;">Account Management</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="" style="color: white;">Product Management</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/Order/" style="color: white;">Order Management</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/Statistics" style="color: white;">Revenue statistics</a>
-                                </li>
-                                
-                                <%
-                                } else {
-                                %>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/home" aria-current="page" style="color: white;">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/product" style="color: white;">Product</a>
-                                </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/Account/Management/<%=ac.getUsername()%>" style="color: white;">Account Management</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="" style="color: white;">Product Management</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/Order/" style="color: white;">Order Management</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/Statistics" style="color: white;">Revenue statistics</a>
+                                    </li>                        
                                 <%
                                     }
-                                %>
+                                %>                             
                             </ul>
                         </div>
                         <div>
@@ -220,29 +210,29 @@
                             while (rs_dig.next()) {
                                 if (rs_dig.getString("ProductTypeID").equals("Dig")) {
                         %>
-                        <div class="col-md-2 my-3">
-                            <div class="card">
-                                <div align="center" style="margin-bottom: 20px">
-                                    <img class="card-img-top" style="width: 150px; height: 150px" src="<%= rs_dig.getString("PictureLink")%>" alt="alt"/>
-                                </div>
-                                <div class="card-body d-flex flex-column justify-content-between">
-                                    <h6 class="card-title text-truncate"><%= rs_dig.getString("ProductName")%></h6>
-                                    <div class="d-flex justify-content-between">
-                                        <%
-                                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                            String formattedPrice = format.format(rs_dig.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
-                                        %>
-                                        <span class="card-text text-muted" id="price-<%= rs_dig.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
+                            <div class="col-md-2 my-3">
+                                <div class="card">
+                                    <div align="center" style="margin-bottom: 20px">
+                                        <img class="card-img-top" style="width: 150px; height: 150px" src="<%= rs_dig.getString("PictureLink")%>" alt="alt"/>
                                     </div>
-                                    <div style="margin-top: 20px">
-                                        <input id="title-<%= rs_dig.getString("ProductID")%>" type="text" value="<%= rs_dig.getString("ProductName")%>" hidden>
-                                        <input id="des-<%= rs_dig.getString("ProductID")%>" type="text" value="<%= rs_dig.getString("Description")%>" hidden>
-                                        <button id="view-<%= rs_dig.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_dig.getString("ProductID")%>').value, document.getElementById('des-<%= rs_dig.getString("ProductID")%>').value)">View</button>
-                                        <button id="cart-<%= rs_dig.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
+                                    <div class="card-body d-flex flex-column justify-content-between">
+                                        <h6 class="card-title text-truncate"><%= rs_dig.getString("ProductName")%></h6>
+                                        <div class="d-flex justify-content-between">
+                                            <%
+                                                NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                                String formattedPrice = format.format(rs_dig.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                            %>
+                                            <span class="card-text text-muted" id="price-<%= rs_dig.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
+                                        </div>
+                                        <div style="margin-top: 20px">
+                                            <input id="title-<%= rs_dig.getString("ProductID")%>" type="text" value="<%= rs_dig.getString("ProductName")%>" hidden>
+                                            <input id="des-<%= rs_dig.getString("ProductID")%>" type="text" value="<%= rs_dig.getString("Description")%>" hidden>
+                                            <button id="view-<%= rs_dig.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_dig.getString("ProductID")%>').value, document.getElementById('des-<%= rs_dig.getString("ProductID")%>').value)">View</button>
+                                            <button id="cart-<%= rs_dig.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         <%
                                 }
                             }

@@ -15,6 +15,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Order Management</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
@@ -31,7 +32,6 @@
             if (ac.getAccountTypeId().equalsIgnoreCase("AD")) {
                 String mess = (String) request.getAttribute("mess");
         %>
-
         <header id="page-header">
             <div class="page-container">
                 <nav class="navbar navbar-expand-lg" id="navbar-main" style="background-color: #303C5F;">
@@ -157,6 +157,7 @@
             %>
 
         </main>
+            
         <script>
             const selectElement = document.getElementById("AllSelect");
             const tableRows = document.querySelectorAll(".table-row");
