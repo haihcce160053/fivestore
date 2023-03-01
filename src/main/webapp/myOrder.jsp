@@ -46,7 +46,7 @@
             <div class="container" style="margin-top: 20px;">
                 <div class="search-box">
                     <div style="margin-top: 20px;">
-                        <input type="text" id="search" class="form-control" placeholder="Search by OrderID" style="max-width: 237px; margin: 10px 0 -10px 0;">
+                        <input type="text" id="search" class="form-control" placeholder="Search by OrderID" style="max-width: 237px; margin: -26px 0 -10px 0;">
                     </div>
                 </div>
             </div>

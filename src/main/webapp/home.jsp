@@ -3,7 +3,7 @@
     Created on : Feb 15, 2023, 7:22:51 AM
     Author     : Huynh Chi Hai
 --%>
-
+<!-- Import -->
 <%@page import="com.daos.OrderDAO"%>
 <%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.Locale"%>
@@ -11,6 +11,7 @@
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.daos.ProductDAO"%>
 
+<!-- JSP Page -->
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -18,21 +19,37 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>FIVESTORE - Dietary supplemental shop</title>
+        
         <!-- Font Awesome -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
         <!-- Google Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
         <!-- MDB -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
-        <!-- Cart -->
+        
+        <!-- Link ALL File CSS -->
         <link href="${pageContext.request.contextPath}/Resources/css/cart.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
+        
+        <!-- CSS Navigation bar -->
+        <style>
+            #page-header {
+                transition: top 0.5s;
+                position: fixed;
+                top: 0;
+                width: 100%;
+                z-index: 999;
+            }
+        </style>
     </head>
 
     <body>
         <%
             Account ac = (Account) session.getAttribute("informationAccount");
         %>
+
+        <!-- Navigation bar -->
         <header id="page-header">
             <div class="page-container">
                 <nav class="navbar navbar-expand-lg" style="background-color: #303C5F;">
@@ -51,18 +68,18 @@
                                 <%
                                     if (ac != null && (ac.getAccountTypeId()).equalsIgnoreCase("AD")) {
                                 %>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="/Account/Management/<%=ac.getUsername()%>" style="color: white;">Account Management</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="" style="color: white;">Product Management</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="/Order/" style="color: white;">Order Management</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="/Statistics" style="color: white;">Revenue statistics</a>
-                                    </li>                        
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Account/Management/<%=ac.getUsername()%>" style="color: white;">Account Management</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="" style="color: white;">Product Management</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Order/" style="color: white;">Order Management</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Statistics" style="color: white;">Revenue statistics</a>
+                                </li>                        
                                 <%
                                     }
                                 %>                             
@@ -129,37 +146,35 @@
                         </div>
                     </div>
                 </nav>
-                <div style="container">
-                    <div class="row justify-content-center" style="margin-top: 50px;">
-                        <div class="col-md-7 col-lg-5">
-                            <div style="margin-bottom: 50px">
-                                <h2 style="text-align: center">
-                                    FIVESTORE.VN - DIETARY SUPPLEMENTS SHOP
-                                </h2>
-                            </div>
-                            <div class="row justify-content-center" style="margin-bottom: 50px">
-                                <div class="col-md-7 col-lg-5 d-flex align-items-center justify-content-center">
-                                    <img src="../img/sale/sale.png" alt="alt" />
-                                </div>
-                            </div>
-                            <div>
-                                <form class="d-flex input-group w-auto">
-                                    <input
-                                        type="search"
-                                        class="form-control rounded"
-                                        placeholder="Search"
-                                        aria-label="Search"
-                                        />
-                                    <span class="input-group-text border-0" id="search-addon">
-                                        <i class="fas fa-search"></i>
-                                    </span>
-                                </form>
-                            </div>                         
-                        </div>
-                    </div>
-                </div>
             </div>
         </header>
+
+        <!-- Banner And Search Bar -->
+        <div style="margin-top: 100px;">
+            <div class="row justify-content-center" style="margin-top: 50px;">
+                <div class="col-md-7 col-lg-5">
+                    <div class="row justify-content-center" style="margin-bottom: 50px">
+                        <div class="col-md-7 col-lg-5 d-flex align-items-center justify-content-center">
+                            <img src="../img/sale/sale.png" alt="alt" />
+                        </div>
+                    </div>
+                    <div>
+                        <form class="d-flex input-group w-auto">
+                            <input
+                                type="search"
+                                class="form-control rounded"
+                                placeholder="Search"
+                                aria-label="Search"
+                                />
+                            <span class="input-group-text border-0" id="search-addon">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </form>
+                    </div>                         
+                </div>
+            </div>
+        </div>
+
         <!-- Shopping Cart -->
         <% if (ac != null) {
                 String username = ac.getUsername();
@@ -197,6 +212,7 @@
             </div>
         </div>
 
+        <!-- All Product -->
         <main>
             <div style="padding: 50px">
                 <div style="margin-bottom: 40px">
@@ -208,29 +224,29 @@
                             while (rs_dig.next()) {
                                 if (rs_dig.getString("ProductTypeID").equals("Dig")) {
                         %>
-                            <div class="col-md-2 my-3">
-                                <div class="card">
-                                    <div align="center" style="margin-bottom: 20px">
-                                        <img class="card-img-top" style="width: 150px; height: 150px" src="<%= rs_dig.getString("PictureLink")%>" alt="alt"/>
+                        <div class="col-md-2 my-3">
+                            <div class="card">
+                                <div align="center" style="margin-bottom: 20px">
+                                    <img class="card-img-top" style="width: 150px; height: 150px" src="<%= rs_dig.getString("PictureLink")%>" alt="alt"/>
+                                </div>
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <h6 class="card-title text-truncate"><%= rs_dig.getString("ProductName")%></h6>
+                                    <div class="d-flex justify-content-between">
+                                        <%
+                                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                            String formattedPrice = format.format(rs_dig.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                        %>
+                                        <span class="card-text text-muted" id="price-<%= rs_dig.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
                                     </div>
-                                    <div class="card-body d-flex flex-column justify-content-between">
-                                        <h6 class="card-title text-truncate"><%= rs_dig.getString("ProductName")%></h6>
-                                        <div class="d-flex justify-content-between">
-                                            <%
-                                                NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                                String formattedPrice = format.format(rs_dig.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
-                                            %>
-                                            <span class="card-text text-muted" id="price-<%= rs_dig.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
-                                        </div>
-                                        <div style="margin-top: 20px">
-                                            <input id="title-<%= rs_dig.getString("ProductID")%>" type="text" value="<%= rs_dig.getString("ProductName")%>" hidden>
-                                            <input id="des-<%= rs_dig.getString("ProductID")%>" type="text" value="<%= rs_dig.getString("Description")%>" hidden>
-                                            <button id="view-<%= rs_dig.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_dig.getString("ProductID")%>').value, document.getElementById('des-<%= rs_dig.getString("ProductID")%>').value)">View</button>
-                                            <button id="cart-<%= rs_dig.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
-                                        </div>
+                                    <div style="margin-top: 20px">
+                                        <input id="title-<%= rs_dig.getString("ProductID")%>" type="text" value="<%= rs_dig.getString("ProductName")%>" hidden>
+                                        <input id="des-<%= rs_dig.getString("ProductID")%>" type="text" value="<%= rs_dig.getString("Description")%>" hidden>
+                                        <button id="view-<%= rs_dig.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_dig.getString("ProductID")%>').value, document.getElementById('des-<%= rs_dig.getString("ProductID")%>').value)">View</button>
+                                        <button id="cart-<%= rs_dig.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         <%
                                 }
                             }
@@ -513,8 +529,13 @@
                 </div>
             </div>
         </main>
+        <!-- Footer -->            
+        <%@ include file="/footer.jsp" %>
 
+        <!-- Button GO TO TOP -->
         <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
+
+        <!-- JS Handler For Modal -->
         <script>
             function ShowProductDetail(title, description) {
                 document.getElementById("modal-title").innerHTML = title;
@@ -523,13 +544,14 @@
                 document.getElementById("modal-body").innerHTML = description;
             }
         </script>
-        <!-- MDB -->
+
+        <!-- Link ALL JS From URL -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
-        <!-- Jquery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-        <!--Link Java Script-->
         <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+
+        <!-- Link All File JS -->
         <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/searchhome.js"></script>

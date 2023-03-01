@@ -1,0 +1,70 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : Mar 1, 2023, 4:36:42 PM
+    Author     : QuangQui
+*/
+
+body {
+    background-color: #fafafa;
+    font-family: Arial, sans-serif;
+}
+h1 {
+    color: #303C5F;
+    font-size: 3rem;
+    font-weight: bold;
+    margin-top: 80px;
+    margin-bottom: 20px;
+    text-align: center;
+    text-transform: uppercase;
+}
+p {
+    font-size: 1.5rem;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 30px;
+    text-align: center;
+}
+.btn-primary {
+    background-color: #303C5F;
+    border-color: #111;
+    font-size: 1.5rem;
+    padding: 12px 30px;
+    margin-top: 30px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-transform: uppercase;
+}
+.btn-primary:hover {
+    background-color: #444;
+    border-color: #444;
+}
+.container {
+    max-width: 800px;
+    margin-top: 100px;
+    padding: 50px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+@media only screen and (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+        margin-top: 20px;
+    }
+    p {
+        font-size: 1.2rem;
+    }
+    .btn-primary {
+        font-size: 1.2rem;
+        padding: 10px 20px;
+    }
+    .container {
+        margin-top: 60px;
+        padding: 30px;
+    }
+}

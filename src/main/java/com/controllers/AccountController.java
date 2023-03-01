@@ -177,6 +177,7 @@ public class AccountController extends HttpServlet {
 
             } else {
                 request.setAttribute("mess1", "No");
+                request.setAttribute("username", username);
                 request.getRequestDispatcher("/accountInf.jsp").forward(request, response);
             }
         } else {
@@ -190,8 +191,8 @@ public class AccountController extends HttpServlet {
                 Account old = dao.getAccount(username);
                 if (!old.getPassword().equals(oldpassword)) {
                     request.setAttribute("mess", "Noo");
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/accountInf.jsp");
-                    dispatcher.forward(request, response);
+                    request.setAttribute("username", username);
+                    request.getRequestDispatcher("/accountInf.jsp").forward(request, response);
                 } else {
                     Account ac = new Account(username, newpassword, old.getSecurityAnswer(), old.getFullname(), old.getPhoneNumber(), old.getGender(), old.getEmail(), old.getAccountTypeId());
                     int count = dao.updateAccount(ac);

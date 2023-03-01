@@ -6,27 +6,30 @@
 
 <%@page import="com.daos.AccountDAO"%>
 <%@page import="com.models.Account"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/css/accountinformation.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
+        <!-- Font Awesome -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+        <!-- MDB -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
         <title>Account Information</title>
+        <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/css/accountinformation.css">
         <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
     </head>
     <body>
         <%
-           String username = (String) request.getAttribute("username");
+            String username = (String) request.getAttribute("username");
             String mess = (String) request.getAttribute("mess");
             String mess1 = (String) request.getAttribute("mess1");
             AccountDAO dao = new AccountDAO();
             Account ac = dao.getAccount(username);
-            int ordered = dao.getOrdered(ac.getUsername());
+            if (ac != null) {
+                int ordered = dao.getOrdered(ac.getUsername());
         %>
         <div class="main-content">
             <!-- Top navbar -->
@@ -39,28 +42,11 @@
                     <!-- User -->
                     <ul class="navbar-nav align-items-center d-none d-md-flex">
                         <li class="nav-item dropdown">
-                            <a class="nav-link pr-0" href="#" click="false" role="button" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false">
-                                <%
-                                    if (ac != null) {
-                                %>
-                                <div class="media align-items-center">
-                                    <div class="media-body ml-2 d-none d-lg-block">
-                                        <span class="mb-0 text-sm  font-weight-bold"><%=ac.getFullname()%></span>
-                                    </div>
-                                </div>
-                                <%
-                                } else {
-                                %>
-                                <div class="media align-items-center">
-                                    <div class="media-body ml-2 d-none d-lg-block">
-                                        <span class="mb-0 text-sm  font-weight-bold">Null</span>
-                                    </div>
-                                </div>                              
-                                <%
-                                    }
-                                %>
-                            </a>
+
+                            <form action="/logout" method="post">
+                                <button class="btn btn-sm" style="background-color: red; color: white;width: 126px;height: 34px;" 
+                                        type="submit" name="btnSignout">Logout</button>
+                            </form>
                         </li>
                     </ul>
                 </div>
@@ -128,14 +114,6 @@
                                                 <span class="description">Ordered</span>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <h3>
-                                        <%=ac.getFullname()%>
-                                    </h3>
-                                    <div class="h5 mt-4">
-                                        <i class="ni business_briefcase-24 mr-2"></i><%=ac.getEmail()%>
                                     </div>
                                 </div>
                                 <form id="form-2" action="/account" method="post">
@@ -217,11 +195,6 @@
                                         <input type="hidden" name="btnChangePassword" value="true">
                                     </div>
                                 </form>
-
-                                <form action="/logout" method="post">
-                                    <button class="btn btn-sm" style="background-color: red; color: white; margin-top: 20px" 
-                                            type="submit" name="btnSignout">Logout</button>
-                                </form>
                             </div>
                         </div>
 
@@ -232,17 +205,11 @@
                                 <div class="card-header bg-white border-0">
                                     <div class="row align-items-center">
                                         <div class="col-8">
-                                            <h3 class="mb-0">My account</h3>
-                                        </div>
-                                        <div class="col-4 text-right">
-                                            <button class="btn btn-sm btn-primary" type="button" id="edit-button">Edit Information</button> 
-                                            <input type="hidden" name="btnUpdate" value="true">
-                                            <button class="btn btn-sm btn-primary" type="submit" style="display: none" id="submit-button" name="btnUpdate" onclick="return update()">Submit Information</button> 
+                                            <h3 class="mb-0">Account information</h3>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <h6 class="heading-small text-muted mb-4">Account information</h6>
                                     <div class="pl-lg-4">
                                         <div class="row">
                                             <div class="col-lg-6">
@@ -277,7 +244,7 @@
                                                     <label class="form-control-label" for="input-last-name">Phone Number</label>
                                                     <input type="text" id="phone" name="phone" readonly
                                                            class="form-control form-control-alternative editable"
-                                                           placeholder="Last name" value="0<%=ac.getPhoneNumber()%>">
+                                                           placeholder="Phonenumber" value="0<%=ac.getPhoneNumber()%>">
                                                 </div>
                                             </div>
                                         </div>
@@ -323,15 +290,22 @@
                                                 %>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <button class="btn btn-sm btn-primary" type="button" id="edit-button">Edit Information</button> 
+                                                <input type="hidden" name="btnUpdate" value="true">
+                                                <button class="btn btn-sm btn-primary" type="submit" style="display: none" id="submit-button" name="btnUpdate" onclick="return update()">Update</button> 
+                                            </div>
+                                        </div>
 
-                                        <%                                                
+                                        <%
                                             if (mess1 != null) {
                                         %>
 
                                         <span id="" data-my-attribute="my-value"></span>
                                         <div class="row" >
                                             <div class="col-lg-12" style="margin-left: 15px; margin-bottom: 15px;">
-                                                <span id="regError1" data-my-attribute="<%= mess1%>"> </span>
+                                                <span id="regError1" data-my-attribute="<%= mess1%>"></span>
                                             </div>          
                                         </div>
                                         <%
@@ -347,73 +321,69 @@
                                         %>
                                     </div>
                                 </div>
+                            </div>
                         </form>        
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div id="toast">
+        <div id="toast">
 
 
-    </div>
-
-    <div class="overlay" id="overlay"></div>
-
-    <div class="confirm-box" id="confirm-box">
-        <div class="box-header">
-            <h2>Are you sure you want to update?</h2>
         </div>
-        <div class="box-content">
-            <p>The information entered will be updated!</p>
-        </div>
-        <div class="button-container">
-            <button id="yes-button">Yes</button>
-            <button id="no-button">No</button>
-        </div>
-    </div>
 
-    <div class="overlay" id="overlay1"></div>
+        <div class="overlay" id="overlay"></div>
 
-    <div class="confirm-box" id="confirm-box1">
-        <div class="box-header">
-            <h2>Are you sure you want to change password?</h2>
-        </div>
-        <div class="box-content">
-            <p>New password will be change!</p>
-        </div>
-        <div class="button-container">
-            <button id="yes-button1">Yes</button>
-            <button id="no-button1">No</button>
-        </div>
-    </div>
-
-
-    <footer class="footer">
-        <div class="row align-items-center justify-content-xl-between">
-            <div class="col-xl-6 m-auto text-center">
-                <div class="copyright">
-                    <p>Made </a> by FiveStore</p>
-                </div>
+        <div class="confirm-box" id="confirm-box">
+            <div class="box-header">
+                <h2>Are you sure you want to update?</h2>
+            </div>
+            <div class="box-content">
+                <p>The information entered will be updated!</p>
+            </div>
+            <div class="button-container">
+                <button id="yes-button">Yes</button>
+                <button id="no-button">No</button>
             </div>
         </div>
-    </footer>
 
-    <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
-    <script src="${pageContext.request.contextPath}/Resources/js/showmessageaccountinf.js"></script>
-    <script src="${pageContext.request.contextPath}/Resources/js/validationaccountinf.js"></script>
-    <script>
-    overlay.addEventListener("click", function () {
-        overlay.style.display = "none";
-        const confirmBox = document.getElementById("confirm-box");
-        confirmBox.style.display = "none";
-    });
+        <div class="overlay" id="overlay1"></div>
 
-    overlay1.addEventListener("click", function () {
-        overlay1.style.display = "none";
-        const confirmBox1 = document.getElementById("confirm-box1");
-        confirmBox1.style.display = "none";
-    });
-    </script>
-</body>
+        <div class="confirm-box" id="confirm-box1">
+            <div class="box-header">
+                <h2>Are you sure you want to change password?</h2>
+            </div>
+            <div class="box-content">
+                <p>New password will be change!</p>
+            </div>
+            <div class="button-container">
+                <button id="yes-button1">Yes</button>
+                <button id="no-button1">No</button>
+            </div>
+        </div>
+        <%@ include file="/footer.jsp" %>
+        <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/js/showmessageaccountinf.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/js/validationaccountinf.js"></script>
+        <script>
+                                                    overlay.addEventListener("click", function () {
+                                                        overlay.style.display = "none";
+                                                        const confirmBox = document.getElementById("confirm-box");
+                                                        confirmBox.style.display = "none";
+                                                    });
+
+                                                    overlay1.addEventListener("click", function () {
+                                                        overlay1.style.display = "none";
+                                                        const confirmBox1 = document.getElementById("confirm-box1");
+                                                        confirmBox1.style.display = "none";
+                                                    });
+        </script>
+        <%
+        } else {
+        %>
+        <%@ include file="/errorPage.jsp" %>
+        <%
+            }
+        %>
+    </body>
 </html>
