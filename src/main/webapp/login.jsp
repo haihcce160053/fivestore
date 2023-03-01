@@ -45,8 +45,9 @@
                 <nav class="navbar navbar-expand-lg" style="background-color: #303C5F;">
                     <div class="container-fluid">
                         <a class="navbar-brand" href="/home"
-                           style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b></a>
-                        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+                           style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b>
+                        </a>
+<!--                        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
                                 data-mdb-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
                                 aria-label="Toggle navigation">
                             <i class="fas fa-bars"></i>
@@ -60,7 +61,7 @@
                                     <a class="nav-link" href="/product" style="color: white;">Product</a>
                                 </li>
                             </ul>
-                        </div>
+                        </div>-->
                     </div>
                 </nav>
             </div>

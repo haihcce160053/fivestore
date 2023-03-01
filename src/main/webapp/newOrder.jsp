@@ -169,17 +169,8 @@
                                 </li>
 
                                 <%
-                                } else {
-                                %>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/home" aria-current="page" style="color: white;">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/product" style="color: white;">Product</a>
-                                </li>
-                                <%
-                                    }
-                                %>
+                                }
+                                %>                               
                             </ul>
                         </div>
                         <div>
