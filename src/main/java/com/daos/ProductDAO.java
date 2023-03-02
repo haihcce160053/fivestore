@@ -90,7 +90,7 @@ public class ProductDAO {
                 String db_EXP = rs.getString("EXP");
                 String db_Origin = rs.getString("Origin");
                 String db_SoldAmount = rs.getString("SoldAmount");
-                Product pd = new Product(ProductID, db_ProductTypeID, db_ProductName, db_PictureLink, db_Description, Integer.parseInt(db_Quantity), Integer.parseInt(db_Price), db_EXP, db_Origin, db_SoldAmount);
+                Product pd = new Product(db_ProductID, db_ProductTypeID, db_ProductName, db_PictureLink, db_Description, Integer.parseInt(db_Quantity), Integer.parseInt(db_Price), db_EXP, db_Origin, db_SoldAmount);
                 return pd;
             }
         } catch (SQLException ex) {
@@ -127,17 +127,17 @@ public class ProductDAO {
     public int addProductInformation(Product pd) {
         int count = 0;
         try {
-            PreparedStatement pst = conn.prepareStatement("Insert into Product values(?,?,?,?,?,?,?)");
+            PreparedStatement pst = conn.prepareStatement("Insert into ProductInformation values(?,?,?,?,?,?,?)");
             pst.setString(1, pd.getProductID());
             pst.setString(2, pd.getProductTypeID());
             pst.setInt(3, pd.getQuantity());
             pst.setInt(4, pd.getPrice());
             pst.setDate(5, Date.valueOf(pd.getEXP()));
             pst.setString(6, pd.getOrigin());
-            pst.setString(7, pd.getSoleAmount());
+            pst.setInt(7, Integer.parseInt(pd.getSoleAmount()));
             count = pst.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return count;
     }
@@ -184,7 +184,7 @@ public class ProductDAO {
     public int updateProduct(Product pd) {
         int count = 0;
         try {
-            PreparedStatement pst = conn.prepareStatement("update Product set ProductName=?, LinkPicture=?, Description=? where ProductID=?");
+            PreparedStatement pst = conn.prepareStatement("update Product set ProductName=?, PictureLink=?, Description=? where ProductID=?");
             pst.setString(1, pd.getProductName());
             pst.setString(2, pd.getPictureLink());
             pst.setString(3, pd.getDescription());
@@ -210,13 +210,50 @@ public class ProductDAO {
             pst.setInt(3, pd.getPrice());
             pst.setDate(4, Date.valueOf(pd.getEXP()));
             pst.setString(5, pd.getOrigin());
-            pst.setString(6, pd.getSoleAmount());
+            pst.setInt(6, Integer.parseInt(pd.getSoleAmount()));
             pst.setString(7, pd.getProductID());
             count = pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return count;
+    }
+
+    /**
+     *
+     * @param ProductTypeID
+     * @return
+     */
+    public String nameOfTypeProduct(String ProductTypeID) {
+        ResultSet rs = null;
+        String name = "";
+        try {
+            PreparedStatement pst = conn.prepareStatement("select ProductTypeName from ProductType Where ProductTypeID=?");
+            pst.setString(1, ProductTypeID);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                name = rs.getString("ProductTypeName");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return name;
+    }
+    
+    /**
+     *
+     *
+     * @return ResultSet contain all Type Of Product
+     */
+    public ResultSet getAllTypeOfProduct() {
+        ResultSet rs = null;
+        try {
+            Statement st = conn.createStatement();
+            rs = st.executeQuery("select * from ProductType");
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
     }
 
 }

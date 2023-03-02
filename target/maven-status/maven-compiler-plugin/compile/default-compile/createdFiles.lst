@@ -10,6 +10,7 @@ com\security\Encoding.class
 com\models\Product.class
 com\daos\OrderDetailsDAO.class
 com\daos\OrderDAO.class
+com\controllers\ProductController.class
 com\models\OrderDetails.class
 com\controllers\Constants.class
 com\models\UserGoogle.class

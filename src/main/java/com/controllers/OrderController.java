@@ -6,7 +6,6 @@ import com.daos.OrderDetailsDAO;
 import com.daos.ProductDAO;
 import com.models.Order;
 import com.models.OrderDetails;
-import com.models.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,9 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 
 /**
  *

@@ -77,7 +77,7 @@
                                             if (ac.getGender().equalsIgnoreCase("Male")) {
                                         %>
                                         <a href="#">
-                                            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                                            <img src="https://i.pinimg.com/564x/ad/91/05/ad910542c16da09af3662fc7e0ab2453.jpg"
                                                  class="rounded-circle">
                                         </a>
                                         <%
