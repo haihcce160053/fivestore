@@ -106,7 +106,12 @@ public class ProductController extends HttpServlet {
                     }
                 }
             }
-
+        }
+        if (path.startsWith("/Product/View/")) {
+            String[] pathParts = path.split("/");
+            String viewproductid = pathParts[pathParts.length - 1];
+            request.setAttribute("viewproductid", viewproductid);
+            request.getRequestDispatcher("/productview.jsp").forward(request, response);
         }
     }
 
@@ -167,7 +172,7 @@ public class ProductController extends HttpServlet {
             String Origin = request.getParameter("origin");
             String SoldAmount = request.getParameter("soldAmount");
             Product pd = new Product(ProductID, ProductTypeID, ProductName, PictureLink, Description, Integer.parseInt(Quantity), Integer.parseInt(Price), EXP, Origin, SoldAmount);
-            
+
             int count = dao.updateProductInformation(pd);
             int count1 = dao.updateProduct(pd);
             if (count > 0 && count1 > 0) {
