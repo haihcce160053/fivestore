@@ -62,7 +62,8 @@
                                     aria-label="Toggle navigation">
                                 <i class="fas fa-bars"></i>
                             </button>
-                        </div>                 
+                        </div>
+                        
                         <div class="collapse navbar-collapse" id="navbarText">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <%
@@ -86,6 +87,7 @@
                                 %>                             
                             </ul>
                         </div>
+                            
                         <div>
                             <%
                                 if (ac == null) {
@@ -241,8 +243,7 @@
                                     </div>
                                     <div style="margin-top: 20px">
                                         <input id="title-<%= rs_dig.getString("ProductID")%>" type="text" value="<%= rs_dig.getString("ProductName")%>" hidden>
-                                        <input id="des-<%= rs_dig.getString("ProductID")%>" type="text" value="<%= rs_dig.getString("Description")%>" hidden>
-                                        <button id="view-<%= rs_dig.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_dig.getString("ProductID")%>').value, document.getElementById('des-<%= rs_dig.getString("ProductID")%>').value)">View</button>
+                                        <button id="view-<%= rs_dig.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" onclick="location.href='/Product/View/<%= rs_dig.getString("ProductID")%>'">View</button>
                                         <button id="cart-<%= rs_dig.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
                                     </div>
                                 </div>
@@ -280,8 +281,7 @@
                                     </div>
                                     <div style="margin-top: 20px">
                                         <input id="title-<%= rs_eyes.getString("ProductID")%>" type="text" value="<%= rs_eyes.getString("ProductName")%>" hidden>
-                                        <input id="des-<%= rs_eyes.getString("ProductID")%>" type="text" value="<%= rs_eyes.getString("Description")%>" hidden>
-                                        <button id="view-<%= rs_eyes.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_eyes.getString("ProductID")%>').value, document.getElementById('des-<%= rs_eyes.getString("ProductID")%>').value)">View</button>
+                                        <button id="view-<%= rs_eyes.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" onclick="location.href='/Product/View/<%= rs_eyes.getString("ProductID")%>'">View</button>
                                         <button id="cart-<%= rs_eyes.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
                                     </div>
                                 </div>
@@ -319,8 +319,7 @@
                                     </div>
                                     <div style="margin-top: 20px">
                                         <input id="title-<%= rs_blood.getString("ProductID")%>" type="text" value="<%= rs_blood.getString("ProductName")%>" hidden>
-                                        <input id="des-<%= rs_blood.getString("ProductID")%>" type="text" value="<%= rs_blood.getString("Description")%>" hidden>
-                                        <button id="view-<%= rs_blood.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_blood.getString("ProductID")%>').value, document.getElementById('des-<%= rs_blood.getString("ProductID")%>').value)">View</button>
+                                        <button id="view-<%= rs_blood.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" onclick="location.href='/Product/View/<%= rs_blood.getString("ProductID")%>'">View</button>
                                         <button id="cart-<%= rs_blood.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
                                     </div>
                                 </div>
@@ -358,8 +357,7 @@
                                     </div>
                                     <div style="margin-top: 20px">
                                         <input id="title-<%= rs_liver.getString("ProductID")%>" type="text" value="<%= rs_liver.getString("ProductName")%>" hidden>
-                                        <input id="des-<%= rs_liver.getString("ProductID")%>" type="text" value="<%= rs_liver.getString("Description")%>" hidden>
-                                        <button id="view-<%= rs_liver.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_liver.getString("ProductID")%>').value, document.getElementById('des-<%= rs_liver.getString("ProductID")%>').value)">View</button>
+                                        <button id="view-<%= rs_liver.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" onclick="location.href='/Product/View/<%= rs_liver.getString("ProductID")%>'">View</button>
                                         <button id="cart-<%= rs_liver.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
                                     </div>
                                 </div>
@@ -398,8 +396,7 @@
                                     </div>
                                     <div style="margin-top: 20px">
                                         <input id="title-<%= rs_resistance.getString("ProductID")%>" type="text" value="<%= rs_resistance.getString("ProductName")%>" hidden>
-                                        <input id="des-<%= rs_resistance.getString("ProductID")%>" type="text" value="<%= rs_resistance.getString("Description")%>" hidden>
-                                        <button id="view-<%= rs_resistance.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_resistance.getString("ProductID")%>').value, document.getElementById('des-<%= rs_resistance.getString("ProductID")%>').value)">View</button>
+                                        <button id="view-<%= rs_resistance.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" onclick="location.href='/Product/View/<%= rs_resistance.getString("ProductID")%>'">View</button>
                                         <button id="cart-<%= rs_resistance.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
                                     </div>
                                 </div>
@@ -438,7 +435,7 @@
                                     <div style="margin-top: 20px">
                                         <input id="title-<%= rs_skin.getString("ProductID")%>" type="text" value="<%= rs_skin.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_skin.getString("ProductID")%>" type="text" value="<%= rs_skin.getString("Description")%>" hidden>
-                                        <button id="view-<%= rs_skin.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_skin.getString("ProductID")%>').value, document.getElementById('des-<%= rs_skin.getString("ProductID")%>').value)">View</button>
+                                        <button id="view-<%= rs_skin.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" onclick="location.href='/Product/View/<%= rs_skin.getString("ProductID")%>'">View</button>
                                         <button id="cart-<%= rs_skin.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
                                     </div>
                                 </div>
@@ -477,7 +474,7 @@
                                     <div style="margin-top: 20px">
                                         <input id="title-<%= rs_sleep.getString("ProductID")%>" type="text" value="<%= rs_sleep.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_sleep.getString("ProductID")%>" type="text" value="<%= rs_sleep.getString("Description")%>" hidden>
-                                        <button id="view-<%= rs_sleep.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_sleep.getString("ProductID")%>').value, document.getElementById('des-<%= rs_sleep.getString("ProductID")%>').value)">View</button>
+                                        <button id="view-<%= rs_sleep.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" onclick="location.href='/Product/View/<%= rs_sleep.getString("ProductID")%>'">View</button>
                                         <button id="cart-<%= rs_sleep.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
                                     </div>
                                 </div>
@@ -516,7 +513,7 @@
                                     <div style="margin-top: 20px">
                                         <input id="title-<%= rs_weight.getString("ProductID")%>" type="text" value="<%= rs_weight.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_weight.getString("ProductID")%>" type="text" value="<%= rs_weight.getString("Description")%>" hidden>
-                                        <button id="view-<%= rs_weight.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" data-mdb-toggle="modal" data-mdb-target="#ProductDetailModal" onclick="ShowProductDetail(document.getElementById('title-<%= rs_weight.getString("ProductID")%>').value, document.getElementById('des-<%= rs_weight.getString("ProductID")%>').value)">View</button>
+                                        <button id="view-<%= rs_weight.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" onclick="location.href='/Product/View/<%= rs_weight.getString("ProductID")%>'">View</button>
                                         <button id="cart-<%= rs_weight.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
                                     </div>
                                 </div>
@@ -540,8 +537,6 @@
         <script>
             function ShowProductDetail(title, description) {
                 document.getElementById("modal-title").innerHTML = title;
-                const productInfo = description.split(":");
-                console.log(productInfo);
                 document.getElementById("modal-body").innerHTML = description;
             }
         </script>
