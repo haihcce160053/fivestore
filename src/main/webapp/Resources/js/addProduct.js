@@ -51,6 +51,80 @@ function validateForm() {
         return true;
     }
 }
+//written by Quang Qui
+function convertToHTML(text) {
+    let lines = text.split("\n");
+    let html = "";
+    let currentList = "";
+    let currentListType = "";
+
+    for (let i = 0; i < lines.length; i++) {
+        let line = lines[i].trim();
+
+        if (line === "") {
+            continue;
+        }
+
+        if (line.startsWith("Thông tin sản phẩm:")) {
+            html += "<h2>" + line + "</h2>";
+        } else if (line.startsWith("Công dụng:")) {
+            if (currentListType !== "") {
+                html += "<" + currentListType + ">" + currentList + "</" + currentListType + ">";
+                currentList = "";
+                currentListType = "";
+            }
+            html += "<h3>" + line + "</h3>";
+        } else if (line.startsWith("Đối tượng sử dụng:")) {
+            if (currentListType !== "") {
+                html += "<" + currentListType + ">" + currentList + "</" + currentListType + ">";
+                currentList = "";
+                currentListType = "";
+            }
+            html += "<h3>" + line + "</h3>";
+            currentListType = "ul";
+        } else if (line.startsWith("Hướng dẫn sử dụng:")) {
+            if (currentListType !== "") {
+                html += "<" + currentListType + ">" + currentList + "</" + currentListType + ">";
+                currentList = "";
+                currentListType = "";
+            }
+            html += "<h3>" + line + "</h3>";
+            currentListType = "ul";
+        } else if (line.startsWith("Lưu ý:")) {
+            if (currentListType !== "") {
+                html += "<" + currentListType + ">" + currentList + "</" + currentListType + ">";
+                currentList = "";
+                currentListType = "";
+            }
+            html += "<h3>" + line + "</h3>";
+            currentListType = "ul";
+        } else if (line.startsWith("-")) {
+            if (currentListType === "") {
+                currentListType = "ul";
+            }
+            if (currentListType === "ul") {
+                currentList += "<li>" + line.substring(1).trim() + "</li>";
+            } else if (currentListType === "ol") {
+                currentList += "<li>" + line.substring(1).trim() + "</li>";
+            }
+        } else {
+            if (currentList !== "") {
+                html += "<" + currentListType + ">" + currentList + "</" + currentListType + ">";
+                currentList = "";
+                currentListType = "";
+            }
+            html += "<p>" + line + "</p>";
+        }
+    }
+
+    if (currentList !== "") {
+        html += "<" + currentListType + ">" + currentList + "</" + currentListType + ">";
+    }
+
+    return html;
+}//end function
+
+
 
 const form = document.querySelector("form");
 form.addEventListener("submit", function (event) {
@@ -63,6 +137,9 @@ form.addEventListener("submit", function (event) {
         noButton.addEventListener("click", hideConfirmBox);
         const yesButton = document.getElementById("yes-button1");
         yesButton.addEventListener("click", function () {
+            const valueInTextArea = document.getElementById("description");
+            let htmlString = convertToHTML(valueInTextArea.value);
+            valueInTextArea.value = htmlString;
             form.submit();
         });
     }

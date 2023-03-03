@@ -24,17 +24,16 @@
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
         <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
+        <link href="${pageContext.request.contextPath}/Resources/css/cart.css" rel="stylesheet" />
         <style>
             .btn {
-                width: 100px; 
-                height: 40px;
-                margin: 5px 5px 5px 5px;
-                text-align: center; 
-                display: inline-flex; 
-                justify-content: center; 
-                align-items: center;
+                text-align: center; /* canh giữa văn bản trong nút */
+                justify-content: center; /* canh giữa nội dung trong nút */
+                align-items: center; /* căn giữa nội dung theo chiều dọc trong nút */
+                margin: 0 0 5px 0;
             }
-            
+
+
             #page-header {
                 transition: top 0.5s;
                 position: fixed;
@@ -42,6 +41,50 @@
                 width: 100%;
                 z-index: 999;
             }
+
+            mdb-search-box {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background-color: #f5f5f5;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                padding: 10px;
+            }
+
+            mdb-search-input {
+                flex-grow: 1;
+            }
+
+            select {
+                max-width: 150px;
+                margin-left: 10px;
+            }
+
+            .form-control {
+                height: 38px;
+                border-radius: 4px;
+                border: none;
+                background-color: #fff;
+                padding: 8px 12px;
+                box-shadow: none;
+            }
+
+            .select-container {
+                display: inline-block;
+                position: relative;
+            }
+
+            .select-container::after {
+                content: "\f078";
+                font-family: FontAwesome;
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                pointer-events: none;
+            }
+
 
         </style>
     </head>
@@ -54,9 +97,101 @@
     <body>
         <header id="page-header">
             <div class="page-container">
-                <nav class="navbar navbar-expand-lg" id="navbar-main" style="background-color: #303C5F;">
+                <nav class="navbar navbar-expand-lg" style="background-color: #303C5F;">
                     <div class="container-fluid">
-                        <a class="navbar-brand" href="/home" style="color: white; font-size: 25px;"><b>FIVESTORE.VN -  MY PURCHASE</b></a>
+                        <div>
+                            <a class="navbar-brand" href="/home"
+                               style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b></a>
+                            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+                                    data-mdb-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
+                                    aria-label="Toggle navigation">
+                                <i class="fas fa-bars"></i>
+                            </button>
+                        </div>
+
+                        <div class="collapse navbar-collapse" id="navbarText">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <%
+                                    if (ac != null && (ac.getAccountTypeId()).equalsIgnoreCase("AD")) {
+                                %>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Account/Management/<%=ac.getUsername()%>" style="color: #9FA6B2;">Account Management</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Product/Management/<%=ac.getUsername()%>" style="color: #9FA6B2;">Product Management</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Order/" style="color: #9FA6B2;">Order Management</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Statistics" style="color: #9FA6B2;">Revenue statistics</a>
+                                </li>     
+
+                                <%
+                                    }
+                                %>                             
+                            </ul>
+                        </div>
+
+                        <div>
+                            <%
+                                if (ac == null) {
+                            %>
+                            <button type="button" class="btn px-3 me-2"
+                                    style="color: white; background-color: #20283F"
+                                    onclick="location.href = '/login'">
+                                Login
+                            </button>
+                            <button type="button" class="btn me-3" 
+                                    style="color: white; background-color: #20283F"
+                                    onclick="location.href = '/signup'">
+                                Sign Up
+                            </button>
+                            <%
+                            } else {
+                            %>
+                            <button type="button" class="btn px-3 me-2"
+                                    style="color: white; background-color: #20283F"
+                                    onclick="location.href = '/Account/information/<%= ac.getUsername()%>'">
+                                <%=ac.getFullname()%>
+                            </button>
+                            <%
+                                }
+                            %>
+                            <%
+                                if (ac != null && ac.getUsername().equalsIgnoreCase("Admin")) {
+                            %>
+
+                            <%
+                            } else if (ac == null || (!ac.getUsername().equalsIgnoreCase("Admin"))) {
+                            %>
+                            <button id="view-cart-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white">
+                                MY CART <span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;">0</span>
+                            </button>
+                            <%
+                                }
+                            %>
+                            <%
+                                if (ac != null) {
+                                    OrderDAO dao = new OrderDAO();
+                                    int countOfOrder = dao.getNumberOrderByUsername(ac.getUsername());
+                            %>
+                            <button id="view-purchase-btn" type="button" class="btn me-3" style="background-color: #9FA6B2; color: white" 
+                                    onclick="location.href = '/Account/Order/<%= ac.getUsername()%>'">
+                                MY Purchase<span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;"><%=countOfOrder%></span>
+
+                            </button>
+                            <%
+                            } else {
+                            %>
+                            <button id="view-purchase-btn" type="button" class="btn me-3" style="background-color: #9FA6B2; color: white"
+                                    >
+                                MY Purchase<span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;">0</span>
+                            </button>
+                            <%
+                                }
+                            %>
+                        </div>
                     </div>
                 </nav>
             </div>
@@ -109,7 +244,7 @@
                     <tbody >
                         <% while (rs.next()) {%>
                         <tr class="table-row">
-                            <td><%= rs.getString("OrderID")%></td>
+                            <td class="col-1"><%= rs.getString("OrderID")%></td>
                             <td><%= rs.getString("Username")%></td>
                             <td><%= rs.getString("DeliveryAddress")%></td>
                             <td><%= rs.getDate("OrderTime")%></td>
@@ -129,7 +264,7 @@
                                 <%
                                     if (rs.getString("OrderStatusID").equalsIgnoreCase("DHD")) {
                                 %>
-                                <a href="/Order/Change/Reorder/<%= rs.getString("OrderID")%>" class="btn btn-success" title="Re-order">Re-order</a>
+                                <a href="/Order/Change/Reorder/<%= rs.getString("OrderID")%>" class="btn btn-success" title="Re-order">Buy Again</a>
                                 <%
                                 } else {
                                 %>
@@ -207,11 +342,30 @@
             <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
 
         </main>
+        <!-- Shopping Cart -->
+        <% if (ac != null) {
+                String username = ac.getUsername();
+            } else {
+                String username = "null";
+            }
+        %>
+        <form id="checkout-form" action="/checkout/<%if (ac != null) {%><%= ac.getUsername()%><%} else {%><%= String.valueOf(ac)%><%}%>" method="get">
+            <div id="cart" style="display: none;">
+                <h3>Cart</h3>
+                <ul id="cart-items">
+
+                </ul>
+
+                <div id="cart-total">
+                    <p>Total: <span id="cart-total-amount">0 VND</span></p>
+                </div>
+                <button id="checkout-button">Checkout</button>
+            </div>
+        </form>
 
         <!-- Footer -->            
         <%@ include file="/footer.jsp" %>
 
-        <!-- Link All File JS --> 
         <script>
             const selectElement = document.getElementById("AllSelect");
             const tableRows = document.querySelectorAll(".table-row");
@@ -232,6 +386,7 @@
                 });
             });
         </script>
+        <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/searchAc.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/comfirmboxAc.js"></script>

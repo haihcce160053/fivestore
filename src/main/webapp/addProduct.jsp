@@ -113,8 +113,8 @@
                 }
             %>
         </form>
-        
-        
+
+
         <!-- Toast Message  -->
         <div  class="my-toast">
             <div id="toast">
@@ -172,7 +172,6 @@
                     duration: 3000
                 });
             }
-
         </script>
         <!-- JS -->
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>

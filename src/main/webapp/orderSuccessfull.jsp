@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
+        <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
         <style>
             body {
                 background-color: #f2f2f2;
@@ -40,6 +41,7 @@
 
     </head>
     <body>
+        
         <%
             if (request.getAttribute("mess") != null) {
         %>
@@ -62,11 +64,11 @@
             }
         %>
 
-        <div id="toast">
-
-
+        <div  class="my-toast">
+            <div id="toast">
+            </div>
         </div>
-
+          
         <script>
             var count = 8;
             var redirect = "<%= request.getAttribute("link")%>";
@@ -89,7 +91,7 @@
             const mySpan1 = document.getElementById('regError');
             const myAttribute1 = mySpan1.getAttribute('data-my-attribute');
             mainFunction();
-           
+
             function mainFunction() {
                 if (myAttribute1 == "Noo") {
                     showErrorOrderList();
@@ -102,7 +104,7 @@
                     return;
                 }
             }
-            
+
             function deleteCartItemsCookie() {
                 // Set the expiration date to a date in the past
                 const pastDate = new Date(0);
