@@ -15,15 +15,18 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>My Purchase</title>
+        <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
+        <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/css/accountinformation.css">
-        <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/myorder.css" rel="stylesheet" />
+
     </head>
 
     <%
@@ -43,13 +46,6 @@
         </header>
 
         <main>
-            <div class="container" style="margin-top: 20px;">
-                <div class="search-box">
-                    <div style="margin-top: 20px;">
-                        <input type="text" id="search" class="form-control" placeholder="Search by OrderID" style="max-width: 237px; margin: -26px 0 -10px 0;">
-                    </div>
-                </div>
-            </div>
             <%
                 if (ac != null) {
                     OrderDAO dao = new OrderDAO();
@@ -59,6 +55,28 @@
 
             %>
             <div class="container" style="margin-top: 20px;">
+                <!-- User -->
+                <div class="search-box">
+                    <div class="search-input">
+                        <input type="text" id="search" class="form-control" placeholder="Search by Order ID">
+                    </div>
+                    <div class="search-buttons">
+                        <div class="select-container">
+                            <select class="form-control" id="AllSelect">
+                                <option value="All">All</option>
+                                <option value="Đang Xác Nhận">Đang Xác Nhận</option>
+                                <option value="Đã Chuyển Khoản">Đã chuyển khoản / Đang Xác Nhận</option>    
+                                <option value="Đã Liên Hệ">Đã Liên Hệ</option>
+                                <option value="Không Liên Hệ Được">Không Liên Hệ Được</option>                             
+                                <option value="Đang Vận Chuyển">Đang Vận Chuyển</option>
+                                <option value="Đã Nhận Hàng">Đã Nhận Hàng</option>
+                                <option value="Không Nhận Hàng">Không Nhận Hàng</option>
+                                <option value="Đã Hủy Đơn">Đã Hủy Đơn</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 <ul class="responsive-table">
                     <li class="table-header">
                         <div class="col col-1">OrderID</div>
@@ -165,11 +183,33 @@
                 </div>
             </div>
             <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
+            <!-- Footer -->            
+            <%@ include file="/footer.jsp" %>
         </main>
+
+
 
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/searchAc.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/comfirmboxAc.js"></script>
+        <script>
+                const selectElement = document.getElementById("AllSelect");
+                const tableRows = document.querySelectorAll(".table-row");
+
+                selectElement.addEventListener("change", (event) => {
+                    const selectedValue = event.target.value;
+                    tableRows.forEach((row) => {
+                        const statusElement = row.querySelector("[data-label='Status']");
+                        const statusValue = statusElement.textContent.trim();
+                        if (selectedValue === "All" || selectedValue === statusValue) {
+                            row.style.display = "flex";
+                        } else {
+                            row.style.display = "none";
+                        }
+                    });
+                });
+
+        </script>
         <script>
             const mySpan1 = document.getElementById('regError');
             const myAttribute1 = mySpan1.getAttribute('data-my-attribute');

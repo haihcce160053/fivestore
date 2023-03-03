@@ -6,7 +6,7 @@
 
 <!DOCTYPE html>
 <html>
-    <footer>
+    <footer class="my-footer">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-sm-6">
@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <h3>Connect with Us</h3>
-                    <ul class="social">
+                    <ul class="my-social">
                         <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
                         <li><a href="#"><i class="fab fa-twitter"></i></a></li>
                         <li><a href="#"><i class="fab fa-instagram"></i></a></li>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <h3>Contact Us</h3>
-                    <ul>
+                    <ul class="my-contact">
                         <li><i class="fas fa-map-marker-alt"></i> An Khanh, Ninh Kieu, Can Tho</li>
                         <li><i class="fas fa-phone"></i> (123) 456-7890</li>
                         <li><i class="fas fa-envelope"></i> fivestore@gmail.com</li>
@@ -32,4 +32,5 @@
             </div>
         </div>
     </footer>
+
 </html>

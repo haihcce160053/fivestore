@@ -1,4 +1,4 @@
-footer {
+.my-footer {
   background-color: #303C5F;
   color: #fff;
   padding-top: 50px;
@@ -7,41 +7,41 @@ footer {
   line-height: 24px;
 }
 
-footer h3 {
+.my-footer h3 {
   font-size: 24px;
   margin-bottom: 20px;
   text-transform: uppercase;
 }
 
-footer ul {
+.my-footer ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-footer ul li {
+.my-footer ul li {
   margin-bottom: 10px;
 }
 
-footer ul li a {
-  color: #fff;
+.my-footer ul li a {
+  color: #000;
 }
 
-footer .social {
+.my-social {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
 
-footer .social li {
+.my-social li {
   margin-right: 20px;
 }
 
-footer .social li:last-child {
+.my-social li:last-child {
   margin-right: 0;
 }
 
-footer .social li a {
+.my-social li a {
   display: inline-block;
   width: 40px;
   height: 40px;
@@ -52,21 +52,27 @@ footer .social li a {
   color: #1a1a1a;
 }
 
-footer .social li a:hover {
+.my-social li a:hover {
   background-color: #ffcc00;
   color: #1a1a1a;
 }
 
-footer p {
-  margin-bottom: 10px;
-}
-
-footer p.text-center {
-  text-align: center;
-  font-size: 14px;
+.my-contact {
   margin-top: 20px;
 }
 
-footer i {
+.my-contact li {
+  margin-bottom: 10px;
+}
+
+.my-contact li i {
   margin-right: 10px;
+}
+
+.my-contact li a {
+  color: #000;
+}
+
+.my-contact li a:hover {
+  color: #ffcc00;
 }
