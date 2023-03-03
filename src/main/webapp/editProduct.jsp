@@ -15,13 +15,14 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+         <!-- MDB -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
+        
         <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
         <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/addProduct.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/css/accountinformation.css">
     </head>
     <body>
         <%
@@ -112,8 +113,9 @@
             %>
         </form>
         <!-- Toast Message  -->
-        <div id="toast">
-
+        <div  class="my-toast">
+            <div id="toast">
+            </div>
         </div>
 
         <div class="overlay" id="overlay1"></div>

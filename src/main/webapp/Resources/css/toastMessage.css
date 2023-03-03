@@ -3,25 +3,24 @@
     Created on : Feb 21, 2023, 11:14:08 AM
     Author     : QuangQui
 */
-
-#toast {
-    position: fixed;
-    top: 32px;
-    right: 32px;
-    z-index: 9999;
+.my-toast {
+  position: fixed;
+  top: 32px;
+  right: 32px;
+  z-index: 9999;
 }
 
-.toast {
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    border-radius: 2px;
-    padding: 20px 0;
-    min-width: 400px;
-    max-width: 450px;
-    border-left: 4px solid;
-    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.08);
-    transition: all linear 0.3s;
+.my-toast .toast {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 2px;
+  padding: 20px 0;
+  min-width: 400px;
+  max-width: 450px;
+  border-left: 4px solid;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.08);
+  transition: all linear 0.3s;
 }
 
 @keyframes slideInLeft {
@@ -41,72 +40,73 @@
     }
 }
 
-.toast--success {
-    border-color: #47d864;
+
+.my-toast .toast--success {
+  border-color: #47d864;
 }
 
-.toast--success .toast__icon {
-    color: #47d864;
+.my-toast .toast--success .toast__icon {
+  color: #47d864;
 }
 
-.toast--info {
-    border-color: #2f86eb;
+.my-toast .toast--info {
+  border-color: #2f86eb;
 }
 
-.toast--info .toast__icon {
-    color: #2f86eb;
+.my-toast .toast--info .toast__icon {
+  color: #2f86eb;
 }
 
-.toast--warning {
-    border-color: #ffc021;
+.my-toast .toast--warning {
+  border-color: #ffc021;
 }
 
-.toast--warning .toast__icon {
-    color: #ffc021;
+.my-toast .toast--warning .toast__icon {
+  color: #ffc021;
 }
 
-.toast--error {
-    border-color: #ff623d;
+.my-toast .toast--error {
+  border-color: #ff623d;
 }
 
-.toast--error .toast__icon {
-    color: #ff623d;
+.my-toast .toast--error .toast__icon {
+  color: #ff623d;
 }
 
-.toast + .toast {
-    margin-top: 24px;
+.my-toast .toast + .toast {
+  margin-top: 24px;
 }
 
-.toast__icon {
-    font-size: 24px;
+.my-toast .toast__icon {
+  font-size: 24px;
 }
 
-.toast__icon,
-.toast__close {
-    padding: 0 16px;
+.my-toast .toast__icon,
+.my-toast .toast__close {
+  padding: 0 16px;
 }
 
-.toast__body {
-    flex-grow: 1;
+.my-toast .toast__body {
+  flex-grow: 1;
 }
 
-.toast__title {
-    font-size: 16px;
-    font-weight: 600;
-    color: #333;
+.my-toast .toast__title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
 }
 
-.toast__msg {
-    font-size: 14px;
-    color: #888;
-    margin-top: 6px;
-    line-height: 1.5;
+.my-toast .toast__msg {
+  font-size: 14px;
+  color: #888;
+  margin-top: 6px;
+  line-height: 1.5;
 }
 
-.toast__close {
-    font-size: 20px;
-    color: rgba(0, 0, 0, 0.3);
-    cursor: pointer;
+.my-toast .toast__close {
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
 }
 
 .overlay {

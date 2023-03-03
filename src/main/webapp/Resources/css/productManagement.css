@@ -28,7 +28,7 @@ body {
 }
 
 /* Style for list items */
-li {
+.list {
     display: flex;
     justify-content: space-between;
     padding: 15px 20px; /* Decrease padding */
@@ -271,7 +271,7 @@ li {
 }
 
 .btn {
-    font-size: 14px;
+    font-size: 12px;
     padding: 10px 12px;
     border-radius: 3px;
     background-color: #303C5F;

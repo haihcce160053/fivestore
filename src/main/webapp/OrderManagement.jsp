@@ -82,10 +82,10 @@
                         <div class="col col-3" data-label="DeliveryAddress"><%= rs.getString("DeliveryAddress")%></div> 
                         <div class="col col-4" data-label="OrderTIme"><%= rs.getString("OrderTime")%></div> 
                         <div class="col col-5" data-label="Status"><%String nameOfStatusOrder = dao.getNameOfStatusOrder(rs.getString("OrderStatusID"));%><%=nameOfStatusOrder%></div>
-                         <%
-                        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                        String formattedPrice = format.format(rs.getInt("TotalBill")).replace("₫", "VND").replaceAll("\\s", "");
-                    %>
+                        <%
+                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                            String formattedPrice = format.format(rs.getInt("TotalBill")).replace("₫", "VND").replaceAll("\\s", "");
+                        %>
                         <div class="col col-6" data-label="TotalBill"><%= formattedPrice%></div>
                         <div class="col col-7" data-label="Action">
                             <a href="/Order/Detail/<%= rs.getString("OrderID")%>" class="edit" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xe417;</i></a>
@@ -157,27 +157,10 @@
             %>
 
         </main>
-            
-        <script>
-            const selectElement = document.getElementById("AllSelect");
-            const tableRows = document.querySelectorAll(".table-row");
-
-            selectElement.addEventListener("change", (event) => {
-                const selectedValue = event.target.value;
-                tableRows.forEach((row) => {
-                    const statusElement = row.querySelector("[data-label='Status']");
-                    const statusValue = statusElement.textContent.trim();
-                    if (selectedValue === "All" || selectedValue === statusValue) {
-                        row.style.display = "flex";
-                    } else {
-                        row.style.display = "none";
-                    }
-                });
-            });
-
-        </script>
-
         <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
+        
+        <!-- Link ALL FIle JS --> 
+        <script src="${pageContext.request.contextPath}/Resources/js/selectbox.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/comfirmboxAc.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/showmessageordermanagement.js"></script>

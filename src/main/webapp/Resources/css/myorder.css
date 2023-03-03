@@ -25,7 +25,7 @@ body {
 }
 
 /* Style for list items */
-.table-row li {
+li {
     display: flex;
     justify-content: space-between;
     padding: 15px 20px; /* Decrease padding */

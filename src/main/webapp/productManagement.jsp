@@ -19,11 +19,12 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/productManagement.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
+
+        <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
 
     </head>
     <body>
@@ -45,6 +46,23 @@
                 </nav>
             </div>
         </header>
+
+        <!-- Modal -->
+        <div class="modal fade" id="ProductDetailModal" tabindex="-1" aria-labelledby="ProductDetailModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-title">Modal title</h5>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body">...</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" style="background-color: #303C5F; color: white" data-mdb-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <main>
             <div class="container" style="margin-top: 20px;">
                 <!-- User -->
@@ -70,7 +88,7 @@
                     </div>
                 </div>
                 <ul class="responsive-table">
-                    <li class="table-header" style="color: white">
+                    <li class="table-header list " style="color: white">
                         <div class="col col-1">Picture</div>
                         <div class="col col-2">ID</div>
                         <div class="col col-3">Name</div>
@@ -88,7 +106,7 @@
                         while (rs.next()) {
                     %>
 
-                    <li class="table-row">
+                    <li class="table-row list">
                         <div class="col col-1" data-label="Picture">
                             <img src="<%= rs.getString("PictureLink")%>" alt="Product image" width="100%">
                         </div>
@@ -127,21 +145,6 @@
             </div>
         </main>
 
-        <!-- Modal -->
-        <div class="modal fade" id="ProductDetailModal" tabindex="-1" aria-labelledby="ProductDetailModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modal-title">Modal title</h5>
-                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="modal-body">...</div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn" style="background-color: #303C5F; color: white" data-mdb-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- Get message from Controller  -->
         <%
@@ -168,9 +171,11 @@
 
 
         <!-- Toast Message  -->
-        <div id="toast">
-
+        <div  class="my-toast">
+            <div id="toast">
+            </div>
         </div>
+
 
         <!-- Confirm Box and Overlay -->
         <div class="overlay" id="overlay"> </div>
@@ -204,6 +209,8 @@
         <!-- button go to top -->
         <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
 
+        <!-- Footer -->            
+        <%@ include file="/footer.jsp" %>
         <!-- JS Handler For Modal -->
         <script>
             function ShowProductDetail(title, description) {
@@ -321,9 +328,8 @@
             }
         </script>
         <!-- Link ALL JS From URL -->
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
     </body>
 </html>

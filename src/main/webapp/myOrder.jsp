@@ -15,18 +15,35 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>My Purchase</title>
-        <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
-        <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- MDB -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
         <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
-        <link href="${pageContext.request.contextPath}/Resources/css/myorder.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
+        <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
+        <style>
+            .btn {
+                width: 100px; 
+                height: 40px;
+                margin: 5px 5px 5px 5px;
+                text-align: center; 
+                display: inline-flex; 
+                justify-content: center; 
+                align-items: center;
+            }
+            
+            #page-header {
+                transition: top 0.5s;
+                position: fixed;
+                top: 0;
+                width: 100%;
+                z-index: 999;
+            }
 
+        </style>
     </head>
 
     <%
@@ -39,7 +56,7 @@
             <div class="page-container">
                 <nav class="navbar navbar-expand-lg" id="navbar-main" style="background-color: #303C5F;">
                     <div class="container-fluid">
-                        <a class="navbar-brand" href="/home" style="color: white; font-size: 25px;"><b>FIVESTORE.VN - My purchase</b></a>
+                        <a class="navbar-brand" href="/home" style="color: white; font-size: 25px;"><b>FIVESTORE.VN -  MY PURCHASE</b></a>
                     </div>
                 </nav>
             </div>
@@ -54,13 +71,13 @@
                     if (orderbyusername != 0) {
 
             %>
-            <div class="container" style="margin-top: 20px;">
+            <div class="container" style="margin-top: 100px;">
                 <!-- User -->
-                <div class="search-box">
-                    <div class="search-input">
+                <mdb-search-box>
+                    <mdb-search-input>
                         <input type="text" id="search" class="form-control" placeholder="Search by Order ID">
-                    </div>
-                    <div class="search-buttons">
+                    </mdb-search-input>
+                    <mdb-search-buttons>
                         <div class="select-container">
                             <select class="form-control" id="AllSelect">
                                 <option value="All">All</option>
@@ -74,53 +91,58 @@
                                 <option value="Đã Hủy Đơn">Đã Hủy Đơn</option>
                             </select>
                         </div>
-                    </div>
-                </div>
+                    </mdb-search-buttons>
+                </mdb-search-box>
 
-                <ul class="responsive-table">
-                    <li class="table-header">
-                        <div class="col col-1">OrderID</div>
-                        <div class="col col-2">Username</div>
-                        <div class="col col-3">DeliveryAddress</div>    
-                        <div class="col col-4">OrderTime</div>
-                        <div class="col col-5">Status</div>
-                        <div class="col col-6">TotalBill</div>
-                        <div class="col col-7">Actions</div>
-                    </li>
-                    <%                    while (rs.next()) {
-                    %>
-                    <li class="table-row">
-                        <div class="col col-1" data-label="OrderID"><%= rs.getString("OrderID")%></div>
-                        <div class="col col-2" data-label="UserName"><%= rs.getString("Username")%></div>
-                        <div class="col col-3" data-label="DeliveryAddress"><%= rs.getString("DeliveryAddress")%></div> 
-                        <div class="col col-4" data-label="OrderTIme"><%= rs.getDate("OrderTime")%></div> 
-                        <div class="col col-5" data-label="Status"><%String nameOfStatusOrder = dao.getNameOfStatusOrder(rs.getString("OrderStatusID"));%><%=nameOfStatusOrder%></div>
-                        <%
-                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                            String formattedPrice = format.format(rs.getInt("TotalBill")).replace("₫", "VND").replaceAll("\\s", "");
-                        %>
-                        <div class="col col-6" data-label="TotalBill"><%=formattedPrice%></div>
-                        <div class="col col-7" data-label="Action">
-                            <a href="/Order/Detail/<%= rs.getString("OrderID")%>" class="edit" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xe417;</i></a>
-                            <%
-                                if (rs.getString("OrderStatusID").equalsIgnoreCase("DHD")) {
-                            %>
-                            <a href="/Order/Change/Reorder/<%= rs.getString("OrderID")%>" class="edit" title="Re-order" data-toggle="tooltip"><span class="material-icons">update</span></a>
+                <table class="table">
+                    <thead class="bg-secondary text-white" style="margin-top:50px;">
+                        <tr>
+                            <th scope="col">OrderID</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">DeliveryAddress</th>
+                            <th scope="col">OrderTime</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">TotalBill</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody >
+                        <% while (rs.next()) {%>
+                        <tr class="table-row">
+                            <td><%= rs.getString("OrderID")%></td>
+                            <td><%= rs.getString("Username")%></td>
+                            <td><%= rs.getString("DeliveryAddress")%></td>
+                            <td><%= rs.getDate("OrderTime")%></td>
+                            <td data-label="Status">
+                                <% String nameOfStatusOrder = dao.getNameOfStatusOrder(rs.getString("OrderStatusID"));%>
+                                <%= nameOfStatusOrder%>
+                            </td>
+                            <td >
+                                <%
+                                    NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                    String formattedPrice = format.format(rs.getInt("TotalBill")).replace("₫", "VND").replaceAll("\\s", "");
+                                %>
+                                <%= formattedPrice%>
+                            </td>
+                            <td>
+                                <a href="/Order/Detail/<%= rs.getString("OrderID")%>" class="btn btn-primary" title="View Details">View Details</a>
+                                <%
+                                    if (rs.getString("OrderStatusID").equalsIgnoreCase("DHD")) {
+                                %>
+                                <a href="/Order/Change/Reorder/<%= rs.getString("OrderID")%>" class="btn btn-success" title="Re-order">Re-order</a>
+                                <%
+                                } else {
+                                %>
+                                <a href="/Order/Cancel/Delete/<%= rs.getString("OrderID")%>" class="btn btn-danger" title="Cancel">Cancel</a>
+                                <%
+                                    }
+                                %>
+                            </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
 
-
-                            <%
-                            } else {
-                            %>
-                            <a href="/Order/Cancel/Delete/<%= rs.getString("OrderID")%>" class="delete" title="Cancel" data-toggle="tooltip"><span class="material-icons">cancel</span></a>
-                            <%
-                                }
-                            %>
-                        </div>
-                    </li>
-                    <%
-                        }
-                    %>
-                </ul>
             </div>
             <%
             } else {
@@ -150,9 +172,9 @@
             <%
                 }
             %>
-            <div id="toast">
-
-
+            <div  class="my-toast">
+                <div id="toast">
+                </div>
             </div>
             <div class="overlay" id="overlay"></div>
 
@@ -183,109 +205,36 @@
                 </div>
             </div>
             <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
-            <!-- Footer -->            
-            <%@ include file="/footer.jsp" %>
+
         </main>
 
+        <!-- Footer -->            
+        <%@ include file="/footer.jsp" %>
 
+        <!-- Link All File JS --> 
+        <script>
+            const selectElement = document.getElementById("AllSelect");
+            const tableRows = document.querySelectorAll(".table-row");
+            console.log(tableRows);
+            selectElement.addEventListener("change", (event) => {
+                const selectedValue = event.target.value;
+                console.log(selectedValue);
+                tableRows.forEach((row) => {
+                    const statusElement = row.querySelector("[data-label='Status']");
 
+                    const statusValue = statusElement.innerText.trim();
+                    console.log(statusValue);
+                    if (selectedValue == "All" || selectedValue == statusValue) {
+                        row.style.display = "table-row";
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+            });
+        </script>
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/searchAc.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/comfirmboxAc.js"></script>
-        <script>
-                const selectElement = document.getElementById("AllSelect");
-                const tableRows = document.querySelectorAll(".table-row");
-
-                selectElement.addEventListener("change", (event) => {
-                    const selectedValue = event.target.value;
-                    tableRows.forEach((row) => {
-                        const statusElement = row.querySelector("[data-label='Status']");
-                        const statusValue = statusElement.textContent.trim();
-                        if (selectedValue === "All" || selectedValue === statusValue) {
-                            row.style.display = "flex";
-                        } else {
-                            row.style.display = "none";
-                        }
-                    });
-                });
-
-        </script>
-        <script>
-            const mySpan1 = document.getElementById('regError');
-            const myAttribute1 = mySpan1.getAttribute('data-my-attribute');
-            console.log(myAttribute1);
-            mainFunction();
-
-            function mainFunction() {
-                if (myAttribute1 == "Noo") {
-                    ShowErrorNotCancel();
-                } else if (myAttribute1 == "YesD") {
-                    showSuccessCancel();
-                } else if (myAttribute1 == "NoD") {
-                    showErrorCancel();
-                } else if (myAttribute1 == "Not") {
-                    showOrderToast();
-                } else if (myAttribute1 == "YesR") {
-                    showSuccessReorder();
-                } else if (myAttribute1 == "NoR") {
-                    showErrorReorder();
-                } else if (myAttribute1 == "NooR") {
-                    showErrorReorder();
-                } else {
-                    return;
-                }
-            }
-
-            function ShowErrorNotCancel() {
-                toast({
-                    title: 'You cannot cancel this order!',
-                    message: 'You can only cancel if the order is in the status of confirmation!',
-                    type: 'error',
-                    duration: 5000
-                });
-            }
-
-            function showSuccessCancel() {
-                toast({
-                    title: 'Successfully!',
-                    message: 'Cancel Order Successfully!',
-                    type: 'success',
-                    duration: 3000
-                });
-            }
-            function showErrorCancel() {
-                toast({
-                    title: 'Failed!!',
-                    message: 'Cancel Order Unsuccessfully!',
-                    type: 'error',
-                    duration: 3000
-                });
-            }
-
-            function showOrderToast() {
-                toast({
-                    title: 'Notice!',
-                    message: 'You do not have any orders!',
-                    type: 'error',
-                    duration: 3000
-                });
-            }
-            function showSuccessReorder() {
-                toast({
-                    title: 'Successfully!',
-                    message: 'Re-Order Successfully!',
-                    type: 'success',
-                    duration: 3000
-                });
-            }
-            function showErrorReorder() {
-                toast({
-                    title: 'Failed!!',
-                    message: 'Re-Order Unsuccessfully!',
-                    type: 'error',
-                    duration: 3000
-                });
-            }
-        </script>
+        <script src="${pageContext.request.contextPath}/Resources/js/showmessagemyorder.js"></script>
     </body>
 </html>

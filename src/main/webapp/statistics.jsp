@@ -29,6 +29,8 @@
         <!--Table data-->
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
 
+        <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
+
         <style>
             table.dataTable thead .sorting:after,
             table.dataTable thead .sorting:before,
@@ -154,7 +156,8 @@
                 %>
             </div>
         </main>
-
+        <!-- Footer -->            
+        <%@ include file="/footer.jsp" %>
         <script>
             $(document).ready(function () {
                 $('#tableAccount').DataTable({

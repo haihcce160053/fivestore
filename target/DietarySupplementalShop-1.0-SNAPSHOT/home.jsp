@@ -199,22 +199,6 @@
             </div>
         </form>
 
-        <!-- Modal -->
-        <div class="modal fade" id="ProductDetailModal" tabindex="-1" aria-labelledby="ProductDetailModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modal-title">Modal title</h5>
-                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="modal-body">...</div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn" style="background-color: #303C5F; color: white" data-mdb-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- All Product -->
         <main>
             <div style="padding: 50px">
@@ -532,14 +516,6 @@
 
         <!-- Button GO TO TOP -->
         <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
-
-        <!-- JS Handler For Modal -->
-        <script>
-            function ShowProductDetail(title, description) {
-                document.getElementById("modal-title").innerHTML = title;
-                document.getElementById("modal-body").innerHTML = description;
-            }
-        </script>
 
         <!-- Link ALL JS From URL -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>

@@ -14,12 +14,12 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
         <!-- Google Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+        <!-- MDB -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
         <title>Account Information</title>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/css/accountinformation.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/css/accInf.css">
         <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
-        
-        
     </head>
     <body>
         <%
@@ -100,18 +100,7 @@
                                     <div class="col">
                                         <div class="card-profile-stats d-flex justify-content-center mt-md-5 m">
                                             <div>
-                                                <%
-                                                    if (ordered != 0) {
-                                                %>
-                                                <span class="heading"><%=ordered%></span>
-                                                <%
-                                                } else {
-                                                %>
-                                                <span class="heading">0</span>
-                                                <%
-                                                    }
-                                                %>
-                                                <span class="description">Ordered</span>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -327,9 +316,10 @@
                 </div>
             </div>
         </div>
-        <div id="toast">
-
-
+        <!-- Toast Message  -->
+        <div  class="my-toast">
+            <div id="toast">
+            </div>
         </div>
 
         <div class="overlay" id="overlay"></div>
@@ -365,6 +355,7 @@
         <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/showmessageaccountinf.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/validationaccountinf.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
         <script>
                                                     overlay.addEventListener("click", function () {
                                                         overlay.style.display = "none";

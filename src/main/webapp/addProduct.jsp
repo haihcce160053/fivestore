@@ -18,12 +18,14 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <!-- MDB -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
         <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/css/accountinformation.css">
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/addProduct.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
+
+        <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
     </head>
     <body>
         <%
@@ -111,8 +113,13 @@
                 }
             %>
         </form>
+        
+        
         <!-- Toast Message  -->
-        <div id="toast"></div>
+        <div  class="my-toast">
+            <div id="toast">
+            </div>
+        </div>
 
         <div class="overlay" id="overlay1"></div>
         <div class="confirm-box" id="confirm-box1">
@@ -127,6 +134,9 @@
                 <button id="no-button1">No</button>
             </div>
         </div>
+
+        <!-- Footer -->            
+        <%@ include file="/footer.jsp" %>
 
         <!-- button go to top -->
         <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
@@ -171,7 +181,6 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
 
     </body>
 </html>
