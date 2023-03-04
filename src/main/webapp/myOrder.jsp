@@ -233,7 +233,6 @@
                     <thead class="bg-secondary text-white" style="margin-top:50px;">
                         <tr>
                             <th scope="col">OrderID</th>
-                            <th scope="col">Username</th>
                             <th scope="col">DeliveryAddress</th>
                             <th scope="col">OrderTime</th>
                             <th scope="col">Status</th>
@@ -245,7 +244,6 @@
                         <% while (rs.next()) {%>
                         <tr class="table-row">
                             <td class="col-1"><%= rs.getString("OrderID")%></td>
-                            <td><%= rs.getString("Username")%></td>
                             <td><%= rs.getString("DeliveryAddress")%></td>
                             <td><%= rs.getDate("OrderTime")%></td>
                             <td data-label="Status">
@@ -283,7 +281,48 @@
             } else {
                 mess1 = "Not";
             %>
-            <a href="/"><img src="https://thumbs.dreamstime.com/b/order-now-premium-red-tag-sign-order-now-isolated-premium-red-tag-sign-abstract-illustration-124737434.jpg" alt="alt" style="width: auto"/></a>
+            <div class="container" style="margin-top: 100px;">
+                <!-- User -->
+                <mdb-search-box>
+                    <mdb-search-input>
+                        <input type="text" id="search" class="form-control" placeholder="Search by Order ID">
+                    </mdb-search-input>
+                    <mdb-search-buttons>
+                        <div class="select-container">
+                            <select class="form-control" id="AllSelect">
+                                <option value="All">All</option>
+                                <option value="Đang Xác Nhận">Đang Xác Nhận</option>
+                                <option value="Đã Chuyển Khoản">Đã chuyển khoản / Đang Xác Nhận</option>    
+                                <option value="Đã Liên Hệ">Đã Liên Hệ</option>
+                                <option value="Không Liên Hệ Được">Không Liên Hệ Được</option>                             
+                                <option value="Đang Vận Chuyển">Đang Vận Chuyển</option>
+                                <option value="Đã Nhận Hàng">Đã Nhận Hàng</option>
+                                <option value="Không Nhận Hàng">Không Nhận Hàng</option>
+                                <option value="Đã Hủy Đơn">Đã Hủy Đơn</option>
+                            </select>
+                        </div>
+                    </mdb-search-buttons>
+                </mdb-search-box>
+
+                <table class="table">
+                    <thead class="bg-secondary text-white" style="margin-top:50px;">
+                        <tr>
+                            <th scope="col">OrderID</th>
+                            <th scope="col">DeliveryAddress</th>
+                            <th scope="col">OrderTime</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">TotalBill</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody >
+                        <tr class="table-row">
+                            <td>You don't have any order!</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
                 <%
                         }
                     }

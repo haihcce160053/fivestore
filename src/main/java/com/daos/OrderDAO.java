@@ -158,6 +158,23 @@ public class OrderDAO {
         }
         return count;
     }
+    
+    /**
+     *
+     * @param Username
+     * @return
+     */
+    public int deleteOrderByUsername(String Username) {
+        int count = 0;
+        try {
+            PreparedStatement pst = conn.prepareStatement("delete from OrderList where Username=?");
+            pst.setString(1, Username);
+            count = pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
 
     // Written by Quang Qui
     /**

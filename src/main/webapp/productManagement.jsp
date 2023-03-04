@@ -23,7 +23,6 @@
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/productManagement.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
-
         <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
 
     </head>

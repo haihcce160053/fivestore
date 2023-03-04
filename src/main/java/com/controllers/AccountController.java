@@ -1,6 +1,8 @@
 package com.controllers;
 
 import com.daos.AccountDAO;
+import com.daos.OrderDAO;
+import com.daos.OrderDetailsDAO;
 import com.models.Account;
 import com.security.Encoding;
 import jakarta.servlet.RequestDispatcher;
@@ -11,6 +13,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -75,19 +81,45 @@ public class AccountController extends HttpServlet {
                     AccountDAO dao = new AccountDAO();
                     Account ac = dao.getAccount(username);
                     if ((username.equalsIgnoreCase("Admin")) || (ac.getAccountTypeId().equalsIgnoreCase("AD"))) {
-                        
+
                         request.setAttribute("mess", "Noo");
                         request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
                     } else {
-                        int count = dao.deleteAccountInformation(username);
-                        int count2 = dao.deleteAccount(username);
-                        if (count > 0 && count2 > 0) {
-                            request.setAttribute("mess", "YesD");
-                            request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
+                        try {
+                            OrderDAO daoorder = new OrderDAO();
+                            OrderDetailsDAO daodetails = new OrderDetailsDAO();
+                            int deleteDetails = 0;
+                            ResultSet rs = daoorder.getOrderByUsername(username);
+                            while (rs.next()) {
+                                deleteDetails = daodetails.deleteOrderDetails(rs.getString("OrderID"));
+                                if (deleteDetails <= 0) {
+                                    break;
+                                }
+                            }
+                            if (deleteDetails <= 0) {
+                                request.setAttribute("mess", "NoD");
+                                request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
+                            } else {
+                                int deleteList = daoorder.deleteOrderByUsername(username);
+                                if (deleteList > 0) {
+                                    int count = dao.deleteAccountInformation(username);
+                                    int count2 = dao.deleteAccount(username);
+                                    if (count > 0 && count2 > 0) {
+                                        request.setAttribute("mess", "YesD");
+                                        request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
 
-                        } else {
-                            request.setAttribute("mess", "NoD");
-                            request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
+                                    } else {
+                                        request.setAttribute("mess", "NoD");
+                                        request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
+                                    }
+                                } else {
+                                    request.setAttribute("mess", "NoD");
+                                    request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
+                                }
+                            }
+
+                        } catch (SQLException ex) {
+                            Logger.getLogger(AccountController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
 
