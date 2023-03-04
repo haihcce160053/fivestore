@@ -38,10 +38,7 @@ function validateForm() {
     } else if (productID.length > 10) {
         regError.innerHTML = "Product ID cannot be more than 10 characters long.";
         return false;
-    } else if (!pictureLink.match(/\.(jpeg|jpg|gif|png)$/) || !/^http/.test(pictureLink)) {
-        regError.innerHTML = "Picture link must be a valid URL and have a file extension of jpeg, jpg, gif, or png.";
-        return false;
-    } else if (productName.length > 50) {
+    }  else if (productName.length > 50) {
         regError.innerHTML = "Product name cannot be more than 50 characters long.";
         return false;
     } else if (isNaN(quantity) || isNaN(price) || isNaN(soldAmount)) {
