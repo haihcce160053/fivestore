@@ -59,6 +59,7 @@ public class ProductController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         String path = request.getRequestURI();
         if (path.startsWith("/Product/Add/")) {
             String[] s = path.split("/");
@@ -112,6 +113,19 @@ public class ProductController extends HttpServlet {
             String viewproductid = pathParts[pathParts.length - 1];
             request.setAttribute("viewproductid", viewproductid);
             request.getRequestDispatcher("/productview.jsp").forward(request, response);
+        }
+        if (path.startsWith("/Product/Search=")) {
+            String[] pathParts = path.split("=");
+            String searchkeyword = pathParts[pathParts.length - 1].trim();
+            searchkeyword = searchkeyword.replace("%20", " ");
+            searchkeyword = searchkeyword.replace("/Product/Search", "");
+            if (searchkeyword.length() != 0) {
+                request.setAttribute("searchkeyword", searchkeyword);
+                request.getRequestDispatcher("/home.jsp").forward(request, response);
+            }else{
+                request.setAttribute("searchkeyword", null);
+                response.sendRedirect(request.getContextPath() + "/home");
+            }
         }
     }
 

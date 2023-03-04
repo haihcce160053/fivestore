@@ -154,7 +154,7 @@
                                     %>
                                     <div class="row" >
                                         <div class="col-lg-12" style="margin-left: 15px; margin-bottom: 15px;">
-                                            <span id="regError" data-my-attribute="<%= mess%>"></span>
+                                            <span id="regError" style="color: red" data-my-attribute="<%= mess%>"></span>
                                         </div>          
                                     </div>
                                     <%
@@ -163,7 +163,7 @@
                                     %>
                                     <div class="row" >
                                         <div class="col-lg-12" style="margin-left: 15px; margin-bottom: 15px;">
-                                            <span id="regError" data-my-attribute=""></span>
+                                            <span id="regError" style="color: red" data-my-attribute=""></span>
                                         </div>          
                                     </div>
                                     <%                                        }

@@ -3,6 +3,7 @@
     Created on : Feb 15, 2023, 7:22:51 AM
     Author     : Huynh Chi Hai
 --%>
+<%@page import="java.text.Normalizer"%>
 <!-- Import -->
 <%@page import="com.daos.OrderDAO"%>
 <%@page import="java.text.NumberFormat"%>
@@ -19,19 +20,19 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>FIVESTORE - Dietary supplemental shop</title>
-        
+
         <!-- Font Awesome -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
         <!-- Google Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
         <!-- MDB -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
-        
+
         <!-- Link ALL File CSS -->
         <link href="${pageContext.request.contextPath}/Resources/css/cart.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
-        
+
         <!-- CSS Navigation bar -->
         <style>
             #page-header {
@@ -63,7 +64,7 @@
                                 <i class="fas fa-bars"></i>
                             </button>
                         </div>
-                        
+
                         <div class="collapse navbar-collapse" id="navbarText">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <%
@@ -81,13 +82,13 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="/Statistics" style="color: white;">Revenue statistics</a>
                                 </li>     
-                                
+
                                 <%
                                     }
                                 %>                             
                             </ul>
                         </div>
-                            
+
                         <div>
                             <%
                                 if (ac == null) {
@@ -162,16 +163,32 @@
                         </div>
                     </div>
                     <div>
-                        <form class="d-flex input-group w-auto">
+                        <form class="d-flex input-group w-auto" action="/Product/Search=" onsubmit="submitSearchForm(event)">
+                            <%
+                                if (request.getAttribute("searchkeyword") != null) {
+                            %>
                             <input
-                                type="search"
+                                type="text"
                                 class="form-control rounded"
                                 placeholder="Search"
-                                aria-label="Search"
+                                id="search-input" value="<%= request.getAttribute("searchkeyword") %>"
                                 />
-                            <span class="input-group-text border-0" id="search-addon">
+                            <%
+                            } else {
+                            %>
+                            <input
+                                type="text"
+                                class="form-control rounded"
+                                placeholder="Search"
+                                id="search-input"
+                                />
+                            <%
+                                }
+                            %>
+
+                            <button type="submit" class="input-group-text border-0" id="search-addon">
                                 <i class="fas fa-search"></i>
-                            </span>
+                            </button>
                         </form>
                     </div>                         
                 </div>
@@ -188,10 +205,7 @@
         <form id="checkout-form" action="/checkout/<%if (ac != null) {%><%= ac.getUsername()%><%} else {%><%= String.valueOf(ac)%><%}%>" method="get">
             <div id="cart" style="display: none;">
                 <h3>Cart</h3>
-                <ul id="cart-items">
-
-                </ul>
-
+                <ul id="cart-items"></ul>
                 <div id="cart-total">
                     <p>Total: <span id="cart-total-amount">0 VND</span></p>
                 </div>
@@ -201,12 +215,66 @@
 
         <!-- All Product -->
         <main>
+            <%
+                if (request.getAttribute("searchkeyword") != null) {
+                    String keyword = (String) request.getAttribute("searchkeyword");
+                    ProductDAO dao = new ProductDAO();
+                    ResultSet rs = dao.getAll();
+            %>            
+            <div style="padding: 50px">
+                <div style="margin-bottom: 40px">
+                    <div class="row">
+                        <%
+                            while (rs.next()) {
+                                String ProductName = Normalizer.normalize(rs.getString("ProductName"), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+                                if (ProductName.toLowerCase().contains(keyword.toLowerCase())) {
+                        %>
+                        <div class="col-md-2 my-3">
+                            <div class="card">
+                                <div align="center" style="margin-bottom: 20px">
+                                    <img class="card-img-top" style="width: 150px; height: 150px" src="<%= rs.getString("PictureLink")%>" alt="alt"/>
+                                </div>
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <h6 class="card-title text-truncate"><%= rs.getString("ProductName")%></h6>
+                                    <%
+                                        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                        String formattedPrice = format.format(rs.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                    %>   
+                                    <div>
+                                        <span class="card-text text-muted" id="exp-<%= rs.getString("EXP")%>"><b>EXP: </b><%= rs.getString("EXP")%></span>
+                                    </div>
+                                    <div>
+                                        <span class="card-text text-muted" id="exp-<%= rs.getString("Quantity")%>"><b>Quantity: </b><%= rs.getString("Quantity")%></span>
+                                    </div>
+                                    <div>
+                                        <span class="card-text text-muted" id="price-<%= rs.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <input id="title-<%= rs.getString("ProductID")%>" type="text" value="<%= rs.getString("ProductName")%>" hidden>
+                                        <button id="view-<%= rs.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs.getString("ProductID")%>'">View</button>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <button id="cart-<%= rs.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <%
+                                }
+                            }
+                        %>
+                    </div>
+                </div>
+            </div>
+            <%
+            } else {
+            %>
+
             <div style="padding: 50px">
                 <div style="margin-bottom: 40px">
                     <h5>DIGESTION</h5>
                     <div class="row">
-                        <%
-                            ProductDAO dao_dig = new ProductDAO();
+                        <%                            ProductDAO dao_dig = new ProductDAO();
                             ResultSet rs_dig = dao_dig.getAll();
                             while (rs_dig.next()) {
                                 if (rs_dig.getString("ProductTypeID").equals("Dig")) {
@@ -218,17 +286,25 @@
                                 </div>
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_dig.getString("ProductName")%></h6>
-                                    <div class="d-flex justify-content-between">
-                                        <%
-                                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                            String formattedPrice = format.format(rs_dig.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
-                                        %>
+                                    <%
+                                        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                        String formattedPrice = format.format(rs_dig.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                    %>   
+                                    <div>
+                                        <span class="card-text text-muted" id="exp-<%= rs_dig.getString("EXP")%>"><b>EXP: </b><%= rs_dig.getString("EXP")%></span>
+                                    </div>
+                                    <div>
+                                        <span class="card-text text-muted" id="exp-<%= rs_dig.getString("Quantity")%>"><b>Quantity: </b><%= rs_dig.getString("Quantity")%></span>
+                                    </div>
+                                    <div>
                                         <span class="card-text text-muted" id="price-<%= rs_dig.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
                                     </div>
                                     <div style="margin-top: 20px">
                                         <input id="title-<%= rs_dig.getString("ProductID")%>" type="text" value="<%= rs_dig.getString("ProductName")%>" hidden>
-                                        <button id="view-<%= rs_dig.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" onclick="location.href='/Product/View/<%= rs_dig.getString("ProductID")%>'">View</button>
-                                        <button id="cart-<%= rs_dig.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
+                                        <button id="view-<%= rs_dig.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs_dig.getString("ProductID")%>'">View</button>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <button id="cart-<%= rs_dig.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
@@ -256,17 +332,25 @@
                                 </div>
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_eyes.getString("ProductName")%></h6>
-                                    <div class="d-flex justify-content-between">
-                                        <%
-                                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                            String formattedPrice = format.format(rs_eyes.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
-                                        %>
+                                    <%
+                                        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                        String formattedPrice = format.format(rs_eyes.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                    %>   
+                                    <div>
+                                        <span class="card-text text-muted" id="exp-<%= rs_eyes.getString("EXP")%>"><b>EXP: </b><%= rs_eyes.getString("EXP")%></span>
+                                    </div>
+                                    <div>
+                                        <span class="card-text text-muted" id="exp-<%= rs_eyes.getString("Quantity")%>"><b>Quantity: </b><%= rs_eyes.getString("Quantity")%></span>
+                                    </div>
+                                    <div>
                                         <span class="card-text text-muted" id="price-<%= rs_eyes.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
                                     </div>
                                     <div style="margin-top: 20px">
                                         <input id="title-<%= rs_eyes.getString("ProductID")%>" type="text" value="<%= rs_eyes.getString("ProductName")%>" hidden>
-                                        <button id="view-<%= rs_eyes.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" onclick="location.href='/Product/View/<%= rs_eyes.getString("ProductID")%>'">View</button>
-                                        <button id="cart-<%= rs_eyes.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
+                                        <button id="view-<%= rs_eyes.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs_eyes.getString("ProductID")%>'">View</button>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <button id="cart-<%= rs_eyes.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
@@ -294,17 +378,25 @@
                                 </div>
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_blood.getString("ProductName")%></h6>
-                                    <div class="d-flex justify-content-between">
-                                        <%
-                                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                            String formattedPrice = format.format(rs_blood.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
-                                        %>
+                                    <%
+                                        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                        String formattedPrice = format.format(rs_blood.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                    %>   
+                                    <div>
+                                        <span class="card-text text-muted" id="exp-<%= rs_blood.getString("EXP")%>"><b>EXP: </b><%= rs_blood.getString("EXP")%></span>
+                                    </div>
+                                    <div>
+                                        <span class="card-text text-muted" id="exp-<%= rs_blood.getString("Quantity")%>"><b>Quantity: </b><%= rs_blood.getString("Quantity")%></span>
+                                    </div>
+                                    <div>
                                         <span class="card-text text-muted" id="price-<%= rs_blood.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
                                     </div>
                                     <div style="margin-top: 20px">
                                         <input id="title-<%= rs_blood.getString("ProductID")%>" type="text" value="<%= rs_blood.getString("ProductName")%>" hidden>
-                                        <button id="view-<%= rs_blood.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" onclick="location.href='/Product/View/<%= rs_blood.getString("ProductID")%>'">View</button>
-                                        <button id="cart-<%= rs_blood.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
+                                        <button id="view-<%= rs_blood.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs_blood.getString("ProductID")%>'">View</button>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <button id="cart-<%= rs_blood.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
@@ -332,17 +424,25 @@
                                 </div>
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_liver.getString("ProductName")%></h6>
-                                    <div class="d-flex justify-content-between">
-                                        <%
-                                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                            String formattedPrice = format.format(rs_liver.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
-                                        %>
+                                    <%
+                                        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                        String formattedPrice = format.format(rs_liver.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                    %>   
+                                    <div>
+                                        <span class="card-text text-muted" id="exp-<%= rs_liver.getString("EXP")%>"><b>EXP: </b><%= rs_liver.getString("EXP")%></span>
+                                    </div>
+                                    <div>
+                                        <span class="card-text text-muted" id="exp-<%= rs_liver.getString("Quantity")%>"><b>Quantity: </b><%= rs_liver.getString("Quantity")%></span>
+                                    </div>
+                                    <div>
                                         <span class="card-text text-muted" id="price-<%= rs_liver.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
                                     </div>
                                     <div style="margin-top: 20px">
                                         <input id="title-<%= rs_liver.getString("ProductID")%>" type="text" value="<%= rs_liver.getString("ProductName")%>" hidden>
-                                        <button id="view-<%= rs_liver.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" onclick="location.href='/Product/View/<%= rs_liver.getString("ProductID")%>'">View</button>
-                                        <button id="cart-<%= rs_liver.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
+                                        <button id="view-<%= rs_liver.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs_liver.getString("ProductID")%>'">View</button>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <button id="cart-<%= rs_liver.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
@@ -371,17 +471,25 @@
                                 </div>
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_resistance.getString("ProductName")%></h6>
-                                    <div class="d-flex justify-content-between">
-                                        <%
-                                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                            String formattedPrice = format.format(rs_resistance.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
-                                        %>
+                                    <%
+                                        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                        String formattedPrice = format.format(rs_resistance.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                    %>   
+                                    <div>
+                                        <span class="card-text text-muted" id="exp-<%= rs_resistance.getString("EXP")%>"><b>EXP: </b><%= rs_resistance.getString("EXP")%></span>
+                                    </div>
+                                    <div>
+                                        <span class="card-text text-muted" id="exp-<%= rs_resistance.getString("Quantity")%>"><b>Quantity: </b><%= rs_resistance.getString("Quantity")%></span>
+                                    </div>
+                                    <div>
                                         <span class="card-text text-muted" id="price-<%= rs_resistance.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
                                     </div>
                                     <div style="margin-top: 20px">
                                         <input id="title-<%= rs_resistance.getString("ProductID")%>" type="text" value="<%= rs_resistance.getString("ProductName")%>" hidden>
-                                        <button id="view-<%= rs_resistance.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" onclick="location.href='/Product/View/<%= rs_resistance.getString("ProductID")%>'">View</button>
-                                        <button id="cart-<%= rs_resistance.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
+                                        <button id="view-<%= rs_resistance.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs_resistance.getString("ProductID")%>'">View</button>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <button id="cart-<%= rs_resistance.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
@@ -409,18 +517,26 @@
                                 </div>
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_skin.getString("ProductName")%></h6>
-                                    <div class="d-flex justify-content-between">
-                                        <%
-                                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                            String formattedPrice = format.format(rs_skin.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
-                                        %>
+                                    <%
+                                        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                        String formattedPrice = format.format(rs_skin.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                    %>   
+                                    <div>
+                                        <span class="card-text text-muted" id="exp-<%= rs_skin.getString("EXP")%>"><b>EXP: </b><%= rs_skin.getString("EXP")%></span>
+                                    </div>
+                                    <div>
+                                        <span class="card-text text-muted" id="exp-<%= rs_skin.getString("Quantity")%>"><b>Quantity: </b><%= rs_skin.getString("Quantity")%></span>
+                                    </div>
+                                    <div>
                                         <span class="card-text text-muted" id="price-<%= rs_skin.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
                                     </div>
                                     <div style="margin-top: 20px">
                                         <input id="title-<%= rs_skin.getString("ProductID")%>" type="text" value="<%= rs_skin.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_skin.getString("ProductID")%>" type="text" value="<%= rs_skin.getString("Description")%>" hidden>
-                                        <button id="view-<%= rs_skin.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" onclick="location.href='/Product/View/<%= rs_skin.getString("ProductID")%>'">View</button>
-                                        <button id="cart-<%= rs_skin.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
+                                        <button id="view-<%= rs_skin.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs_skin.getString("ProductID")%>'">View</button>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <button id="cart-<%= rs_skin.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
@@ -448,18 +564,26 @@
                                 </div>
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_sleep.getString("ProductName")%></h6>
-                                    <div class="d-flex justify-content-between">
-                                        <%
-                                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                            String formattedPrice = format.format(rs_sleep.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
-                                        %>
+                                    <%
+                                        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                        String formattedPrice = format.format(rs_sleep.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                    %>   
+                                    <div>
+                                        <span class="card-text text-muted" id="exp-<%= rs_sleep.getString("EXP")%>"><b>EXP: </b><%= rs_sleep.getString("EXP")%></span>
+                                    </div>
+                                    <div>
+                                        <span class="card-text text-muted" id="exp-<%= rs_sleep.getString("Quantity")%>"><b>Quantity: </b><%= rs_sleep.getString("Quantity")%></span>
+                                    </div>
+                                    <div>
                                         <span class="card-text text-muted" id="price-<%= rs_sleep.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
                                     </div>
                                     <div style="margin-top: 20px">
                                         <input id="title-<%= rs_sleep.getString("ProductID")%>" type="text" value="<%= rs_sleep.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_sleep.getString("ProductID")%>" type="text" value="<%= rs_sleep.getString("Description")%>" hidden>
-                                        <button id="view-<%= rs_sleep.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" onclick="location.href='/Product/View/<%= rs_sleep.getString("ProductID")%>'">View</button>
-                                        <button id="cart-<%= rs_sleep.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
+                                        <button id="view-<%= rs_sleep.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs_sleep.getString("ProductID")%>'">View</button>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <button id="cart-<%= rs_sleep.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
@@ -487,18 +611,26 @@
                                 </div>
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= rs_weight.getString("ProductName")%></h6>
-                                    <div class="d-flex justify-content-between">
-                                        <%
-                                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                            String formattedPrice = format.format(rs_weight.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
-                                        %>
+                                    <%
+                                        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                        String formattedPrice = format.format(rs_weight.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                    %>   
+                                    <div>
+                                        <span class="card-text text-muted" id="exp-<%= rs_weight.getString("EXP")%>"><b>EXP: </b><%= rs_weight.getString("EXP")%></span>
+                                    </div>
+                                    <div>
+                                        <span class="card-text text-muted" id="exp-<%= rs_weight.getString("Quantity")%>"><b>Quantity: </b><%= rs_weight.getString("Quantity")%></span>
+                                    </div>
+                                    <div>
                                         <span class="card-text text-muted" id="price-<%= rs_weight.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
                                     </div>
                                     <div style="margin-top: 20px">
                                         <input id="title-<%= rs_weight.getString("ProductID")%>" type="text" value="<%= rs_weight.getString("ProductName")%>" hidden>
                                         <input id="des-<%= rs_weight.getString("ProductID")%>" type="text" value="<%= rs_weight.getString("Description")%>" hidden>
-                                        <button id="view-<%= rs_weight.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white" onclick="location.href='/Product/View/<%= rs_weight.getString("ProductID")%>'">View</button>
-                                        <button id="cart-<%= rs_weight.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white">Add to Cart</button>
+                                        <button id="view-<%= rs_weight.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs_weight.getString("ProductID")%>'">View</button>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <button id="cart-<%= rs_weight.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
@@ -510,12 +642,28 @@
                     </div>
                 </div>
             </div>
+            <%
+                }
+            %>
         </main>
         <!-- Footer -->            
         <%@ include file="/footer.jsp" %>
 
         <!-- Button GO TO TOP -->
         <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
+
+        <!--Search function-->
+        <script>
+            function submitSearchForm(event) {
+                event.preventDefault();
+                const searchInput = removeUnicode(document.getElementById('search-input').value);
+                window.location.href = '/Product/Search=' + searchInput;
+            }
+            function removeUnicode(str) {
+                str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                return str.normalize("NFC");
+            }
+        </script>
 
         <!-- Link ALL JS From URL -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
@@ -526,6 +674,6 @@
         <!-- Link All File JS -->
         <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
-        <script src="${pageContext.request.contextPath}/Resources/js/searchhome.js"></script>
+        <!--<script src="${pageContext.request.contextPath}/Resources/js/searchhome.js"></script>-->
     </body>
 </html>
