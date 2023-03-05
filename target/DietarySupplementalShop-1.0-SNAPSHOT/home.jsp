@@ -3,6 +3,7 @@
     Created on : Feb 15, 2023, 7:22:51 AM
     Author     : Huynh Chi Hai
 --%>
+<%@page import="com.models.Product"%>
 <%@page import="java.text.Normalizer"%>
 <!-- Import -->
 <%@page import="com.daos.OrderDAO"%>
@@ -27,6 +28,9 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
         <!-- MDB -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-hc80HbuNt3Nq3GJrQY8wBn/5dud+Mz9XjKNOknroFZwn+CUB1q3q1jRUQzGtW0RdR69lRftPfuX5j5TT+c1ZMg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-X7y2BjG92uj/4Q33+ALofRfNYABcHVKxS7NdrpNwSEVhKqw1i3qAK0M7hW8aUoz81eUUIxPzvV7wWRLhQ09V7Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
         <!-- Link ALL File CSS -->
         <link href="${pageContext.request.contextPath}/Resources/css/cart.css" rel="stylesheet" />
@@ -41,6 +45,43 @@
                 top: 0;
                 width: 100%;
                 z-index: 999;
+            }
+            .sold-label {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                font-weight: bold;
+                font-size: 14px;
+                color: #fff;
+                background-color: #c62828;
+                text-align: center;
+            }
+            .order-label {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                border-radius: 20px;
+                font-weight: bold;
+                font-size: 14px;
+                color: #fff;
+                background-color: #4CAF50;
+                text-align: center;
+                box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+                animation: pulse 2.5s ease-in-out infinite;
+            }
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+                50% {
+                    transform: scale(1.2);
+                    opacity: 0.8;
+                }
+                100% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
             }
         </style>
     </head>
@@ -58,13 +99,7 @@
                         <div>
                             <a class="navbar-brand" href="/home"
                                style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b></a>
-                            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
-                                    data-mdb-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
-                                    aria-label="Toggle navigation">
-                                <i class="fas fa-bars"></i>
-                            </button>
                         </div>
-
                         <div class="collapse navbar-collapse" id="navbarText">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <%
@@ -88,7 +123,6 @@
                                 %>                             
                             </ul>
                         </div>
-
                         <div>
                             <%
                                 if (ac == null) {
@@ -113,40 +147,21 @@
                             </button>
                             <%
                                 }
-                            %>
-                            <%
-                                if (ac != null && ac.getUsername().equalsIgnoreCase("Admin")) {
-                            %>
-
-                            <%
-                            } else if (ac == null || (!ac.getUsername().equalsIgnoreCase("Admin"))) {
+                                if (ac == null || (!ac.getAccountTypeId().equalsIgnoreCase("AD"))) {
                             %>
                             <button id="view-cart-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white">
                                 MY CART <span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;">0</span>
                             </button>
                             <%
                                 }
-                            %>
-                            <%
-                                if (ac != null) {
+                                if ((ac != null) && (!ac.getAccountTypeId().equalsIgnoreCase("AD"))) {
                                     OrderDAO dao = new OrderDAO();
                                     int countOfOrder = dao.getNumberOrderByUsername(ac.getUsername());
                             %>
-                            <button id="view-purchase-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white" 
-                                    onclick="location.href = '/Account/Order/<%= ac.getUsername()%>'">
+                            <button id="view-purchase-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white" onclick="location.href = '/Account/Order/<%= ac.getUsername()%>'">
                                 MY Purchase<span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;"><%=countOfOrder%></span>
-
                             </button>
-                            <%
-                            } else {
-                            %>
-                            <button id="view-purchase-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white"
-                                    >
-                                MY Purchase<span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;">0</span>
-                            </button>
-                            <%
-                                }
-                            %>
+                            <% }%>
                         </div>
                     </div>
                 </nav>
@@ -171,7 +186,7 @@
                                 type="text"
                                 class="form-control rounded"
                                 placeholder="Search"
-                                id="search-input" value="<%= request.getAttribute("searchkeyword") %>"
+                                id="search-input" value="<%= request.getAttribute("searchkeyword")%>"
                                 />
                             <%
                             } else {
@@ -198,8 +213,6 @@
         <!-- Shopping Cart -->
         <% if (ac != null) {
                 String username = ac.getUsername();
-            } else {
-                String username = "null";
             }
         %>
         <form id="checkout-form" action="/checkout/<%if (ac != null) {%><%= ac.getUsername()%><%} else {%><%= String.valueOf(ac)%><%}%>" method="get">
@@ -212,11 +225,121 @@
                 <button id="checkout-button">Checkout</button>
             </div>
         </form>
-
+        <!-- BEST SELLING OR BEST ORDER -->
+        <%
+            ProductDAO dao_product = new ProductDAO();
+            ResultSet rs_product_order = dao_product.getAllProductBestOrder();
+            int count = 0;
+            while (rs_product_order.next()) {
+                count++;
+            }
+            if (count >= 6) {
+        %>
+        <div style="padding: 50px">
+            <div style="margin-bottom: 40px">
+                <h5>BEST ORDER</h5>
+                <div class="row">
+                    <%
+                        while (rs_product_order.next()) {
+                            Product pd = dao_product.getProduct(rs_product_order.getString("ProductID"));
+                    %> 
+                    <div class="col-md-2 my-3 ">
+                        <div class="card fire">
+                            <div align="center" style="margin-bottom: 20px">
+                                <img class="card-img-top" style="width: 150px; height: 150px" src="<%= pd.getPictureLink()%>" alt="alt"/>
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <h6 class="card-title text-truncate"><%= pd.getProductName()%></h6>
+                                <% NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                    String formattedPrice = format.format(pd.getPrice()).replace("₫", "VND").replaceAll("\\s", "");
+                                %>   
+                                <div>
+                                    <span class="card-text text-muted" id="exp-<%= pd.getEXP()%>"><b>EXP: </b><%= pd.getEXP()%></span>
+                                </div>
+                                <div>
+                                    <span class="card-text text-muted" id="exp-<%= pd.getQuantity()%>"><b>Quantity: </b><%= pd.getQuantity()%></span>
+                                </div>
+                                <div>
+                                    <span class="card-text text-muted" id="price-<%= pd.getProductID()%>"><b>Price: </b><%= formattedPrice%></span>
+                                </div>
+                                <div style="margin-top: 20px">
+                                    <input id="title-<%= pd.getProductID()%>" type="text" value="<%= pd.getProductName()%>" hidden>
+                                    <button id="view-<%= pd.getProductID()%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= pd.getProductID()%>'">View</button>
+                                </div>
+                                <div style="margin-top: 20px">
+                                    <button id="cart-<%= pd.getProductID()%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
+                                </div>
+                                <div style="margin-top: 20px">
+                                    <span class="badge badge-secondary order-label"><%= rs_product_order.getString("TotalOrders")%> order</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <%
+                        }
+                    %>
+                </div>
+            </div>
+        </div>
+        <%
+        } else {
+        %>
+        <div style="padding: 50px">
+            <div style="margin-bottom: 40px">
+                <h5>BEST SELLING</h5>
+                <div class="row">
+                    <%
+                        ResultSet rs_product_selling = dao_product.getAllProductBestSelling();
+                        while (rs_product_selling.next()) {
+                    %> 
+                    <div class="col-md-2 my-3 ">
+                        <div class="card fire">
+                            <div align="center" style="margin-bottom: 20px">
+                                <img class="card-img-top" style="width: 150px; height: 150px" src="<%= rs_product_selling.getString("PictureLink")%>" alt="alt"/>
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <h6 class="card-title text-truncate"><%= rs_product_selling.getString("ProductName")%></h6>
+                                <% NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                    String formattedPrice = format.format(rs_product_selling.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                %>   
+                                <div>
+                                    <span class="card-text text-muted" id="exp-<%= rs_product_selling.getString("EXP")%>"><b>EXP: </b><%= rs_product_selling.getString("EXP")%></span>
+                                </div>
+                                <div>
+                                    <span class="card-text text-muted" id="exp-<%= rs_product_selling.getString("Quantity")%>"><b>Quantity: </b><%= rs_product_selling.getString("Quantity")%></span>
+                                </div>
+                                <div>
+                                    <span class="card-text text-muted" id="price-<%= rs_product_selling.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
+                                </div>
+                                <div style="margin-top: 20px">
+                                    <input id="title-<%= rs_product_selling.getString("ProductID")%>" type="text" value="<%= rs_product_selling.getString("ProductName")%>" hidden>
+                                    <button id="view-<%= rs_product_selling.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs_product_selling.getString("ProductID")%>'">View</button>
+                                </div>
+                                <div style="margin-top: 20px">
+                                    <button id="cart-<%= rs_product_selling.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
+                                </div>
+                                <div style="margin-top: 20px">
+                                    <span class="badge badge-secondary order-label"><%= rs_product_selling.getString("SoldAmount")%> sold</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <%
+                        }
+                    %>
+                </div>
+            </div>
+        </div>
+        <%
+            }
+        %>
+        
+        
         <!-- All Product -->
         <main>
             <%
-                if (request.getAttribute("searchkeyword") != null) {
+                if (request.getAttribute(
+                        "searchkeyword") != null) {
                     String keyword = (String) request.getAttribute("searchkeyword");
                     ProductDAO dao = new ProductDAO();
                     ResultSet rs = dao.getAll();
@@ -255,6 +378,9 @@
                                     </div>
                                     <div style="margin-top: 20px">
                                         <button id="cart-<%= rs.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <span class="badge badge-secondary sold-label"><%= rs.getString("SoldAmount")%> sold</span>
                                     </div>
                                 </div>
                             </div>
@@ -306,6 +432,9 @@
                                     <div style="margin-top: 20px">
                                         <button id="cart-<%= rs_dig.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
+                                    <div style="margin-top: 20px">
+                                        <span class="badge badge-secondary sold-label"><%= rs_dig.getString("SoldAmount")%> sold</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -351,6 +480,9 @@
                                     </div>
                                     <div style="margin-top: 20px">
                                         <button id="cart-<%= rs_eyes.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <span class="badge badge-secondary sold-label"><%= rs_eyes.getString("SoldAmount")%> sold</span>
                                     </div>
                                 </div>
                             </div>
@@ -398,6 +530,9 @@
                                     <div style="margin-top: 20px">
                                         <button id="cart-<%= rs_blood.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
+                                    <div style="margin-top: 20px">
+                                        <span class="badge badge-secondary sold-label"><%= rs_blood.getString("SoldAmount")%> sold</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -443,6 +578,9 @@
                                     </div>
                                     <div style="margin-top: 20px">
                                         <button id="cart-<%= rs_liver.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <span class="badge badge-secondary sold-label"><%= rs_liver.getString("SoldAmount")%> sold</span>
                                     </div>
                                 </div>
                             </div>
@@ -491,6 +629,9 @@
                                     <div style="margin-top: 20px">
                                         <button id="cart-<%= rs_resistance.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
+                                    <div style="margin-top: 20px">
+                                        <span class="badge badge-secondary sold-label"><%= rs_resistance.getString("SoldAmount")%> sold</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -537,6 +678,9 @@
                                     </div>
                                     <div style="margin-top: 20px">
                                         <button id="cart-<%= rs_skin.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <span class="badge badge-secondary sold-label"><%= rs_skin.getString("SoldAmount")%> sold</span>
                                     </div>
                                 </div>
                             </div>
@@ -585,6 +729,9 @@
                                     <div style="margin-top: 20px">
                                         <button id="cart-<%= rs_sleep.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
+                                    <div style="margin-top: 20px">
+                                        <span class="badge badge-secondary sold-label"><%= rs_sleep.getString("SoldAmount")%> sold</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -632,6 +779,9 @@
                                     <div style="margin-top: 20px">
                                         <button id="cart-<%= rs_weight.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
+                                    <div style="margin-top: 20px">
+                                        <span class="badge badge-secondary sold-label"><%= rs_weight.getString("SoldAmount")%> sold</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -670,6 +820,24 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+        <script>
+            $('.slick-slider').slick({
+                slidesToShow: 4, // Số lượng sản phẩm được hiển thị trên mỗi trang của slideshow
+                slidesToScroll: 1, // Số lượng sản phẩm được cuộn khi nhấn nút Previous hoặc Next
+                autoplay: true, // Tự động chuyển đổi slide sau một khoảng thời gian nhất định
+                autoplaySpeed: 3000, // Thời gian chuyển đổi slide khi tự động phát lại
+                responsive: [
+                    {
+                        breakpoint: 768, // Điểm dừng khi kích thước màn hình giảm xuống
+                        settings: {
+                            slidesToShow: 2 // Số lượng sản phẩm hiển thị ở điểm dừng
+                        }
+                    }
+                ]
+            });
+
+        </script>
+
 
         <!-- Link All File JS -->
         <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>

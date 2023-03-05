@@ -206,16 +206,21 @@ function updateCartItems() {
 function checkout() {
     // Display an alert with the total price
     const totalPrice = cartTotalAmount.textContent;
-    // Hiển thị thông báo về tổng giá trị và yêu cầu người dùng xác nhận
-    const confirmMessage = "Bạn có chắc chắn muốn đặt hàng với tổng giá trị là: " + totalPrice + "?";
-    event.preventDefault();
-    const shouldCheckout = confirm(confirmMessage);
-    if (shouldCheckout) {
-        // Gửi biểu mẫu lên servlet
-        document.getElementById("checkout-form").submit();
-        cartItemsArray = [];
-        updateCartBadge();
-        updateCartItems();
+    console.log(totalPrice);
+    if (totalPrice === "0 đ") {
+        // Hiển thị thông báo
+        const confirmMessage = "Bạn chưa có món hàng nào!";
+        event.preventDefault();
+        confirm(confirmMessage);
+    } else {
+        // Hiển thị thông báo về tổng giá trị và yêu cầu người dùng xác nhận
+        const confirmMessage = "Bạn có chắc chắn muốn đặt hàng với tổng giá trị là: " + totalPrice + "?";
+        event.preventDefault();
+        const shouldCheckout = confirm(confirmMessage);
+        if (shouldCheckout) {
+            // Gửi biểu mẫu lên servlet
+            document.getElementById("checkout-form").submit();
+        }
     }
 }
 

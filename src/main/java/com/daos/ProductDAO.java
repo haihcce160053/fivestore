@@ -56,8 +56,8 @@ public class ProductDAO {
             PreparedStatement pst = conn.prepareStatement("select Price from ProductInformation where ProductID=?");
             pst.setString(1, ProductID);
             ResultSet rs = pst.executeQuery();
-            while (rs.next()){
-                 unitPrice = rs.getInt("Price");
+            while (rs.next()) {
+                unitPrice = rs.getInt("Price");
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -239,7 +239,7 @@ public class ProductDAO {
         }
         return name;
     }
-    
+
     /**
      *
      *
@@ -250,6 +250,46 @@ public class ProductDAO {
         try {
             Statement st = conn.createStatement();
             rs = st.executeQuery("select * from ProductType");
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+    
+    /**
+     *
+     * Written by Quang Qui
+     * @return ResultSet Products Best Selling
+     */
+    public ResultSet getAllProductBestOrder() {
+        ResultSet rs = null;
+        try {
+            Statement st = conn.createStatement();
+            rs = st.executeQuery("SELECT od.ProductID, COUNT(*) as TotalOrders\n"
+                    + "FROM OrderDetails od\n"
+                    + "INNER JOIN OrderList ol ON od.OrderID = ol.OrderID\n"
+                    + "WHERE YEAR(ol.OrderTime) = YEAR(GETDATE()) AND MONTH(ol.OrderTime) = MONTH(GETDATE())\n"
+                    + "GROUP BY od.ProductID\n"
+                    + "HAVING COUNT(*) >= 4"
+                    + "ORDER BY TotalOrders DESC");
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+    
+    /**
+     *
+     * Written by Quang Qui
+     * @return ResultSet Products Best Selling
+     */
+    public ResultSet getAllProductBestSelling() {
+        ResultSet rs = null;
+        try {
+            Statement st = conn.createStatement();
+            rs = st.executeQuery("select t1.ProductID,t1.ProductName,t1.PictureLink,t1.Description,\n"
+                    + "t2.ProductTypeID,t2.Quantity,t2.Price,t2.EXP,t2.Origin,t2.SoldAmount\n"
+                    + "from Product t1 left outer join ProductInformation t2 on t1.ProductID = t2.ProductID where t2.SoldAmount >=4");
         } catch (SQLException ex) {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
