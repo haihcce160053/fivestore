@@ -33,9 +33,6 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
         <!-- MDB -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-hc80HbuNt3Nq3GJrQY8wBn/5dud+Mz9XjKNOknroFZwn+CUB1q3q1jRUQzGtW0RdR69lRftPfuX5j5TT+c1ZMg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-X7y2BjG92uj/4Q33+ALofRfNYABcHVKxS7NdrpNwSEVhKqw1i3qAK0M7hW8aUoz81eUUIxPzvV7wWRLhQ09V7Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
 
         <!-- Link ALL File CSS -->
         <link href="${pageContext.request.contextPath}/Resources/css/cart.css" rel="stylesheet" />
@@ -230,115 +227,6 @@
                 <button id="checkout-button">Checkout</button>
             </div>
         </form>
-        <!-- BEST SELLING OR BEST ORDER -->
-        <%
-            ProductDAO dao_product = new ProductDAO();
-            ResultSet rs_product_order = dao_product.getAllProductBestOrder();
-            int count = 0;
-            while (rs_product_order.next()) {
-                count++;
-            }
-            if (count >= 6) {
-        %>
-        <div style="padding: 50px">
-            <div style="margin-bottom: 40px">
-                <h5>BEST ORDER</h5>
-                <div class="row">
-                    <%
-                        while (rs_product_order.next()) {
-                            Product pd = dao_product.getProduct(rs_product_order.getString("ProductID"));
-                    %> 
-                    <div class="col-md-2 my-3 ">
-                        <div class="card fire">
-                            <div align="center" style="margin-bottom: 20px">
-                                <img class="card-img-top" style="width: 150px; height: 150px" src="<%= pd.getPictureLink()%>" alt="alt"/>
-                            </div>
-                            <div class="card-body d-flex flex-column justify-content-between">
-                                <h6 class="card-title text-truncate"><%= pd.getProductName()%></h6>
-                                <% NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                    String formattedPrice = format.format(pd.getPrice()).replace("₫", "VND").replaceAll("\\s", "");
-                                %>   
-                                <div>
-                                    <span class="card-text text-muted" id="exp-<%= pd.getEXP()%>"><b>EXP: </b><%= pd.getEXP()%></span>
-                                </div>
-                                <div>
-                                    <span class="card-text text-muted" id="exp-<%= pd.getQuantity()%>"><b>Quantity: </b><%= pd.getQuantity()%></span>
-                                </div>
-                                <div>
-                                    <span class="card-text text-muted" id="price-<%= pd.getProductID()%>"><b>Price: </b><%= formattedPrice%></span>
-                                </div>
-                                <div style="margin-top: 20px">
-                                    <input id="title-<%= pd.getProductID()%>" type="text" value="<%= pd.getProductName()%>" hidden>
-                                    <button id="view-<%= pd.getProductID()%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= pd.getProductID()%>'">View</button>
-                                </div>
-                                <div style="margin-top: 20px">
-                                    <button id="cart-<%= pd.getProductID()%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
-                                </div>
-                                <div style="margin-top: 20px">
-                                    <span class="badge badge-secondary order-label"><%= rs_product_order.getString("TotalOrders")%> order</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <%
-                        }
-                    %>
-                </div>
-            </div>
-        </div>
-        <%
-        } else {
-        %>
-        <div style="padding: 50px">
-            <div style="margin-bottom: 40px">
-                <h5>BEST SELLING</h5>
-                <div class="row">
-                    <%
-                        ResultSet rs_product_selling = dao_product.getAllProductBestSelling();
-                        while (rs_product_selling.next()) {
-                    %> 
-                    <div class="col-md-2 my-3 ">
-                        <div class="card fire">
-                            <div align="center" style="margin-bottom: 20px">
-                                <img class="card-img-top" style="width: 150px; height: 150px" src="<%= rs_product_selling.getString("PictureLink")%>" alt="alt"/>
-                            </div>
-                            <div class="card-body d-flex flex-column justify-content-between">
-                                <h6 class="card-title text-truncate"><%= rs_product_selling.getString("ProductName")%></h6>
-                                <% NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                    String formattedPrice = format.format(rs_product_selling.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
-                                %>   
-                                <div>
-                                    <span class="card-text text-muted" id="exp-<%= rs_product_selling.getString("EXP")%>"><b>EXP: </b><%= rs_product_selling.getString("EXP")%></span>
-                                </div>
-                                <div>
-                                    <span class="card-text text-muted" id="exp-<%= rs_product_selling.getString("Quantity")%>"><b>Quantity: </b><%= rs_product_selling.getString("Quantity")%></span>
-                                </div>
-                                <div>
-                                    <span class="card-text text-muted" id="price-<%= rs_product_selling.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
-                                </div>
-                                <div style="margin-top: 20px">
-                                    <input id="title-<%= rs_product_selling.getString("ProductID")%>" type="text" value="<%= rs_product_selling.getString("ProductName")%>" hidden>
-                                    <button id="view-<%= rs_product_selling.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs_product_selling.getString("ProductID")%>'">View</button>
-                                </div>
-                                <div style="margin-top: 20px">
-                                    <button id="cart-<%= rs_product_selling.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
-                                </div>
-                                <div style="margin-top: 20px">
-                                    <span class="badge badge-secondary order-label"><%= rs_product_selling.getString("SoldAmount")%> sold</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <%
-                        }
-                    %>
-                </div>
-            </div>
-        </div>
-        <%
-            }
-        %>
-
 
         <!-- All Product -->
         <main>
@@ -372,7 +260,7 @@
                                         <span class="card-text text-muted" id="exp-<%= rs.getString("EXP")%>"><b>EXP: </b><%= rs.getString("EXP")%></span>
                                     </div>
                                     <div>
-                                        <span class="card-text text-muted" id="exp-<%= rs.getString("Quantity")%>"><b>Quantity: </b><%= rs.getString("Quantity")%></span>
+                                        <span class="card-text text-muted" id="quantity-<%= rs.getString("Quantity")%>"><b>Quantity: </b><%= rs.getString("Quantity")%></span>
                                     </div>
                                     <div>
                                         <span class="card-text text-muted" id="price-<%= rs.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
@@ -400,7 +288,120 @@
             <%
             } else {
             %>
-
+            <!-- BEST SELLING OR BEST ORDER -->
+            <%
+                ProductDAO dao_product = new ProductDAO();
+                ResultSet rs_product_order = dao_product.getAllProductBestOrder();
+                int count = 0;
+                while (rs_product_order.next()) {
+                    count++;
+                }
+                if (count >= 6) {
+            %>
+            <div style="padding: 50px">
+                <div>
+                    <h5>BEST ORDER</h5>
+                    <div class="row">
+                        <%
+                            while (rs_product_order.next()) {
+                                Product pd = dao_product.getProduct(rs_product_order.getString("ProductID"));
+                        %> 
+                        <div class="col-md-2 my-3 ">
+                            <div class="card fire">
+                                <div align="center" style="margin-bottom: 20px">
+                                    <img class="card-img-top" style="width: 150px; height: 150px" src="<%= pd.getPictureLink()%>" alt="alt"/>
+                                </div>
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <h6 class="card-title text-truncate"><%= pd.getProductName()%></h6>
+                                    <% NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                        String formattedPrice = format.format(pd.getPrice()).replace("₫", "VND").replaceAll("\\s", "");
+                                    %>   
+                                    <div>
+                                        <span class="card-text text-muted" id="exp-<%= pd.getEXP()%>"><b>EXP: </b><%= pd.getEXP()%></span>
+                                    </div>
+                                    <div>
+                                        <span class="card-text text-muted" id="quantity-<%= pd.getQuantity()%>"><b>Quantity: </b><%= pd.getQuantity()%></span>
+                                    </div>
+                                    <div>
+                                        <span class="card-text text-muted" id="price-<%= pd.getProductID()%>"><b>Price: </b><%= formattedPrice%></span>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <input id="title-<%= pd.getProductID()%>" type="text" value="<%= pd.getProductName()%>" hidden>
+                                        <button id="view-<%= pd.getProductID()%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= pd.getProductID()%>'">View</button>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <button id="cart-<%= pd.getProductID()%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <span class="badge badge-secondary order-label"><%= rs_product_order.getString("TotalOrders")%> order</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <%
+                            }
+                        %>
+                    </div>
+                </div>
+            </div>
+            <%
+            } else {
+                ResultSet rs_product_selling = dao_product.getAllProductBestSelling();
+                int count1 = 0;
+                while (rs_product_selling.next()) {
+                    count1++;
+                }
+                if (count1 >= 6) {
+            %>
+            <div style="padding: 50px">
+                <div>
+                    <h5>BEST SELLING</h5>
+                    <div class="row">
+                        <%
+                            while (rs_product_selling.next()) {
+                        %> 
+                        <div class="col-md-2 my-3 ">
+                            <div class="card fire">
+                                <div align="center" style="margin-bottom: 20px">
+                                    <img class="card-img-top" style="width: 150px; height: 150px" src="<%= rs_product_selling.getString("PictureLink")%>" alt="alt"/>
+                                </div>
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <h6 class="card-title text-truncate"><%= rs_product_selling.getString("ProductName")%></h6>
+                                    <% NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                        String formattedPrice = format.format(rs_product_selling.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                    %>   
+                                    <div>
+                                        <span class="card-text text-muted" id="exp-<%= rs_product_selling.getString("EXP")%>"><b>EXP: </b><%= rs_product_selling.getString("EXP")%></span>
+                                    </div>
+                                    <div>
+                                        <span class="card-text text-muted" id="quantity-<%=rs_product_selling.getString("Quantity")%>"><b>Quantity: </b><%= rs_product_selling.getString("Quantity")%></span>
+                                    </div>
+                                    <div>
+                                        <span class="card-text text-muted" id="price-<%= rs_product_selling.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <input id="title-<%= rs_product_selling.getString("ProductID")%>" type="text" value="<%= rs_product_selling.getString("ProductName")%>" hidden>
+                                        <button id="view-<%= rs_product_selling.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs_product_selling.getString("ProductID")%>'">View</button>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <button id="cart-<%= rs_product_selling.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
+                                    </div>
+                                    <div style="margin-top: 20px">
+                                        <span class="badge badge-secondary order-label"><%= rs_product_selling.getString("SoldAmount")%> sold</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <%
+                            }
+                        %>
+                    </div>
+                </div>
+            </div>
+            <%
+                    }
+                }
+            %>
             <div style="padding: 50px">
                 <div style="margin-bottom: 40px">
                     <h5>DIGESTION</h5>
@@ -426,7 +427,7 @@
                                         <span class="card-text text-muted" id="exp-<%= rs_dig.getString("EXP")%>"><b>EXP: </b><%= rs_dig.getString("EXP")%></span>
                                     </div>
                                     <div>
-                                        <span class="card-text text-muted" id="exp-<%= rs_dig.getString("Quantity")%>"><b>Quantity: </b><%= rs_dig.getString("Quantity")%></span>
+                                        <span class="card-text text-muted" id="quantity-<%= rs_dig.getString("ProductID")%>"><b>Quantity: </b><%= rs_dig.getString("Quantity")%></span>
                                     </div>
                                     <div>
                                         <span class="card-text text-muted" id="price-<%= rs_dig.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
@@ -489,10 +490,10 @@
                                         String formattedPrice = format.format(rs_eyes.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
                                     %>   
                                     <div>
-                                        <span class="card-text text-muted" id="exp-<%= rs_eyes.getString("EXP")%>"><b>EXP: </b><%= rs_eyes.getString("EXP")%></span>
+                                        <span class="card-text text-muted" id="exp-<%= rs_eyes.getString("ProductID")%>"><b>EXP: </b><%= rs_eyes.getString("EXP")%></span>
                                     </div>
                                     <div>
-                                        <span class="card-text text-muted" id="exp-<%= rs_eyes.getString("Quantity")%>"><b>Quantity: </b><%= rs_eyes.getString("Quantity")%></span>
+                                        <span class="card-text text-muted" id="quantity-<%= rs_eyes.getString("ProductID")%>"><b>Quantity: </b><%= rs_eyes.getString("Quantity")%></span>
                                     </div>
                                     <div>
                                         <span class="card-text text-muted" id="price-<%= rs_eyes.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
@@ -553,10 +554,10 @@
                                         String formattedPrice = format.format(rs_blood.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
                                     %>   
                                     <div>
-                                        <span class="card-text text-muted" id="exp-<%= rs_blood.getString("EXP")%>"><b>EXP: </b><%= rs_blood.getString("EXP")%></span>
+                                        <span class="card-text text-muted" id="exp-<%= rs_blood.getString("ProductID")%>"><b>EXP: </b><%= rs_blood.getString("EXP")%></span>
                                     </div>
                                     <div>
-                                        <span class="card-text text-muted" id="exp-<%= rs_blood.getString("Quantity")%>"><b>Quantity: </b><%= rs_blood.getString("Quantity")%></span>
+                                        <span class="card-text text-muted" id="quantity-<%= rs_blood.getString("ProductID")%>"><b>Quantity: </b><%= rs_blood.getString("Quantity")%></span>
                                     </div>
                                     <div>
                                         <span class="card-text text-muted" id="price-<%= rs_blood.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
@@ -617,10 +618,10 @@
                                         String formattedPrice = format.format(rs_liver.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
                                     %>   
                                     <div>
-                                        <span class="card-text text-muted" id="exp-<%= rs_liver.getString("EXP")%>"><b>EXP: </b><%= rs_liver.getString("EXP")%></span>
+                                        <span class="card-text text-muted" id="exp-<%= rs_liver.getString("ProductID")%>"><b>EXP: </b><%= rs_liver.getString("EXP")%></span>
                                     </div>
                                     <div>
-                                        <span class="card-text text-muted" id="exp-<%= rs_liver.getString("Quantity")%>"><b>Quantity: </b><%= rs_liver.getString("Quantity")%></span>
+                                        <span class="card-text text-muted" id="quantity-<%= rs_liver.getString("ProductID")%>"><b>Quantity: </b><%= rs_liver.getString("Quantity")%></span>
                                     </div>
                                     <div>
                                         <span class="card-text text-muted" id="price-<%= rs_liver.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
@@ -682,10 +683,10 @@
                                         String formattedPrice = format.format(rs_resistance.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
                                     %>   
                                     <div>
-                                        <span class="card-text text-muted" id="exp-<%= rs_resistance.getString("EXP")%>"><b>EXP: </b><%= rs_resistance.getString("EXP")%></span>
+                                        <span class="card-text text-muted" id="exp-<%= rs_resistance.getString("ProductID")%>"><b>EXP: </b><%= rs_resistance.getString("EXP")%></span>
                                     </div>
                                     <div>
-                                        <span class="card-text text-muted" id="exp-<%= rs_resistance.getString("Quantity")%>"><b>Quantity: </b><%= rs_resistance.getString("Quantity")%></span>
+                                        <span class="card-text text-muted" id="quantity-<%= rs_resistance.getString("ProductID")%>"><b>Quantity: </b><%= rs_resistance.getString("Quantity")%></span>
                                     </div>
                                     <div>
                                         <span class="card-text text-muted" id="price-<%= rs_resistance.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
@@ -746,10 +747,10 @@
                                         String formattedPrice = format.format(rs_skin.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
                                     %>   
                                     <div>
-                                        <span class="card-text text-muted" id="exp-<%= rs_skin.getString("EXP")%>"><b>EXP: </b><%= rs_skin.getString("EXP")%></span>
+                                        <span class="card-text text-muted" id="exp-<%= rs_skin.getString("ProductID")%>"><b>EXP: </b><%= rs_skin.getString("EXP")%></span>
                                     </div>
                                     <div>
-                                        <span class="card-text text-muted" id="exp-<%= rs_skin.getString("Quantity")%>"><b>Quantity: </b><%= rs_skin.getString("Quantity")%></span>
+                                        <span class="card-text text-muted" id="quantity-<%= rs_skin.getString("ProductID")%>"><b>Quantity: </b><%= rs_skin.getString("Quantity")%></span>
                                     </div>
                                     <div>
                                         <span class="card-text text-muted" id="price-<%= rs_skin.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
@@ -814,7 +815,7 @@
                                         <span class="card-text text-muted" id="exp-<%= rs_sleep.getString("EXP")%>"><b>EXP: </b><%= rs_sleep.getString("EXP")%></span>
                                     </div>
                                     <div>
-                                        <span class="card-text text-muted" id="exp-<%= rs_sleep.getString("Quantity")%>"><b>Quantity: </b><%= rs_sleep.getString("Quantity")%></span>
+                                        <span class="card-text text-muted" id="quantity-<%= rs_sleep.getString("ProductID")%>"><b>Quantity: </b><%= rs_sleep.getString("Quantity")%></span>
                                     </div>
                                     <div>
                                         <span class="card-text text-muted" id="price-<%= rs_sleep.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
@@ -876,10 +877,10 @@
                                         String formattedPrice = format.format(rs_weight.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
                                     %>   
                                     <div>
-                                        <span class="card-text text-muted" id="exp-<%= rs_weight.getString("EXP")%>"><b>EXP: </b><%= rs_weight.getString("EXP")%></span>
+                                        <span class="card-text text-muted" id="exp-<%= rs_weight.getString("ProductID")%>"><b>EXP: </b><%= rs_weight.getString("EXP")%></span>
                                     </div>
                                     <div>
-                                        <span class="card-text text-muted" id="exp-<%= rs_weight.getString("Quantity")%>"><b>Quantity: </b><%= rs_weight.getString("Quantity")%></span>
+                                        <span class="card-text text-muted" id="quantity-<%= rs_weight.getString("ProductID")%>"><b>Quantity: </b><%= rs_weight.getString("Quantity")%></span>
                                     </div>
                                     <div>
                                         <span class="card-text text-muted" id="price-<%= rs_weight.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
@@ -948,23 +949,6 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
-        <script>
-            $('.slick-slider').slick({
-                slidesToShow: 4, // Số lượng sản phẩm được hiển thị trên mỗi trang của slideshow
-                slidesToScroll: 1, // Số lượng sản phẩm được cuộn khi nhấn nút Previous hoặc Next
-                autoplay: true, // Tự động chuyển đổi slide sau một khoảng thời gian nhất định
-                autoplaySpeed: 3000, // Thời gian chuyển đổi slide khi tự động phát lại
-                responsive: [
-                    {
-                        breakpoint: 768, // Điểm dừng khi kích thước màn hình giảm xuống
-                        settings: {
-                            slidesToShow: 2 // Số lượng sản phẩm hiển thị ở điểm dừng
-                        }
-                    }
-                ]
-            });
-
-        </script>
 
 
         <!-- Link All File JS -->
