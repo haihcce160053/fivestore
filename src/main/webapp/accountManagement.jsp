@@ -100,13 +100,7 @@
                         <div>
                             <a class="navbar-brand" href="/home"
                                style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b></a>
-                            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
-                                    data-mdb-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
-                                    aria-label="Toggle navigation">
-                                <i class="fas fa-bars"></i>
-                            </button>
                         </div>
-
                         <div class="collapse navbar-collapse" id="navbarText">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <%
@@ -130,7 +124,6 @@
                                 %>                             
                             </ul>
                         </div>
-
                         <div>
                             <%
                                 if (ac == null) {
@@ -155,40 +148,21 @@
                             </button>
                             <%
                                 }
-                            %>
-                            <%
-                                if (ac != null && ac.getUsername().equalsIgnoreCase("Admin")) {
-                            %>
-
-                            <%
-                            } else if (ac == null || (!ac.getUsername().equalsIgnoreCase("Admin"))) {
+                                if (ac == null || (!ac.getAccountTypeId().equalsIgnoreCase("AD"))) {
                             %>
                             <button id="view-cart-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white">
                                 MY CART <span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;">0</span>
                             </button>
                             <%
                                 }
-                            %>
-                            <%
-                                if (ac != null) {
+                                if ((ac != null) && (!ac.getAccountTypeId().equalsIgnoreCase("AD"))) {
                                     OrderDAO dao = new OrderDAO();
                                     int countOfOrder = dao.getNumberOrderByUsername(ac.getUsername());
                             %>
-                            <button id="view-purchase-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white" 
-                                    onclick="location.href = '/Account/Order/<%= ac.getUsername()%>'">
+                            <button id="view-purchase-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white" onclick="location.href = '/Account/Order/<%= ac.getUsername()%>'">
                                 MY Purchase<span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;"><%=countOfOrder%></span>
-
                             </button>
-                            <%
-                            } else {
-                            %>
-                            <button id="view-purchase-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white"
-                                    >
-                                MY Purchase<span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;">0</span>
-                            </button>
-                            <%
-                                }
-                            %>
+                            <% }%>
                         </div>
                     </div>
                 </nav>

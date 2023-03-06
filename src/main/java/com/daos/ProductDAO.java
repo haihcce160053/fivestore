@@ -289,7 +289,7 @@ public class ProductDAO {
             Statement st = conn.createStatement();
             rs = st.executeQuery("select t1.ProductID,t1.ProductName,t1.PictureLink,t1.Description,\n"
                     + "t2.ProductTypeID,t2.Quantity,t2.Price,t2.EXP,t2.Origin,t2.SoldAmount\n"
-                    + "from Product t1 left outer join ProductInformation t2 on t1.ProductID = t2.ProductID where t2.SoldAmount >=4");
+                    + "from Product t1 left outer join ProductInformation t2 on t1.ProductID = t2.ProductID where t2.SoldAmount >=4 ORDER BY t2.SoldAmount DESC");
         } catch (SQLException ex) {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
