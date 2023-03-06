@@ -269,9 +269,24 @@
                                         <input id="title-<%= rs.getString("ProductID")%>" type="text" value="<%= rs.getString("ProductName")%>" hidden>
                                         <button id="view-<%= rs.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs.getString("ProductID")%>'">View</button>
                                     </div>
+                                    <%
+                                        String dateString = rs.getString("EXP");
+                                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                        Date expDate = formatter.parse(dateString);
+
+                                        Date currentDate = new Date();
+                                        String currentDateString = formatter.format(currentDate);
+                                        Date currentDay = formatter.parse(currentDateString);
+
+                                        if (Integer.parseInt(rs.getString("Quantity")) > 0 && expDate.after(currentDay)) {
+
+                                    %>
                                     <div style="margin-top: 20px">
-                                        <button id="cart-<%= rs.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
+                                        <button id="cart-<%= rs.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
+                                    <%
+                                        }
+                                    %>
                                     <div style="margin-top: 20px">
                                         <span class="badge badge-secondary sold-label"><%= rs.getString("SoldAmount")%> sold</span>
                                     </div>
@@ -329,9 +344,24 @@
                                         <input id="title-<%= pd.getProductID()%>" type="text" value="<%= pd.getProductName()%>" hidden>
                                         <button id="view-<%= pd.getProductID()%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= pd.getProductID()%>'">View</button>
                                     </div>
+                                    <%
+                                        String dateString = pd.getEXP();
+                                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                        Date expDate = formatter.parse(dateString);
+
+                                        Date currentDate = new Date();
+                                        String currentDateString = formatter.format(currentDate);
+                                        Date currentDay = formatter.parse(currentDateString);
+
+                                        if (pd.getQuantity() > 0 && expDate.after(currentDay)) {
+
+                                    %>
                                     <div style="margin-top: 20px">
-                                        <button id="cart-<%= pd.getProductID()%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
+                                        <button id="cart-<%= pd.getProductID()%>" class="btn" style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
+                                    <%
+                                        }
+                                    %>
                                     <div style="margin-top: 20px">
                                         <span class="badge badge-secondary order-label"><%= rs_product_order.getString("TotalOrders")%> order</span>
                                     </div>
@@ -383,9 +413,24 @@
                                         <input id="title-<%= rs_product_selling.getString("ProductID")%>" type="text" value="<%= rs_product_selling.getString("ProductName")%>" hidden>
                                         <button id="view-<%= rs_product_selling.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs_product_selling.getString("ProductID")%>'">View</button>
                                     </div>
+                                    <%
+                                        String dateString = rs_product_selling.getString("EXP");
+                                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                        Date expDate = formatter.parse(dateString);
+
+                                        Date currentDate = new Date();
+                                        String currentDateString = formatter.format(currentDate);
+                                        Date currentDay = formatter.parse(currentDateString);
+
+                                        if (Integer.parseInt(rs_product_selling.getString("Quantity")) > 0 && expDate.after(currentDay)) {
+
+                                    %>
                                     <div style="margin-top: 20px">
-                                        <button id="cart-<%= rs_product_selling.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
+                                        <button id="cart-<%= rs_product_selling.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
+                                    <%
+                                        }
+                                    %>
                                     <div style="margin-top: 20px">
                                         <span class="badge badge-secondary order-label"><%= rs_product_selling.getString("SoldAmount")%> sold</span>
                                     </div>
