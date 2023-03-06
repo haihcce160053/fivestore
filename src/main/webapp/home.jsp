@@ -3,6 +3,11 @@
     Created on : Feb 15, 2023, 7:22:51 AM
     Author     : Huynh Chi Hai
 --%>
+<%@page import="java.time.ZoneId"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.DateFormat"%>
 <%@page import="com.models.Product"%>
 <%@page import="java.text.Normalizer"%>
 <!-- Import -->
@@ -333,8 +338,8 @@
         <%
             }
         %>
-        
-        
+
+
         <!-- All Product -->
         <main>
             <%
@@ -400,7 +405,8 @@
                 <div style="margin-bottom: 40px">
                     <h5>DIGESTION</h5>
                     <div class="row">
-                        <%                            ProductDAO dao_dig = new ProductDAO();
+                        <%
+                            ProductDAO dao_dig = new ProductDAO();
                             ResultSet rs_dig = dao_dig.getAll();
                             while (rs_dig.next()) {
                                 if (rs_dig.getString("ProductTypeID").equals("Dig")) {
@@ -429,9 +435,26 @@
                                         <input id="title-<%= rs_dig.getString("ProductID")%>" type="text" value="<%= rs_dig.getString("ProductName")%>" hidden>
                                         <button id="view-<%= rs_dig.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs_dig.getString("ProductID")%>'">View</button>
                                     </div>
+
+                                    <%
+                                        String dateString = rs_dig.getString("EXP");
+                                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                        Date expDate = formatter.parse(dateString);
+
+                                        Date currentDate = new Date();
+                                        String currentDateString = formatter.format(currentDate);
+                                        Date currentDay = formatter.parse(currentDateString);
+
+                                        if (Integer.parseInt(rs_dig.getString("Quantity")) > 0 && expDate.after(currentDay)) {
+
+                                    %>
                                     <div style="margin-top: 20px">
-                                        <button id="cart-<%= rs_dig.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
+                                        <button id="cart-<%= rs_dig.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
+                                    <%
+                                        }
+                                    %>
+
                                     <div style="margin-top: 20px">
                                         <span class="badge badge-secondary sold-label"><%= rs_dig.getString("SoldAmount")%> sold</span>
                                     </div>
@@ -478,9 +501,24 @@
                                         <input id="title-<%= rs_eyes.getString("ProductID")%>" type="text" value="<%= rs_eyes.getString("ProductName")%>" hidden>
                                         <button id="view-<%= rs_eyes.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs_eyes.getString("ProductID")%>'">View</button>
                                     </div>
+                                    <%
+                                        String dateString = rs_eyes.getString("EXP");
+                                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                        Date expDate = formatter.parse(dateString);
+
+                                        Date currentDate = new Date();
+                                        String currentDateString = formatter.format(currentDate);
+                                        Date currentDay = formatter.parse(currentDateString);
+
+                                        if (Integer.parseInt(rs_eyes.getString("Quantity")) > 0 && expDate.after(currentDay)) {
+
+                                    %>
                                     <div style="margin-top: 20px">
-                                        <button id="cart-<%= rs_eyes.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
+                                        <button id="cart-<%= rs_eyes.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
+                                    <%
+                                        }
+                                    %>
                                     <div style="margin-top: 20px">
                                         <span class="badge badge-secondary sold-label"><%= rs_eyes.getString("SoldAmount")%> sold</span>
                                     </div>
@@ -527,9 +565,24 @@
                                         <input id="title-<%= rs_blood.getString("ProductID")%>" type="text" value="<%= rs_blood.getString("ProductName")%>" hidden>
                                         <button id="view-<%= rs_blood.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs_blood.getString("ProductID")%>'">View</button>
                                     </div>
+                                    <%
+                                        String dateString = rs_blood.getString("EXP");
+                                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                        Date expDate = formatter.parse(dateString);
+
+                                        Date currentDate = new Date();
+                                        String currentDateString = formatter.format(currentDate);
+                                        Date currentDay = formatter.parse(currentDateString);
+
+                                        if (Integer.parseInt(rs_blood.getString("Quantity")) > 0 && expDate.after(currentDay)) {
+
+                                    %>
                                     <div style="margin-top: 20px">
-                                        <button id="cart-<%= rs_blood.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
+                                        <button id="cart-<%= rs_blood.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
+                                    <%
+                                        }
+                                    %>
                                     <div style="margin-top: 20px">
                                         <span class="badge badge-secondary sold-label"><%= rs_blood.getString("SoldAmount")%> sold</span>
                                     </div>
@@ -576,9 +629,24 @@
                                         <input id="title-<%= rs_liver.getString("ProductID")%>" type="text" value="<%= rs_liver.getString("ProductName")%>" hidden>
                                         <button id="view-<%= rs_liver.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs_liver.getString("ProductID")%>'">View</button>
                                     </div>
+                                    <%
+                                        String dateString = rs_liver.getString("EXP");
+                                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                        Date expDate = formatter.parse(dateString);
+
+                                        Date currentDate = new Date();
+                                        String currentDateString = formatter.format(currentDate);
+                                        Date currentDay = formatter.parse(currentDateString);
+
+                                        if (Integer.parseInt(rs_liver.getString("Quantity")) > 0 && expDate.after(currentDay)) {
+
+                                    %>
                                     <div style="margin-top: 20px">
-                                        <button id="cart-<%= rs_liver.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
+                                        <button id="cart-<%= rs_liver.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
+                                    <%
+                                        }
+                                    %>
                                     <div style="margin-top: 20px">
                                         <span class="badge badge-secondary sold-label"><%= rs_liver.getString("SoldAmount")%> sold</span>
                                     </div>
@@ -626,9 +694,24 @@
                                         <input id="title-<%= rs_resistance.getString("ProductID")%>" type="text" value="<%= rs_resistance.getString("ProductName")%>" hidden>
                                         <button id="view-<%= rs_resistance.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs_resistance.getString("ProductID")%>'">View</button>
                                     </div>
+                                    <%
+                                        String dateString = rs_resistance.getString("EXP");
+                                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                        Date expDate = formatter.parse(dateString);
+
+                                        Date currentDate = new Date();
+                                        String currentDateString = formatter.format(currentDate);
+                                        Date currentDay = formatter.parse(currentDateString);
+
+                                        if (Integer.parseInt(rs_resistance.getString("Quantity")) > 0 && expDate.after(currentDay)) {
+
+                                    %>
                                     <div style="margin-top: 20px">
-                                        <button id="cart-<%= rs_resistance.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
+                                        <button id="cart-<%= rs_resistance.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
+                                    <%
+                                        }
+                                    %>
                                     <div style="margin-top: 20px">
                                         <span class="badge badge-secondary sold-label"><%= rs_resistance.getString("SoldAmount")%> sold</span>
                                     </div>
@@ -676,9 +759,24 @@
                                         <input id="des-<%= rs_skin.getString("ProductID")%>" type="text" value="<%= rs_skin.getString("Description")%>" hidden>
                                         <button id="view-<%= rs_skin.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs_skin.getString("ProductID")%>'">View</button>
                                     </div>
+                                    <%
+                                        String dateString = rs_skin.getString("EXP");
+                                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                        Date expDate = formatter.parse(dateString);
+
+                                        Date currentDate = new Date();
+                                        String currentDateString = formatter.format(currentDate);
+                                        Date currentDay = formatter.parse(currentDateString);
+
+                                        if (Integer.parseInt(rs_skin.getString("Quantity")) > 0 && expDate.after(currentDay)) {
+
+                                    %>
                                     <div style="margin-top: 20px">
-                                        <button id="cart-<%= rs_skin.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
+                                        <button id="cart-<%= rs_skin.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
+                                    <%
+                                        }
+                                    %>
                                     <div style="margin-top: 20px">
                                         <span class="badge badge-secondary sold-label"><%= rs_skin.getString("SoldAmount")%> sold</span>
                                     </div>
@@ -726,9 +824,24 @@
                                         <input id="des-<%= rs_sleep.getString("ProductID")%>" type="text" value="<%= rs_sleep.getString("Description")%>" hidden>
                                         <button id="view-<%= rs_sleep.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs_sleep.getString("ProductID")%>'">View</button>
                                     </div>
+                                    <%
+                                        String dateString = rs_sleep.getString("EXP");
+                                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                        Date expDate = formatter.parse(dateString);
+
+                                        Date currentDate = new Date();
+                                        String currentDateString = formatter.format(currentDate);
+                                        Date currentDay = formatter.parse(currentDateString);
+
+                                        if (Integer.parseInt(rs_sleep.getString("Quantity")) > 0 && expDate.after(currentDay)) {
+
+                                    %>
                                     <div style="margin-top: 20px">
-                                        <button id="cart-<%= rs_sleep.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
+                                        <button id="cart-<%= rs_sleep.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
+                                    <%
+                                        }
+                                    %>
                                     <div style="margin-top: 20px">
                                         <span class="badge badge-secondary sold-label"><%= rs_sleep.getString("SoldAmount")%> sold</span>
                                     </div>
@@ -776,9 +889,24 @@
                                         <input id="des-<%= rs_weight.getString("ProductID")%>" type="text" value="<%= rs_weight.getString("Description")%>" hidden>
                                         <button id="view-<%= rs_weight.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%" onclick="location.href = '/Product/View/<%= rs_weight.getString("ProductID")%>'">View</button>
                                     </div>
+                                    <%
+                                        String dateString = rs_weight.getString("EXP");
+                                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                        Date expDate = formatter.parse(dateString);
+
+                                        Date currentDate = new Date();
+                                        String currentDateString = formatter.format(currentDate);
+                                        Date currentDay = formatter.parse(currentDateString);
+
+                                        if (Integer.parseInt(rs_weight.getString("Quantity")) > 0 && expDate.after(currentDay)) {
+
+                                    %>
                                     <div style="margin-top: 20px">
-                                        <button id="cart-<%= rs_weight.getString("ProductID")%>"class="btn"  style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
+                                        <button id="cart-<%= rs_weight.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>
                                     </div>
+                                    <%
+                                        }
+                                    %>
                                     <div style="margin-top: 20px">
                                         <span class="badge badge-secondary sold-label"><%= rs_weight.getString("SoldAmount")%> sold</span>
                                     </div>

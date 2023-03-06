@@ -4,6 +4,8 @@
     Author     : huynh
 --%>
 
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.Locale"%>
 <%@page import="com.models.Product"%>
@@ -173,11 +175,30 @@
                                         String formattedPrice = format.format(product.getPrice()).replace("₫", "VND").replaceAll("\\s", "");
                                     %>
                                     <span class="card-text text-muted" hidden id="price-<%= product.getProductID()%>"><b>Price: </b><%= formattedPrice%></span>
-                                    <h5>Price: <%= formattedPrice%></h5>
+                                    <h6>EXP: <%= product.getEXP() %></h6>
+                                    <h6>Quantity: <%= product.getQuantity() %></h6>
+                                    <h6>Price: <%= formattedPrice%></h6>
                                 </div>
                                 <div style="margin-top: 20px">
                                     <input id="title-<%= product.getProductID()%>" type="text" value="<%= product.getProductName()%>" hidden>
-                                    <button id="cart-<%= product.getProductID()%>" type="button" class="btn btn-primary" style="width: 100%; background-color: #303C5F; color: white">Add to cart</button>
+                                    <%
+                                        String dateString = product.getEXP();
+                                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                        Date expDate = formatter.parse(dateString);
+
+                                        Date currentDate = new Date();
+                                        String currentDateString = formatter.format(currentDate);
+                                        Date currentDay = formatter.parse(currentDateString);
+
+                                        if (product.getQuantity() > 0 && expDate.after(currentDay)) {
+
+                                    %>
+                                    <div style="margin-top: 20px">
+                                        <button id="cart-<%= product.getProductID()%>" type="button" class="btn btn-primary" style="width: 100%; background-color: #303C5F; color: white">Add to cart</button>
+                                    </div>
+                                    <%
+                                        }
+                                    %>
                                 </div>
                             </div>
                         </div>
@@ -193,6 +214,7 @@
                 </div>
             </div>
         </main>
+                
         <!-- Shopping Cart -->
         <% if (ac != null) {
                 String username = ac.getUsername();

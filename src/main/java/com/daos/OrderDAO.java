@@ -91,9 +91,11 @@ public class OrderDAO {
     public ResultSet getOrderByDay(String day) {
         ResultSet rs = null;
         try {
-            PreparedStatement pst = conn.prepareStatement("select OrderList.OrderID, OrderDetails.ProductID, OrderList.Username, OrderList.OrderTime, OrderDetails.Quantity, OrderDetails.TotalPrice \n"
-                    + "from OrderList left outer join OrderDetails \n"
-                    + "on OrderList.OrderID = OrderDetails.OrderID where OrderList.OrderTime = ?");
+            PreparedStatement pst = conn.prepareStatement("SELECT OrderDetails.ProductID, OrderList.OrderTime, SUM(OrderDetails.Quantity) AS TotalQuantity, SUM(OrderDetails.TotalPrice) AS TotalPrice\n"
+                    + "FROM OrderList \n"
+                    + "LEFT OUTER JOIN OrderDetails ON OrderList.OrderID = OrderDetails.OrderID \n"
+                    + "WHERE OrderList.OrderTime = ?\n"
+                    + "GROUP BY OrderDetails.ProductID, OrderList.OrderTime;");
             pst.setString(1, day);
             rs = pst.executeQuery();
         } catch (SQLException ex) {
@@ -105,10 +107,11 @@ public class OrderDAO {
     public ResultSet getOrderByMonth(String month, String year) {
         ResultSet rs = null;
         try {
-            PreparedStatement pst = conn.prepareStatement("SELECT OrderList.OrderID, OrderDetails.ProductID, OrderList.Username, OrderList.OrderTime, OrderDetails.Quantity, OrderDetails.TotalPrice\n"
-                    + "FROM OrderList\n"
-                    + "LEFT OUTER JOIN OrderDetails ON OrderList.OrderID = OrderDetails.OrderID\n"
-                    + "WHERE MONTH(OrderList.OrderTime) = ? AND YEAR(OrderList.OrderTime) = ?");
+            PreparedStatement pst = conn.prepareStatement("SELECT OrderDetails.ProductID, OrderList.OrderTime, SUM(OrderDetails.Quantity) AS TotalQuantity, SUM(OrderDetails.TotalPrice) AS TotalPrice\n"
+                    + "FROM OrderList \n"
+                    + "LEFT OUTER JOIN OrderDetails ON OrderList.OrderID = OrderDetails.OrderID \n"
+                    + "WHERE MONTH(OrderList.OrderTime) = ? AND YEAR(OrderList.OrderTime) = ?\n"
+                    + "GROUP BY OrderDetails.ProductID, OrderList.OrderTime;");
             pst.setString(1, month);
             pst.setString(2, year);
             rs = pst.executeQuery();
@@ -158,7 +161,7 @@ public class OrderDAO {
         }
         return count;
     }
-    
+
     /**
      *
      * @param Username

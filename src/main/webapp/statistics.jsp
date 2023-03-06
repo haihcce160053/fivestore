@@ -106,7 +106,7 @@
                             %>
                             <tr>                               
                                 <td><%= rs_day.getString("ProductID")%></td>
-                                <td><%= rs_day.getString("Quantity")%></td>
+                                <td><%= rs_day.getString("TotalQuantity")%></td>
                                 <td><%= rs_day.getString("TotalPrice")%></td>
                             </tr>
                             <%
@@ -120,7 +120,7 @@
                             %>
                             <tr>                               
                                 <td><%= rs_month.getString("ProductID")%></td>
-                                <td><%= rs_month.getString("Quantity")%></td>
+                                <td><%= rs_month.getString("TotalQuantity")%></td>
                                 <td><%= rs_month.getString("TotalPrice")%></td>
                             </tr>
                             <%
