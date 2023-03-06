@@ -18,6 +18,7 @@ const cartTotalAmount = document.querySelector("#cart-total-amount");
 // Lấy button thanh toán
 const checkoutBtn = document.querySelector("#checkout-button");
 
+
 // Khởi tạo mảng sản phẩm trong giỏ hàng
 let cartItemsArray = [];
 
@@ -78,24 +79,26 @@ document.addEventListener('DOMContentLoaded', function () {
             var productId = this.id.split('-')[1];
             var productName = document.getElementById("title-" + productId).value;
             var price = document.getElementById("price-" + productId).innerHTML.replace("<b>Price: </b>", "").replace("đ", "").replaceAll(".", "");
-
+            var numberStock = document.getElementById("quantity-" + productId).innerHTML.replace("<b>Quantity: </b>", "");
             // Gọi hàm addToCart với các tham số tương ứng
-            addToCart(productId, productName, price);
+            addToCart(productId, productName, price, numberStock);
         });
     }
 });
 
 // Định nghĩa hàm addToCart
-function addToCart(productId, productName, price) {
+function addToCart(productId, productName, price, numberStock) {
     // Tìm sản phẩm trong mảng sản phẩm trong giỏ hàng có cùng id với sản phẩm đã thêm vào
     const cartItem = cartItemsArray.find((item) => item.productId === productId);
-
-    if (cartItem) {
+    if (cartItem && (cartItem.quantity < numberStock)) {
         // Nếu sản phẩm đã tồn tại trong giỏ hàng, tăng số lượng của nó lên 1
         cartItem.quantity++;
-    } else {
+    } else if (!cartItem) {
         // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm sản phẩm vào mảng sản phẩm trong giỏ hàng
         cartItemsArray.push({productId, productName, price, quantity: 1});
+    } else {
+        event.preventDefault();
+        alert("Không đủ số lượng trong kho");
     }
     // Lưu mảng sản phẩm trong giỏ hàng vào cookies
     saveCartToCookies();
@@ -164,9 +167,15 @@ function updateCartItems() {
         const increaseBtn = document.createElement("button");
         increaseBtn.textContent = "+";
         increaseBtn.addEventListener("click", () => {
-            item.quantity++;
-            saveCartToCookies();
-            updateCartItems();
+            var numberStock = document.getElementById("quantity-" + item.productId).innerHTML.replace("<b>Quantity: </b>", "");
+            if (item.quantity < numberStock) {
+                item.quantity++;
+                saveCartToCookies();
+                updateCartItems();
+            } else {
+                event.preventDefault();
+                alert("Không đủ số lượng trong kho");
+            }
         });
         div.appendChild(increaseBtn);
 
