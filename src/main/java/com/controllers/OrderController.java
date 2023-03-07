@@ -136,50 +136,70 @@ public class OrderController extends HttpServlet {
                         request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
                     }
                 } else {
-                    //Quang QuiS
-                    if (path.startsWith("/Order/Cancel/Delete/")) {
+                    if (path.startsWith("/Order/Change/")) {
                         String[] s = path.split("/");
-                        String OrderID = s[s.length - 1];
+                        String OrderID = s[3];
+                        String OrderStatusID = s[4];
                         OrderDAO dao = new OrderDAO();
                         Order ord = dao.getOrder(OrderID);
-                        if (ord.getOrderStatusID().equalsIgnoreCase("DXN")) {
-                            String cancel = "DHD";
-                            int count = dao.setStatusOrder(OrderID, cancel);
+                        if (!OrderStatusID.equals(ord.getOrderStatusID())) {
+                            int count = dao.setStatusOrder(OrderID, OrderStatusID);
                             if (count > 0) {
-                                request.setAttribute("mess", "YesD");
-                                request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
-
+                                request.setAttribute("mess", "YesC");
+                                request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
                             } else {
-                                request.setAttribute("mess", "NoD");
-                                request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
+                                request.setAttribute("mess", "NoC");
+                                request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
                             }
-                        } else if (ord.getOrderStatusID().equalsIgnoreCase("DHD")) {
-                            request.setAttribute("mess", "NoC");
-                            request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
                         } else {
-                            request.setAttribute("mess", "Noo");
-                            request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
+                            request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
                         }
                     } else {
-                        if (path.startsWith("/Order/Change/Reorder/")) {
+                        //Quang QuiS
+                        if (path.startsWith("/Order/Cancel/Delete/")) {
                             String[] s = path.split("/");
                             String OrderID = s[s.length - 1];
                             OrderDAO dao = new OrderDAO();
                             Order ord = dao.getOrder(OrderID);
-                            if (ord.getOrderStatusID().equalsIgnoreCase("DHD")) {
-                                String cancel = "DXN";
+                            if (ord.getOrderStatusID().equalsIgnoreCase("DXN")) {
+                                String cancel = "DHD";
                                 int count = dao.setStatusOrder(OrderID, cancel);
                                 if (count > 0) {
-                                    request.setAttribute("mess", "YesR");
+                                    request.setAttribute("mess", "YesD");
                                     request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
 
                                 } else {
-                                    request.setAttribute("mess", "NoR");
+                                    request.setAttribute("mess", "NoD");
                                     request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
                                 }
-                            } else {
-                                request.setAttribute("mess", "NooR");
+                            } else if (ord.getOrderStatusID().equalsIgnoreCase("DHD")) {
+                                request.setAttribute("mess", "NoC");
                                 request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
+                            } else {
+                                request.setAttribute("mess", "Noo");
+                                request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
+                            }
+                        } else {
+                            if (path.startsWith("/Order/Change/Reorder/")) {
+                                String[] s = path.split("/");
+                                String OrderID = s[s.length - 1];
+                                OrderDAO dao = new OrderDAO();
+                                Order ord = dao.getOrder(OrderID);
+                                if (ord.getOrderStatusID().equalsIgnoreCase("DHD")) {
+                                    String cancel = "DXN";
+                                    int count = dao.setStatusOrder(OrderID, cancel);
+                                    if (count > 0) {
+                                        request.setAttribute("mess", "YesR");
+                                        request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
+
+                                    } else {
+                                        request.setAttribute("mess", "NoR");
+                                        request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
+                                    }
+                                } else {
+                                    request.setAttribute("mess", "NooR");
+                                    request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
+                                }
                             }
                         }
                     }

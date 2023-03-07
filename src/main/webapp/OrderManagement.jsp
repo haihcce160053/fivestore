@@ -31,6 +31,7 @@
             Account ac = (Account) session.getAttribute("informationAccount");
             if (ac.getAccountTypeId().equalsIgnoreCase("AD")) {
                 String mess = (String) request.getAttribute("mess");
+                String mess1 = null;
         %>
         <header id="page-header">
             <div class="page-container">
@@ -81,7 +82,20 @@
                         <div class="col col-2" data-label="UserName"><%= rs.getString("Username")%></div>
                         <div class="col col-3" data-label="DeliveryAddress"><%= rs.getString("DeliveryAddress")%></div> 
                         <div class="col col-4" data-label="OrderTIme"><%= rs.getString("OrderTime")%></div> 
-                        <div class="col col-5" data-label="Status"><%String nameOfStatusOrder = dao.getNameOfStatusOrder(rs.getString("OrderStatusID"));%><%=nameOfStatusOrder%></div>
+                        <div class="col col-5">
+                            <div class="Change-box">  
+                                <select id="selectStatus">
+                                    <option class="change" value="DXN" href="/Order/Change/<%= rs.getString("OrderID")%>/DXN" <%= rs.getString("OrderStatusID").equals("DXN") ? "selected" : ""%>>Đang Xác Nhận</option>
+                                    <option class="change" value="DCK" href="/Order/Change/<%= rs.getString("OrderID")%>/DCK" <%= rs.getString("OrderStatusID").equals("DCK") ? "selected" : ""%>>Đã chuyển khoản</option>
+                                    <option class="change" value="DLH" href="/Order/Change/<%= rs.getString("OrderID")%>/DLH" <%= rs.getString("OrderStatusID").equals("DLH") ? "selected" : ""%>>Đã Liên Hệ</option>
+                                    <option class="change" value="KLHD" href="/Order/Change/<%= rs.getString("OrderID")%>/KLHD" <%= rs.getString("OrderStatusID").equals("KLHD") ? "selected" : ""%>>Không Liên Hệ Được</option>
+                                    <option class="change" value="DVC" href="/Order/Change/<%= rs.getString("OrderID")%>/DVC" <%= rs.getString("OrderStatusID").equals("DVC") ? "selected" : ""%>>Đang Vận Chuyển</option>
+                                    <option class="change" value="DNH" href="/Order/Change/<%= rs.getString("OrderID")%>/DNH" <%= rs.getString("OrderStatusID").equals("DNH") ? "selected" : ""%>>Đã Nhận Hàng</option>
+                                    <option class="change" value="KNH" href="/Order/Change/<%= rs.getString("OrderID")%>/KNH" <%= rs.getString("OrderStatusID").equals("KNH") ? "selected" : ""%>>Không Nhận Hàng</option>
+                                    <option class="change" value="DHD" href="/Order/Change/<%= rs.getString("OrderID")%>/DHD" <%= rs.getString("OrderStatusID").equals("DHD") ? "selected" : ""%>>Đã Hủy Đơn</option>
+                                </select>              
+                            </div>
+                        </div>                    
                         <%
                             NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
                             String formattedPrice = format.format(rs.getInt("TotalBill")).replace("₫", "VND").replaceAll("\\s", "");
@@ -102,7 +116,7 @@
             %>
             <div class="row" >
                 <div class="col-lg-12" style="margin-left: 15px;
-                     margin-bottom: 15px;">
+                     margin-bottom: 15px ;">
                     <span id="regError" data-my-attribute="<%= mess%>"></span>
                 </div>          
             </div>
@@ -112,32 +126,32 @@
             <div class="row" >
                 <div class="col-lg-12" style="margin-left: 15px;
                      margin-bottom: 15px;">
-                    <span id="regError" data-my-attribute=""></span>
+                    <span id="regError" data-my-attribute="<%= mess1%>"></span>
                 </div>          
             </div>
             <%
                 }
             %>
-            <div id="toast">
-
+            <div  class="my-toast">
+                <div id="toast">
+                </div>
             </div>
 
-            <div class="overlay" id="overlay">
+            <div class="overlay" id="overlay"> </div>
 
-            </div>
-
-            <div class="confirm-box" id="confirm-box">
+            <<div class="confirm-box" id="confirm-box">
                 <div class="box-header">
-                    <h2>Are you sure you want to change permission?</h2>
+                    <h2>Are you sure you want change order Status?</h2>
                 </div>
                 <div class="box-content">
-                    <p>Permission of Account will be changed!</p>
+                    <p>Your order status will be change!</p>
                 </div>
                 <div class="button-container">
                     <button id="yes-button">Yes</button>
                     <button id="no-button">No</button>
                 </div>
             </div>
+
             <div class="overlay" id="overlay1"></div>
 
             <div class="confirm-box" id="confirm-box1">
@@ -151,17 +165,17 @@
                     <button id="yes-button1">Yes</button>
                     <button id="no-button1">No</button>
                 </div>
-            </div>
+            </div>          
             <%
                 }
             %>
 
         </main>
         <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
-        
+
         <!-- Link ALL FIle JS --> 
         <script src="${pageContext.request.contextPath}/Resources/js/selectbox.js"></script>
-        <script src="${pageContext.request.contextPath}/Resources/js/comfirmboxAc.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/js/confirmchangebox.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/showmessageordermanagement.js"></script>
     </body>
