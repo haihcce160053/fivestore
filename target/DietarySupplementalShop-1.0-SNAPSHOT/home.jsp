@@ -257,10 +257,10 @@
                                         String formattedPrice = format.format(rs.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
                                     %>   
                                     <div>
-                                        <span class="card-text text-muted" id="exp-<%= rs.getString("EXP")%>"><b>EXP: </b><%= rs.getString("EXP")%></span>
+                                        <span class="card-text text-muted" id="exp-<%= rs.getString("ProductID")%>"><b>EXP: </b><%= rs.getString("EXP")%></span>
                                     </div>
                                     <div>
-                                        <span class="card-text text-muted" id="quantity-<%= rs.getString("Quantity")%>"><b>Quantity: </b><%= rs.getString("Quantity")%></span>
+                                        <span class="card-text text-muted" id="quantity-<%= rs.getString("ProductID")%>"><b>Quantity: </b><%= rs.getString("Quantity")%></span>
                                     </div>
                                     <div>
                                         <span class="card-text text-muted" id="price-<%= rs.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
@@ -307,11 +307,7 @@
             <%
                 ProductDAO dao_product = new ProductDAO();
                 ResultSet rs_product_order = dao_product.getAllProductBestOrder();
-                int count = 0;
-                while (rs_product_order.next()) {
-                    count++;
-                }
-                if (count >= 6) {
+                if (rs_product_order.next()) {
             %>
             <div style="padding: 50px">
                 <div>
@@ -322,20 +318,21 @@
                                 Product pd = dao_product.getProduct(rs_product_order.getString("ProductID"));
                         %> 
                         <div class="col-md-2 my-3 ">
-                            <div class="card fire">
+                            <div class="card">
                                 <div align="center" style="margin-bottom: 20px">
                                     <img class="card-img-top" style="width: 150px; height: 150px" src="<%= pd.getPictureLink()%>" alt="alt"/>
                                 </div>
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <h6 class="card-title text-truncate"><%= pd.getProductName()%></h6>
-                                    <% NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                    <%
+                                        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
                                         String formattedPrice = format.format(pd.getPrice()).replace("₫", "VND").replaceAll("\\s", "");
                                     %>   
                                     <div>
-                                        <span class="card-text text-muted" id="exp-<%= pd.getEXP()%>"><b>EXP: </b><%= pd.getEXP()%></span>
+                                        <span class="card-text text-muted" id="exp-<%= pd.getProductID()%>"><b>EXP: </b><%= pd.getEXP()%></span>
                                     </div>
                                     <div>
-                                        <span class="card-text text-muted" id="quantity-<%= pd.getQuantity()%>"><b>Quantity: </b><%= pd.getQuantity()%></span>
+                                        <span class="card-text text-muted" id="quantity-<%=pd.getProductID()%>"><b>Quantity: </b><%= pd.getQuantity()%></span>
                                     </div>
                                     <div>
                                         <span class="card-text text-muted" id="price-<%= pd.getProductID()%>"><b>Price: </b><%= formattedPrice%></span>
@@ -375,13 +372,9 @@
                 </div>
             </div>
             <%
-            } else {
-                ResultSet rs_product_selling = dao_product.getAllProductBestSelling();
-                int count1 = 0;
-                while (rs_product_selling.next()) {
-                    count1++;
                 }
-                if (count1 >= 6) {
+                ResultSet rs_product_selling = dao_product.getAllProductBestSelling();
+                if (rs_product_selling.next()) {
             %>
             <div style="padding: 50px">
                 <div>
@@ -391,7 +384,7 @@
                             while (rs_product_selling.next()) {
                         %> 
                         <div class="col-md-2 my-3 ">
-                            <div class="card fire">
+                            <div class="card">
                                 <div align="center" style="margin-bottom: 20px">
                                     <img class="card-img-top" style="width: 150px; height: 150px" src="<%= rs_product_selling.getString("PictureLink")%>" alt="alt"/>
                                 </div>
@@ -401,10 +394,10 @@
                                         String formattedPrice = format.format(rs_product_selling.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
                                     %>   
                                     <div>
-                                        <span class="card-text text-muted" id="exp-<%= rs_product_selling.getString("EXP")%>"><b>EXP: </b><%= rs_product_selling.getString("EXP")%></span>
+                                        <span class="card-text text-muted" id="exp-<%= rs_product_selling.getString("ProductID")%>"><b>EXP: </b><%= rs_product_selling.getString("EXP")%></span>
                                     </div>
                                     <div>
-                                        <span class="card-text text-muted" id="quantity-<%=rs_product_selling.getString("Quantity")%>"><b>Quantity: </b><%= rs_product_selling.getString("Quantity")%></span>
+                                        <span class="card-text text-muted" id="quantity-<%=rs_product_selling.getString("ProductID")%>"><b>Quantity: </b><%= rs_product_selling.getString("Quantity")%></span>
                                     </div>
                                     <div>
                                         <span class="card-text text-muted" id="price-<%= rs_product_selling.getString("ProductID")%>"><b>Price: </b><%= formattedPrice%></span>
@@ -445,7 +438,6 @@
             </div>
             <%
                     }
-                }
             %>
             <div style="padding: 50px">
                 <div style="margin-bottom: 40px">

@@ -270,7 +270,7 @@ public class ProductDAO {
                     + "INNER JOIN OrderList ol ON od.OrderID = ol.OrderID\n"
                     + "WHERE YEAR(ol.OrderTime) = YEAR(GETDATE()) AND MONTH(ol.OrderTime) = MONTH(GETDATE())\n"
                     + "GROUP BY od.ProductID\n"
-                    + "HAVING COUNT(*) >= 4"
+                    + "HAVING COUNT(*) >= 3"
                     + "ORDER BY TotalOrders DESC");
         } catch (SQLException ex) {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
