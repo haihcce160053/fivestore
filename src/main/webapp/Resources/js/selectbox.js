@@ -8,8 +8,8 @@ const tableRows = document.querySelectorAll(".table-row");
 selectElement.addEventListener("change", (event) => {
     const selectedValue = event.target.value;
     tableRows.forEach((row) => {
-        const statusElement = row.querySelector("[data-label='Status']");
-        const statusValue = statusElement.textContent.trim();
+        const statusElement = row.querySelector('select[id="selectStatus"]');
+        const statusValue = statusElement.value;
         if (selectedValue === "All" || selectedValue === statusValue) {
             row.style.display = "flex";
         } else {
@@ -17,5 +17,3 @@ selectElement.addEventListener("change", (event) => {
         }
     });
 });
-
-

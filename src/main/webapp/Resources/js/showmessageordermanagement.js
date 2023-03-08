@@ -9,6 +9,10 @@ function mainFunction() {
         showSuccessDeleteToast();
     } else if (myAttribute1 == "NoD") {
         showErrorDeleteToast();
+    } else if (myAttribute1 == "YesC") {
+        showSuccessChangeStatus();
+    } else if (myAttribute1 == "NoC") {
+        showErrorChangeStatus();
     } else {
         return;
     }
@@ -35,6 +39,24 @@ function showErrorDeleteToast() {
     toast({
         title: 'Failed!!',
         message: 'Delete Order Unsuccessfully!',
+        type: 'error',
+        duration: 3000
+    });
+}
+
+function showSuccessChangeStatus() {
+    toast({
+        title: 'Successfully!',
+        message: 'Change Status Successfully!',
+        type: 'success',
+        duration: 3000
+    });
+}
+
+function showErrorChangeStatus() {
+    toast({
+        title: 'Failed!',
+        message: 'Change Status Unsuccessfully!',
         type: 'error',
         duration: 3000
     });
