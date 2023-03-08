@@ -4,6 +4,7 @@
     Author     : Huynh Chi Hai
 --%>
 
+<%@page import="com.models.Account"%>
 <%@page import="com.daos.OrderDetailsDAO"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.models.Order"%>
@@ -46,12 +47,81 @@
             }
         </style>
     </head>
+     <%
+        Account ac = (Account) session.getAttribute("informationAccount");
+    %>
     <body>
         <header id="page-header">
             <div class="page-container">
-                <nav class="navbar navbar-expand-lg" id="navbar-main" style="background-color: #303C5F;">
+                <nav class="navbar navbar-expand-lg" style="background-color: #303C5F;">
                     <div class="container-fluid">
-                        <a class="navbar-brand" href="/home" style="color: white; font-size: 25px;"><b>FIVESTORE.VN - Revenue statistics</b></a>
+                        <div>
+                            <a class="navbar-brand" href="/home"
+                               style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b></a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="navbarText">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <%
+                                    if (ac != null && (ac.getAccountTypeId()).equalsIgnoreCase("AD")) {
+                                %>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Account/Management/<%=ac.getUsername()%>" style="color:#9FA6B2;">Account Management</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Product/Management/<%=ac.getUsername()%>" style="color: #9FA6B2;">Product Management</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Order/" style="color: #9FA6B2;">Order Management</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Statistics" style="color: white;">Revenue statistics</a>
+                                </li>     
+
+                                <%
+                                    }
+                                %>                             
+                            </ul>
+                        </div>
+                        <div>
+                            <%
+                                if (ac == null) {
+                            %>
+                            <button type="button" class="btn px-3 me-2"
+                                    style="color: white; background-color: #20283F"
+                                    onclick="location.href = '/login'">
+                                Login
+                            </button>
+                            <button type="button" class="btn me-3" 
+                                    style="color: white; background-color: #20283F"
+                                    onclick="location.href = '/signup'">
+                                Sign Up
+                            </button>
+                            <%
+                            } else {
+                            %>
+                            <button type="button" class="btn px-3 me-2"
+                                    style="color: white; background-color: #20283F"
+                                    onclick="location.href = '/Account/information/<%= ac.getUsername()%>'">
+                                <%=ac.getFullname()%>
+                            </button>
+                            <%
+                                }
+                                if (ac == null || (!ac.getAccountTypeId().equalsIgnoreCase("AD"))) {
+                            %>
+                            <button id="view-cart-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white">
+                                MY CART <span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;">0</span>
+                            </button>
+                            <%
+                                }
+                                if ((ac != null) && (!ac.getAccountTypeId().equalsIgnoreCase("AD"))) {
+                                    OrderDAO daoorder = new OrderDAO();
+                                    int countOfOrder = daoorder.getNumberOrderByUsername(ac.getUsername());
+                            %>
+                            <button id="view-purchase-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white" onclick="location.href = '/Account/Order/<%= ac.getUsername()%>'">
+                                MY Purchase<span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;"><%=countOfOrder%></span>
+                            </button>
+                            <% }%>
+                        </div>
                     </div>
                 </nav>
             </div>

@@ -20,11 +20,14 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <!-- MDB -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
         <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/css/accountinformation.css">
         <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
-        <link href="${pageContext.request.contextPath}/Resources/css/orderManagement.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/Resources/css/ordermanagement.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
     </head>
     <body>
         <%
@@ -33,11 +36,78 @@
                 String mess = (String) request.getAttribute("mess");
                 String mess1 = null;
         %>
+        <!-- Navigation bar -->
         <header id="page-header">
             <div class="page-container">
-                <nav class="navbar navbar-expand-lg" id="navbar-main" style="background-color: #303C5F;">
+                <nav class="navbar navbar-expand-lg" style="background-color: #303C5F;">
                     <div class="container-fluid">
-                        <a class="navbar-brand" href="/home" style="color: white; font-size: 25px;"><b>FIVESTORE.VN - Order management</b></a>
+                        <div>
+                            <a class="navbar-brand" href="/home"
+                               style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b></a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="navbarText">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <%
+                                    if (ac != null && (ac.getAccountTypeId()).equalsIgnoreCase("AD")) {
+                                %>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Account/Management/<%=ac.getUsername()%>" style="color:#9FA6B2;">Account Management</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Product/Management/<%=ac.getUsername()%>" style="color:#9FA6B2;">Product Management</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Order/" style="color: white;">Order Management</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Statistics" style="color:#9FA6B2;">Revenue statistics</a>
+                                </li>     
+
+                                <%
+                                    }
+                                %>                             
+                            </ul>
+                        </div>
+                        <div>
+                            <%
+                                if (ac == null) {
+                            %>
+                            <button type="button" class="btn px-3 me-2"
+                                    style="color: white; background-color: #20283F"
+                                    onclick="location.href = '/login'">
+                                Login
+                            </button>
+                            <button type="button" class="btn me-3" 
+                                    style="color: white; background-color: #20283F"
+                                    onclick="location.href = '/signup'">
+                                Sign Up
+                            </button>
+                            <%
+                            } else {
+                            %>
+                            <button type="button" class="btn px-3 me-2"
+                                    style="color: white; background-color: #20283F"
+                                    onclick="location.href = '/Account/information/<%= ac.getUsername()%>'">
+                                <%=ac.getFullname()%>
+                            </button>
+                            <%
+                                }
+                                if (ac == null || (!ac.getAccountTypeId().equalsIgnoreCase("AD"))) {
+                            %>
+                            <button id="view-cart-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white">
+                                MY CART <span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;">0</span>
+                            </button>
+                            <%
+                                }
+                                if ((ac != null) && (!ac.getAccountTypeId().equalsIgnoreCase("AD"))) {
+                                    OrderDAO dao = new OrderDAO();
+                                    int countOfOrder = dao.getNumberOrderByUsername(ac.getUsername());
+                            %>
+                            <button id="view-purchase-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white" onclick="location.href = '/Account/Order/<%= ac.getUsername()%>'">
+                                MY Purchase<span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;"><%=countOfOrder%></span>
+                            </button>
+                            <% }%>
+                        </div>
                     </div>
                 </nav>
             </div>
@@ -63,7 +133,7 @@
                 </div>
 
                 <ul class="responsive-table">
-                    <li class="table-header" style="color: white">
+                    <li class="table-header" style="display: flex !important; justify-content: space-between !important; padding: 15px 20px !important; margin-bottom: 10px !important; border-radius: 3px !important; background-color: #138496 !important; box-shadow: 0 0 9px 0 var(--color-shadow) !important;">
                         <div class="col col-1">OrderID</div>
                         <div class="col col-2">Username</div>
                         <div class="col col-3">DeliveryAddress</div>    
@@ -77,11 +147,11 @@
                         ResultSet rs = dao.getAll();
                         while (rs.next()) {
                     %>
-                    <li class="table-row">
+                    <li class="table-row" style="display: flex !important; justify-content: space-between !important; padding: 15px 20px !important; margin-bottom: 10px !important; border-radius: 3px !important; background-color: var(--color-white) !important; box-shadow: 0 0 9px 0 var(--color-shadow) !important;">
                         <div class="col col-1" data-label="OrderID"><%= rs.getString("OrderID")%></div>
                         <div class="col col-2" data-label="UserName"><%= rs.getString("Username")%></div>
                         <div class="col col-3" data-label="DeliveryAddress"><%= rs.getString("DeliveryAddress")%></div> 
-                        <div class="col col-4" data-label="OrderTIme"><%= rs.getString("OrderTime")%></div> 
+                        <div class="col col-4" data-label="OrderTIme"><%= rs.getDate("OrderTime")%></div> 
                         <div class="col col-5">
                             <div class="Change-box">  
                                 <select id="selectStatus">
@@ -171,9 +241,14 @@
             %>
 
         </main>
+            
+        <!-- Footer -->            
+        <%@ include file="/footer.jsp" %>
         <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
 
         <!-- Link ALL FIle JS --> 
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/selectbox.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/confirmchangebox.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>

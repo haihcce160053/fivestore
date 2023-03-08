@@ -172,7 +172,6 @@
         } else {
         %>
         <%@ include file="/errorPage.jsp" %>   
-
         <%
             }
         %>

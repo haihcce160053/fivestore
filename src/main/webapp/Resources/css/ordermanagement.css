@@ -1,3 +1,11 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : Mar 8, 2023, 7:53:02 AM
+*/
+
 /* Use variables to store commonly used colors and font sizes */
 :root {
     --color-gray: #6C7A89;
@@ -19,16 +27,6 @@ body {
     padding: 0 10px;
 }
 
-/* Style for list items */
-li {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 20px; /* Decrease padding */
-    margin-bottom: 10px; /* Decrease margin */
-    border-radius: 3px;
-    background-color: var(--color-white);
-    box-shadow: 0 0 9px 0 var(--color-shadow);
-}
 
 /* Table header styles */
 .table-header {
@@ -58,11 +56,11 @@ li {
 }
 
 .col-4 {
-    flex-basis: 15%;
+    flex-basis: 10%;
 }
 
 .col-5 {
-    flex-basis: 10%;
+    flex-basis: 17%;
 }
 
 .col-6 {
@@ -70,7 +68,7 @@ li {
 }
 
 .col-7 {
-    flex-basis: 10%;
+    flex-basis: 8%;
 }
 /* Media query for tablet screens */
 @media all and (min-width: 768px) and (max-width: 1023px) {
