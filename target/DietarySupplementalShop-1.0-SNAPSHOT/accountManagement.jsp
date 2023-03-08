@@ -84,6 +84,94 @@
                 pointer-events: none;
             }
 
+            /* CSS for mobile and tablet */
+
+            @media only screen and (max-width: 992px) {
+                /* center align the table cells */
+                .table td {
+                    text-align: center;
+                }
+
+                /* adjust the font size of the table headers */
+                .table thead th {
+                    font-size: 12px;
+                }
+
+                /* adjust the font size of the table cells */
+                .table tbody td {
+                    font-size: 14px;
+                }
+
+                /* adjust the font size of the search input */
+                .form-control {
+                    font-size: 14px;
+                }
+
+                /* adjust the height of the search input */
+                .form-control {
+                    height: 32px;
+                }
+
+                /* adjust the margin of the search input */
+                .form-control {
+                    margin-bottom: 10px;
+                }
+
+                /* adjust the margin of the search select */
+                select {
+                    margin-left: 5px;
+                    margin-right: 5px;
+                }
+
+                /* adjust the width of the search select */
+                select {
+                    max-width: 100px;
+                }
+
+                /* adjust the font size of the search select */
+                select {
+                    font-size: 12px;
+                }
+
+                /* adjust the font size of the search select icon */
+                .select-container::after {
+                    font-size: 10px;
+                    right: 5px;
+                }
+
+                /* adjust the font size of the search buttons */
+                .btn {
+                    font-size: 12px;
+                }
+
+                /* adjust the margin of the search buttons */
+                .btn {
+                    margin: 0 0 3px 0;
+                }
+
+                /* adjust the padding of the search box */
+                mdb-search-box {
+                    padding: 5px;
+                }
+            }
+
+            @media only screen and (max-width: 768px) {
+                /* Hide the columns */
+                table th:nth-child(2),
+                table th:nth-child(3),
+                table td:nth-child(2),
+                table td:nth-child(3) {
+                    display: none;
+                }
+
+                /* Center the remaining columns */
+                table th,
+                table td {
+                    text-align: center;
+                }
+            }
+
+
 
         </style>
     </head>
@@ -312,7 +400,7 @@
                 });
             });
         </script>
-        
+
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/searchAc.js"></script>

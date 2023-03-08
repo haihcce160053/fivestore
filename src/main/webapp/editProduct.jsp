@@ -137,7 +137,7 @@
         <!-- Footer -->            
         <%@ include file="/footer.jsp" %>    
         <script>
-
+            
             const mySpan1 = document.getElementById('regError');
             const myAttribute1 = mySpan1.getAttribute('data-my-attribute');
             mainFunction();
@@ -162,7 +162,12 @@
         </script>
         <!-- JS -->
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
-        <script src="${pageContext.request.contextPath}/Resources/js/addProduct.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/js/editProduct.js"></script>
+        <script>
+            const valueInTextArea = document.getElementById("description");
+            let htmlString = convertToText(valueInTextArea.value);
+            valueInTextArea.value = htmlString;
+        </script>
         <!-- Link ALL JS From URL -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
