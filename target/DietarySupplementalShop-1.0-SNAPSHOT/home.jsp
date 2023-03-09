@@ -303,18 +303,19 @@
             <%
             } else {
             %>
-            <!-- BEST SELLING OR BEST ORDER -->
+            <!-- BEST SELLING OR BEST ORDER: QUANG QUI -->
             <%
                 ProductDAO dao_product = new ProductDAO();
                 ResultSet rs_product_order = dao_product.getAllProductBestOrder();
-                if (rs_product_order.next()) {
+                boolean hasData1 = rs_product_order.next();
+                if (hasData1) {
             %>
             <div style="padding: 50px">
                 <div>
                     <h5>BEST ORDER</h5>
                     <div class="row">
                         <%
-                            while (rs_product_order.next()) {
+                            do {
                                 Product pd = dao_product.getProduct(rs_product_order.getString("ProductID"));
                         %> 
                         <div class="col-md-2 my-3 ">
@@ -366,7 +367,7 @@
                             </div>
                         </div>
                         <%
-                            }
+                            }while (rs_product_order.next());
                         %>
                     </div>
                 </div>
@@ -374,14 +375,15 @@
             <%
                 }
                 ResultSet rs_product_selling = dao_product.getAllProductBestSelling();
-                if (rs_product_selling.next()) {
+                boolean hasData = rs_product_selling.next();
+                if (hasData) {
             %>
             <div style="padding: 50px">
                 <div>
                     <h5>BEST SELLING</h5>
                     <div class="row">
                         <%
-                            while (rs_product_selling.next()) {
+                            do {
                         %> 
                         <div class="col-md-2 my-3 ">
                             <div class="card">
@@ -431,13 +433,13 @@
                             </div>
                         </div>
                         <%
-                            }
+                            } while (rs_product_selling.next());
                         %>
                     </div>
                 </div>
             </div>
             <%
-                    }
+                }//END BEST SELLING AND BEST ORDER
             %>
             <div style="padding: 50px">
                 <div style="margin-bottom: 40px">

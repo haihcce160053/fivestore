@@ -3,6 +3,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
 */
 /* 
+    Created on : Mar 9, 2023, 4:17:22 PM
+    Author     : QuangQui
+*/
+
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
     Created on : Mar 3, 2023, 1:54:55 PM
     Author     : QuangQui
 */
@@ -40,8 +49,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
-  --font-family-sans-serif: Open Sans, sans-serif;
-  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --mdb-font-roboto: "Roboto",sans-serif
 }
 
 *,
@@ -50,14 +58,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
   box-sizing: border-box;
 }
 
-html {
-  font-family: sans-serif;
-  line-height: 1.15;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  -ms-overflow-style: scrollbar;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
 
 @-ms-viewport {
   width: device-width;
@@ -73,9 +73,8 @@ section {
 }
 
 body {
-  font-family: Open Sans, sans-serif;
+  font-family: var(--mdb-font-roboto);
   font-size: 1rem;
-  font-weight: 400;
   line-height: 1.5;
   margin: 0;
   text-align: left;
@@ -241,7 +240,7 @@ textarea {
 }
 
 legend {
-  font-size: 1.5rem;
+  font-size: 2rem;
   line-height: inherit;
   display: block;
   width: 100%;
@@ -1229,8 +1228,8 @@ button.bg-white:focus {
   margin-bottom: 3rem !important;
 }
 
-.mt--7 {
-  margin-top: -6rem !important;
+.mt-7 {
+  margin-top: 3rem !important;
 }
 
 .pt-0 {
@@ -1602,14 +1601,6 @@ a.text-white:focus {
   background-color: transparent;
 }
 
-@media (min-width: 768px) {
-  .main-content .container-fluid {
-    padding-right: 39px !important;
-    padding-left: 39px !important;
-  }
-}
-
-
 .footer {
   padding: 2.5rem 0;
   background: #f7fafc;
@@ -1628,7 +1619,7 @@ a.text-white:focus {
 }
 
 .form-control-label {
-  font-size: .875rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #525f7f;
 }
