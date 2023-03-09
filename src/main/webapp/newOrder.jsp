@@ -17,13 +17,14 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>FIVESTORE - Dietary supplemental shop</title>
-        <link rel="icon" type="image/x-icon" href="HCDATAFILE/img/logo-only.png">
         <!-- Font Awesome -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
         <!-- Google Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
         <!-- MDB -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
+        
+                <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/cart.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
         <style>
@@ -131,7 +132,6 @@
             }
 
 
-
         </style>
     </head>
 
@@ -147,11 +147,6 @@
                         <div>
                             <a class="navbar-brand" href="/home"
                                style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b></a>
-                            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
-                                    data-mdb-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
-                                    aria-label="Toggle navigation">
-                                <i class="fas fa-bars"></i>
-                            </button>
                         </div>                 
                         <div class="collapse navbar-collapse" id="navbarText">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -235,7 +230,7 @@
             </div>
         </header>
         <div class="Container justify-center">
-            <div class="row justify-content-center" style="margin-top: 50px;">
+            <div class="row justify-content-center" style="margin-top: 50px; margin-bottom: 50px">
                 <div class="col-md-5 col-sm-9 col-11 card">
                     <h2 style="margin-top: 10px; margin-bottom: 10px; margin-right: 10px" class="row justify-content-end">Order Information</h2>
                     <form id="newOrderForm" style="margin-top: 10px;" method="post" action="/Order/new">
@@ -308,9 +303,9 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="txtDetailAddress" class="col-4 col-form-label">Street name, building, house number,...</label> 
-                            <div class="col-8">
-                                <input id="txtDetailAddress" name="txtDetailAddress" type="text" class="form-control">
+                            <label for="txtDetailAddress" class="col-12 col-md-4 col-form-label">Street name, building, house number,...</label> 
+                            <div class="col-12 col-md-8">
+                                <input id="txtDetailAddress" name="txtDetailAddress" type="text" class="form-control" placeholder="Street Name, Building, House No.">
                             </div>
                         </div>
                         <div class="form-group" style="margin-top: 10px;">
@@ -321,8 +316,8 @@
                             Payment
                         </h2>
                         <div class="form-group row">
-                            <label for="select" class="col-6 col-form-label">Payment Option</label>
-                            <div class="col-6">
+                            <label for="select" class="col-12 col-sm-6 col-form-label">Payment Option</label>
+                            <div class="col-12 col-sm-6">
                                 <select class="form-select " id="paymentMethod" name="paymentMethod" aria-label=".form-select-sm">
                                     <option value="" selected> Chọn phương thức thanh toán</option>
                                     <option value="COD">Payment on delivery(COD)</option>
@@ -362,7 +357,8 @@
             </label>
             <span class="popup-close" >✔</span>
         </div>
-
+        
+                <%@ include file="/footer.jsp" %>
 
         <script src="${pageContext.request.contextPath}/Resources/js/vietnameselocation/vietnamlocalselector.js"></script> 
         <script>
