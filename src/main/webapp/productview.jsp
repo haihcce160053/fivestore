@@ -142,7 +142,7 @@
                                     <h5 class="card-title"><%= product.getProductName()%></h5>
                                     <p class="card-text">Product ID: <%= product.getProductID()%></p>
                                 </div>
-                                <div align="center" style="margin-top: 50px">
+                                <div class="row justify-content-center align-items-center" align="center" style="margin-top: 50px">
                                     <img src="<%= product.getPictureLink()%>" style="width: 500px; height: 500px" algin="center" alt="<%= product.getProductName()%>"/>
                                 </div>
                                 <div style="margin-top: 50px">

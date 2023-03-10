@@ -73,10 +73,10 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-5"> 
-                        <img src="img/signupqc/banner_signup.png" alt="banner sign up" class="image"
+                        <img class="img-fluid" src="img/signupqc/banner_signup.png" alt="banner sign up" class="image"
                              style="box-shadow: 10px 10px 10px rgba(48, 60, 95, 0.271);margin-top: 80px;">
                     </div>
-                    <div class="col-md-7 col-lg-5">
+                    <div class="col-md-7">
                         <div class="login-wrap p-4 p-md-5">
                             <form id="login-form" method="post" action="/signup">
                                 <!-- Title login -->

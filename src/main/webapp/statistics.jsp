@@ -47,7 +47,7 @@
             }
         </style>
     </head>
-     <%
+    <%
         Account ac = (Account) session.getAttribute("informationAccount");
     %>
     <body>
@@ -55,11 +55,23 @@
             <div class="page-container">
                 <nav class="navbar navbar-expand-lg" style="background-color: #303C5F;">
                     <div class="container-fluid">
-                        <div>
-                            <a class="navbar-brand" href="/home"
-                               style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b></a>
-                        </div>
-                        <div class="collapse navbar-collapse" id="navbarText">
+                        <!-- Toggle button -->
+                        <button
+                            class="navbar-toggler"
+                            type="button"
+                            data-mdb-toggle="collapse"
+                            data-mdb-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation"
+                            >
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <div>
+                                <a class="navbar-brand" href="/home"
+                                   style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b></a>
+                            </div>
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <%
                                     if (ac != null && (ac.getAccountTypeId()).equalsIgnoreCase("AD")) {
@@ -128,12 +140,12 @@
         </header>
 
         <main>
-            <div class="container" style="margin-top: 20px;">
+            <div class="container" style="margin-top: 20px; margin-bottom: 120px">
                 <div class="card" style="width: 100%;">
                     <div class="card-body">
                         <h5 class="card-title">Choose a statistical time</h5>
                         <div class="row">
-                            <div style="margin-top: 20px" class="col-md-6">
+                            <div style="margin-top: 20px" class="col-md-6 col-sm-6">
                                 <div style="margin-top: 10px">
                                     <form action="/Statistics" method="post">
                                         <span style="margin-right: 20px">Statistics of the number of products sold by day: </span>
@@ -143,7 +155,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <div style="margin-top: 20px" class="col-md-6">
+                            <div style="margin-top: 20px" class="col-md-6 col-sm-6">
                                 <div style="margin-top: 10px">
                                     <form action="/Statistics" method="post">
                                         <span style="margin-right: 14px">

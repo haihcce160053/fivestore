@@ -47,21 +47,21 @@
                         <a class="navbar-brand" href="/home"
                            style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b>
                         </a>
-<!--                        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
-                                data-mdb-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
-                                aria-label="Toggle navigation">
-                            <i class="fas fa-bars"></i>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarText">
-                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/home" aria-current="page" style="color: white;">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/product" style="color: white;">Product</a>
-                                </li>
-                            </ul>
-                        </div>-->
+                        <!--                        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+                                                        data-mdb-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
+                                                        aria-label="Toggle navigation">
+                                                    <i class="fas fa-bars"></i>
+                                                </button>
+                                                <div class="collapse navbar-collapse" id="navbarText">
+                                                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" href="/home" aria-current="page" style="color: white;">Home</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" href="/product" style="color: white;">Product</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>-->
                     </div>
                 </nav>
             </div>
@@ -97,13 +97,14 @@
         <main>
             <div class="container" style="margin-top: 100px">
                 <div class="row justify-content-center">
-                    <div class="col-md-6">
+                   <div class="col-md-5">
                         <a href="<%= getServletContext().getContextPath()%>/signup">
-                            <img src="img/signupqc/banner_signup.png" alt="banner sign up"
+                            <img class="img-fluid" src="img/signupqc/banner_signup.png" alt="banner sign up"
                                  style="box-shadow: 10px 10px 10px rgba(48, 60, 95, 0.271);">
                         </a>
                     </div>
-                    <div class="col-md-6">
+
+                    <div class="col-md-7">
                         <div class="login-wrap p-4 p-md-5">
                             <form id="login-form" method="post" action="/login">
                                 <!-- Title login -->
@@ -175,7 +176,7 @@
                 </div>
             </div>
         </main>
-                            
+
         <!-- MDB -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
         <!-- Jquery -->

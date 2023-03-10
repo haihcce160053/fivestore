@@ -22,6 +22,7 @@
         <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
     </head>
     <body>
+        
         <%
             String username = (String) request.getAttribute("username");
             String mess = (String) request.getAttribute("mess");
@@ -42,7 +43,6 @@
                     <!-- User -->
                     <ul class="navbar-nav align-items-center d-none d-md-flex">
                         <li class="nav-item dropdown">
-
                             <form action="/logout" method="post">
                                 <button class="btn btn-sm" style="background-color: red; color: white;width: 126px;height: 34px;" 
                                         type="submit" name="btnSignout">Logout</button>
@@ -100,7 +100,7 @@
                                     <div class="col">
                                         <div class="card-profile-stats d-flex justify-content-center mt-md-5 m">
                                             <div>
-                                                
+
                                             </div>
                                         </div>
                                     </div>

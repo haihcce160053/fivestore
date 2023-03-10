@@ -218,82 +218,85 @@
                     </tbody>
                 </table>
             </div>
-
-        </main>
-        <%
-            if (mess != null) {
-        %>
-        <div class="row" >
-            <div class="col-lg-12" style="margin-left: 15px;
-                 margin-bottom: 15px;">
-                <span id="regError" data-my-attribute="<%= mess%>"></span>
-            </div>          
-        </div>
-        <%
-        } else {
-        %>
-        <div class="row" >
-            <div class="col-lg-12" style="margin-left: 15px;
-                 margin-bottom: 15px;">
-                <span id="regError" data-my-attribute="<%= mess1%>"></span>
-            </div>          
-        </div>
-        <%
-            }
-        %>
-        <div  class="my-toast">
-            <div id="toast">
+            <%
+                if (mess != null) {
+            %>
+            <div class="row" >
+                <div class="col-lg-12" style="margin-left: 15px;
+                     margin-bottom: 15px;">
+                    <span id="regError" data-my-attribute="<%= mess%>"></span>
+                </div>          
             </div>
-        </div>
-        <div class="overlay" id="overlay"></div>
-
-        <div class="confirm-box" id="confirm-box">
-            <div class="box-header">
-                <h2>Are you sure you want to change permission account?</h2>
-            </div>
-            <div class="box-content">
-                <p>Account will be changed permission!</p>
-            </div>
-            <div class="button-container">
-                <button id="yes-button">Yes</button>
-                <button id="no-button">No</button>
-            </div>
-        </div>
-        <div class="overlay" id="overlay1"></div>
-
-        <div class="confirm-box" id="confirm-box1">
-            <div class="box-header">
-                <h2>Are you sure you want to delete this account?</h2>
-            </div>
-            <div class="box-content">
-                <p>Account will be deleted!</p>
-            </div>
-            <div class="button-container">
-                <button id="yes-button1">Yes</button>
-                <button id="no-button1">No</button>
-            </div>
-        </div>
-        <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
-        <!-- Shopping Cart -->
-        <% if (ac != null) {
-                String username = ac.getUsername();
+            <%
             } else {
-                String username = "null";
-            }
-        %>
-        <form id="checkout-form" action="/checkout/<%if (ac != null) {%><%= ac.getUsername()%><%} else {%><%= String.valueOf(ac)%><%}%>" method="get">
-            <div id="cart" style="display: none;">
-                <h3>Cart</h3>
-                <ul id="cart-items">
-
-                </ul>
-
-                <div id="cart-total">
-                    <p>Total: <span id="cart-total-amount">0 VND</span></p>
-                </div>
-                <button id="checkout-button">Checkout</button>
+            %>
+            <div class="row" >
+                <div class="col-lg-12" style="margin-left: 15px;
+                     margin-bottom: 15px;">
+                    <span id="regError" data-my-attribute="<%= mess1%>"></span>
+                </div>          
             </div>
-        </form>
+            <%
+                }
+            %>
+            <div  class="my-toast">
+                <div id="toast">
+                </div>
+            </div>
+            <div class="overlay" id="overlay"></div>
+
+            <div class="confirm-box" id="confirm-box">
+                <div class="box-header">
+                    <h2>Are you sure you want to change permission account?</h2>
+                </div>
+                <div class="box-content">
+                    <p>Account will be changed permission!</p>
+                </div>
+                <div class="button-container">
+                    <button id="yes-button">Yes</button>
+                    <button id="no-button">No</button>
+                </div>
+            </div>
+            <div class="overlay" id="overlay1"></div>
+
+            <div class="confirm-box" id="confirm-box1">
+                <div class="box-header">
+                    <h2>Are you sure you want to delete this account?</h2>
+                </div>
+                <div class="box-content">
+                    <p>Account will be deleted!</p>
+                </div>
+                <div class="button-container">
+                    <button id="yes-button1">Yes</button>
+                    <button id="no-button1">No</button>
+                </div>
+            </div>
+            <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
+            <!-- Shopping Cart -->
+            <% if (ac != null) {
+                    String username = ac.getUsername();
+                } else {
+                    String username = "null";
+                }
+            %>
+            <form id="checkout-form" action="/checkout/<%if (ac != null) {%><%= ac.getUsername()%><%} else {%><%= String.valueOf(ac)%><%}%>" method="get">
+                <div id="cart" style="display: none;">
+                    <h3>Cart</h3>
+                    <ul id="cart-items">
+
+                    </ul>
+
+                    <div id="cart-total">
+                        <p>Total: <span id="cart-total-amount">0 VND</span></p>
+                    </div>
+                    <button id="checkout-button">Checkout</button>
+                </div>
+            </form>
+            <div style="margin-bottom: 400px">
+
+            </div>
+        </main>
+
         <!-- Footer -->            
         <%@ include file="/footer.jsp" %>      
         <script>
@@ -312,7 +315,7 @@
                 });
             });
         </script>
-        
+
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/searchAc.js"></script>
