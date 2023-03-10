@@ -4,12 +4,14 @@
     Author     : QuangQui
 --%>
 
+<%@page import="com.daos.OrderDAO"%>
 <%@page import="com.daos.AccountDAO"%>
 <%@page import="com.models.Account"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/css/accountinformation.css">
         <!-- Font Awesome -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
         <!-- Google Fonts -->
@@ -17,12 +19,13 @@
         <!-- MDB -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
         <title>Account Information</title>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/css/accInf.css">
-        <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
+        <!-- Link ALL File CSS -->
+        <link href="${pageContext.request.contextPath}/Resources/css/cart.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
     </head>
     <body>
-        
         <%
             String username = (String) request.getAttribute("username");
             String mess = (String) request.getAttribute("mess");
@@ -34,39 +37,80 @@
         %>
         <div class="main-content">
             <!-- Top navbar -->
-            <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
-                <div class="container-fluid">
-                    <!-- Brand -->
-                    <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
-                       href="/">FIVE STORE - ACCOUNT
-                        INFORMATION</a>
-                    <!-- User -->
-                    <ul class="navbar-nav align-items-center d-none d-md-flex">
-                        <li class="nav-item dropdown">
+            <header id="page-header">
+                <div class="page-container">
+                    <nav class="navbar navbar-expand-lg" style="background-color: #303C5F;">
+                        <div class="container-fluid">
+                            <div>
+                                <a class="navbar-brand" href="/home"
+                                   style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b></a>
+                            </div>
+                            <div class="collapse navbar-collapse" id="navbarText">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                    <%
+                                        if (ac != null && (ac.getAccountTypeId()).equalsIgnoreCase("AD")) {
+                                    %>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/Account/Management/<%=ac.getUsername()%>" style="color: white;">Account Management</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/Product/Management/<%=ac.getUsername()%>" style="color: white;">Product Management</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/Order/" style="color: white;">Order Management</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/Statistics" style="color: white;">Revenue statistics</a>
+                                    </li>     
+                                    <%
+                                        }
+                                    %>                             
+                                </ul>
+                            </div>
+                            <div>
+                                <%
+                                    if (ac == null) {
+                                %>
+                                <button type="button" class="btn px-3 me-2"
+                                        style="color: white; background-color: #20283F"
+                                        onclick="location.href = '/login'">
+                                    Login
+                                </button>
+                                <button type="button" class="btn me-3" 
+                                        style="color: white; background-color: #20283F"
+                                        onclick="location.href = '/signup'">
+                                    Sign Up
+                                </button>
+                                <%
+                                    }
+                                    if (ac == null || (!ac.getAccountTypeId().equalsIgnoreCase("AD"))) {
+                                %>
+                                <button id="view-cart-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white">
+                                    MY CART <span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;">0</span>
+                                </button>
+                                <%
+                                    }
+                                    if ((ac != null) && (!ac.getAccountTypeId().equalsIgnoreCase("AD"))) {
+                                        OrderDAO daoorder = new OrderDAO();
+                                        int countOfOrder = daoorder.getNumberOrderByUsername(ac.getUsername());
+                                %>
+                                <button id="view-purchase-btn" type="button" class="btn me-3" style="background-color: #20283F; color: white" onclick="location.href = '/Account/Order/<%= ac.getUsername()%>'">
+                                    MY Purchase<span id="cart-badge" class="badge badge-light" style="position: relative; top: -2px; right: -10px;"><%=countOfOrder%></span>
+                                </button>
+                                <% }%>
+
+
+                            </div>
                             <form action="/logout" method="post">
                                 <button class="btn btn-sm" style="background-color: red; color: white;width: 126px;height: 34px;" 
                                         type="submit" name="btnSignout">Logout</button>
                             </form>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-            <!-- Header -->
-            <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
-                 style="background-image: url(https://www.fda.gov/files/DS_Homepage_header%20graphic.jpg); background-size: cover; background-position: center;">
-                <!-- Mask -->
-                <span class="mask bg-gradient-default opacity-8"></span>
-                <!-- Header container -->
-                <div class="container-fluid d-flex align-items-center">
-                    <div class="row">
-                        <div class="col-lg-7 col-md-10">
-                            <p class="text-white mt-0">This is your profile page. You can see all information about account and edit them.</p>
                         </div>
-                    </div>
+                    </nav>
                 </div>
-            </div>
+            </header>
             <!-- Page content -->
-            <div class="container-fluid mt--7">
+            <div class="container-fluid mt-7">
                 <div class="row">
                     <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
                         <div class="card card-profile shadow">
@@ -93,8 +137,6 @@
                                     </div>                         
                                 </div>
                             </div>
-
-
                             <div class="card-body pt-0 pt-md-4">
                                 <div class="row">
                                     <div class="col">
@@ -186,7 +228,6 @@
                                 </form>
                             </div>
                         </div>
-
                     </div>
                     <div class="col-xl-8 order-xl-1">
                         <form id="form-1" action="/account" method="post">
@@ -194,11 +235,11 @@
                                 <div class="card-header bg-white border-0">
                                     <div class="row align-items-center">
                                         <div class="col-8">
-                                            <h3 class="mb-0">Account information</h3>
+                                            <h4 class="mb-0">Account information</h4>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body" style="background-color: #fff;">
                                     <div class="pl-lg-4">
                                         <div class="row">
                                             <div class="col-lg-6">
@@ -209,7 +250,6 @@
                                                            value="<%=ac.getUsername()%>">
                                                 </div>
                                             </div>
-
                                             <div class="col-lg-6">
                                                 <div class="form-group focused">
                                                     <label class="form-control-label" for="input-username">Email</label>
@@ -286,11 +326,9 @@
                                                 <button class="btn btn-sm btn-primary" type="submit" style="display: none" id="submit-button" name="btnUpdate" onclick="return update()">Update</button> 
                                             </div>
                                         </div>
-
                                         <%
                                             if (mess1 != null) {
                                         %>
-
                                         <span id="" data-my-attribute="my-value"></span>
                                         <div class="row" >
                                             <div class="col-lg-12" style="margin-left: 15px; margin-bottom: 15px;">
@@ -316,6 +354,17 @@
                 </div>
             </div>
         </div>
+        <!-- Shopping Cart -->
+        <form id="checkout-form" action="/checkout/<%if (ac != null) {%><%= ac.getUsername()%><%} else {%><%= String.valueOf(ac)%><%}%>" method="get">
+            <div id="cart" style="display: none;">
+                <h3>Cart</h3>
+                <ul id="cart-items"></ul>
+                <div id="cart-total">
+                    <p>Total: <span id="cart-total-amount">0 VND</span></p>
+                </div>
+                <button id="checkout-button">Checkout</button>
+            </div>
+        </form>
         <!-- Toast Message  -->
         <div  class="my-toast">
             <div id="toast">
@@ -355,6 +404,8 @@
         <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/showmessageaccountinf.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/validationaccountinf.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
         <script>
                                                     overlay.addEventListener("click", function () {

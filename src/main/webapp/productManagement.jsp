@@ -21,7 +21,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
         <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
-        <link href="${pageContext.request.contextPath}/Resources/css/productManagement.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/Resources/css/productmanagement.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
 

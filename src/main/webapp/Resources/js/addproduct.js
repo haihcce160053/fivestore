@@ -3,6 +3,35 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
  */
 
+
+//Hoang Liem
+const valueInTextArea1 = document.getElementById("description");
+valueInTextArea1.value = `Thông tin sản phẩm:
+
+Công dụng:
+-
+-
+-
+-
+
+Đối tượng sử dụng:
+-
+-
+-
+-
+
+Hướng dẫn sử dụng:
+-
+-
+-
+-
+
+Lưu ý:
+-
+-
+-
+-`;
+
 function showConfirmBox() {
     const overlay = document.getElementById("overlay1");
     const confirmBox = document.getElementById("confirm-box1");
@@ -28,17 +57,15 @@ function validateForm() {
     const exp = document.getElementById("exp").value;
     const origin = document.getElementById("origin").value;
     const soldAmount = document.getElementById("soldAmount").value;
-
     const regError = document.getElementById("regError");
     regError.innerHTML = "";
-
     if (pictureLink === "" || productID === "" || productName === "" || description === "" || type === "" || quantity === "" || price === "" || exp === "" || origin === "" || soldAmount === "") {
         regError.innerHTML = "Please fill in all fields.";
         return false;
     } else if (productID.length > 10) {
         regError.innerHTML = "Product ID cannot be more than 10 characters long.";
         return false;
-    }  else if (productName.length > 50) {
+    } else if (productName.length > 50) {
         regError.innerHTML = "Product name cannot be more than 50 characters long.";
         return false;
     } else if (isNaN(quantity) || isNaN(price) || isNaN(soldAmount)) {
@@ -48,16 +75,13 @@ function validateForm() {
         return true;
     }
 }
-//written by Quang Qui
 function convertToHTML(text) {
     let lines = text.split("\n");
     let html = "";
     let currentList = "";
     let currentListType = "";
-
     for (let i = 0; i < lines.length; i++) {
         let line = lines[i].trim();
-
         if (line === "") {
             continue;
         }
@@ -120,8 +144,6 @@ function convertToHTML(text) {
 
     return html;
 }//end function
-
-
 
 const form = document.querySelector("form");
 form.addEventListener("submit", function (event) {

@@ -16,7 +16,8 @@
         <title>Account Management</title>
         <!-- MDB -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
         <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
@@ -84,6 +85,92 @@
                 pointer-events: none;
             }
 
+            /* CSS for mobile and tablet */
+
+            @media only screen and (max-width: 992px) {
+                /* center align the table cells */
+                .table td {
+                    text-align: center;
+                }
+
+                /* adjust the font size of the table headers */
+                .table thead th {
+                    font-size: 12px;
+                }
+
+                /* adjust the font size of the table cells */
+                .table tbody td {
+                    font-size: 14px;
+                }
+
+                /* adjust the font size of the search input */
+                .form-control {
+                    font-size: 14px;
+                }
+
+                /* adjust the height of the search input */
+                .form-control {
+                    height: 32px;
+                }
+
+                /* adjust the margin of the search input */
+                .form-control {
+                    margin-bottom: 10px;
+                }
+
+                /* adjust the margin of the search select */
+                select {
+                    margin-left: 5px;
+                    margin-right: 5px;
+                }
+
+                /* adjust the width of the search select */
+                select {
+                    max-width: 100px;
+                }
+
+                /* adjust the font size of the search select */
+                select {
+                    font-size: 12px;
+                }
+
+                /* adjust the font size of the search select icon */
+                .select-container::after {
+                    font-size: 10px;
+                    right: 5px;
+                }
+
+                /* adjust the font size of the search buttons */
+                .btn {
+                    font-size: 12px;
+                }
+
+                /* adjust the margin of the search buttons */
+                .btn {
+                    margin: 0 0 3px 0;
+                }
+
+                /* adjust the padding of the search box */
+                mdb-search-box {
+                    padding: 5px;
+                }
+            }
+
+            @media only screen and (max-width: 768px) {
+                /* Hide the columns */
+                table th:nth-child(2),
+                table th:nth-child(3),
+                table td:nth-child(2),
+                table td:nth-child(3) {
+                    display: none;
+                }
+
+                /* Center the remaining columns */
+                table th,
+                table td {
+                    text-align: center;
+                }
+            }
 
         </style>
     </head>

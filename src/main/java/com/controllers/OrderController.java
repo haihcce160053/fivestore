@@ -180,7 +180,7 @@ public class OrderController extends HttpServlet {
                                 request.getRequestDispatcher("/myOrder.jsp").forward(request, response);
                             }
                         } else {
-                            if (path.startsWith("/Order/Change/Reorder/")) {
+                            if (path.startsWith("/Order/Reorder/Change/")) {
                                 String[] s = path.split("/");
                                 String OrderID = s[s.length - 1];
                                 OrderDAO dao = new OrderDAO();
