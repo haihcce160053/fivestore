@@ -21,7 +21,7 @@
             <p>Please try again later or contact us for assistance.</p>
             <a href="/" class="btn btn-primary">Return to Home</a>
         </div>
-
+        <script src="${pageContext.request.contextPath}/Resources/js/tawk.js"></script>
     </body>
 </html>
 

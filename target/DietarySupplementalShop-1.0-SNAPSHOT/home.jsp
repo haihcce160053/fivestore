@@ -975,7 +975,6 @@
             <!-- Button GO TO TOP -->
             <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
         </div>
-
         <!--Search function-->
         <script>
             function submitSearchForm(event) {
@@ -999,6 +998,7 @@
         <!-- Link All File JS -->
         <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
+         <script src="${pageContext.request.contextPath}/Resources/js/tawk.js"></script>
         <!--<script src="${pageContext.request.contextPath}/Resources/js/searchhome.js"></script>-->
     </body>
 </html>

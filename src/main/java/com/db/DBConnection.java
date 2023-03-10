@@ -12,11 +12,11 @@ import java.util.logging.Logger;
  */
 public class DBConnection {
     private static Connection conn = null;
-    private String machineName = "DESKTOP-14KGKKC";
+    private String machineName = "KIENTT\\SQLEXPRESS";
     private String port = "1433";
-    private String databaseName = "FIVESTOREFINAL";
+    private String databaseName = "Project";
     private String user = "sa";
-    private String password = "Chihai4242";
+    private String password = "se1605";
 
 
     //Connect to SQLServer

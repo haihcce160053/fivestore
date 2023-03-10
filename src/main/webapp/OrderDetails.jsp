@@ -66,6 +66,7 @@
         <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
         <script src="${pageContext.request.contextPath}/Resources/js/comfirmboxAc.js"></script>
          <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
+         <script src="${pageContext.request.contextPath}/Resources/js/tawk.js"></script>
          <script src="${pageContext.request.contextPath}/Resources/js/showmessageordermanagement.js"></script>
     </body>
 </html>

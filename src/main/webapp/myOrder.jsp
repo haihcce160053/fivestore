@@ -504,6 +504,7 @@
                 });
             });
         </script>
+        <script src="${pageContext.request.contextPath}/Resources/js/tawk.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/searchAc.js"></script>

@@ -255,6 +255,7 @@
         <script src="${pageContext.request.contextPath}/Resources/js/selectbox.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/confirmchangebox.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/js/tawk.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/showmessageordermanagement.js"></script>
     </body>
 </html>
