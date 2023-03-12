@@ -132,54 +132,57 @@
                     </div>
                 </div>
 
-                <ul class="responsive-table">
-                    <li class="table-header" style="display: flex !important; justify-content: space-between !important; padding: 15px 20px !important; margin-bottom: 10px !important; border-radius: 3px !important; background-color: #138496 !important; box-shadow: 0 0 9px 0 var(--color-shadow) !important;">
-                        <div class="col col-1">OrderID</div>
-                        <div class="col col-2">Username</div>
-                        <div class="col col-3">DeliveryAddress</div>    
-                        <div class="col col-4">OrderTime</div>
-                        <div class="col col-5">Status</div>
-                        <div class="col col-6">TotalBill</div>
-                        <div class="col col-7">Actions</div>
-                    </li>
-                    <%
-                        OrderDAO dao = new OrderDAO();
-                        ResultSet rs = dao.getAll();
-                        while (rs.next()) {
-                    %>
-                    <li class="table-row" style="display: flex !important; justify-content: space-between !important; padding: 15px 20px !important; margin-bottom: 10px !important; border-radius: 3px !important; background-color: var(--color-white) !important; box-shadow: 0 0 9px 0 var(--color-shadow) !important;">
-                        <div class="col col-1" data-label="OrderID"><%= rs.getString("OrderID")%></div>
-                        <div class="col col-2" data-label="UserName"><%= rs.getString("Username")%></div>
-                        <div class="col col-3" data-label="DeliveryAddress"><%= rs.getString("DeliveryAddress")%></div> 
-                        <div class="col col-4" data-label="OrderTIme"><%= rs.getDate("OrderTime")%></div> 
-                        <div class="col col-5">
-                            <div class="Change-box">  
-                                <select id="selectStatus">
-                                    <option class="change" value="DXN" href="/Order/Change/<%= rs.getString("OrderID")%>/DXN" <%= rs.getString("OrderStatusID").equals("DXN") ? "selected" : ""%>>Đang Xác Nhận</option>
-                                    <option class="change" value="DCK" href="/Order/Change/<%= rs.getString("OrderID")%>/DCK" <%= rs.getString("OrderStatusID").equals("DCK") ? "selected" : ""%>>Đã chuyển khoản</option>
-                                    <option class="change" value="DLH" href="/Order/Change/<%= rs.getString("OrderID")%>/DLH" <%= rs.getString("OrderStatusID").equals("DLH") ? "selected" : ""%>>Đã Liên Hệ</option>
-                                    <option class="change" value="KLHD" href="/Order/Change/<%= rs.getString("OrderID")%>/KLHD" <%= rs.getString("OrderStatusID").equals("KLHD") ? "selected" : ""%>>Không Liên Hệ Được</option>
-                                    <option class="change" value="DVC" href="/Order/Change/<%= rs.getString("OrderID")%>/DVC" <%= rs.getString("OrderStatusID").equals("DVC") ? "selected" : ""%>>Đang Vận Chuyển</option>
-                                    <option class="change" value="DNH" href="/Order/Change/<%= rs.getString("OrderID")%>/DNH" <%= rs.getString("OrderStatusID").equals("DNH") ? "selected" : ""%>>Đã Nhận Hàng</option>
-                                    <option class="change" value="KNH" href="/Order/Change/<%= rs.getString("OrderID")%>/KNH" <%= rs.getString("OrderStatusID").equals("KNH") ? "selected" : ""%>>Không Nhận Hàng</option>
-                                    <option class="change" value="DHD" href="/Order/Change/<%= rs.getString("OrderID")%>/DHD" <%= rs.getString("OrderStatusID").equals("DHD") ? "selected" : ""%>>Đã Hủy Đơn</option>
-                                </select>              
-                            </div>
-                        </div>                    
+                <div style="width: 100%">
+                    <ul class="responsive-table">
+                        <li class="table-header" style="display: flex !important; justify-content: space-between !important; padding: 15px 20px !important; margin-bottom: 10px !important; border-radius: 3px !important; background-color: #138496 !important; box-shadow: 0 0 9px 0 var(--color-shadow) !important; color:white">
+                            <div class="col col-1">OrderID</div>
+                            <div class="col col-2">Username</div>
+                            <div class="col col-3">DeliveryAddress</div>    
+                            <div class="col col-4">OrderTime</div>
+                            <div class="col col-5">Status</div>
+                            <div class="col col-6">TotalBill</div>
+                            <div class="col col-7">Actions</div>
+                        </li>
                         <%
-                            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                            String formattedPrice = format.format(rs.getInt("TotalBill")).replace("₫", "VND").replaceAll("\\s", "");
+                            OrderDAO dao = new OrderDAO();
+                            ResultSet rs = dao.getAll();
+                            while (rs.next()) {
                         %>
-                        <div class="col col-6" data-label="TotalBill"><%= formattedPrice%></div>
-                        <div class="col col-7" data-label="Action">
-                            <a href="/Order/Detail/<%= rs.getString("OrderID")%>" class="edit" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xe417;</i></a>
-                            <a href="/Order/Delete/<%= rs.getString("OrderID")%>" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                        </div>
-                    </li>
-                    <%
-                        }
-                    %>
-                </ul>
+                        <li class="table-row" style="display: flex !important; justify-content: space-between !important; padding: 15px 20px !important; margin-bottom: 10px !important; border-radius: 3px !important; background-color: var(--color-white) !important; box-shadow: 0 0 9px 0 var(--color-shadow) !important;">
+                            <div class="col col-1" data-label="OrderID"><%= rs.getString("OrderID")%></div>
+                            <div class="col col-2" data-label="UserName"><%= rs.getString("Username")%></div>
+                            <div class="col col-3" data-label="DeliveryAddress"><%= rs.getString("DeliveryAddress")%></div> 
+                            <div class="col col-4" data-label="OrderTIme"><%= rs.getDate("OrderTime")%></div> 
+                            <div class="col col-5">
+                                <div class="Change-box">  
+                                    <select id="selectStatus">
+                                        <option class="change" value="DXN" href="/Order/Change/<%= rs.getString("OrderID")%>/DXN" <%= rs.getString("OrderStatusID").equals("DXN") ? "selected" : ""%>>Đang Xác Nhận</option>
+                                        <option class="change" value="DCK" href="/Order/Change/<%= rs.getString("OrderID")%>/DCK" <%= rs.getString("OrderStatusID").equals("DCK") ? "selected" : ""%>>Đã chuyển khoản</option>
+                                        <option class="change" value="DLH" href="/Order/Change/<%= rs.getString("OrderID")%>/DLH" <%= rs.getString("OrderStatusID").equals("DLH") ? "selected" : ""%>>Đã Liên Hệ</option>
+                                        <option class="change" value="KLHD" href="/Order/Change/<%= rs.getString("OrderID")%>/KLHD" <%= rs.getString("OrderStatusID").equals("KLHD") ? "selected" : ""%>>Không Liên Hệ Được</option>
+                                        <option class="change" value="DVC" href="/Order/Change/<%= rs.getString("OrderID")%>/DVC" <%= rs.getString("OrderStatusID").equals("DVC") ? "selected" : ""%>>Đang Vận Chuyển</option>
+                                        <option class="change" value="DNH" href="/Order/Change/<%= rs.getString("OrderID")%>/DNH" <%= rs.getString("OrderStatusID").equals("DNH") ? "selected" : ""%>>Đã Nhận Hàng</option>
+                                        <option class="change" value="KNH" href="/Order/Change/<%= rs.getString("OrderID")%>/KNH" <%= rs.getString("OrderStatusID").equals("KNH") ? "selected" : ""%>>Không Nhận Hàng</option>
+                                        <option class="change" value="DHD" href="/Order/Change/<%= rs.getString("OrderID")%>/DHD" <%= rs.getString("OrderStatusID").equals("DHD") ? "selected" : ""%>>Đã Hủy Đơn</option>
+                                    </select>              
+                                </div>
+                            </div>                    
+                            <%
+                                NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                                String formattedPrice = format.format(rs.getInt("TotalBill")).replace("₫", "VND").replaceAll("\\s", "");
+                            %>
+                            <div class="col col-6" data-label="TotalBill"><%= formattedPrice%></div>
+                            <div class="col col-7" data-label="Action">
+                                <a href="/Order/Detail/<%= rs.getString("OrderID")%>" class="edit" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xe417;</i></a>
+                                <a href="/Order/Delete/<%= rs.getString("OrderID")%>" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                            </div>
+                        </li>
+                        <%
+                            }
+                        %>
+                    </ul>
+                </div>
+
             </div>
             <%
                 if (mess != null) {
@@ -241,7 +244,7 @@
             %>
 
         </main>
-            
+
         <!-- Footer -->            
         <%@ include file="/footer.jsp" %>
         <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
@@ -252,6 +255,7 @@
         <script src="${pageContext.request.contextPath}/Resources/js/selectbox.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/confirmchangebox.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/js/tawk.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/showmessageordermanagement.js"></script>
     </body>
 </html>

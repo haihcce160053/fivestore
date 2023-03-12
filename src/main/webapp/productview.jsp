@@ -142,7 +142,7 @@
                                     <h5 class="card-title"><%= product.getProductName()%></h5>
                                     <p class="card-text">Product ID: <%= product.getProductID()%></p>
                                 </div>
-                                <div align="center" style="margin-top: 50px">
+                                <div class="row justify-content-center align-items-center" align="center" style="margin-top: 50px">
                                     <img src="<%= product.getPictureLink()%>" style="width: 500px; height: 500px" algin="center" alt="<%= product.getProductName()%>"/>
                                 </div>
                                 <div style="margin-top: 50px">
@@ -151,8 +151,8 @@
                                         String formattedPrice = format.format(product.getPrice()).replace("₫", "VND").replaceAll("\\s", "");
                                     %>
                                     <span class="card-text text-muted" hidden id="price-<%= product.getProductID()%>"><b>Price: </b><%= formattedPrice%></span>
-                                    <h6>EXP: <%= product.getEXP() %></h6>
-                                    <h6>Quantity: <%= product.getQuantity() %></h6>
+                                    <h6>EXP: <%= product.getEXP()%></h6>
+                                    <h6>Quantity: <%= product.getQuantity()%></h6>
                                     <h6>Price: <%= formattedPrice%></h6>
                                 </div>
                                 <div style="margin-top: 20px">
@@ -190,7 +190,7 @@
                 </div>
             </div>
         </main>
-                
+
         <!-- Shopping Cart -->
         <% if (ac != null) {
                 String username = ac.getUsername();
@@ -211,6 +211,9 @@
                 <button id="checkout-button">Checkout</button>
             </div>
         </form>
+        <!--Start of Tawk.to Script-->
+        <script src="${pageContext.request.contextPath}/Resources/js/tawk.js"></script>
+        <!--End of Tawk.to Script-->
         <!-- Footer -->            
         <%@ include file="/footer.jsp" %>
 
