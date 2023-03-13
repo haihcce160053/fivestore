@@ -22,10 +22,10 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/css/accountinformation.css">
         <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
-         <link href="${pageContext.request.contextPath}/Resources/css/orderManagement.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/Resources/css/orderManagement.css" rel="stylesheet" />
     </head>
     <body>
-        <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main" style="background-color: #303C5F;     padding: 0rem 1rem;">
+        <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main" style="background-color: #303C5F;padding: 0rem 1rem;">
             <div class="container-fluid">
                 <!-- Brand -->
                 <a class="h4 mb-0 text-uppercase text-white d-none d-lg-inline-block"
@@ -37,7 +37,7 @@
         <div class="container" style="margin-top: 20px;">
             <ul class="responsive-table">
                 <li class="table-header">
-                    <div class="col col-1">OrderID</div>
+                    <div class="col col-1">Product Name</div>
                     <div class="col col-2">ProductID</div>
                     <div class="col col-3">Quantity</div>    
                     <div class="col col-4">TotalPrice</div>
