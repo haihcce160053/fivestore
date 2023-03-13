@@ -182,7 +182,6 @@
                         %>
                     </ul>
                 </div>
-
             </div>
             <%
                 if (mess != null) {
