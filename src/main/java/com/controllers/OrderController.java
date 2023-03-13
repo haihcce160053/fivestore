@@ -77,29 +77,18 @@ public class OrderController extends HttpServlet {
             System.out.println(prefixUser);
 
             OrderDAO dao = new OrderDAO();
-            ResultSet rs = dao.getOrderByUsername(username);
-            try {
-                String OrderID = "";
-                //check rs empty
-                if (rs.next()) {
-                    ResultSet rs2 = dao.getOrderByUsername(username);
-                    while (rs2.next()) {
-                        OrderID = rs2.getString("OrderID");
-                    }
-                    int NewID = Integer.parseInt(OrderID.substring(3));
-                    System.out.println(prefixUser + String.format("%06d", NewID + 1));
-                    String NewOrderID = prefixUser + String.format("%06d", NewID + 1);
-                    request.setAttribute("OrderID", NewOrderID);
-                    request.getRequestDispatcher("/newOrder.jsp").forward(request, response);
-                } else {
-                    rs.close();
-                    request.setAttribute("OrderID", prefixUser + "000001");
-                    request.getRequestDispatcher("/newOrder.jsp").forward(request, response);
-                }
+            String OrderID = prefixUser + String.format("%06d", 1);
+            int NewID = Integer.parseInt(OrderID.substring(3));
+            String NewOrderID;
+            int i = 0;
+            do {
+                NewOrderID = prefixUser + String.format("%06d", NewID + i);
+                i++;
+            } while (dao.getOrder(NewOrderID) != null);
 
-            } catch (SQLException ex) {
-                Logger.getLogger(OrderController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            request.setAttribute("OrderID", NewOrderID);
+            request.getRequestDispatcher("/newOrder.jsp").forward(request, response);
+
         }
         //phat quy
         if (path.endsWith("/Order/")) {
