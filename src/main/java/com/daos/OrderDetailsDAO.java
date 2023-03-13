@@ -92,4 +92,20 @@ public class OrderDetailsDAO {
         }
         return ac;
     }
+    
+    public String getProductName(String ProductID) {
+        ResultSet rs = null;
+        String ProductName = "";
+        try {
+            PreparedStatement pst = conn.prepareStatement("select ProductName from Product where ProductID = ?");
+            pst.setString(1, ProductID);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                ProductName = rs.getString("ProductName");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDetailsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ProductName;
+    }
 }
