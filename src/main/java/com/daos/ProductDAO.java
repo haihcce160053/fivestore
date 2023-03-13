@@ -39,7 +39,7 @@ public class ProductDAO {
                     + "t2.ProductTypeID,t2.Quantity,t2.Price,t2.EXP,t2.Origin,t2.SoldAmount\n"
                     + "from Product t1 left outer join ProductInformation t2 on t1.ProductID = t2.ProductID");
         } catch (SQLException ex) {
-            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return rs;
     }
@@ -114,7 +114,7 @@ public class ProductDAO {
             pst.setString(4, pd.getDescription());
             count = pst.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return count;
     }
@@ -191,7 +191,7 @@ public class ProductDAO {
             pst.setString(4, pd.getProductID());
             count = pst.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return count;
     }
@@ -214,7 +214,7 @@ public class ProductDAO {
             pst.setString(7, pd.getProductID());
             count = pst.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return count;
     }
@@ -235,7 +235,7 @@ public class ProductDAO {
                 name = rs.getString("ProductTypeName");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return name;
     }
@@ -251,7 +251,7 @@ public class ProductDAO {
             Statement st = conn.createStatement();
             rs = st.executeQuery("select * from ProductType");
         } catch (SQLException ex) {
-            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return rs;
     }
@@ -265,15 +265,9 @@ public class ProductDAO {
         ResultSet rs = null;
         try {
             Statement st = conn.createStatement();
-            rs = st.executeQuery("SELECT od.ProductID, COUNT(*) as TotalOrders\n"
-                    + "FROM OrderDetails od\n"
-                    + "INNER JOIN OrderList ol ON od.OrderID = ol.OrderID\n"
-                    + "WHERE YEAR(ol.OrderTime) = YEAR(GETDATE()) AND MONTH(ol.OrderTime) = MONTH(GETDATE())\n"
-                    + "GROUP BY od.ProductID\n"
-                    + "HAVING COUNT(*) >= 3"
-                    + "ORDER BY TotalOrders DESC");
+            rs = st.executeQuery("SELECT od.ProductID, COUNT(*) as TotalOrders FROM OrderDetails od INNER JOIN OrderList ol ON od.OrderID = ol.OrderID WHERE YEAR(ol.OrderTime) = YEAR(GETDATE()) AND MONTH(ol.OrderTime) = MONTH(GETDATE()) GROUP BY od.ProductID HAVING COUNT(*) >= 3 ORDER BY TotalOrders DESC");
         } catch (SQLException ex) {
-            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return rs;
     }
@@ -287,11 +281,9 @@ public class ProductDAO {
         ResultSet rs = null;
         try {
             Statement st = conn.createStatement();
-            rs = st.executeQuery("select t1.ProductID,t1.ProductName,t1.PictureLink,t1.Description,\n"
-                    + "t2.ProductTypeID,t2.Quantity,t2.Price,t2.EXP,t2.Origin,t2.SoldAmount\n"
-                    + "from Product t1 left outer join ProductInformation t2 on t1.ProductID = t2.ProductID where t2.SoldAmount >=4 ORDER BY t2.SoldAmount DESC");
+            rs = st.executeQuery("select t1.ProductID,t1.ProductName,t1.PictureLink,t1.Description,t2.ProductTypeID,t2.Quantity,t2.Price,t2.EXP,t2.Origin,t2.SoldAmount from Product t1 left outer join ProductInformation t2 on t1.ProductID = t2.ProductID where t2.SoldAmount >=4 ORDER BY t2.SoldAmount DESC");
         } catch (SQLException ex) {
-            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return rs;
     }

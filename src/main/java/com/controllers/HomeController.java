@@ -56,10 +56,8 @@ public class HomeController extends HttpServlet {
         HttpSession session = request.getSession();
         if (session.getAttribute("informationAccount") != null) {
             Account account = (Account) session.getAttribute("informationAccount");
-            if (account != null) {
-
-                request.getRequestDispatcher("/home.jsp").forward(request, response);
-            }
+            session.setAttribute("informationAccount", account);
+            request.getRequestDispatcher("/home.jsp").forward(request, response);
         } else {
             request.getRequestDispatcher("/home.jsp").forward(request, response);
         }

@@ -237,7 +237,7 @@ public class OrderDAO {
             pst.setString(2, OrderID);
             count = pst.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return count;
     }

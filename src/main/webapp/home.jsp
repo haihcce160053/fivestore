@@ -313,8 +313,9 @@
                     <%
                         ProductDAO dao_product = new ProductDAO();
                         ResultSet rs_product_order = dao_product.getAllProductBestOrder();
-                        boolean hasData = rs_product_order.next();
-                        if (hasData) {
+                        if (rs_product_order != null) {
+                            boolean hasData = rs_product_order.next();
+                            if (hasData) {
                     %>
                     <div style="padding: 50px">
                         <div>
@@ -379,10 +380,12 @@
                         </div>
                     </div>
                     <%
+                            }
                         }
                         ResultSet rs_product_selling = dao_product.getAllProductBestSelling();
-                        boolean hasData1 = rs_product_selling.next();
-                        if (hasData1) {
+                        if (rs_product_selling != null) {
+                            boolean hasData1 = rs_product_selling.next();
+                            if (hasData1) {
                     %>
                     <div style="padding: 50px">
                         <div>
@@ -445,6 +448,7 @@
                         </div>
                     </div>
                     <%
+                            }
                         }
                     %>
                 </div>
