@@ -260,7 +260,7 @@
                                             <h6 class="card-title text-truncate"><%= rs.getString("ProductName")%></h6>
                                             <%
                                                 NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                                String formattedPrice = format.format(rs.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                                String formattedPrice = format.format(rs.getInt("Price")).replaceAll("\\s", "");
                                             %>   
                                             <div>
                                                 <span class="card-text text-muted" id="exp-<%= rs.getString("ProductID")%>"><b>EXP: </b><%= rs.getString("EXP")%></span>
@@ -313,14 +313,15 @@
                     <%
                         ProductDAO dao_product = new ProductDAO();
                         ResultSet rs_product_order = dao_product.getAllProductBestOrder();
-                        if (rs_product_order.next()) {
+                        boolean hasData = rs_product_order.next();
+                        if (hasData) {
                     %>
                     <div style="padding: 50px">
                         <div>
                             <h5>BEST ORDER</h5>
                             <div class="row">
                                 <%
-                                    while (rs_product_order.next()) {
+                                    do {
                                         Product pd = dao_product.getProduct(rs_product_order.getString("ProductID"));
                                 %> 
                                 <div class="col-md-2 my-3 ">
@@ -332,7 +333,7 @@
                                             <h6 class="card-title text-truncate"><%= pd.getProductName()%></h6>
                                             <%
                                                 NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                                String formattedPrice = format.format(pd.getPrice()).replace("₫", "VND").replaceAll("\\s", "");
+                                                String formattedPrice = format.format(pd.getPrice()).replaceAll("\\s", "");
                                             %>   
                                             <div>
                                                 <span class="card-text text-muted" id="exp-<%= pd.getProductID()%>"><b>EXP: </b><%= pd.getEXP()%></span>
@@ -372,7 +373,7 @@
                                     </div>
                                 </div>
                                 <%
-                                    }
+                                    } while (rs_product_order.next());
                                 %>
                             </div>
                         </div>
@@ -380,14 +381,15 @@
                     <%
                         }
                         ResultSet rs_product_selling = dao_product.getAllProductBestSelling();
-                        if (rs_product_selling.next()) {
+                        boolean hasData1 = rs_product_selling.next();
+                        if (hasData1) {
                     %>
                     <div style="padding: 50px">
                         <div>
                             <h5>BEST SELLING</h5>
                             <div class="row">
                                 <%
-                                    while (rs_product_selling.next()) {
+                                    do {
                                 %> 
                                 <div class="col-md-2 my-3 ">
                                     <div class="card">
@@ -397,7 +399,7 @@
                                         <div class="card-body d-flex flex-column justify-content-between">
                                             <h6 class="card-title text-truncate"><%= rs_product_selling.getString("ProductName")%></h6>
                                             <% NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                                String formattedPrice = format.format(rs_product_selling.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                                String formattedPrice = format.format(rs_product_selling.getInt("Price")).replaceAll("\\s", "");
                                             %>   
                                             <div>
                                                 <span class="card-text text-muted" id="exp-<%= rs_product_selling.getString("ProductID")%>"><b>EXP: </b><%= rs_product_selling.getString("EXP")%></span>
@@ -437,7 +439,7 @@
                                     </div>
                                 </div>
                                 <%
-                                    }
+                                    } while (rs_product_selling.next());
                                 %>
                             </div>
                         </div>
@@ -466,7 +468,7 @@
                                         <h6 class="card-title text-truncate"><%= rs_dig.getString("ProductName")%></h6>
                                         <%
                                             NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                            String formattedPrice = format.format(rs_dig.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                            String formattedPrice = format.format(rs_dig.getInt("Price")).replaceAll("\\s", "");
                                         %>   
                                         <div>
                                             <span class="card-text text-muted" id="exp-<%= rs_dig.getString("EXP")%>"><b>EXP: </b><%= rs_dig.getString("EXP")%></span>
@@ -532,7 +534,7 @@
                                         <h6 class="card-title text-truncate"><%= rs_eyes.getString("ProductName")%></h6>
                                         <%
                                             NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                            String formattedPrice = format.format(rs_eyes.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                            String formattedPrice = format.format(rs_eyes.getInt("Price")).replaceAll("\\s", "");
                                         %>   
                                         <div>
                                             <span class="card-text text-muted" id="exp-<%= rs_eyes.getString("ProductID")%>"><b>EXP: </b><%= rs_eyes.getString("EXP")%></span>
@@ -596,7 +598,7 @@
                                         <h6 class="card-title text-truncate"><%= rs_blood.getString("ProductName")%></h6>
                                         <%
                                             NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                            String formattedPrice = format.format(rs_blood.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                            String formattedPrice = format.format(rs_blood.getInt("Price")).replaceAll("\\s", "");
                                         %>   
                                         <div>
                                             <span class="card-text text-muted" id="exp-<%= rs_blood.getString("ProductID")%>"><b>EXP: </b><%= rs_blood.getString("EXP")%></span>
@@ -660,7 +662,7 @@
                                         <h6 class="card-title text-truncate"><%= rs_liver.getString("ProductName")%></h6>
                                         <%
                                             NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                            String formattedPrice = format.format(rs_liver.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                            String formattedPrice = format.format(rs_liver.getInt("Price")).replaceAll("\\s", "");
                                         %>   
                                         <div>
                                             <span class="card-text text-muted" id="exp-<%= rs_liver.getString("ProductID")%>"><b>EXP: </b><%= rs_liver.getString("EXP")%></span>
@@ -724,7 +726,7 @@
                                         <h6 class="card-title text-truncate"><%= rs_resistance.getString("ProductName")%></h6>
                                         <%
                                             NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                            String formattedPrice = format.format(rs_resistance.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                            String formattedPrice = format.format(rs_resistance.getInt("Price")).replaceAll("\\s", "");
                                         %>   
                                         <div>
                                             <span class="card-text text-muted" id="exp-<%= rs_resistance.getString("ProductID")%>"><b>EXP: </b><%= rs_resistance.getString("EXP")%></span>
@@ -788,7 +790,7 @@
                                         <h6 class="card-title text-truncate"><%= rs_skin.getString("ProductName")%></h6>
                                         <%
                                             NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                            String formattedPrice = format.format(rs_skin.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                            String formattedPrice = format.format(rs_skin.getInt("Price")).replaceAll("\\s", "");
                                         %>   
                                         <div>
                                             <span class="card-text text-muted" id="exp-<%= rs_skin.getString("ProductID")%>"><b>EXP: </b><%= rs_skin.getString("EXP")%></span>
@@ -853,7 +855,7 @@
                                         <h6 class="card-title text-truncate"><%= rs_sleep.getString("ProductName")%></h6>
                                         <%
                                             NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                            String formattedPrice = format.format(rs_sleep.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                            String formattedPrice = format.format(rs_sleep.getInt("Price")).replaceAll("\\s", "");
                                         %>   
                                         <div>
                                             <span class="card-text text-muted" id="exp-<%= rs_sleep.getString("EXP")%>"><b>EXP: </b><%= rs_sleep.getString("EXP")%></span>
@@ -918,7 +920,7 @@
                                         <h6 class="card-title text-truncate"><%= rs_weight.getString("ProductName")%></h6>
                                         <%
                                             NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                                            String formattedPrice = format.format(rs_weight.getInt("Price")).replace("₫", "VND").replaceAll("\\s", "");
+                                            String formattedPrice = format.format(rs_weight.getInt("Price")).replaceAll("\\s", "");
                                         %>   
                                         <div>
                                             <span class="card-text text-muted" id="exp-<%= rs_weight.getString("ProductID")%>"><b>EXP: </b><%= rs_weight.getString("EXP")%></span>
@@ -998,7 +1000,7 @@
         <!-- Link All File JS -->
         <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
-         <script src="${pageContext.request.contextPath}/Resources/js/tawk.js"></script>
-        <!--<script src="${pageContext.request.contextPath}/Resources/js/searchhome.js"></script>-->
+        <script src="${pageContext.request.contextPath}/Resources/js/tawk.js"></script>
+       <!--<script src="${pageContext.request.contextPath}/Resources/js/searchhome.js"></script>-->
     </body>
 </html>
