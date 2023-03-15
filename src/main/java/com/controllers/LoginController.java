@@ -95,7 +95,6 @@ public class LoginController extends HttpServlet {
             request.getRequestDispatcher("/signup.jsp").forward(request, response);
         }
         if (request.getParameter("code") != null) {
-            request.setAttribute("googleLogin", true);
             String code = request.getParameter("code");
             String accessToken = getToken(code);
             UserGoogle user = getUserInfo(accessToken);
@@ -112,6 +111,7 @@ public class LoginController extends HttpServlet {
                 request.setAttribute("email", email);
                 request.setAttribute("username", username);
                 request.setAttribute("loginwithgg", "Yes");
+                request.setAttribute("googleLogin", true);
                 request.getRequestDispatcher("/signup.jsp").forward(request, response);
             } else {
                 session.setAttribute("informationAccount", ac);
@@ -172,6 +172,7 @@ public class LoginController extends HttpServlet {
                 }
             } else {
                 request.setAttribute("mess", "Username already exists!");
+                request.setAttribute("googleLogin", false);
                 request.getRequestDispatcher("/signup.jsp").forward(request, response);
             }
         } else if (request.getParameter("btnSignIn") != null) {
