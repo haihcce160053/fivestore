@@ -10,6 +10,7 @@ import com.security.Encoding;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -114,9 +115,11 @@ public class LoginController extends HttpServlet {
                 request.getRequestDispatcher("/signup.jsp").forward(request, response);
             } else {
                 session.setAttribute("informationAccount", ac);
-                response.sendRedirect(request.getContextPath() + "/home");
+                Cookie accLogin = new Cookie("username", username);
+                accLogin.setMaxAge(60 * 60 * 72);
+                response.addCookie(accLogin);
+                response.sendRedirect("/");
             }
-            System.out.println(user);
         }
 
     }
@@ -154,7 +157,10 @@ public class LoginController extends HttpServlet {
                 if (count > 0 && count2 > 0) {
                     if (loginwithgg != null) {
                         session.setAttribute("informationAccount", st);
-                        response.sendRedirect(request.getContextPath() + "/home");
+                        Cookie accLogin = new Cookie("username", username);
+                        accLogin.setMaxAge(60 * 60 * 72);
+                        response.addCookie(accLogin);
+                        request.getRequestDispatcher("/home.jsp").forward(request, response);
                     } else {
                         request.setAttribute("mess", "Sign Up Successfully! You can sign in now!");
                         response.sendRedirect(request.getContextPath() + "/login");
@@ -179,10 +185,16 @@ public class LoginController extends HttpServlet {
                 if (endcode.getMd5(password).equals(ac.getPassword())) {
                     if (ac.getAccountTypeId().equals("AD")) {
                         session.setAttribute("informationAccount", ac);
-                        response.sendRedirect(request.getContextPath() + "/homeAdmin");
+                        Cookie accLogin = new Cookie("username", username);
+                        accLogin.setMaxAge(60 * 60 * 72);
+                        response.addCookie(accLogin);
+                        request.getRequestDispatcher("/home.jsp").forward(request, response);
                     } else {
                         session.setAttribute("informationAccount", ac);
-                        response.sendRedirect(request.getContextPath() + "/home");
+                        Cookie accLogin = new Cookie("username", username);
+                        accLogin.setMaxAge(60 * 60 * 72);
+                        response.addCookie(accLogin);
+                        request.getRequestDispatcher("/home.jsp").forward(request, response);
                     }
                 } else {
                     request.setAttribute("mess", "Username or password is not correct!");
@@ -196,7 +208,15 @@ public class LoginController extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("informationAccount", null);
             session.setAttribute("Account", null);
-            response.sendRedirect(request.getContextPath() + "/");
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    // delete cookie
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                }
+            }
+            request.getRequestDispatcher("/home.jsp").forward(request, response);
         } else if (request.getParameter("btnForgotPassword") != null) {
             String username = request.getParameter("forgotUsername");
             String answer = request.getParameter("forgotAnswer");
@@ -212,10 +232,16 @@ public class LoginController extends HttpServlet {
                     dao.updateAccount(ac);
                     if (ac.getAccountTypeId().equals("AD")) {
                         session.setAttribute("informationAccount", ac);
-                        response.sendRedirect(request.getContextPath() + "/homeAdmin");
+                        Cookie accLogin = new Cookie("username", username);
+                        accLogin.setMaxAge(60 * 60 * 72);
+                        response.addCookie(accLogin);
+                        request.getRequestDispatcher("/home.jsp").forward(request, response);
                     } else {
                         session.setAttribute("informationAccount", ac);
-                        response.sendRedirect(request.getContextPath() + "/home");
+                        Cookie accLogin = new Cookie("username", username);
+                        accLogin.setMaxAge(60 * 60 * 72);
+                        response.addCookie(accLogin);
+                        request.getRequestDispatcher("/home.jsp").forward(request, response);
                     }
                 } else {
                     request.setAttribute("mess", "Reset password failed");

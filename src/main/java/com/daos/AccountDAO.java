@@ -22,6 +22,11 @@ public class AccountDAO {
         conn = DBConnection.getConnection();
     }
 
+    /**
+     *
+     * @param Username
+     * @return
+     */
     public Account getAccount(String Username) {
         try {
             String query = "select Account.Username, Account.Password, Account.SercurityAnswer, AccountInformation.AccountTypeID, AccountInformation.FullName,AccountInformation.Email, AccountInformation.Gender, AccountInformation.PhoneNumber from Account left outer join AccountInformation on Account.Username = AccountInformation.Username where Account.Username = ?";

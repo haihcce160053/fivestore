@@ -1,9 +1,11 @@
 package com.controllers;
 
+import com.daos.AccountDAO;
 import com.models.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -54,6 +56,22 @@ public class HomeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        AccountDAO dao = new AccountDAO();
+        Cookie[] cookies = request.getCookies();
+        if ((cookies != null)) {
+            for (Cookie cookie : cookies) {
+                Account ac = dao.getAccount(cookie.getValue());
+                if (ac != null) {
+                    if (ac.getAccountTypeId().equals("AD")) {
+                        session.setAttribute("informationAccount", ac);
+                        request.getRequestDispatcher("/home.jsp").forward(request, response);
+                    } else if (ac.getAccountTypeId().equals("CUS")) {
+                        session.setAttribute("informationAccount", ac);
+                        request.getRequestDispatcher("/home.jsp").forward(request, response);
+                    }
+                }
+            }
+        }
         if (session.getAttribute("informationAccount") != null) {
             Account account = (Account) session.getAttribute("informationAccount");
             session.setAttribute("informationAccount", account);
