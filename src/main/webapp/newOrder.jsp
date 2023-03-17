@@ -449,7 +449,7 @@
                 }
 
                 // Loại bỏ các ký tự đặc biệt khỏi chuỗi bằng phương thức replace()
-                items = items.replaceAll("- ", "<<").replaceAll("+", ">>").replaceAll("Remove", "").replaceAll(".", "").replaceAll("x", "").replaceAll("đ", "").replaceAll("   ", "|");
+                items = items.replaceAll("- ", "<<").replaceAll("+", ">>").replaceAll("Remove", "").replaceAll(".", "").replaceAll("x", "").replaceAll("đ", "").replaceAll("   ", "");
 
                 //Chuỗi sau khi xử lý sẽ gán vào ô input ẩn để tiện trên Servlet lấy data
                 inputElement.value = items;

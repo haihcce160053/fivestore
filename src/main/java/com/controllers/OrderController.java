@@ -1,11 +1,8 @@
 package com.controllers;
 
-import com.daos.AccountDAO;
 import com.daos.OrderDAO;
-
 import com.daos.OrderDetailsDAO;
 import com.daos.ProductDAO;
-import com.models.Account;
 import com.models.Order;
 import com.models.OrderDetails;
 import java.io.IOException;
@@ -23,6 +20,8 @@ import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Properties;
 
 /**
@@ -229,6 +228,7 @@ public class OrderController extends HttpServlet {
             String orderID = request.getParameter("txtOrderID");
             String username = request.getParameter("txtUsername");
             String email = request.getParameter("txtEmail");
+            String name = request.getParameter("txtFullname");
             String phone = request.getParameter("txtPhone");
 
             //Get all input Address
@@ -263,7 +263,7 @@ public class OrderController extends HttpServlet {
 
             //Add order in db table OrderList
             int check = orderDao.addOrder(ord);
-
+            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
             //if add them orderList successfully
             if (check > 0) {
                 //when order success create split the cart info into list
@@ -289,8 +289,28 @@ public class OrderController extends HttpServlet {
                     request.setAttribute("mess", "No");
                     request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
                 } else {
-                    final String usernameEmail = "fivestorevietnam@gmail.com";
-                    final String passwordEmail = "xbtyigkjjezssuhr";
+                    StringBuilder output = new StringBuilder();
+                    for (String productOrder : listProduct) {
+                        String ProductID = productOrder.substring(0, productOrder.indexOf(' ')).replaceAll("[^a-zA-Z0-9]", ""); // get product id and remove special characters
+                        OrderDetailsDAO daoorder = new OrderDetailsDAO();
+                        String ProductName = daoorder.getProductName(ProductID);
+                        int quantity = 0;
+                        String quantityString = productOrder.substring(productOrder.indexOf("<<") + 2, productOrder.indexOf(">>")).replaceAll("[^0-9]", ""); // get quantity and remove non-numeric characters
+                        try {
+                            quantity = Integer.valueOf(quantityString);
+                        } catch (NumberFormatException e) {
+                            // handle the exception here
+                        }
+                        int unitPrice = productDao.getUnitPrice(ProductID);
+                        int totalPrice = quantity * unitPrice;
+                        
+                        String formattedPrice = format.format(totalPrice).replaceAll("\\s", "");
+                        output.append(" Tên: ").append(ProductName).append("\t Số Lượng: ").append(quantity).append("\t Tổng: ").append(formattedPrice).append(System.lineSeparator());
+                    }
+                    String result = output.toString().trim();
+
+                    final String usernameEmail = "quitqce160195@fpt.edu.vn";
+                    final String passwordEmail = "tranquangqui2001";
                     String from = "fivestorevietnam@gmail.com";
 
                     String host = "smtp.gmail.com";
@@ -299,7 +319,7 @@ public class OrderController extends HttpServlet {
                     props.put("mail.smtp.starttls.enable", "true");
                     props.put("mail.smtp.host", host);
                     props.put("mail.smtp.user", usernameEmail);
-                    props.put("mail.smtp.pass", "xbtyigkjjezssuhr");
+                    props.put("mail.smtp.pass", "tranquangqui2001");
                     props.put("mail.smtp.port", "587");
                     props.put("mail.smtp.charset", "utf-8");
                     //create the Session object
@@ -316,14 +336,16 @@ public class OrderController extends HttpServlet {
                         String utf8String = new String(utf8Bytes, "UTF-8"); // Chuyển lại sang chuỗi UTF-8
 
                         // Tạo nội dung email
-                        String emailContent = "Thông tin đơn hàng:\n"
-                                + "Mã đơn hàng: " + orderID + "\n"
-                                + "Khách hàng: " + username + "\n"
-                                + "Số điện thoại: " + phone + "\n"
-                                + "Địa chỉ giao hàng: " + deliveryAddress + "\n"
-                                + "Tổng giá trị đơn hàng: " + totalbill + "\n"
-                                + "Phương thức thanh toán: " + paymentMethod + "\n"
-                                + "Danh sách sản phẩm:\n" + utf8String;
+                        String formattedPrice = format.format(Integer.parseInt(totalbill)).replaceAll("\\s", "");
+                        String emailContent = "Thông tin đơn hàng:\n\n"
+                                + "Mã đơn hàng: " + orderID + "\n\n"
+                                + "Ngày mua: " + orderTime.toString() + "\n\n"
+                                + "Khách hàng: " + name + "\n\n"
+                                + "Số điện thoại: " + phone + "\n\n"
+                                + "Địa chỉ giao hàng: " + deliveryAddress + "\n\n"
+                                + "Tổng giá trị đơn hàng: " + formattedPrice + "\n\n"
+                                + "Phương thức thanh toán: " + paymentMethod + "\n\n"
+                                + "Danh sách sản phẩm:\n" + result;
                         // Tạo đối tượng Message
                         Message message = new MimeMessage(session);
                         message.setFrom(new InternetAddress(from));

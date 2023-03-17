@@ -69,7 +69,10 @@ public class HomeController extends HttpServlet {
                     session.setAttribute("informationAccount", account);
                     request.getRequestDispatcher("/home.jsp").forward(request, response);
                 }
+            } else {
+                request.getRequestDispatcher("/home.jsp").forward(request, response);
             }
+                 
         }
     }
 
