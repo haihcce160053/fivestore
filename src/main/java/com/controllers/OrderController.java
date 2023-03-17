@@ -309,9 +309,9 @@ public class OrderController extends HttpServlet {
                     }
                     String result = output.toString().trim();
 
-                    final String usernameEmail = "quitqce160195@fpt.edu.vn";
-                    final String passwordEmail = "tranquangqui2001";
-                    String from = "fivestorevietnam@gmail.com";
+                    final String usernameEmail = "@";
+                    final String passwordEmail = "@";
+                    String from = "@";
 
                     String host = "smtp.gmail.com";
                     Properties props = new Properties();
