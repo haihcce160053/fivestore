@@ -309,9 +309,9 @@ public class OrderController extends HttpServlet {
                     }
                     String result = output.toString().trim();
 
-                    final String usernameEmail = "@";
-                    final String passwordEmail = "@";
-                    String from = "@";
+                    final String usernameEmail = "fivestorecantho@gmail.com";
+                    final String passwordEmail = "xxuhvlmidmoqhxoz";
+                    String from = "fivestorecantho@gmail.com";
 
                     String host = "smtp.gmail.com";
                     Properties props = new Properties();
@@ -319,7 +319,7 @@ public class OrderController extends HttpServlet {
                     props.put("mail.smtp.starttls.enable", "true");
                     props.put("mail.smtp.host", host);
                     props.put("mail.smtp.user", usernameEmail);
-                    props.put("mail.smtp.pass", "tranquangqui2001");
+                    props.put("mail.smtp.pass", "xxuhvlmidmoqhxoz");
                     props.put("mail.smtp.port", "587");
                     props.put("mail.smtp.charset", "utf-8");
                     //create the Session object
