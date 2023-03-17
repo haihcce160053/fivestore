@@ -252,7 +252,7 @@
                         <div class="form-group row">
                             <label for="txtEmail" class="col-4 col-form-label">Email</label> 
                             <div class="col-8">
-                                <input id="txtEmail" name="txtEmail" type="text" class="form-control" value="<%=ac.getEmail()%>" readonly>
+                                <input id="txtEmail" name="txtEmail" type="text" class="form-control" value="<%=ac.getEmail()%>">
                             </div>
                         </div>
                         <div class="form-group row">

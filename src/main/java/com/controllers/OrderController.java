@@ -1,9 +1,11 @@
 package com.controllers;
 
+import com.daos.AccountDAO;
 import com.daos.OrderDAO;
 
 import com.daos.OrderDetailsDAO;
 import com.daos.ProductDAO;
+import com.models.Account;
 import com.models.Order;
 import com.models.OrderDetails;
 import java.io.IOException;
@@ -13,10 +15,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.sql.Date;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+import java.util.Properties;
 
 /**
  *
@@ -221,6 +228,7 @@ public class OrderController extends HttpServlet {
             //get information account form post mothod
             String orderID = request.getParameter("txtOrderID");
             String username = request.getParameter("txtUsername");
+            String email = request.getParameter("txtEmail");
             String phone = request.getParameter("txtPhone");
 
             //Get all input Address
@@ -281,9 +289,64 @@ public class OrderController extends HttpServlet {
                     request.setAttribute("mess", "No");
                     request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
                 } else {
-                    request.setAttribute("link", "http://localhost:8080/");
-                    request.setAttribute("mess", "Yes");
-                    request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
+                    final String usernameEmail = "fivestorevietnam@gmail.com";
+                    final String passwordEmail = "xbtyigkjjezssuhr";
+                    String from = "fivestorevietnam@gmail.com";
+
+                    String host = "smtp.gmail.com";
+                    Properties props = new Properties();
+                    props.put("mail.smtp.auth", "true");
+                    props.put("mail.smtp.starttls.enable", "true");
+                    props.put("mail.smtp.host", host);
+                    props.put("mail.smtp.user", usernameEmail);
+                    props.put("mail.smtp.pass", "xbtyigkjjezssuhr");
+                    props.put("mail.smtp.port", "587");
+                    props.put("mail.smtp.charset", "utf-8");
+                    //create the Session object
+                    Session session = Session.getInstance(props,
+                            new jakarta.mail.Authenticator() {
+                        @Override
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication(usernameEmail, passwordEmail);
+                        }
+                    });
+                    boolean isSent = false;
+                    try {
+                        byte[] utf8Bytes = Cart.getBytes("UTF-8"); // Chuyển chuỗi sang UTF-8
+                        String utf8String = new String(utf8Bytes, "UTF-8"); // Chuyển lại sang chuỗi UTF-8
+
+                        // Tạo nội dung email
+                        String emailContent = "Thông tin đơn hàng:\n"
+                                + "Mã đơn hàng: " + orderID + "\n"
+                                + "Khách hàng: " + username + "\n"
+                                + "Số điện thoại: " + phone + "\n"
+                                + "Địa chỉ giao hàng: " + deliveryAddress + "\n"
+                                + "Tổng giá trị đơn hàng: " + totalbill + "\n"
+                                + "Phương thức thanh toán: " + paymentMethod + "\n"
+                                + "Danh sách sản phẩm:\n" + utf8String;
+                        // Tạo đối tượng Message
+                        Message message = new MimeMessage(session);
+                        message.setFrom(new InternetAddress(from));
+                        message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
+                        message.setSubject("Information Order " + orderID + " " + orderTime);
+
+                        // Thêm nội dung email vào phần thân của Message
+                        message.setContent(emailContent, "text/plain; charset=UTF-8");
+                        Transport.send(message);
+                        isSent = true;
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
+                    if (isSent) {
+                        request.setAttribute("link", "http://localhost:8080/");
+                        request.setAttribute("mess", "Yes");
+                        request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
+                    } else {
+                        request.setAttribute("link", "http://localhost:8080/");
+                        request.setAttribute("mess", "No");
+                        request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
+                    }
+
                 }
 
             } else {

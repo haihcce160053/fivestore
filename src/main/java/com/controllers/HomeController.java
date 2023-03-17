@@ -56,29 +56,33 @@ public class HomeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        AccountDAO dao = new AccountDAO();
-        Cookie[] cookies = request.getCookies();
-        if ((cookies != null)) {
-            for (Cookie cookie : cookies) {
-                Account ac = dao.getAccount(cookie.getValue());
-                if (ac != null) {
-                    if (ac.getAccountTypeId().equals("AD")) {
-                        session.setAttribute("informationAccount", ac);
-                        request.getRequestDispatcher("/home.jsp").forward(request, response);
-                    } else if (ac.getAccountTypeId().equals("CUS")) {
-                        session.setAttribute("informationAccount", ac);
-                        request.getRequestDispatcher("/home.jsp").forward(request, response);
-                    }
-                }
-            }
-        }
         if (session.getAttribute("informationAccount") != null) {
             Account account = (Account) session.getAttribute("informationAccount");
             session.setAttribute("informationAccount", account);
             request.getRequestDispatcher("/home.jsp").forward(request, response);
         } else {
-            request.getRequestDispatcher("/home.jsp").forward(request, response);
+            AccountDAO dao = new AccountDAO();
+            String username = getCookieValue(request, "username");
+            if ((username != null)) {
+                Account account = dao.getAccount(username);
+                if (account != null) {
+                    session.setAttribute("informationAccount", account);
+                    request.getRequestDispatcher("/home.jsp").forward(request, response);
+                }
+            }
         }
+    }
+
+    private String getCookieValue(HttpServletRequest request, String name) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(name)) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
     }
 
     /**

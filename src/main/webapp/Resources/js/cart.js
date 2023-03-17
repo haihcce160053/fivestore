@@ -29,17 +29,6 @@ loadCartFromCookies();
 function loadCartFromCookies() {
     // Lấy giá trị của cookie với tên 'cartItems'
     const cartItemsCookie = document.cookie.replace(/(?:(?:^|.*;\s*)cartItems\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-//const cartItemsCookie: Khai báo một hằng số có tên là "cartItemsCookie" để lưu trữ giá trị của cookie.
-//document.cookie: Trả về tất cả các cookie được liên kết với trang web hiện tại. Mỗi cookie được trả về dưới dạng một chuỗi có định dạng "tên=giá trị".
-//replace: Phương thức replace() được sử dụng để tìm kiếm và thay thế một chuỗi hoặc biểu thức chính quy trong chuỗi.
-///(?:(?:^|.*;\s*)cartItems\s*\=\s*([^;]*).*$)|^.*$/, "$1": Đây là biểu thức chính quy được sử dụng để tìm kiếm giá trị của cookie có tên là "cartItems". Biểu thức chính quy này thực hiện các thao tác sau:
-//(?:(?:^|.*;\s*)cartItems\s*\=\s*([^;]*).*$): Tìm kiếm cookie có tên là "cartItems" và lấy giá trị của nó.
-//(?:^|.*;\s*): Tìm kiếm bắt đầu cookie hoặc dấu chấm phẩy trước đó, đảm bảo rằng nó không phải là một phần của tên cookie khác.
-//cartItems: Tìm kiếm tên của cookie là "cartItems".
-//\s*\=\s*: Tìm kiếm dấu bằng và loại bỏ khoảng trắng trước và sau nó.
-//([^;]*): Lấy giá trị của cookie, đảm bảo rằng nó không bao gồm dấu chấm phẩy cuối cùng.
-//.*$: Loại bỏ mọi ký tự còn lại sau giá trị cookie.
-//|^.*$: Nếu cookie không được tìm thấy, lấy giá trị mặc định là chuỗi rỗng.
     if (cartItemsCookie) {
         // Nếu cookie tồn tại, chuyển đổi giá trị của cookie thành mảng sản phẩm trong giỏ hàng
         cartItemsArray = JSON.parse(cartItemsCookie);

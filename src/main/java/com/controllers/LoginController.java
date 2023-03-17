@@ -117,7 +117,10 @@ public class LoginController extends HttpServlet {
                 session.setAttribute("informationAccount", ac);
                 Cookie accLogin = new Cookie("username", username);
                 accLogin.setMaxAge(60 * 60 * 72);
+                accLogin.setHttpOnly(true);
+                accLogin.setSecure(true); // chỉ sử dụng HTTPS
                 response.addCookie(accLogin);
+
                 response.sendRedirect("/");
             }
         }
@@ -159,7 +162,10 @@ public class LoginController extends HttpServlet {
                         session.setAttribute("informationAccount", st);
                         Cookie accLogin = new Cookie("username", username);
                         accLogin.setMaxAge(60 * 60 * 72);
+                        accLogin.setHttpOnly(true);
+                        accLogin.setSecure(true); // chỉ sử dụng HTTPS
                         response.addCookie(accLogin);
+
                         request.getRequestDispatcher("/home.jsp").forward(request, response);
                     } else {
                         request.setAttribute("mess", "Sign Up Successfully! You can sign in now!");
@@ -188,13 +194,19 @@ public class LoginController extends HttpServlet {
                         session.setAttribute("informationAccount", ac);
                         Cookie accLogin = new Cookie("username", username);
                         accLogin.setMaxAge(60 * 60 * 72);
+                        accLogin.setHttpOnly(true);
+                        accLogin.setSecure(true); // chỉ sử dụng HTTPS
                         response.addCookie(accLogin);
+
                         request.getRequestDispatcher("/home.jsp").forward(request, response);
                     } else {
                         session.setAttribute("informationAccount", ac);
                         Cookie accLogin = new Cookie("username", username);
                         accLogin.setMaxAge(60 * 60 * 72);
+                        accLogin.setHttpOnly(true);
+                        accLogin.setSecure(true); // chỉ sử dụng HTTPS
                         response.addCookie(accLogin);
+
                         request.getRequestDispatcher("/home.jsp").forward(request, response);
                     }
                 } else {
@@ -235,12 +247,17 @@ public class LoginController extends HttpServlet {
                         session.setAttribute("informationAccount", ac);
                         Cookie accLogin = new Cookie("username", username);
                         accLogin.setMaxAge(60 * 60 * 72);
+                        accLogin.setHttpOnly(true);
+                        accLogin.setSecure(true); // chỉ sử dụng HTTPS
                         response.addCookie(accLogin);
+
                         request.getRequestDispatcher("/home.jsp").forward(request, response);
                     } else {
                         session.setAttribute("informationAccount", ac);
                         Cookie accLogin = new Cookie("username", username);
                         accLogin.setMaxAge(60 * 60 * 72);
+                        accLogin.setHttpOnly(true);
+                        accLogin.setSecure(true); // chỉ sử dụng HTTPS
                         response.addCookie(accLogin);
                         request.getRequestDispatcher("/home.jsp").forward(request, response);
                     }
