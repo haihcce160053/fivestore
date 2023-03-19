@@ -23,8 +23,8 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
         <!-- MDB -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
-        
-                <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
+
+        <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/cart.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
         <style>
@@ -138,7 +138,7 @@
     <body>        
         <%
             Account ac = (Account) session.getAttribute("informationAccount");
-            String linkQRcode = "https://img.vietqr.io/image/970418-74110000929461-s0Kd2aq.jpg?accountName=TRAN%20TRUNG%20KIEN&";
+            String linkQRcode = "https://img.vietqr.io/image/970436-1014794186-lx65zFs.jpg?accountName=TRAN%20QUANG%20QUI&";
         %>
         <header id="page-header">
             <div class="page-container">
@@ -164,7 +164,7 @@
                                 </li>
 
                                 <%
-                                }
+                                    }
                                 %>                               
                             </ul>
                         </div>
@@ -355,18 +355,20 @@
             <label>
                 <input type="checkbox" id="confirm-checkbox"> Tôi đã chuyển khoản và đồng ý đặt hàng với các sản phẩm trong giỏ hàng!
             </label>
-            <span class="popup-close" >✔</span>
+            <div><span class="popup-close" >✔</span></div>
+
         </div>
+
+        <%@ include file="/footer.jsp" %>
         
-                <%@ include file="/footer.jsp" %>
 
         <script src="${pageContext.request.contextPath}/Resources/js/vietnameselocation/vietnamlocalselector.js"></script> 
         <script>
-                                    var localpicker = new LocalPicker({
-                                        province: "ls_province",
-                                        district: "ls_district",
-                                        ward: "ls_ward"
-                                    });
+            var localpicker = new LocalPicker({
+                province: "ls_province",
+                district: "ls_district",
+                ward: "ls_ward"
+            });
         </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
         <!-- Jquery -->
@@ -376,55 +378,59 @@
 
         <script> // Quang Qui: Xử lý lấy số tiền trong giỏ hàng vào ô input
 
-                                    // Lấy thẻ span trong div chứa tổng tiền
-                                    var cartTotalSpan = document.getElementById("cart-total-amount");
+            // Lấy thẻ span trong div chứa tổng tiền
+            var cartTotalSpan = document.getElementById("cart-total-amount");
 
-                                    // Lấy thẻ input
-                                    var totalBillInput = document.getElementById("txtTotalBill");
+            // Lấy thẻ input
+            var totalBillInput = document.getElementById("txtTotalBill");
 
-                                    // 
-                                    var linkQRCode = document.getElementById("linkQR");
-                                    var linkQRCodeOrgirin = linkQRCode.value;
+            // 
+            var linkQRCode = document.getElementById("linkQR");
+            var linkQRCodeOrgirin = linkQRCode.value;
 
-                                    // Thiết lập giá trị ban đầu cho thẻ input
-                                    var totalBill = cartTotalSpan.innerText;
-                                    totalBill = totalBill.replaceAll(".", "").replace(" đ", "");
-                                    totalBillInput.value = totalBill;
+            // Thiết lập giá trị ban đầu cho thẻ input
+            var totalBill = cartTotalSpan.innerText;
+            totalBill = totalBill.replaceAll(".", "").replace(" đ", "");
+            totalBillInput.value = totalBill;
 
-                                    linkQRCode.value += totalBill;
+            linkQRCode.value += totalBill;
 
 
-                                    // Lắng nghe sự kiện thay đổi trên thẻ span
-                                    cartTotalSpan.addEventListener('DOMSubtreeModified', function () {
-                                        // Cập nhật giá trị của thẻ input tại đây
-                                        var he = cartTotalSpan.innerText;
-                                        he = he.replaceAll(".", "").replace(" đ", "");
-                                        totalBillInput.value = he;
-                                        linkQRCode.value = "";
-                                        linkQRCode.value = linkQRCodeOrgirin;
-                                        linkQRCode.value += he;
-                                        linkQRCode.value += "&addInfo=Payment%20OrderID%20";
-                                        //Sau khi ghép thành công số tiền cần chuyển thì tiếp tục nối chuỗi gồm mã đơn hàng 
-                                        var orderID = document.getElementById("txtOrderID");
-                                        linkQRCode.value += orderID.value + "%20";
-                                        //Sau khi ghép thành công mã đơn hàng thì tiếp tục nối chuỗi username
-                                        var username = document.getElementById("txtUsername");
-                                        linkQRCode.value += username.value;
-                                        //Sau khi ghép thành công username thì set src cho the img
-                                        var imgQR = document.getElementById("txtQRCode");
-                                        imgQR.setAttribute('src', linkQRCode.value);
-                                    });
+            // Lắng nghe sự kiện thay đổi trên thẻ span
+            cartTotalSpan.addEventListener('DOMSubtreeModified', function () {
+                // Cập nhật giá trị của thẻ input tại đây
+                var he = cartTotalSpan.innerText;
+                he = he.replaceAll(".", "").replace(" đ", "");
+                if (he === '0') {
+                    window.location.href = 'http://localhost:8080/';
+                }else {
+                    totalBillInput.value = he;
+                linkQRCode.value = "";
+                linkQRCode.value = linkQRCodeOrgirin;
+                linkQRCode.value += he;
+                linkQRCode.value += "&addInfo=Payment%20OrderID%20";
+                //Sau khi ghép thành công số tiền cần chuyển thì tiếp tục nối chuỗi gồm mã đơn hàng 
+                var orderID = document.getElementById("txtOrderID");
+                linkQRCode.value += orderID.value + "%20";
+                //Sau khi ghép thành công mã đơn hàng thì tiếp tục nối chuỗi username
+                var username = document.getElementById("txtUsername");
+                linkQRCode.value += username.value;
+                //Sau khi ghép thành công username thì set src cho the img
+                var imgQR = document.getElementById("txtQRCode");
+                imgQR.setAttribute('src', linkQRCode.value);
+                }
+            });
 
-                                    linkQRCode.value += "&addInfo=Payment%20OrderID%20";
-                                    //Sau khi ghép thành công số tiền cần chuyển thì tiếp tục nối chuỗi gồm mã đơn hàng 
-                                    var orderID = document.getElementById("txtOrderID");
-                                    linkQRCode.value += orderID.value + "%20";
-                                    //Sau khi ghép thành công mã đơn hàng thì tiếp tục nối chuỗi username
-                                    var username = document.getElementById("txtUsername");
-                                    linkQRCode.value += username.value;
-                                    //Sau khi ghép thành công username thì set src cho the img
-                                    var imgQR = document.getElementById("txtQRCode");
-                                    imgQR.setAttribute('src', linkQRCode.value);
+            linkQRCode.value += "&addInfo=Payment%20OrderID%20";
+            //Sau khi ghép thành công số tiền cần chuyển thì tiếp tục nối chuỗi gồm mã đơn hàng 
+            var orderID = document.getElementById("txtOrderID");
+            linkQRCode.value += orderID.value + "%20";
+            //Sau khi ghép thành công mã đơn hàng thì tiếp tục nối chuỗi username
+            var username = document.getElementById("txtUsername");
+            linkQRCode.value += username.value;
+            //Sau khi ghép thành công username thì set src cho the img
+            var imgQR = document.getElementById("txtQRCode");
+            imgQR.setAttribute('src', linkQRCode.value);
 
 
         </script> 
@@ -453,7 +459,6 @@
 
                 //Chuỗi sau khi xử lý sẽ gán vào ô input ẩn để tiện trên Servlet lấy data
                 inputElement.value = items;
-                console.log(items);
 
             }
         </script>
@@ -501,6 +506,7 @@
                 if (paymentMethodSelect.value === "" || paymentMethodSelect.value == null) {
                     messages.push("Payment Method is required");
                 }
+
 
                 // display error messages
                 if (messages.length > 0) {

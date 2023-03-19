@@ -76,7 +76,7 @@
                 var timer = document.getElementById("timer");
                 if (count > 0) {
                     count--;
-                    timer.innerHTML = "You have received the order status toast message. We will redirect the website in <b>" + count + "</b> s.";
+                    timer.innerHTML = "You will recieved a email and a sms messages about your order!. We will redirect the website in <b>" + count + "</b> s.";
                     setTimeout("countDown()", 1000);
                 } else {
                     window.location.href = redirect;

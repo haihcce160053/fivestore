@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.security.OTPSender;
 import com.daos.OrderDAO;
 import com.daos.OrderDetailsDAO;
 import com.daos.ProductDAO;
@@ -289,6 +290,8 @@ public class OrderController extends HttpServlet {
                     request.setAttribute("mess", "No");
                     request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
                 } else {
+                    //Processing send email order to customer
+                    //Processing CART
                     StringBuilder output = new StringBuilder();
                     for (String productOrder : listProduct) {
                         String ProductID = productOrder.substring(0, productOrder.indexOf(' ')).replaceAll("[^a-zA-Z0-9]", ""); // get product id and remove special characters
@@ -303,14 +306,14 @@ public class OrderController extends HttpServlet {
                         }
                         int unitPrice = productDao.getUnitPrice(ProductID);
                         int totalPrice = quantity * unitPrice;
-                        
+
                         String formattedPrice = format.format(totalPrice).replaceAll("\\s", "");
                         output.append(" Tên: ").append(ProductName).append("\t Số Lượng: ").append(quantity).append("\t Tổng: ").append(formattedPrice).append(System.lineSeparator());
                     }
                     String result = output.toString().trim();
-
+                    //Processing send email
                     final String usernameEmail = "fivestorecantho@gmail.com";
-                    final String passwordEmail = "xxuhvlmidmoqhxoz";
+                    final String passwordEmail = "kpsmhoxyybmkwkio";
                     String from = "fivestorecantho@gmail.com";
 
                     String host = "smtp.gmail.com";
@@ -319,7 +322,7 @@ public class OrderController extends HttpServlet {
                     props.put("mail.smtp.starttls.enable", "true");
                     props.put("mail.smtp.host", host);
                     props.put("mail.smtp.user", usernameEmail);
-                    props.put("mail.smtp.pass", "xxuhvlmidmoqhxoz");
+                    props.put("mail.smtp.pass", "kpsmhoxyybmkwkio");
                     props.put("mail.smtp.port", "587");
                     props.put("mail.smtp.charset", "utf-8");
                     //create the Session object
@@ -330,14 +333,15 @@ public class OrderController extends HttpServlet {
                             return new PasswordAuthentication(usernameEmail, passwordEmail);
                         }
                     });
+                    phone = phone.replaceAll("[^0-9]", ""); // xóa bỏ ký tự không phải là số
+                    phone = "+84" + phone.substring(1); // chuyển đổi thành định dạng +84945605514
+
+                    String emailContent = "";
                     boolean isSent = false;
                     try {
-                        byte[] utf8Bytes = Cart.getBytes("UTF-8"); // Chuyển chuỗi sang UTF-8
-                        String utf8String = new String(utf8Bytes, "UTF-8"); // Chuyển lại sang chuỗi UTF-8
-
                         // Tạo nội dung email
                         String formattedPrice = format.format(Integer.parseInt(totalbill)).replaceAll("\\s", "");
-                        String emailContent = "Thông tin đơn hàng:\n\n"
+                        emailContent = "Thông tin đơn hàng:\n\n"
                                 + "Mã đơn hàng: " + orderID + "\n\n"
                                 + "Ngày mua: " + orderTime.toString() + "\n\n"
                                 + "Khách hàng: " + name + "\n\n"
@@ -360,15 +364,18 @@ public class OrderController extends HttpServlet {
                         e.printStackTrace();
                     }
                     if (isSent) {
+                        OTPSender otpSender = new OTPSender("AC47851346febff700998989a923642839", "f86d0d8fa25cd420f6f47fc50b304f89", "+15077055733");
+                        otpSender.sendOTP(phone, emailContent);
                         request.setAttribute("link", "http://localhost:8080/");
                         request.setAttribute("mess", "Yes");
                         request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
                     } else {
+                        orderDetailsDao.deleteOrderDetails(orderID);
+                        orderDao.deleteOrder(orderID);
                         request.setAttribute("link", "http://localhost:8080/");
-                        request.setAttribute("mess", "No");
+                        request.setAttribute("mess", "Noo");
                         request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
                     }
-
                 }
 
             } else {
