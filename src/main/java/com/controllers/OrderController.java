@@ -6,7 +6,6 @@ import com.daos.OrderDetailsDAO;
 import com.daos.ProductDAO;
 import com.models.Order;
 import com.models.OrderDetails;
-import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -23,6 +22,14 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import java.text.NumberFormat;
 import java.util.Locale;
+import com.security.Invoice;
+import jakarta.activation.DataHandler;
+import jakarta.activation.DataSource;
+import jakarta.activation.FileDataSource;
+import jakarta.mail.BodyPart;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMultipart;
+import java.io.IOException;
 import java.util.Properties;
 
 /**
@@ -311,6 +318,7 @@ public class OrderController extends HttpServlet {
                         output.append(" Tên: ").append(ProductName).append("\t Số Lượng: ").append(quantity).append("\t Tổng: ").append(formattedPrice).append(System.lineSeparator());
                     }
                     String result = output.toString().trim();
+
                     //Processing send email
                     final String usernameEmail = "fivestorecantho@gmail.com";
                     final String passwordEmail = "kpsmhoxyybmkwkio";
@@ -335,7 +343,8 @@ public class OrderController extends HttpServlet {
                     });
                     phone = phone.replaceAll("[^0-9]", ""); // xóa bỏ ký tự không phải là số
                     phone = "+84" + phone.substring(1); // chuyển đổi thành định dạng +84945605514
-
+                    
+                    String filePath = "D:/invoice/invoice_" + orderID + ".pdf";
                     String emailContent = "";
                     boolean isSent = false;
                     try {
@@ -350,21 +359,36 @@ public class OrderController extends HttpServlet {
                                 + "Tổng giá trị đơn hàng: " + formattedPrice + "\n\n"
                                 + "Phương thức thanh toán: " + paymentMethod + "\n\n"
                                 + "Danh sách sản phẩm:\n" + result;
+                        Invoice invoice = new Invoice();
+                        invoice.createInvoice(name, deliveryAddress, orderTime, Integer.parseInt(totalbill), result, filePath);
                         // Tạo đối tượng Message
                         Message message = new MimeMessage(session);
                         message.setFrom(new InternetAddress(from));
                         message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
                         message.setSubject("Information Order " + orderID + " " + orderTime);
 
-                        // Thêm nội dung email vào phần thân của Message
-                        message.setContent(emailContent, "text/plain; charset=UTF-8");
+                        // Tạo phần thân email bao gồm nội dung text và file PDF đính kèm
+                        MimeMultipart multipart = new MimeMultipart();
+                        BodyPart messageBodyPart = new MimeBodyPart();
+                        messageBodyPart.setContent(emailContent, "text/plain; charset=UTF-8");
+                        multipart.addBodyPart(messageBodyPart);
+
+                        // Đính kèm file PDF vào phần thân email
+                        messageBodyPart = new MimeBodyPart();
+                        DataSource source = new FileDataSource(filePath);
+                        messageBodyPart.setDataHandler(new DataHandler(source));
+                        messageBodyPart.setFileName("Invoice.pdf");
+                        multipart.addBodyPart(messageBodyPart);
+
+                        // Thêm phần thân email vào đối tượng Message
+                        message.setContent(multipart);
                         Transport.send(message);
                         isSent = true;
                     } catch (MessagingException e) {
                         e.printStackTrace();
                     }
                     if (isSent) {
-                        OTPSender otpSender = new OTPSender("AC47851346febff700998989a923642839", "f86d0d8fa25cd420f6f47fc50b304f89", "+15077055733");
+                        OTPSender otpSender = new OTPSender("AC47851346febff700998989a923642839", "02bf3ee265ca4a055d55177727f391e5", "+15077055733");
                         otpSender.sendOTP(phone, emailContent);
                         request.setAttribute("link", "http://localhost:8080/");
                         request.setAttribute("mess", "Yes");
