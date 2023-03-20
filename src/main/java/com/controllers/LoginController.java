@@ -120,8 +120,8 @@ public class LoginController extends HttpServlet {
                 accLogin.setHttpOnly(true);
                 accLogin.setSecure(true); // chỉ sử dụng HTTPS
                 response.addCookie(accLogin);
-
-                response.sendRedirect("/");
+                request.setAttribute("mess", "Login Successfully!");
+                request.getRequestDispatcher("/home.jsp").forward(request, response);
             }
         }
 
@@ -165,11 +165,11 @@ public class LoginController extends HttpServlet {
                         accLogin.setHttpOnly(true);
                         accLogin.setSecure(true); // chỉ sử dụng HTTPS
                         response.addCookie(accLogin);
-
+                        request.setAttribute("mess", "Login Successfully!");
                         request.getRequestDispatcher("/home.jsp").forward(request, response);
                     } else {
                         request.setAttribute("mess", "Sign Up Successfully! You can sign in now!");
-                        response.sendRedirect(request.getContextPath() + "/login");
+                        request.getRequestDispatcher("/login.jsp").forward(request, response);
                     }
 
                 } else {
@@ -197,7 +197,7 @@ public class LoginController extends HttpServlet {
                         accLogin.setHttpOnly(true);
                         accLogin.setSecure(true); // chỉ sử dụng HTTPS
                         response.addCookie(accLogin);
-
+                        request.setAttribute("mess", "Login Successfully!");
                         request.getRequestDispatcher("/home.jsp").forward(request, response);
                     } else {
                         session.setAttribute("informationAccount", ac);
@@ -206,7 +206,7 @@ public class LoginController extends HttpServlet {
                         accLogin.setHttpOnly(true);
                         accLogin.setSecure(true); // chỉ sử dụng HTTPS
                         response.addCookie(accLogin);
-
+                        request.setAttribute("mess", "Login Successfully!");
                         request.getRequestDispatcher("/home.jsp").forward(request, response);
                     }
                 } else {
@@ -229,6 +229,7 @@ public class LoginController extends HttpServlet {
                     response.addCookie(cookie);
                 }
             }
+            request.setAttribute("mess", "Logout Successfully!");
             request.getRequestDispatcher("/home.jsp").forward(request, response);
         } else if (request.getParameter("btnForgotPassword") != null) {
             String username = request.getParameter("forgotUsername");
@@ -250,7 +251,7 @@ public class LoginController extends HttpServlet {
                         accLogin.setHttpOnly(true);
                         accLogin.setSecure(true); // chỉ sử dụng HTTPS
                         response.addCookie(accLogin);
-
+                        request.setAttribute("mess", "Login Successfully!");
                         request.getRequestDispatcher("/home.jsp").forward(request, response);
                     } else {
                         session.setAttribute("informationAccount", ac);
@@ -259,6 +260,7 @@ public class LoginController extends HttpServlet {
                         accLogin.setHttpOnly(true);
                         accLogin.setSecure(true); // chỉ sử dụng HTTPS
                         response.addCookie(accLogin);
+                        request.setAttribute("mess", "Login Successfully!");
                         request.getRequestDispatcher("/home.jsp").forward(request, response);
                     }
                 } else {

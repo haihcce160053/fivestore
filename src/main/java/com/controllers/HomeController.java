@@ -67,6 +67,7 @@ public class HomeController extends HttpServlet {
                 Account account = dao.getAccount(username);
                 if (account != null) {
                     session.setAttribute("informationAccount", account);
+                    request.setAttribute("mess", "Welcome back to website!");
                     request.getRequestDispatcher("/home.jsp").forward(request, response);
                 }
             } else {
