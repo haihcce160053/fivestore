@@ -24,19 +24,18 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
         <link href="${pageContext.request.contextPath}/Resources/css/login_signup.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
     </head>
 
     <body>
         <%
             String mess = (String) request.getAttribute("mess");
-            String additionInfo = null;
             String fullname = null;
             String username = null;
             String email = null;
             String loginwithgg = null;
             boolean googleLogin = (boolean) request.getAttribute("googleLogin");
             if (googleLogin) {
-                additionInfo = (String) request.getAttribute("additionInfo");
                 fullname = (String) request.getAttribute("fullname");
                 username = (String) request.getAttribute("username");
                 email = (String) request.getAttribute("email");
@@ -71,15 +70,6 @@
                                         Welcome to the dietary supplemental shop</span>
                                     <hr>
                                 </div>
-                                <%
-                                    if (additionInfo != null) {
-                                %>
-                                <div class="form-group" style="margin-top: 10px;">
-                                    <span id="additionInfo" style="color:red"><%= additionInfo%></span>
-                                </div>
-                                <%
-                                    }
-                                %>
 
                                 <!-- Input Fullname -->
                                 <div class="form-group">
@@ -169,19 +159,24 @@
                                 if (mess != null) {
                             %>
                             <div class="form-group" style="margin-top: 10px;">
-                                <span id="regError" style="color:red"><%= mess%></span>
+                                <span id="regError" data-my-attribute="<%= mess%>"></span>
                             </div>
                             <%
                             } else {
                             %>
                             <div class="form-group" style="margin-top: 10px;">
-                                <span id="regError" style="color:red"></span>
+                                <span id="regError" data-my-attribute=""></span>
                             </div>
                             <%
                                 }
                             %>
                             <div class="form-group" style="margin-top: 20px;" align="center">
                                 Do you already have an account? <a href="<%= getServletContext().getContextPath()%>/login">Login here</a>
+                            </div>
+                            <!-- Toast Message  -->
+                            <div  class="my-toast">
+                                <div id="toast">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -193,7 +188,24 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
         <!-- Jquery -->
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="${pageContext.request.contextPath}/Resources/js/register.js"></script>
+        <script>
+                                                function showWarning(myAttribute1) {
+                                                    toast({
+                                                        title: 'Note!',
+                                                        message: myAttribute1,
+                                                        type: 'warning',
+                                                        duration: 5000
+                                                    });
+                                                }
+                                                window.addEventListener("load", function () {
+                                                    const myAttribute1 = mySpan1.getAttribute('data-my-attribute');
+                                                    if (myAttribute1 !== "") {
+                                                        showWarning(myAttribute1);
+                                                    }
+                                                });
+        </script>
+        <script src="${pageContext.request.contextPath}/Resources/js/signUp.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
     </body>
 
 </html>

@@ -14,6 +14,7 @@ D:\SWP\Project\fivestore\src\main\java\com\models\Order.java
 D:\SWP\Project\fivestore\src\main\java\com\models\Account.java
 D:\SWP\Project\fivestore\src\main\java\com\security\Invoice.java
 D:\SWP\Project\fivestore\src\main\java\com\db\DBConnection.java
+D:\SWP\Project\fivestore\src\main\java\com\security\MailSender.java
 D:\SWP\Project\fivestore\src\main\java\com\daos\OrderDAO.java
 D:\SWP\Project\fivestore\src\main\java\com\models\Product.java
 D:\SWP\Project\fivestore\src\main\java\com\security\OTPSender.java

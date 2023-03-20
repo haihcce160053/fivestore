@@ -1,6 +1,5 @@
 package com.controllers;
 
-import com.security.OTPSender;
 import com.daos.OrderDAO;
 import com.daos.OrderDetailsDAO;
 import com.daos.ProductDAO;
@@ -13,24 +12,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.ResultSet;
 import java.sql.Date;
-import jakarta.mail.Message;
-import jakarta.mail.MessagingException;
-import jakarta.mail.PasswordAuthentication;
-import jakarta.mail.Session;
-import jakarta.mail.Transport;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
 import java.text.NumberFormat;
 import java.util.Locale;
-import com.security.Invoice;
-import jakarta.activation.DataHandler;
-import jakarta.activation.DataSource;
-import jakarta.activation.FileDataSource;
-import jakarta.mail.BodyPart;
-import jakarta.mail.internet.MimeBodyPart;
-import jakarta.mail.internet.MimeMultipart;
+import com.security.MailSender;
 import java.io.IOException;
-import java.util.Properties;
 
 /**
  *
@@ -88,7 +73,6 @@ public class OrderController extends HttpServlet {
                 return;
             }
             String prefixUser = username.substring(0, 2).toUpperCase();
-            System.out.println(prefixUser);
 
             OrderDAO dao = new OrderDAO();
             String OrderID = prefixUser + String.format("%06d", 1);
@@ -164,7 +148,7 @@ public class OrderController extends HttpServlet {
                             String OrderID = s[s.length - 1];
                             OrderDAO dao = new OrderDAO();
                             Order ord = dao.getOrder(OrderID);
-                            if (ord.getOrderStatusID().equalsIgnoreCase("DXN")) {
+                            if (ord.getOrderStatusID().equalsIgnoreCase("DXN") || ord.getOrderStatusID().equalsIgnoreCase("KLHD")) {
                                 String cancel = "DHD";
                                 int count = dao.setStatusOrder(OrderID, cancel);
                                 if (count > 0) {
@@ -250,6 +234,8 @@ public class OrderController extends HttpServlet {
 
             //Get Bill of Order
             String totalbill = request.getParameter("txtTotalBill");
+            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+            String formattedTotalbill = format.format(Integer.parseInt(totalbill)).replaceAll("\\s", "");
 
             //Get payment method
             String paymentMethod = request.getParameter("paymentMethod");
@@ -271,7 +257,6 @@ public class OrderController extends HttpServlet {
 
             //Add order in db table OrderList
             int check = orderDao.addOrder(ord);
-            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
             //if add them orderList successfully
             if (check > 0) {
                 //when order success create split the cart info into list
@@ -290,6 +275,8 @@ public class OrderController extends HttpServlet {
                         break;
                     }
                 }
+                
+                //Continue to add orderDetails
                 if (check1 <= 0) {
                     orderDetailsDao.deleteOrderDetails(orderID);
                     orderDao.deleteOrder(orderID);
@@ -318,78 +305,13 @@ public class OrderController extends HttpServlet {
                         output.append(" Tên: ").append(ProductName).append("\t Số Lượng: ").append(quantity).append("\t Tổng: ").append(formattedPrice).append(System.lineSeparator());
                     }
                     String result = output.toString().trim();
-
-                    //Processing send email
-                    final String usernameEmail = "fivestorecantho@gmail.com";
-                    final String passwordEmail = "kpsmhoxyybmkwkio";
-                    String from = "fivestorecantho@gmail.com";
-
-                    String host = "smtp.gmail.com";
-                    Properties props = new Properties();
-                    props.put("mail.smtp.auth", "true");
-                    props.put("mail.smtp.starttls.enable", "true");
-                    props.put("mail.smtp.host", host);
-                    props.put("mail.smtp.user", usernameEmail);
-                    props.put("mail.smtp.pass", "kpsmhoxyybmkwkio");
-                    props.put("mail.smtp.port", "587");
-                    props.put("mail.smtp.charset", "utf-8");
-                    //create the Session object
-                    Session session = Session.getInstance(props,
-                            new jakarta.mail.Authenticator() {
-                        @Override
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(usernameEmail, passwordEmail);
-                        }
-                    });
-                    phone = phone.replaceAll("[^0-9]", ""); // xóa bỏ ký tự không phải là số
-                    phone = "+84" + phone.substring(1); // chuyển đổi thành định dạng +84945605514
-                    
+                    //Create a new file path invoice with orderID
                     String filePath = "D:/invoice/invoice_" + orderID + ".pdf";
-                    String emailContent = "";
-                    boolean isSent = false;
-                    try {
-                        // Tạo nội dung email
-                        String formattedPrice = format.format(Integer.parseInt(totalbill)).replaceAll("\\s", "");
-                        emailContent = "Thông tin đơn hàng:\n\n"
-                                + "Mã đơn hàng: " + orderID + "\n\n"
-                                + "Ngày mua: " + orderTime.toString() + "\n\n"
-                                + "Khách hàng: " + name + "\n\n"
-                                + "Số điện thoại: " + phone + "\n\n"
-                                + "Địa chỉ giao hàng: " + deliveryAddress + "\n\n"
-                                + "Tổng giá trị đơn hàng: " + formattedPrice + "\n\n"
-                                + "Phương thức thanh toán: " + paymentMethod + "\n\n"
-                                + "Danh sách sản phẩm:\n" + result;
-                        Invoice invoice = new Invoice();
-                        invoice.createInvoice(name, deliveryAddress, orderTime, Integer.parseInt(totalbill), result, filePath);
-                        // Tạo đối tượng Message
-                        Message message = new MimeMessage(session);
-                        message.setFrom(new InternetAddress(from));
-                        message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
-                        message.setSubject("Information Order " + orderID + " " + orderTime);
-
-                        // Tạo phần thân email bao gồm nội dung text và file PDF đính kèm
-                        MimeMultipart multipart = new MimeMultipart();
-                        BodyPart messageBodyPart = new MimeBodyPart();
-                        messageBodyPart.setContent(emailContent, "text/plain; charset=UTF-8");
-                        multipart.addBodyPart(messageBodyPart);
-
-                        // Đính kèm file PDF vào phần thân email
-                        messageBodyPart = new MimeBodyPart();
-                        DataSource source = new FileDataSource(filePath);
-                        messageBodyPart.setDataHandler(new DataHandler(source));
-                        messageBodyPart.setFileName("Invoice.pdf");
-                        multipart.addBodyPart(messageBodyPart);
-
-                        // Thêm phần thân email vào đối tượng Message
-                        message.setContent(multipart);
-                        Transport.send(message);
-                        isSent = true;
-                    } catch (MessagingException e) {
-                        e.printStackTrace();
-                    }
+                    //Call method send email to customer
+                    MailSender mail = new MailSender();
+                    boolean isSent = mail.Send(filePath, result, phone, orderID, orderTime.toString(), name, email, deliveryAddress, formattedTotalbill, paymentMethod);
+                    //Check isSent
                     if (isSent) {
-                        OTPSender otpSender = new OTPSender("AC47851346febff700998989a923642839", "02bf3ee265ca4a055d55177727f391e5", "+15077055733");
-                        otpSender.sendOTP(phone, emailContent);
                         request.setAttribute("link", "http://localhost:8080/");
                         request.setAttribute("mess", "Yes");
                         request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
@@ -397,12 +319,13 @@ public class OrderController extends HttpServlet {
                         orderDetailsDao.deleteOrderDetails(orderID);
                         orderDao.deleteOrder(orderID);
                         request.setAttribute("link", "http://localhost:8080/");
-                        request.setAttribute("mess", "Noo");
+                        request.setAttribute("mess", "No");
                         request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
                     }
                 }
 
             } else {
+                orderDao.deleteOrder(orderID);
                 request.setAttribute("link", "http://localhost:8080/");
                 request.setAttribute("mess", "Noo");
                 request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);

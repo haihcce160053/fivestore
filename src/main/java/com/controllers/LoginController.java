@@ -106,7 +106,7 @@ public class LoginController extends HttpServlet {
             AccountDAO dao = new AccountDAO();
             Account ac = dao.getAccount(username);
             if (ac == null) {
-                request.setAttribute("additionInfo", "Please insert addition data");
+                request.setAttribute("mess", "Please enter the missing information to register your account with Google!");
                 request.setAttribute("fullname", user.getName());
                 request.setAttribute("email", email);
                 request.setAttribute("username", username);

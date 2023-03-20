@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -23,11 +22,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 public class Invoice {
 
-    public void createInvoice(String name, String deliveryAddress, Date orderTime, int totalBill, String result, String filePath) {
-        // Format date and total bill
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
-
+    public void createInvoice(String name, String deliveryAddress, String orderTime, String totalBill, String result, String filePath) {
         // Create PDF document
         Document document = new Document();
         try {
@@ -41,7 +36,7 @@ public class Invoice {
             // Tạo BaseFont từ font Times New Roman
             BaseFont bf = BaseFont.createFont("C:\\Windows\\Fonts\\times.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
-// Tạo font sử dụng BaseFont
+            // Tạo font sử dụng BaseFont
             Font font = new Font(bf, 12);
 
             Paragraph title = new Paragraph("INVOICE", fontTitle);
@@ -57,9 +52,9 @@ public class Invoice {
 
             Paragraph orderInfo = new Paragraph();
             orderInfo.add(new Phrase("Order Time: ", fontSubtitle));
-            orderInfo.add(new Phrase(dateFormat.format(orderTime), font));
+            orderInfo.add(new Phrase(orderTime, font));
             orderInfo.add(new Phrase("\nTotal Bill: ", fontSubtitle));
-            orderInfo.add(new Phrase(decimalFormat.format(totalBill), font));
+            orderInfo.add(new Phrase(totalBill, font));
             document.add(orderInfo);
 
             // Add products to PDF document
@@ -95,5 +90,9 @@ public class Invoice {
         } catch (IOException | DocumentException e) {
             e.printStackTrace();
         }
+    }
+
+    void createInvoice(String name, String deliveryAddress, String orderTime, int parseInt, String result, String filePath) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
