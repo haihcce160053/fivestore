@@ -89,14 +89,14 @@ form.addEventListener('submit', (event) => {
     if (currentPasswordInput.value === '' || newPasswordInput.value === '' || confirmPasswordInput.value === '') {
         event.preventDefault();
         mySpan1.dataset.myAttribute = 'Please fill out all password fields.';
-        mainFunction();
+        ShowChange();
         return;
     }
     // Check if the new password and confirm password fields match
     if (newPasswordInput.value !== confirmPasswordInput.value) {
         event.preventDefault();
         mySpan1.dataset.myAttribute = 'New password and confirm password do not match!';
-        mainFunction();
+        ShowChange();
         return;
     }
     // Check if the new password field meets the password criteria
@@ -104,12 +104,12 @@ form.addEventListener('submit', (event) => {
     if (!passwordRegex.test(currentPasswordInput.value)) {
         event.preventDefault();
         mySpan1.dataset.myAttribute = 'Current password must contain at least one uppercase letter, one lowercase letter, and one number.';
-        mainFunction();
+        ShowChange();
         return;
     } else if (!passwordRegex.test(newPasswordInput.value)) {
         event.preventDefault();
         mySpan1.dataset.myAttribute = "New password must contain at least one uppercase letter, one lowercase letter, and one number.";
-        mainFunction();
+        ShowChange();
         return;
     } else {
         event.preventDefault();
@@ -155,22 +155,22 @@ function update() {
                     });
                 } else {
                     mySpan.dataset.myAttribute = "Answer must be between 5 and 30 characters!";
-                    mainFunction();
+                    showUpdate();
                     return false;
                 }
             } else {
                 mySpan.dataset.myAttribute = "Phone number is not valid!";
-                mainFunction();
+                showUpdate();
                 return false;
             }
         } else {
             mySpan.dataset.myAttribute = "Email is not valid!";
-            mainFunction();
+            showUpdate();
             return false;
         }
     } else {
         mySpan.dataset.myAttribute = "Please fill all information account to update!";
-        mainFunction();
+        showUpdate();
         return false;
     }
 }
@@ -182,9 +182,33 @@ function mainFunction() {
         showSuccessInfToast();
     } else if (myAttribute === "No") {
         showErrorInfToast();
+    } else if (myAttribute1 === "Noo") {
+        showErrorsOldToast();
+    } else if (myAttribute1 === "No") {
+        showErrorPassToast();
+    } else if (myAttribute1 === "Yes") {
+        showSuccessPassToast();
+    } else {
+        return;
+    }
+}
+
+function showUpdate() {
+    const myAttribute = mySpan.getAttribute('data-my-attribute');
+    if (myAttribute === "Yes") {
+        showSuccessInfToast();
+    } else if (myAttribute === "No") {
+        showErrorInfToast();
     } else if (myAttribute !== "") {
         showError(myAttribute);
-    } else if (myAttribute1 === "Noo") {
+    } else {
+        return;
+    }
+}
+
+function ShowChange() {
+    const myAttribute1 = mySpan1.getAttribute('data-my-attribute');
+    if (myAttribute1 === "Noo") {
         showErrorsOldToast();
     } else if (myAttribute1 === "No") {
         showErrorPassToast();
