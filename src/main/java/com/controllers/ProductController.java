@@ -5,6 +5,7 @@
 package com.controllers;
 
 import com.daos.ProductDAO;
+import com.models.Account;
 import com.models.Product;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
@@ -62,59 +63,86 @@ public class ProductController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String path = request.getRequestURI();
         if (path.startsWith("/Product/Add/")) {
-            String[] s = path.split("/");
-            String username = s[s.length - 1];
-            HttpSession session = (HttpSession) request.getSession();
-            session.setAttribute("username", username);
-            request.getRequestDispatcher("/addProduct.jsp").forward(request, response);
+            HttpSession session = request.getSession();
+            Account acc = (Account) session.getAttribute("informationAccount");
+            if ((acc != null) && (acc.getAccountTypeId().equalsIgnoreCase("AD"))) {
+                String[] s = path.split("/");
+                String username = s[s.length - 1];
+                session.setAttribute("username", username);
+                request.getRequestDispatcher("/addProduct.jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
+            }
         } else {
             if (path.startsWith("/Product/Delete/")) {
-                String[] s = path.split("/");
-                String product = s[s.length - 1];
-                ProductDAO dao = new ProductDAO();
-                Product pd = dao.getProduct(product);
-                if (pd != null) {
-                    int count = dao.deleteProductInformation(product);
-                    int count1 = dao.deleteProduct(product);
-                    if (count > 0 && count1 > 0) {
-                        request.setAttribute("mess", "YesD");
-                        request.getRequestDispatcher("/productManagement.jsp").forward(request, response);
-                    } else {
-                        request.setAttribute("mess", "NoD");
-                        request.getRequestDispatcher("/productManagement.jsp").forward(request, response);
-                    }
-
-                } else {
-                    request.setAttribute("mess", "Noo");
-                    request.getRequestDispatcher("/productManagement.jsp").forward(request, response);
-                }
-
-            } else {
-                if (path.startsWith("/Product/Edit/")) {
+                HttpSession session = request.getSession();
+                Account acc = (Account) session.getAttribute("informationAccount");
+                if ((acc != null) && (acc.getAccountTypeId().equalsIgnoreCase("AD"))) {
                     String[] s = path.split("/");
                     String product = s[s.length - 1];
                     ProductDAO dao = new ProductDAO();
                     Product pd = dao.getProduct(product);
-                    request.setAttribute("product", pd);
-                    request.getRequestDispatcher("/editProduct.jsp").forward(request, response);
+                    if (pd != null) {
+                        int count = dao.deleteProductInformation(product);
+                        int count1 = dao.deleteProduct(product);
+                        if (count > 0 && count1 > 0) {
+                            request.setAttribute("mess", "YesD");
+                            request.getRequestDispatcher("/productManagement.jsp").forward(request, response);
+                        } else {
+                            request.setAttribute("mess", "NoD");
+                            request.getRequestDispatcher("/productManagement.jsp").forward(request, response);
+                        }
+
+                    } else {
+                        request.setAttribute("mess", "Noo");
+                        request.getRequestDispatcher("/productManagement.jsp").forward(request, response);
+                    }
+                } else {
+                    request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
+                }
+
+            } else {
+                if (path.startsWith("/Product/Edit/")) {
+                    HttpSession session = request.getSession();
+                    Account acc = (Account) session.getAttribute("informationAccount");
+                    if ((acc != null) && (acc.getAccountTypeId().equalsIgnoreCase("AD"))) {
+                        String[] s = path.split("/");
+                        String product = s[s.length - 1];
+                        ProductDAO dao = new ProductDAO();
+                        Product pd = dao.getProduct(product);
+                        request.setAttribute("product", pd);
+                        request.getRequestDispatcher("/editProduct.jsp").forward(request, response);
+                    } else {
+                        request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
+                    }
                 } else {
                     if (path.startsWith("/Product/Management/")) {
-                        String[] s = path.split("/");
-                        String username = s[s.length - 1];
-                        HttpSession session = (HttpSession) request.getSession();
-                        session.setAttribute("username", username);
-                        request.getRequestDispatcher("/productManagement.jsp").forward(request, response);
+                        HttpSession session = request.getSession();
+                        Account acc = (Account) session.getAttribute("informationAccount");
+                        if ((acc != null) && (acc.getAccountTypeId().equalsIgnoreCase("AD"))) {
+                            String[] s = path.split("/");
+                            String username = s[s.length - 1];
+                            session.setAttribute("username", username);
+                            request.getRequestDispatcher("/productManagement.jsp").forward(request, response);
+                        } else {
+                            request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
+                        }
+
                     }
                 }
             }
         }
-        if (path.startsWith("/Product/View/")) {
+
+        if (path.startsWith(
+                "/Product/View/")) {
             String[] pathParts = path.split("/");
             String viewproductid = pathParts[pathParts.length - 1];
             request.setAttribute("viewproductid", viewproductid);
             request.getRequestDispatcher("/productview.jsp").forward(request, response);
         }
-        if (path.startsWith("/Product/Search=")) {
+
+        if (path.startsWith(
+                "/Product/Search=")) {
             String[] pathParts = path.split("=");
             String searchkeyword = pathParts[pathParts.length - 1].trim();
             searchkeyword = searchkeyword.replace("%20", " ");
@@ -122,7 +150,7 @@ public class ProductController extends HttpServlet {
             if (searchkeyword.length() != 0) {
                 request.setAttribute("searchkeyword", searchkeyword);
                 request.getRequestDispatcher("/home.jsp").forward(request, response);
-            }else{
+            } else {
                 request.setAttribute("searchkeyword", null);
                 response.sendRedirect(request.getContextPath() + "/home");
             }

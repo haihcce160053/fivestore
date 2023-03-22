@@ -3,6 +3,7 @@ package com.controllers;
 import com.daos.OrderDAO;
 import com.daos.OrderDetailsDAO;
 import com.daos.ProductDAO;
+import com.models.Account;
 import com.models.Order;
 import com.models.OrderDetails;
 import java.io.PrintWriter;
@@ -15,6 +16,7 @@ import java.sql.Date;
 import java.text.NumberFormat;
 import java.util.Locale;
 import com.security.MailSender;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -90,7 +92,13 @@ public class OrderController extends HttpServlet {
         }
         //phat quy
         if (path.endsWith("/Order/")) {
-            request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
+            HttpSession session = request.getSession();
+            Account acc = (Account) session.getAttribute("informationAccount");
+            if ((acc != null) && (acc.getAccountTypeId().equalsIgnoreCase("AD"))) {
+                request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
+            }
         } else {
             if (path.startsWith("/Order/Detail/")) {
                 // split path to get username
@@ -102,44 +110,56 @@ public class OrderController extends HttpServlet {
                 }
             } else {
                 if (path.startsWith("/Order/Delete/")) {
-                    String[] s = path.split("/");
-                    String OrderID = s[s.length - 1];
-                    OrderDAO dao = new OrderDAO();
-                    OrderDetailsDAO daos = new OrderDetailsDAO();
-                    Order ord = dao.getOrder(OrderID);
-                    if (ord.getOrderStatusID().equalsIgnoreCase("DHD") || ord.getOrderStatusID().equalsIgnoreCase("DHH")) {
-                        int count = daos.deleteOrderDetails(OrderID);
-                        int count2 = dao.deleteOrder(OrderID);
-                        if (count > 0 && count2 > 0) {
-                            request.setAttribute("mess", "YesD");
-                            request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
-
-                        } else {
-                            request.setAttribute("mess", "NoD");
-                            request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
-                        }
-                    } else {
-                        request.setAttribute("mess", "Noo");
-                        request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
-                    }
-                } else {
-                    if (path.startsWith("/Order/Change/")) {
+                    HttpSession session = request.getSession();
+                    Account acc = (Account) session.getAttribute("informationAccount");
+                    if ((acc != null) && (acc.getAccountTypeId().equalsIgnoreCase("AD"))) {
                         String[] s = path.split("/");
-                        String OrderID = s[3];
-                        String OrderStatusID = s[4];
+                        String OrderID = s[s.length - 1];
                         OrderDAO dao = new OrderDAO();
+                        OrderDetailsDAO daos = new OrderDetailsDAO();
                         Order ord = dao.getOrder(OrderID);
-                        if (!OrderStatusID.equals(ord.getOrderStatusID())) {
-                            int count = dao.setStatusOrder(OrderID, OrderStatusID);
-                            if (count > 0) {
-                                request.setAttribute("mess", "YesC");
+                        if (ord.getOrderStatusID().equalsIgnoreCase("DHD") || ord.getOrderStatusID().equalsIgnoreCase("DHH")) {
+                            int count = daos.deleteOrderDetails(OrderID);
+                            int count2 = dao.deleteOrder(OrderID);
+                            if (count > 0 && count2 > 0) {
+                                request.setAttribute("mess", "YesD");
                                 request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
+
                             } else {
-                                request.setAttribute("mess", "NoC");
+                                request.setAttribute("mess", "NoD");
                                 request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
                             }
                         } else {
+                            request.setAttribute("mess", "Noo");
                             request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
+                        }
+                    } else {
+                        request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
+                    }
+                } else {
+                    if (path.startsWith("/Order/Change/")) {
+                        HttpSession session = request.getSession();
+                        Account acc = (Account) session.getAttribute("informationAccount");
+                        if (acc.getAccountTypeId().equalsIgnoreCase("AD")) {
+                            String[] s = path.split("/");
+                            String OrderID = s[3];
+                            String OrderStatusID = s[4];
+                            OrderDAO dao = new OrderDAO();
+                            Order ord = dao.getOrder(OrderID);
+                            if (!OrderStatusID.equals(ord.getOrderStatusID())) {
+                                int count = dao.setStatusOrder(OrderID, OrderStatusID);
+                                if (count > 0) {
+                                    request.setAttribute("mess", "YesC");
+                                    request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
+                                } else {
+                                    request.setAttribute("mess", "NoC");
+                                    request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
+                                }
+                            } else {
+                                request.getRequestDispatcher("/OrderManagement.jsp").forward(request, response);
+                            }
+                        } else {
+                            request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
                         }
                     } else {
                         //Quang QuiS
@@ -194,7 +214,13 @@ public class OrderController extends HttpServlet {
             }
         }
         if (path.endsWith("/Statistics")) {
-            request.getRequestDispatcher("/statistics.jsp").forward(request, response);
+            HttpSession session = request.getSession();
+            Account acc = (Account) session.getAttribute("informationAccount");
+            if ((acc != null) && (acc.getAccountTypeId().equalsIgnoreCase("AD"))) {
+                request.getRequestDispatcher("/statistics.jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
+            }
         }
     }
 
@@ -275,7 +301,7 @@ public class OrderController extends HttpServlet {
                         break;
                     }
                 }
-                
+
                 //Continue to add orderDetails
                 if (check1 <= 0) {
                     orderDetailsDao.deleteOrderDetails(orderID);
