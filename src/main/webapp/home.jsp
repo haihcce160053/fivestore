@@ -124,7 +124,7 @@
                                         if (ac != null && (ac.getAccountTypeId()).equalsIgnoreCase("AD")) {
                                     %>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/Account/Management/<%=ac.getUsername()%>" style="color: white;">Account Management</a>
+                                        <a class="nav-link" href="/Account/Management/" style="color: white;">Account Management</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="/Product/Management/<%=ac.getUsername()%>" style="color: white;">Product Management</a>

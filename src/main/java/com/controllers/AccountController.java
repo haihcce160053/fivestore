@@ -171,11 +171,6 @@ public class AccountController extends HttpServlet {
                             HttpSession session = request.getSession();
                             Account acc = (Account) session.getAttribute("informationAccount");
                             if ((acc != null) && (acc.getAccountTypeId().equalsIgnoreCase("AD"))) {
-                                String[] s = path.split("/");
-                                String username = s[s.length - 1];
-                                AccountDAO dao = new AccountDAO();
-                                Account ac = dao.getAccount(username);
-                                session.setAttribute("Account", ac);
                                 request.getRequestDispatcher("/accountManagement.jsp").forward(request, response);
                             } else {
                                 request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
