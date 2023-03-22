@@ -26,31 +26,51 @@
         <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
 
     </head>
+
+    <%
+        String username = (String) session.getAttribute("username");
+        AccountDAO daoAc = new AccountDAO();
+        Account ac = daoAc.getAccount(username);
+        //Init product dao
+        ProductDAO dao = new ProductDAO();
+        //Get message from controller
+        String mess = (String) request.getAttribute("mess");
+
+        Account acInfo = (Account) session.getAttribute("informationAccount");
+        if (acInfo == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+        } else if (!acInfo.getAccountTypeId().equals("AD")) {
+            response.sendRedirect(request.getContextPath() + "/");
+        } else {
+    %>
     <body>
-        <%
-            String username = (String) session.getAttribute("username");
-            AccountDAO daoAc = new AccountDAO();
-            Account ac = daoAc.getAccount(username);
-            //Init product dao
-            ProductDAO dao = new ProductDAO();
-            //Get message from controller
-            String mess = (String) request.getAttribute("mess");
-        %>
         <header id="page-header">
             <div class="page-container">
                 <nav class="navbar navbar-expand-lg" style="background-color: #303C5F;">
                     <div class="container-fluid">
-                        <div>
-                            <a class="navbar-brand" href="/home"
-                               style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b></a>
-                        </div>
-                        <div class="collapse navbar-collapse" id="navbarText">
+                        <!-- Toggle button -->
+                        <button
+                            class="navbar-toggler"
+                            type="button"
+                            data-mdb-toggle="collapse"
+                            data-mdb-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation"
+                            >
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <div>
+                                <a class="navbar-brand" href="/home"
+                                   style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b></a>
+                            </div>
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <%
                                     if (ac != null && (ac.getAccountTypeId()).equalsIgnoreCase("AD")) {
                                 %>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/Account/Management/<%=ac.getUsername()%>" style="color:#9FA6B2;">Account Management</a>
+                                    <a class="nav-link" href="/Account/Management/<%=ac.getUsername()%>"  style="color: #9FA6B2;">Account Management</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/Product/Management/<%=ac.getUsername()%>" style="color: white;">Product Management</a>
@@ -59,7 +79,7 @@
                                     <a class="nav-link" href="/Order/" style="color: #9FA6B2;">Order Management</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/Statistics" style="color:#9FA6B2;">Revenue statistics</a>
+                                    <a class="nav-link" href="/Statistics"  style="color: #9FA6B2;">Revenue statistics</a>
                                 </li>     
 
                                 <%
@@ -210,7 +230,6 @@
             </div>
         </main>
 
-
         <!-- Get message from Controller  -->
         <%
             if (mess != null) {
@@ -234,13 +253,11 @@
             }
         %>
 
-
         <!-- Toast Message  -->
         <div  class="my-toast">
             <div id="toast">
             </div>
         </div>
-
 
         <!-- Confirm Box and Overlay -->
         <div class="overlay" id="overlay"> </div>
@@ -396,5 +413,10 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
+
     </body>
+
+    <%
+        }
+    %>
 </html>

@@ -32,7 +32,11 @@
     <body>
         <%
             Account ac = (Account) session.getAttribute("informationAccount");
-            if (ac.getAccountTypeId().equalsIgnoreCase("AD")) {
+            if (ac == null) {
+                response.sendRedirect(request.getContextPath() + "/login");
+            } else if (!ac.getAccountTypeId().equals("AD")) {
+                response.sendRedirect(request.getContextPath() + "/");
+            } else if (ac.getAccountTypeId().equalsIgnoreCase("AD")) {
                 String mess = (String) request.getAttribute("mess");
                 String mess1 = null;
         %>
@@ -41,11 +45,23 @@
             <div class="page-container">
                 <nav class="navbar navbar-expand-lg" style="background-color: #303C5F;">
                     <div class="container-fluid">
-                        <div>
-                            <a class="navbar-brand" href="/home"
-                               style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b></a>
-                        </div>
-                        <div class="collapse navbar-collapse" id="navbarText">
+                        <!-- Toggle button -->
+                        <button
+                            class="navbar-toggler"
+                            type="button"
+                            data-mdb-toggle="collapse"
+                            data-mdb-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation"
+                            >
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <div>
+                                <a class="navbar-brand" href="/home"
+                                   style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b></a>
+                            </div>
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <%
                                     if (ac != null && (ac.getAccountTypeId()).equalsIgnoreCase("AD")) {
@@ -54,13 +70,13 @@
                                     <a class="nav-link" href="/Account/Management/<%=ac.getUsername()%>" style="color:#9FA6B2;">Account Management</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/Product/Management/<%=ac.getUsername()%>" style="color:#9FA6B2;">Product Management</a>
+                                    <a class="nav-link" href="/Product/Management/<%=ac.getUsername()%>" style="color: #9FA6B2;">Product Management</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/Order/" style="color: white;">Order Management</a>
+                                    <a class="nav-link" href="/Order/" style="color: #9FA6B2;">Order Management</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/Statistics" style="color:#9FA6B2;">Revenue statistics</a>
+                                    <a class="nav-link" href="/Statistics" style="color: white;">Revenue statistics</a>
                                 </li>     
 
                                 <%
@@ -116,32 +132,32 @@
         <main>
             <div class="container" style="margin-top: 20px;">
                 <!-- User -->
-                <div class="search-box">
-                    <div style="margin-top: 20px;">
-                        <select class="form-control" id="AllSelect">
-                            <option value="All">All</option>
-                            <option value="DXN">Đang Xác Nhận</option>
-                            <option value="DCK">Đã chuyển khoản / Đang Xác Nhận</option>    
-                            <option value="DLH">Đã Liên Hệ</option>
-                            <option value="KLHD">Không Liên Hệ Được</option>                             
-                            <option value="DVC">Đang Vận Chuyển</option>
-                            <option value="DNH">Đã Nhận Hàng</option>
-                            <option value="KNH">Không Nhận Hàng</option>
-                            <option value="DHD">Đã Hủy Đơn</option>
-                        </select>
-                    </div>
+                <div class="search-box" style="margin-top: 20px; float: right">
+                    <select class="form-control" id="AllSelect">
+                        <option value="All">All</option>
+                        <option value="DXN">Đang Xác Nhận</option>
+                        <option value="DCK">Đã chuyển khoản / Đang Xác Nhận</option>    
+                        <option value="DLH">Đã Liên Hệ</option>
+                        <option value="KLHD">Không Liên Hệ Được</option>                             
+                        <option value="DVC">Đang Vận Chuyển</option>
+                        <option value="DNH">Đã Nhận Hàng</option>
+                        <option value="KNH">Không Nhận Hàng</option>
+                        <option value="DHD">Đã Hủy Đơn</option>
+                    </select>
                 </div>
-
-                <div style="width: 100%">
+                <div style="clear: both">
+                    
+                </div>
+                <div style="width: 100%" style="margin-top: 20px;">
                     <ul class="responsive-table">
-                        <li class="table-header" style="display: flex !important; justify-content: space-between !important; padding: 15px 20px !important; margin-bottom: 10px !important; border-radius: 3px !important; background-color: #138496 !important; box-shadow: 0 0 9px 0 var(--color-shadow) !important; color:white">
-                            <div class="col col-1">OrderID</div>
+                        <li class="table-header" style="display: flex !important; justify-content: space-between !important; padding: 15px 20px !important; margin-bottom: 10px !important; border-radius: 3px !important; background-color: #303C5F !important; box-shadow: 0 0 9px 0 var(--color-shadow) !important; color:white">
+                            <div class="col col-2">OrderID</div>
                             <div class="col col-2">Username</div>
-                            <div class="col col-3">DeliveryAddress</div>    
-                            <div class="col col-4">OrderTime</div>
-                            <div class="col col-5">Status</div>
-                            <div class="col col-6">TotalBill</div>
-                            <div class="col col-7">Actions</div>
+                            <div class="col col-2">DeliveryAddress</div>    
+                            <div class="col col-2">OrderTime</div>
+                            <div class="col col-2">Status</div>
+                            <div class="col col-2">TotalBill</div>
+                            <div class="col col-2">Actions</div>
                         </li>
                         <%
                             OrderDAO dao = new OrderDAO();
@@ -149,11 +165,11 @@
                             while (rs.next()) {
                         %>
                         <li class="table-row" style="display: flex !important; justify-content: space-between !important; padding: 15px 20px !important; margin-bottom: 10px !important; border-radius: 3px !important; background-color: var(--color-white) !important; box-shadow: 0 0 9px 0 var(--color-shadow) !important;">
-                            <div class="col col-1" data-label="OrderID"><%= rs.getString("OrderID")%></div>
+                            <div class="col col-2" data-label="OrderID"><%= rs.getString("OrderID")%></div>
                             <div class="col col-2" data-label="UserName"><%= rs.getString("Username")%></div>
-                            <div class="col col-3" data-label="DeliveryAddress"><%= rs.getString("DeliveryAddress")%></div> 
-                            <div class="col col-4" data-label="OrderTIme"><%= rs.getDate("OrderTime")%></div> 
-                            <div class="col col-5">
+                            <div class="col col-2" data-label="DeliveryAddress"><%= rs.getString("DeliveryAddress")%></div> 
+                            <div class="col col-2" data-label="OrderTIme"><%= rs.getDate("OrderTime")%></div> 
+                            <div class="col col-2">
                                 <div class="Change-box">  
                                     <select id="selectStatus">
                                         <option class="change" value="DXN" href="/Order/Change/<%= rs.getString("OrderID")%>/DXN" <%= rs.getString("OrderStatusID").equals("DXN") ? "selected" : ""%>>Đang Xác Nhận</option>
@@ -171,8 +187,8 @@
                                 NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
                                 String formattedPrice = format.format(rs.getInt("TotalBill")).replace("₫", "VND").replaceAll("\\s", "");
                             %>
-                            <div class="col col-6" data-label="TotalBill"><%= formattedPrice%></div>
-                            <div class="col col-7" data-label="Action">
+                            <div class="col col-2" data-label="TotalBill"><%= formattedPrice%></div>
+                            <div class="col col-2" data-label="Action">
                                 <a href="/Order/Detail/<%= rs.getString("OrderID")%>" class="edit" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xe417;</i></a>
                                 <a href="/Order/Delete/<%= rs.getString("OrderID")%>" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                             </div>
@@ -211,7 +227,7 @@
 
             <div class="overlay" id="overlay"> </div>
 
-            <<div class="confirm-box" id="confirm-box">
+            <div class="confirm-box" id="confirm-box">
                 <div class="box-header">
                     <h2>Are you sure you want change order Status?</h2>
                 </div>

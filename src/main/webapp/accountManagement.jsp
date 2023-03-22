@@ -178,17 +178,36 @@
         String mess = (String) request.getAttribute("mess");
         String mess1 = null;
         Account ac = (Account) session.getAttribute("informationAccount");
+        if (ac == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+        } else if(!ac.getAccountTypeId().equals("AD")){
+            response.sendRedirect(request.getContextPath() + "/");
+        } else {
     %>
+    
     <body>
         <header id="page-header">
-            <div class="page-container">
+           <div class="page-container">
                 <nav class="navbar navbar-expand-lg" style="background-color: #303C5F;">
                     <div class="container-fluid">
-                        <div>
-                            <a class="navbar-brand" href="/home"
-                               style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b></a>
-                        </div>
-                        <div class="collapse navbar-collapse" id="navbarText">
+                        
+                        <!-- Toggle button -->
+                        <button
+                            class="navbar-toggler"
+                            type="button"
+                            data-mdb-toggle="collapse"
+                            data-mdb-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation"
+                            >
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <div>
+                                <a class="navbar-brand" href="/home"
+                                   style="color: white; font-size: 25px;"><b>FIVESTORE.VN</b></a>
+                            </div>
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <%
                                     if (ac != null && (ac.getAccountTypeId()).equalsIgnoreCase("AD")) {
@@ -211,6 +230,7 @@
                                 %>                             
                             </ul>
                         </div>
+                            
                         <div>
                             <%
                                 if (ac == null) {
@@ -255,6 +275,7 @@
                 </nav>
             </div>
         </header>
+
         <main>
             <div class="container" style="margin-top: 100px;">
                 <!-- User -->
@@ -274,7 +295,7 @@
                 </mdb-search-box>
 
                 <table class="table">
-                    <thead class="bg-secondary text-white" style="margin-top:50px;">
+                    <thead class="text-white" style="background-color: #303C5F" style="margin-top:50px;">
                         <tr>
                             <th scope="col">Username</th>
                             <th scope="col">FullName</th>
@@ -297,13 +318,13 @@
                             <td class="col-1"><%= rs.getString("Username")%></td>
                             <td><%= rs.getString("FullName")%></td>
                             <td><%= rs.getString("Email")%></td>
-                            
+
                             <% if (rs.getString("AccountTypeID").equals("AD")) { %>
                             <td data-label="Type">Admin</td>
                             <% } else { %>
                             <td data-label="Type">Customer</td>
                             <% }%>
-                            
+
                             <% if (rs.getString("Username").equals("Admin")) {%>
                             <td>
                                 <a href="/Account/Change/<%= rs.getString("Username")%>" class="edit btn btn-primary" title="Change Permisstion" disabled>Change</a>
@@ -321,83 +342,85 @@
                             }%>
                     </tbody>
                 </table>
-            </div>
-            <%
-                if (mess != null) {
-            %>
-            <div class="row" >
-                <div class="col-lg-12" style="margin-left: 15px;
-                     margin-bottom: 15px;">
-                    <span id="regError" data-my-attribute="<%= mess%>"></span>
-                </div>          
-            </div>
-            <%
-            } else {
-            %>
-            <div class="row" >
-                <div class="col-lg-12" style="margin-left: 15px;
-                     margin-bottom: 15px;">
-                    <span id="regError" data-my-attribute="<%= mess1%>"></span>
-                </div>          
-            </div>
-            <%
-                }
-            %>
-            <div  class="my-toast">
-                <div id="toast">
-                </div>
-            </div>
-            <div class="overlay" id="overlay"></div>
 
-            <div class="confirm-box" id="confirm-box">
-                <div class="box-header">
-                    <h2>Are you sure you want to change permission account?</h2>
+                <%
+                    if (mess != null) {
+                %>
+                <div class="row" >
+                    <div class="col-lg-12" style="margin-left: 15px;
+                         margin-bottom: 15px;">
+                        <span id="regError" data-my-attribute="<%= mess%>"></span>
+                    </div>          
                 </div>
-                <div class="box-content">
-                    <p>Account will be changed permission!</p>
-                </div>
-                <div class="button-container">
-                    <button id="yes-button">Yes</button>
-                    <button id="no-button">No</button>
-                </div>
-            </div>
-            <div class="overlay" id="overlay1"></div>
-
-            <div class="confirm-box" id="confirm-box1">
-                <div class="box-header">
-                    <h2>Are you sure you want to delete this account?</h2>
-                </div>
-                <div class="box-content">
-                    <p>Account will be deleted!</p>
-                </div>
-                <div class="button-container">
-                    <button id="yes-button1">Yes</button>
-                    <button id="no-button1">No</button>
-                </div>
-            </div>
-            <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
-            <!-- Shopping Cart -->
-            <% if (ac != null) {
-                    String username = ac.getUsername();
+                <%
                 } else {
-                    String username = "null";
-                }
-            %>
-            <form id="checkout-form" action="/checkout/<%if (ac != null) {%><%= ac.getUsername()%><%} else {%><%= String.valueOf(ac)%><%}%>" method="get">
-                <div id="cart" style="display: none;">
-                    <h3>Cart</h3>
-                    <ul id="cart-items">
-
-                    </ul>
-
-                    <div id="cart-total">
-                        <p>Total: <span id="cart-total-amount">0 VND</span></p>
-                    </div>
-                    <button id="checkout-button">Checkout</button>
+                %>
+                <div class="row" >
+                    <div class="col-lg-12" style="margin-left: 15px;
+                         margin-bottom: 15px;">
+                        <span id="regError" data-my-attribute="<%= mess1%>"></span>
+                    </div>          
                 </div>
-            </form>
-            <div style="margin-bottom: 400px">
+                <%
+                    }
+                %>
 
+                <div  class="my-toast">
+                    <div id="toast">
+                    </div>
+                </div>
+                <div class="overlay" id="overlay"></div>
+
+                <div class="confirm-box" id="confirm-box">
+                    <div class="box-header">
+                        <h2>Are you sure you want to change permission account?</h2>
+                    </div>
+                    <div class="box-content">
+                        <p>Account will be changed permission!</p>
+                    </div>
+                    <div class="button-container">
+                        <button id="yes-button">Yes</button>
+                        <button id="no-button">No</button>
+                    </div>
+                </div>
+                <div class="overlay" id="overlay1"></div>
+
+                <div class="confirm-box" id="confirm-box1">
+                    <div class="box-header">
+                        <h2>Are you sure you want to delete this account?</h2>
+                    </div>
+                    <div class="box-content">
+                        <p>Account will be deleted!</p>
+                    </div>
+                    <div class="button-container">
+                        <button id="yes-button1">Yes</button>
+                        <button id="no-button1">No</button>
+                    </div>
+                </div>
+                <button onclick="topFunction()" id="myBtn" title="Go to top"></button>
+                <!-- Shopping Cart -->
+                <% if (ac != null) {
+                        String username = ac.getUsername();
+                    } else {
+                        String username = "null";
+                    }
+                %>
+                <form id="checkout-form" action="/checkout/<%if (ac != null) {%><%= ac.getUsername()%><%} else {%><%= String.valueOf(ac)%><%}%>" method="get">
+                    <div id="cart" style="display: none;">
+                        <h3>Cart</h3>
+                        <ul id="cart-items">
+
+                        </ul>
+
+                        <div id="cart-total">
+                            <p>Total: <span id="cart-total-amount">0 VND</span></p>
+                        </div>
+                        <button id="checkout-button">Checkout</button>
+                    </div>
+                </form>
+                <div style="margin-bottom: 400px">
+
+                </div>     
             </div>
         </main>
 
@@ -425,5 +448,18 @@
         <script src="${pageContext.request.contextPath}/Resources/js/searchAc.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/comfirmboxAc.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/showmessageaccountmanagement.js"></script>
+        
+         <!-- MDB -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
+
+        <!-- Jquery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+        <!--Table data-->
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
     </body>
+
+    <%
+        }
+    %>
 </html>
