@@ -101,7 +101,8 @@
 
 
                             </div>
-                            <form action="/logout" method="post">
+                            <form id="logout-form" action="/logout" method="post">
+                                <input type="hidden" name="btnSignout" value="true">
                                 <button class="btn btn-sm" style="background-color: red; color: white;width: 126px;height: 34px;" 
                                         type="submit" name="btnSignout">Logout</button>
                             </form>
@@ -329,7 +330,6 @@
                                         <%
                                             if (mess1 != null) {
                                         %>
-                                        <span id="" data-my-attribute="my-value"></span>
                                         <div class="row" >
                                             <div class="col-lg-12" style="margin-left: 15px; margin-bottom: 15px;">
                                                 <span id="regError1" data-my-attribute="<%= mess1%>"></span>
@@ -344,7 +344,8 @@
                                                 <span id="regError1" data-my-attribute=""></span>
                                             </div>          
                                         </div>
-                                        <%                                                }
+                                        <%  
+                                            }
                                         %>
                                     </div>
                                 </div>
@@ -400,27 +401,28 @@
                 <button id="no-button1">No</button>
             </div>
         </div>
+        
+        <div class="overlay" id="overlay2"></div>
+
+        <div class="confirm-box" id="confirm-box2">
+            <div class="box-header">
+                <h2>Are you sure you want to log-out?</h2>
+            </div>
+            <div class="box-content">
+                <p>Your account will be log-out!</p>
+            </div>
+            <div class="button-container">
+                <button id="yes-button2">Yes</button>
+                <button id="no-button2">No</button>
+            </div>
+        </div>
         <%@ include file="/footer.jsp" %>
         <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
-        <script src="${pageContext.request.contextPath}/Resources/js/showmessageaccountinf.js"></script>
-        <script src="${pageContext.request.contextPath}/Resources/js/validationaccountinf.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/js/accountInf.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/tawk.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
-        <script>
-                                                    overlay.addEventListener("click", function () {
-                                                        overlay.style.display = "none";
-                                                        const confirmBox = document.getElementById("confirm-box");
-                                                        confirmBox.style.display = "none";
-                                                    });
-
-                                                    overlay1.addEventListener("click", function () {
-                                                        overlay1.style.display = "none";
-                                                        const confirmBox1 = document.getElementById("confirm-box1");
-                                                        confirmBox1.style.display = "none";
-                                                    });
-        </script>
         <%
         } else {
         %>

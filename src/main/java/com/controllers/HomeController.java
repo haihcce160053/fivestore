@@ -1,9 +1,11 @@
 package com.controllers;
 
+import com.daos.AccountDAO;
 import com.models.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -59,8 +61,32 @@ public class HomeController extends HttpServlet {
             session.setAttribute("informationAccount", account);
             request.getRequestDispatcher("/home.jsp").forward(request, response);
         } else {
-            request.getRequestDispatcher("/home.jsp").forward(request, response);
+            AccountDAO dao = new AccountDAO();
+            String username = getCookieValue(request, "username");
+            if ((username != null)) {
+                Account account = dao.getAccount(username);
+                if (account != null) {
+                    session.setAttribute("informationAccount", account);
+                    request.setAttribute("mess", "Welcome back to website!");
+                    request.getRequestDispatcher("/home.jsp").forward(request, response);
+                }
+            } else {
+                request.getRequestDispatcher("/home.jsp").forward(request, response);
+            }
+                 
         }
+    }
+
+    private String getCookieValue(HttpServletRequest request, String name) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(name)) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
     }
 
     /**

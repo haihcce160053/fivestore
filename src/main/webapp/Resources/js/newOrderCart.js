@@ -15,10 +15,6 @@ const cartItems = document.querySelector("#cart-items");
 // Lấy phần tử hiển thị tổng giá trị trong giỏ hàng
 const cartTotalAmount = document.querySelector("#cart-total-amount");
 
-// Lấy button thanh toán
-const checkoutBtn = document.querySelector("#checkout-button");
-
-
 // Khởi tạo mảng sản phẩm trong giỏ hàng
 let cartItemsArray = [];
 
@@ -50,54 +46,10 @@ function saveCartToCookies() {
     document.cookie = "cartItems=" + cartItemsCookie + ";path=/";
 }
 
-// Thêm event listener click cho button thanh toán
-checkoutBtn.addEventListener("click", checkout);
-
 // Định nghĩa hàm toggleCart
 function toggleCart() {
     // Toggle thuộc tính hiển thị của phần tử giỏ hàng
     cart.style.display = cart.style.display === "none" ? "block" : "none";
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-    // Lặp qua tất cả các nút "Add to Cart" và gán sự kiện click cho từng nút
-    var addToCartButtons = document.querySelectorAll('button[id^="cart-"]');
-    for (var i = 0; i < addToCartButtons.length; i++) {
-        addToCartButtons[i].addEventListener('click', function () {
-            // Lấy thông tin của sản phẩm từ id của nút "Add to Cart"
-            var productId = this.id.split('-')[1];
-            var productName = document.getElementById("title-" + productId).value;
-            var price = document.getElementById("price-" + productId).innerHTML.replace("<b>Price: </b>", "").replace("đ", "").replaceAll(".", "");
-            var numberStock = document.getElementById("quantity-" + productId).innerHTML.replace("<b>Quantity: </b>", "");
-            // Gọi hàm addToCart với các tham số tương ứng
-            addToCart(productId, productName, price, numberStock);
-        });
-    }
-});
-
-// Định nghĩa hàm addToCart
-function addToCart(productId, productName, price, numberStock) {
-    // Tìm sản phẩm trong mảng sản phẩm trong giỏ hàng có cùng id với sản phẩm đã thêm vào
-    const cartItem = cartItemsArray.find((item) => item.productId === productId);
-    if (cartItem && (cartItem.quantity < numberStock)) {
-        // Nếu sản phẩm đã tồn tại trong giỏ hàng, tăng số lượng của nó lên 1
-        cartItem.quantity++;
-    } else if (!cartItem) {
-        // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm sản phẩm vào mảng sản phẩm trong giỏ hàng
-        cartItemsArray.push({productId, productName, price, quantity: 1});
-    } else {
-        event.preventDefault();
-        alert("Không đủ số lượng trong kho");
-    }
-    // Lưu mảng sản phẩm trong giỏ hàng vào cookies
-    saveCartToCookies();
-
-
-    // Cập nhật thông tin badge giỏ hàng
-    updateCartBadge();
-
-    // Cập nhật danh sách sản phẩm trong giỏ hàng
-    updateCartItems();
 }
 
 // Định nghĩa hàm updateCartBadge
@@ -156,15 +108,8 @@ function updateCartItems() {
         const increaseBtn = document.createElement("button");
         increaseBtn.textContent = "+";
         increaseBtn.addEventListener("click", () => {
-            var numberStock = document.getElementById("quantity-" + item.productId).innerHTML.replace("<b>Quantity: </b>", "");
-            if (item.quantity < numberStock) {
-                item.quantity++;
-                saveCartToCookies();
-                updateCartItems();
-            } else {
-                event.preventDefault();
-                alert("Không đủ số lượng trong kho");
-            }
+            event.preventDefault();
+            alert("Vui lòng trở về home nếu muốn tăng số lượng sản phẩm!");
         });
         div.appendChild(increaseBtn);
 
@@ -198,29 +143,4 @@ function updateCartItems() {
     // Đặt nội dung text của phần tử giá tổng của giỏ hàng thành giá tổng
     cartTotalAmount.textContent = "" + totalPrice.toLocaleString("vi-VN") + " đ";
 }
-
-
-// Define the checkout function
-function checkout() {
-    // Display an alert with the total price
-    const totalPrice = cartTotalAmount.textContent;
-    console.log(totalPrice);
-    if (totalPrice === "0 đ") {
-        // Hiển thị thông báo
-        const confirmMessage = "Bạn chưa có món hàng nào!";
-        event.preventDefault();
-        confirm(confirmMessage);
-    } else {
-        // Hiển thị thông báo về tổng giá trị và yêu cầu người dùng xác nhận
-        const confirmMessage = "Bạn có chắc chắn muốn đặt hàng với tổng giá trị là: " + totalPrice + "?";
-        event.preventDefault();
-        const shouldCheckout = confirm(confirmMessage);
-        if (shouldCheckout) {
-            // Gửi biểu mẫu lên servlet
-            document.getElementById("checkout-form").submit();
-        }
-    }
-}
-
-
 

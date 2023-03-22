@@ -1,3 +1,22 @@
+
+const mySpan1 = document.getElementById('regError');
+
+function mainFunction() {
+    const myAttribute1 = mySpan1.getAttribute('data-my-attribute');
+    if (myAttribute1 !== "") {
+        showSuccessInfToast(myAttribute1);
+    }
+}
+
+function showSuccessInfToast(myAttribute1) {
+    toast({
+        title: 'Error!',
+        message: myAttribute1,
+        type: 'error',
+        duration: 3000
+    });
+}
+
 //Validate when click login button
 function register() {
     var fullname = document.getElementById("fullname").value;
@@ -31,52 +50,58 @@ function register() {
                                             if (answer.length >= 5 && answer.length <= 30) {
 
                                             } else {
-                                                document.getElementById("regError").innerText =
-                                                        "Answer must be between 5 and 30 characters!";
+                                                mySpan1.dataset.myAttribute = "Answer must be between 5 and 30 characters!";
+                                                mainFunction();
                                                 return false;
                                             }
                                         } else {
-                                            document.getElementById("regError").innerText =
-                                                    "Phone number is not valid!";
+                                            mySpan1.dataset.myAttribute = "Phone number is not valid!";
+                                            mainFunction();
                                             return false;
                                         }
                                     } else {
-                                        document.getElementById("regError").innerText =
-                                                "Confirm Password not the same with Password!";
+                                        mySpan1.dataset.myAttribute = "Confirm Password not the same with Password!";
+                                        mainFunction();
                                         return false;
                                     }
                                 } else {
-                                    document.getElementById("regError").innerText =
-                                            "Confirm Password must include at least one lowercase letter, one uppercase letter, and one number!";
+                                    mySpan1.dataset.myAttribute = "Confirm Password must include at least one lowercase letter, one uppercase letter, and one number!";
+                                    mainFunction();
                                     return false;
                                 }
                             } else {
-                                document.getElementById("regError").innerText = "Confirm Password must be between 5 and 30 characters!";
+                                mySpan1.dataset.myAttribute = "Confirm Password must be between 5 and 30 characters!";
+                                mainFunction();
                                 return false;
                             }
                         } else {
-                            document.getElementById("regError").innerText =
-                                    "Password must include at least one lowercase letter, one uppercase letter, and one number!";
+                            mySpan1.dataset.myAttribute = "Password must include at least one lowercase letter, one uppercase letter, and one number!";
+                            mainFunction();
                             return false;
                         }
                     } else {
-                        document.getElementById("regError").innerText = "Password must be between 5 and 30 characters!";
+                        mySpan1.dataset.myAttribute = "Password must be between 5 and 30 characters!";
+                        mainFunction();
                         return false;
                     }
                 } else {
-                    document.getElementById("regError").innerText = "Username must start with a letter!";
+                    mySpan1.dataset.myAttribute = "Username must start with a letter!";
+                    mainFunction();
                     return false;
                 }
             } else {
-                document.getElementById("regError").innerText = "Username must be between 5 and 30 characters!";
+                mySpan1.dataset.myAttribute = "Username must be between 5 and 30 characters!";
+                mainFunction();
                 return false;
             }
         } else {
-            document.getElementById("regError").innerText = "Email is not valid!";
+            mySpan1.dataset.myAttribute = "Email is not valid!";
+            mainFunction();
             return false;
         }
     } else {
-        document.getElementById("regError").innerText = "Please fill all information account to register!";
+        mySpan1.dataset.myAttribute = "Please fill all information account to register!";
+        mainFunction();
         return false;
     }
 }

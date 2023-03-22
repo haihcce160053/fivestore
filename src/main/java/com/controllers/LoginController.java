@@ -10,6 +10,7 @@ import com.security.Encoding;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -94,7 +95,6 @@ public class LoginController extends HttpServlet {
             request.getRequestDispatcher("/signup.jsp").forward(request, response);
         }
         if (request.getParameter("code") != null) {
-            request.setAttribute("googleLogin", true);
             String code = request.getParameter("code");
             String accessToken = getToken(code);
             UserGoogle user = getUserInfo(accessToken);
@@ -106,17 +106,23 @@ public class LoginController extends HttpServlet {
             AccountDAO dao = new AccountDAO();
             Account ac = dao.getAccount(username);
             if (ac == null) {
-                request.setAttribute("additionInfo", "Please insert addition data");
+                request.setAttribute("mess", "Please enter the missing information to register your account with Google!");
                 request.setAttribute("fullname", user.getName());
                 request.setAttribute("email", email);
                 request.setAttribute("username", username);
                 request.setAttribute("loginwithgg", "Yes");
+                request.setAttribute("googleLogin", true);
                 request.getRequestDispatcher("/signup.jsp").forward(request, response);
             } else {
                 session.setAttribute("informationAccount", ac);
-                response.sendRedirect(request.getContextPath() + "/home");
+                Cookie accLogin = new Cookie("username", username);
+                accLogin.setMaxAge(60 * 60 * 72);
+                accLogin.setHttpOnly(true);
+                accLogin.setSecure(true); // chỉ sử dụng HTTPS
+                response.addCookie(accLogin);
+                request.setAttribute("mess", "Login Successfully!");
+                request.getRequestDispatcher("/home.jsp").forward(request, response);
             }
-            System.out.println(user);
         }
 
     }
@@ -154,10 +160,16 @@ public class LoginController extends HttpServlet {
                 if (count > 0 && count2 > 0) {
                     if (loginwithgg != null) {
                         session.setAttribute("informationAccount", st);
-                        response.sendRedirect(request.getContextPath() + "/home");
+                        Cookie accLogin = new Cookie("username", username);
+                        accLogin.setMaxAge(60 * 60 * 72);
+                        accLogin.setHttpOnly(true);
+                        accLogin.setSecure(true); // chỉ sử dụng HTTPS
+                        response.addCookie(accLogin);
+                        request.setAttribute("mess", "Login Successfully!");
+                        request.getRequestDispatcher("/home.jsp").forward(request, response);
                     } else {
                         request.setAttribute("mess", "Sign Up Successfully! You can sign in now!");
-                        response.sendRedirect(request.getContextPath() + "/login");
+                        request.getRequestDispatcher("/login.jsp").forward(request, response);
                     }
 
                 } else {
@@ -166,6 +178,7 @@ public class LoginController extends HttpServlet {
                 }
             } else {
                 request.setAttribute("mess", "Username already exists!");
+                request.setAttribute("googleLogin", false);
                 request.getRequestDispatcher("/signup.jsp").forward(request, response);
             }
         } else if (request.getParameter("btnSignIn") != null) {
@@ -179,10 +192,22 @@ public class LoginController extends HttpServlet {
                 if (endcode.getMd5(password).equals(ac.getPassword())) {
                     if (ac.getAccountTypeId().equals("AD")) {
                         session.setAttribute("informationAccount", ac);
-                        response.sendRedirect(request.getContextPath() + "/homeAdmin");
+                        Cookie accLogin = new Cookie("username", username);
+                        accLogin.setMaxAge(60 * 60 * 72);
+                        accLogin.setHttpOnly(true);
+                        accLogin.setSecure(true); // chỉ sử dụng HTTPS
+                        response.addCookie(accLogin);
+                        request.setAttribute("mess", "Login Successfully!");
+                        request.getRequestDispatcher("/home.jsp").forward(request, response);
                     } else {
                         session.setAttribute("informationAccount", ac);
-                        response.sendRedirect(request.getContextPath() + "/home");
+                        Cookie accLogin = new Cookie("username", username);
+                        accLogin.setMaxAge(60 * 60 * 72);
+                        accLogin.setHttpOnly(true);
+                        accLogin.setSecure(true); // chỉ sử dụng HTTPS
+                        response.addCookie(accLogin);
+                        request.setAttribute("mess", "Login Successfully!");
+                        request.getRequestDispatcher("/home.jsp").forward(request, response);
                     }
                 } else {
                     request.setAttribute("mess", "Username or password is not correct!");
@@ -196,7 +221,16 @@ public class LoginController extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("informationAccount", null);
             session.setAttribute("Account", null);
-            response.sendRedirect(request.getContextPath() + "/");
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    // delete cookie
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                }
+            }
+            request.setAttribute("mess", "Logout Successfully!");
+            request.getRequestDispatcher("/home.jsp").forward(request, response);
         } else if (request.getParameter("btnForgotPassword") != null) {
             String username = request.getParameter("forgotUsername");
             String answer = request.getParameter("forgotAnswer");
@@ -212,10 +246,22 @@ public class LoginController extends HttpServlet {
                     dao.updateAccount(ac);
                     if (ac.getAccountTypeId().equals("AD")) {
                         session.setAttribute("informationAccount", ac);
-                        response.sendRedirect(request.getContextPath() + "/homeAdmin");
+                        Cookie accLogin = new Cookie("username", username);
+                        accLogin.setMaxAge(60 * 60 * 72);
+                        accLogin.setHttpOnly(true);
+                        accLogin.setSecure(true); // chỉ sử dụng HTTPS
+                        response.addCookie(accLogin);
+                        request.setAttribute("mess", "Login Successfully!");
+                        request.getRequestDispatcher("/home.jsp").forward(request, response);
                     } else {
                         session.setAttribute("informationAccount", ac);
-                        response.sendRedirect(request.getContextPath() + "/home");
+                        Cookie accLogin = new Cookie("username", username);
+                        accLogin.setMaxAge(60 * 60 * 72);
+                        accLogin.setHttpOnly(true);
+                        accLogin.setSecure(true); // chỉ sử dụng HTTPS
+                        response.addCookie(accLogin);
+                        request.setAttribute("mess", "Login Successfully!");
+                        request.getRequestDispatcher("/home.jsp").forward(request, response);
                     }
                 } else {
                     request.setAttribute("mess", "Reset password failed");

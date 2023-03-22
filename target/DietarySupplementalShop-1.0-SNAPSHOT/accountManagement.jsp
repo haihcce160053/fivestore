@@ -286,22 +286,39 @@
                     <% AccountDAO dao = new AccountDAO();
                         ResultSet rs = dao.getAll(); %>
                     <tbody>
-                        <% while (rs.next()) {%>
+                        <% while (rs.next()) {
+                                if (rs.getString("Username").equalsIgnoreCase(ac.getUsername())) {
+                        %>
+
+                        <%
+                        } else {
+                        %>
                         <tr class="table-row">
                             <td class="col-1"><%= rs.getString("Username")%></td>
                             <td><%= rs.getString("FullName")%></td>
                             <td><%= rs.getString("Email")%></td>
+                            
                             <% if (rs.getString("AccountTypeID").equals("AD")) { %>
                             <td data-label="Type">Admin</td>
                             <% } else { %>
                             <td data-label="Type">Customer</td>
                             <% }%>
+                            
+                            <% if (rs.getString("Username").equals("Admin")) {%>
+                            <td>
+                                <a href="/Account/Change/<%= rs.getString("Username")%>" class="edit btn btn-primary" title="Change Permisstion" disabled>Change</a>
+                                <a href="/Account/Delete/<%= rs.getString("Username")%>" class="delete btn btn-success" title="Delete Account" disabled>Delete</a>
+                            </td>
+                            <% } else {%>
                             <td>
                                 <a href="/Account/Change/<%= rs.getString("Username")%>" class="edit btn btn-primary" title="Change Permisstion">Change</a>
                                 <a href="/Account/Delete/<%= rs.getString("Username")%>" class="delete btn btn-success" title="Delete Account">Delete</a>
                             </td>
+                            <% }%>
+
                         </tr>
-                        <% }%>
+                        <% }
+                            }%>
                     </tbody>
                 </table>
             </div>

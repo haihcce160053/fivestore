@@ -1,22 +1,21 @@
 package com.controllers;
 
 import com.daos.OrderDAO;
-
 import com.daos.OrderDetailsDAO;
 import com.daos.ProductDAO;
 import com.models.Order;
 import com.models.OrderDetails;
-import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.sql.Date;
+import java.text.NumberFormat;
+import java.util.Locale;
+import com.security.MailSender;
+import java.io.IOException;
 
 /**
  *
@@ -74,7 +73,6 @@ public class OrderController extends HttpServlet {
                 return;
             }
             String prefixUser = username.substring(0, 2).toUpperCase();
-            System.out.println(prefixUser);
 
             OrderDAO dao = new OrderDAO();
             String OrderID = prefixUser + String.format("%06d", 1);
@@ -150,7 +148,7 @@ public class OrderController extends HttpServlet {
                             String OrderID = s[s.length - 1];
                             OrderDAO dao = new OrderDAO();
                             Order ord = dao.getOrder(OrderID);
-                            if (ord.getOrderStatusID().equalsIgnoreCase("DXN")) {
+                            if (ord.getOrderStatusID().equalsIgnoreCase("DXN") || ord.getOrderStatusID().equalsIgnoreCase("KLHD")) {
                                 String cancel = "DHD";
                                 int count = dao.setStatusOrder(OrderID, cancel);
                                 if (count > 0) {
@@ -221,6 +219,8 @@ public class OrderController extends HttpServlet {
             //get information account form post mothod
             String orderID = request.getParameter("txtOrderID");
             String username = request.getParameter("txtUsername");
+            String email = request.getParameter("txtEmail");
+            String name = request.getParameter("txtFullname");
             String phone = request.getParameter("txtPhone");
 
             //Get all input Address
@@ -234,6 +234,8 @@ public class OrderController extends HttpServlet {
 
             //Get Bill of Order
             String totalbill = request.getParameter("txtTotalBill");
+            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+            String formattedTotalbill = format.format(Integer.parseInt(totalbill)).replaceAll("\\s", "");
 
             //Get payment method
             String paymentMethod = request.getParameter("paymentMethod");
@@ -255,7 +257,6 @@ public class OrderController extends HttpServlet {
 
             //Add order in db table OrderList
             int check = orderDao.addOrder(ord);
-
             //if add them orderList successfully
             if (check > 0) {
                 //when order success create split the cart info into list
@@ -274,6 +275,8 @@ public class OrderController extends HttpServlet {
                         break;
                     }
                 }
+                
+                //Continue to add orderDetails
                 if (check1 <= 0) {
                     orderDetailsDao.deleteOrderDetails(orderID);
                     orderDao.deleteOrder(orderID);
@@ -281,12 +284,48 @@ public class OrderController extends HttpServlet {
                     request.setAttribute("mess", "No");
                     request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
                 } else {
-                    request.setAttribute("link", "http://localhost:8080/");
-                    request.setAttribute("mess", "Yes");
-                    request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
+                    //Processing send email order to customer
+                    //Processing CART
+                    StringBuilder output = new StringBuilder();
+                    for (String productOrder : listProduct) {
+                        String ProductID = productOrder.substring(0, productOrder.indexOf(' ')).replaceAll("[^a-zA-Z0-9]", ""); // get product id and remove special characters
+                        OrderDetailsDAO daoorder = new OrderDetailsDAO();
+                        String ProductName = daoorder.getProductName(ProductID);
+                        int quantity = 0;
+                        String quantityString = productOrder.substring(productOrder.indexOf("<<") + 2, productOrder.indexOf(">>")).replaceAll("[^0-9]", ""); // get quantity and remove non-numeric characters
+                        try {
+                            quantity = Integer.valueOf(quantityString);
+                        } catch (NumberFormatException e) {
+                            // handle the exception here
+                        }
+                        int unitPrice = productDao.getUnitPrice(ProductID);
+                        int totalPrice = quantity * unitPrice;
+
+                        String formattedPrice = format.format(totalPrice).replaceAll("\\s", "");
+                        output.append(" Tên: ").append(ProductName).append("\t Số Lượng: ").append(quantity).append("\t Tổng: ").append(formattedPrice).append(System.lineSeparator());
+                    }
+                    String result = output.toString().trim();
+                    //Create a new file path invoice with orderID
+                    String filePath = "D:/invoice/invoice_" + orderID + ".pdf";
+                    //Call method send email to customer
+                    MailSender mail = new MailSender();
+                    boolean isSent = mail.Send(filePath, result, phone, orderID, orderTime.toString(), name, email, deliveryAddress, formattedTotalbill, paymentMethod);
+                    //Check isSent
+                    if (isSent) {
+                        request.setAttribute("link", "http://localhost:8080/");
+                        request.setAttribute("mess", "Yes");
+                        request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
+                    } else {
+                        orderDetailsDao.deleteOrderDetails(orderID);
+                        orderDao.deleteOrder(orderID);
+                        request.setAttribute("link", "http://localhost:8080/");
+                        request.setAttribute("mess", "No");
+                        request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);
+                    }
                 }
 
             } else {
+                orderDao.deleteOrder(orderID);
                 request.setAttribute("link", "http://localhost:8080/");
                 request.setAttribute("mess", "Noo");
                 request.getRequestDispatcher("/orderSuccessfull.jsp").forward(request, response);

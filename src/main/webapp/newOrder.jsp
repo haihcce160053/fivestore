@@ -23,122 +23,16 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
         <!-- MDB -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
-        
-                <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/cart.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
-        <style>
-            .form-select{
-                margin-bottom: 5px;
-            }
-            form button{
-
-            }
-            .card{
-                color: #303C5F;
-                background-color: #303C5F;
-            }
-            .card label{
-                color: #ffffff;
-            }
-            .card h2{
-                color: #ffffff;
-            }
-            .error-container {
-                display: none;
-                margin-bottom: 10px;
-                padding: 10px;
-                border-radius: 5px;
-                background-color: #f8d7da;
-                color: #721c24;
-            }
-
-            .error-container.show {
-                display: block;
-            }
-
-            .error-message {
-                margin: 0;
-            }
-            .popup {
-                display: none;
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background-color: #fff;
-                border-radius: 10px;
-                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-                z-index: 999;
-                padding: 20px;
-            }
-
-            .popup.show {
-                display: block;
-            }
-
-            .popup h2 {
-                font-size: 24px;
-                font-weight: bold;
-                margin-top: 0;
-                margin-bottom: 10px;
-            }
-
-            .popup p {
-                font-size: 18px;
-                line-height: 1.5;
-                margin-bottom: 20px;
-            }
-
-            .popup img {
-                display: block;
-                max-width: 100%;
-                height: auto;
-                margin-bottom: 20px;
-            }
-
-            .popup span {
-                background-color: #007bff;
-                color: #fff;
-                border: none;
-                padding: 10px 20px;
-                border-radius: 5px;
-                font-size: 18px;
-                cursor: pointer;
-                transition: background-color 0.3s ease;
-            }
-
-            .popup span:hover {
-                background-color: #0069d9;
-            }
-
-            .popup-backdrop {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                backdrop-filter: blur(5px);
-                z-index: 998;
-                display: none;
-            }
-
-            .popup-backdrop.show {
-                display: block;
-            }
-
-            .hidden {
-                display: none;
-            }
-
-
-        </style>
+        <link href="${pageContext.request.contextPath}/Resources/css/newOrder.css" rel="stylesheet" />
     </head>
 
     <body>        
         <%
             Account ac = (Account) session.getAttribute("informationAccount");
-            String linkQRcode = "https://img.vietqr.io/image/970418-74110000929461-s0Kd2aq.jpg?accountName=TRAN%20TRUNG%20KIEN&";
+            String linkQRcode = "https://img.vietqr.io/image/970436-1014794186-lx65zFs.jpg?accountName=TRAN%20QUANG%20QUI&";
         %>
         <header id="page-header">
             <div class="page-container">
@@ -164,7 +58,7 @@
                                 </li>
 
                                 <%
-                                }
+                                    }
                                 %>                               
                             </ul>
                         </div>
@@ -185,7 +79,7 @@
                             <%
                             } else {
                             %>
-                            <button type="button" class="btn px-3 me-2"
+                            <button id="view-profile-btn" type="button" class="btn px-3 me-2"
                                     style="color: white; background-color: #20283F;"
                                     onclick="location.href = '/Account/information/<%= ac.getUsername()%>'">
                                 <%=ac.getFullname()%>
@@ -252,7 +146,7 @@
                         <div class="form-group row">
                             <label for="txtEmail" class="col-4 col-form-label">Email</label> 
                             <div class="col-8">
-                                <input id="txtEmail" name="txtEmail" type="text" class="form-control" value="<%=ac.getEmail()%>" readonly>
+                                <input id="txtEmail" name="txtEmail" type="text" class="form-control" value="<%=ac.getEmail()%>">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -339,7 +233,8 @@
                         </div>
                         <div class="form-group row" style="margin-bottom: 20px">
                             <div class="offset-5">
-                                <button name="submit" type="submit" class="btn btn-primary " value="submit" onclick="getValue()">Place Order</button>
+                                <input name="submit" type="submit" class="btn btn-primary " value="submit" hidden="true" />
+                                <button id="btnSubmit" name="submit" type="submit" class="btn btn-primary " value="submit">Place Order</button>
                             </div>
                         </div>
                         <div id="error-messages"></div>
@@ -350,207 +245,30 @@
         <!-- Pop-up QR code -->       
         <div class="popup-backdrop"></div>
         <div id="vietqr-popup" class="popup">
-
             <img id="txtQRCode" alt="VietQR code">
             <label>
                 <input type="checkbox" id="confirm-checkbox"> Tôi đã chuyển khoản và đồng ý đặt hàng với các sản phẩm trong giỏ hàng!
             </label>
-            <span class="popup-close" >✔</span>
-        </div>
-        
-                <%@ include file="/footer.jsp" %>
+            <div style="margin-top: 5px;"><span class="popup-close">Close</span></div>
 
-        <script src="${pageContext.request.contextPath}/Resources/js/vietnameselocation/vietnamlocalselector.js"></script> 
-        <script>
-                                    var localpicker = new LocalPicker({
-                                        province: "ls_province",
-                                        district: "ls_district",
-                                        ward: "ls_ward"
-                                    });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-        <!-- Jquery -->
+        </div>
+        <%@ include file="/footer.jsp" %>
+        
+        <!-- JS And Jquery -->
+        
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/tawk.js"></script>
-
-        <script> // Quang Qui: Xử lý lấy số tiền trong giỏ hàng vào ô input
-
-                                    // Lấy thẻ span trong div chứa tổng tiền
-                                    var cartTotalSpan = document.getElementById("cart-total-amount");
-
-                                    // Lấy thẻ input
-                                    var totalBillInput = document.getElementById("txtTotalBill");
-
-                                    // 
-                                    var linkQRCode = document.getElementById("linkQR");
-                                    var linkQRCodeOrgirin = linkQRCode.value;
-
-                                    // Thiết lập giá trị ban đầu cho thẻ input
-                                    var totalBill = cartTotalSpan.innerText;
-                                    totalBill = totalBill.replaceAll(".", "").replace(" đ", "");
-                                    totalBillInput.value = totalBill;
-
-                                    linkQRCode.value += totalBill;
-
-
-                                    // Lắng nghe sự kiện thay đổi trên thẻ span
-                                    cartTotalSpan.addEventListener('DOMSubtreeModified', function () {
-                                        // Cập nhật giá trị của thẻ input tại đây
-                                        var he = cartTotalSpan.innerText;
-                                        he = he.replaceAll(".", "").replace(" đ", "");
-                                        totalBillInput.value = he;
-                                        linkQRCode.value = "";
-                                        linkQRCode.value = linkQRCodeOrgirin;
-                                        linkQRCode.value += he;
-                                        linkQRCode.value += "&addInfo=Payment%20OrderID%20";
-                                        //Sau khi ghép thành công số tiền cần chuyển thì tiếp tục nối chuỗi gồm mã đơn hàng 
-                                        var orderID = document.getElementById("txtOrderID");
-                                        linkQRCode.value += orderID.value + "%20";
-                                        //Sau khi ghép thành công mã đơn hàng thì tiếp tục nối chuỗi username
-                                        var username = document.getElementById("txtUsername");
-                                        linkQRCode.value += username.value;
-                                        //Sau khi ghép thành công username thì set src cho the img
-                                        var imgQR = document.getElementById("txtQRCode");
-                                        imgQR.setAttribute('src', linkQRCode.value);
-                                    });
-
-                                    linkQRCode.value += "&addInfo=Payment%20OrderID%20";
-                                    //Sau khi ghép thành công số tiền cần chuyển thì tiếp tục nối chuỗi gồm mã đơn hàng 
-                                    var orderID = document.getElementById("txtOrderID");
-                                    linkQRCode.value += orderID.value + "%20";
-                                    //Sau khi ghép thành công mã đơn hàng thì tiếp tục nối chuỗi username
-                                    var username = document.getElementById("txtUsername");
-                                    linkQRCode.value += username.value;
-                                    //Sau khi ghép thành công username thì set src cho the img
-                                    var imgQR = document.getElementById("txtQRCode");
-                                    imgQR.setAttribute('src', linkQRCode.value);
-
-
-        </script> 
-
+        <script src="${pageContext.request.contextPath}/Resources/js/newOrderCart.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/js/newOrder.js"></script>
+        <script src="${pageContext.request.contextPath}/Resources/js/vietnameselocation/vietnamlocalselector.js"></script> 
         <script>
-            //Quang Qui
-            //Khi bấm vào nút submit order thì sẽ xử lý giỏ hàng thành chuỗi gửi lên servlet
-            function getValue() {
-//                event.preventDefault(); // Tạm thời ngưng cái sự kiện submit gửi lên servlet để nhìn cái chuỗi sau khi xử lý
-                //Ô input ẩn trong form có id là blind
-                const inputElement = document.getElementById("blind");
-
-                const ulElement = document.getElementById('cart-items');
-                const liElements = ulElement.querySelectorAll('li');
-
-                let items = "";
-                for (let i = 0; i < liElements.length; i++) {
-                    const divElement = liElements[i].querySelector('div');
-                    const spanElements = liElements[i].querySelectorAll('span');
-                    const itemString = divElement.textContent.trim() + ":" + spanElements[1].textContent.trim();
-                    items += itemString + "/";
-                }
-
-                // Loại bỏ các ký tự đặc biệt khỏi chuỗi bằng phương thức replace()
-                items = items.replaceAll("- ", "<<").replaceAll("+", ">>").replaceAll("Remove", "").replaceAll(".", "").replaceAll("x", "").replaceAll("đ", "").replaceAll("   ", "|");
-
-                //Chuỗi sau khi xử lý sẽ gán vào ô input ẩn để tiện trên Servlet lấy data
-                inputElement.value = items;
-                console.log(items);
-
-            }
-        </script>
-        <script>
-            // get form elements
-            const form = document.getElementById("newOrderForm");
-            const fullNameInput = document.getElementById("txtFullname");
-            const detailAddressInput = document.getElementById("txtDetailAddress");
-            const provinceSelect = document.getElementById("ls_province");
-            const districtSelect = document.getElementById("ls_district");
-            const wardSelect = document.getElementById("ls_ward");
-            const paymentMethodSelect = document.getElementById("paymentMethod");
-            const errorElement = document.getElementById("regError");
-
-            // add event listener to form
-            form.addEventListener("submit", (event) => {
-                let messages = [];
-
-                // validate Full Name field
-                if (fullNameInput.value === "" || fullNameInput.value == null) {
-                    messages.push("Full Name is required");
-                }
-
-                // validate Detail Address field
-                if (detailAddressInput.value === "" || detailAddressInput.value == null) {
-                    messages.push("Detail Address is required");
-                }
-
-                // validate Province select
-                if (provinceSelect.value === "" || provinceSelect.value == null) {
-                    messages.push("Province is required");
-                }
-
-                // validate District select
-                if (districtSelect.value === "" || districtSelect.value == null) {
-                    messages.push("District is required");
-                }
-
-                // validate Ward select
-                if (wardSelect.value === "" || wardSelect.value == null) {
-                    messages.push("Ward is required");
-                }
-
-                // validate Payment Method select
-                if (paymentMethodSelect.value === "" || paymentMethodSelect.value == null) {
-                    messages.push("Payment Method is required");
-                }
-
-                // display error messages
-                if (messages.length > 0) {
-                    event.preventDefault();
-                    errorElement.innerText = messages.join(", ");
-                }
+            var localpicker = new LocalPicker({
+                province: "ls_province",
+                district: "ls_district",
+                ward: "ls_ward"
             });
         </script>
-        <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>
-        <script>
-            const checkbox = document.getElementById('confirm-checkbox');
-            const closeBtn = document.querySelector('.popup-close');
-            const backdrop = document.querySelector('.popup-backdrop');
-            var popup = document.getElementById("vietqr-popup");
-            // Lắng nghe sự kiện onchange của thẻ <select>
-            paymentMethodSelect.addEventListener("change", function () {
-                // Lấy giá trị được chọn
-                var selectedValue = paymentMethodSelect.value;
-
-                // Nếu giá trị được chọn là "VietQR"
-                if (selectedValue === "VietQR") {
-                    // Hiển thị pop-up
-                    popup.style.display = "block";
-                    backdrop.classList.add('show');
-                } else {
-                    // Ẩn pop-up nếu không chọn "VietQR"
-                    popup.style.display = "none";
-                    backdrop.sclassList.remove('show');
-                }
-            });
-
-            closeBtn.addEventListener('click', function () {
-                popup.style.display = "none";
-                backdrop.classList.remove('show');
-            });
-
-            backdrop.addEventListener('click', function () {
-                popup.style.display = "none";
-                backdrop.classList.remove('show');
-            });
-
-            checkbox.addEventListener('change', (event) => {
-                if (event.target.checked) {
-                    const viewCartBtn = document.querySelector("#view-cart-btn");
-                    viewCartBtn.removeEventListener("click", toggleCart);
-                }
-            });
-
-
-        </script>
-
     </body>
 </html>

@@ -38,6 +38,7 @@
         <link href="${pageContext.request.contextPath}/Resources/css/cart.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/gototop.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/Resources/css/footer.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/Resources/css/toastMessage.css" rel="stylesheet" />
 
         <!-- CSS Navigation bar -->
         <style>
@@ -93,6 +94,7 @@
              class="sidebar-o side-scroll page-header-glass page-header-inverse page-header-fixed main-content-narrow sidebar-inverse side-trans-enabled page-header-scroll">
             <%
                 Account ac = (Account) session.getAttribute("informationAccount");
+                String mess = (String) request.getAttribute("mess");
             %>
             <!-- Navigation bar -->
             <header id="page-header">
@@ -182,7 +184,26 @@
                     </nav>
                 </div>
             </header>
-
+            <%
+                if (mess != null) {
+            %>
+            <div class="form-group" style="margin-top: 10px;">
+                <span id="regError" data-my-attribute="<%= mess%>"></span>
+            </div>
+            <%
+            } else {
+            %>
+            <div class="form-group" style="margin-top: 10px;">
+                <span id="regError" data-my-attribute=""></span>
+            </div>
+            <%
+                }
+            %>
+            <!-- Toast Message  -->
+            <div  class="my-toast">
+                <div id="toast">
+                </div>
+            </div>
             <!-- All Product -->
             <main>
                 <!-- Banner And Search Bar -->
@@ -1004,6 +1025,33 @@
         <script src="${pageContext.request.contextPath}/Resources/js/cart.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/gototop.js"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/tawk.js"></script>
-       <!--<script src="${pageContext.request.contextPath}/Resources/js/searchhome.js"></script>-->
+        <script src="${pageContext.request.contextPath}/Resources/js/index.js"></script>
+        <script>
+            const mySpan1 = document.getElementById('regError');
+
+            function mainFunction() {
+                const myAttribute1 = mySpan1.getAttribute('data-my-attribute');
+                if (myAttribute1 !== "") {
+                    showSuccessInfToast(myAttribute1);
+                }
+            }
+
+            window.addEventListener("load", function () {
+                const myAttribute1 = mySpan1.getAttribute('data-my-attribute');
+                if (myAttribute1 !== "") {
+                    showSuccessInfToast(myAttribute1);
+                }
+            });
+
+            function showSuccessInfToast(myAttribute1) {
+                toast({
+                    title: 'Welcome!',
+                    message: myAttribute1,
+                    type: 'success',
+                    duration: 4000
+                });
+            }
+        </script>
+
     </body>
 </html>
