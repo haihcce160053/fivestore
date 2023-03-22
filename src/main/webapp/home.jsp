@@ -346,7 +346,7 @@
                                     do {
                                         Product pd = dao_product.getProduct(rs_product_order.getString("ProductID"));
                                 %> 
-                                <div class="col-md-2 my-3 ">
+                                <div class="col-md-3">
                                     <div class="card">
                                         <div align="center" style="margin-bottom: 20px">
                                             <img class="card-img-top" style="width: 150px; height: 150px" src="<%= pd.getPictureLink()%>" alt="alt"/>
@@ -415,7 +415,7 @@
                                 <%
                                     do {
                                 %> 
-                                <div class="col-md-2 my-3 ">
+                                <div class="col-md-3">
                                     <div class="card">
                                         <div align="center" style="margin-bottom: 20px">
                                             <img class="card-img-top" style="width: 150px; height: 150px" src="<%= rs_product_selling.getString("PictureLink")%>" alt="alt"/>
