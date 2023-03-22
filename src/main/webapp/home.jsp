@@ -140,6 +140,7 @@
                                     %>                             
                                 </ul>
                             </div>
+                                
                             <div>
                                 <%
                                     if (ac == null) {
@@ -448,7 +449,6 @@
                                                 Date currentDay = formatter.parse(currentDateString);
 
                                                 if (Integer.parseInt(rs_product_selling.getString("Quantity")) > 0 && expDate.after(currentDay)) {
-
                                             %>
                                             <div style="margin-top: 20px">
                                                 <button id="cart-<%= rs_product_selling.getString("ProductID")%>" class="btn" style="background-color: #303C5F; color: white; width: 100%">Add to Cart</button>

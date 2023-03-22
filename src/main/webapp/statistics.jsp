@@ -49,6 +49,11 @@
     </head>
     <%
         Account ac = (Account) session.getAttribute("informationAccount");
+        if(ac == null){
+            response.sendRedirect(request.getContextPath() + "/login");
+        } else if(!ac.getAccountTypeId().equals("AD")){
+            response.sendRedirect(request.getContextPath() + "/");
+        } else {
     %>
     <body>
         <header id="page-header">
@@ -278,4 +283,7 @@
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
 
     </body>
+    <%
+        }
+    %>
 </html>
