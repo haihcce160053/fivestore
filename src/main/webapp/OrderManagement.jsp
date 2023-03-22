@@ -73,10 +73,10 @@
                                     <a class="nav-link" href="/Product/Management/<%=ac.getUsername()%>" style="color: #9FA6B2;">Product Management</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/Order/" style="color: #9FA6B2;">Order Management</a>
+                                    <a class="nav-link" href="/Order/" style="color: white;">Order Management</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/Statistics" style="color: white;">Revenue statistics</a>
+                                    <a class="nav-link" href="/Statistics" style="color: #9FA6B2;">Revenue statistics</a>
                                 </li>     
 
                                 <%

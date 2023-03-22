@@ -85,7 +85,7 @@ public class MailSender {
             // Thêm phần thân email vào đối tượng Message
             message.setContent(multipart);
             Transport.send(message);
-            OTPSender otpSender = new OTPSender("AC47851346febff700998989a923642839", "02bf3ee265ca4a055d55177727f391e5", "+15077055733");
+            OTPSender otpSender = new OTPSender("AC47851346febff700998989a923642839", "6d0fd9463d75a21fba040ddd9b3924c0", "+15077055733");
             otpSender.sendOTP(phone, emailContent);
             return true;
         } catch (MessagingException e) {
