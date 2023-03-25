@@ -151,6 +151,7 @@
                                         String formattedPrice = format.format(product.getPrice()).replace("₫", "VND").replaceAll("\\s", "");
                                     %>
                                     <span class="card-text text-muted" hidden id="price-<%= product.getProductID()%>"><b>Price: </b><%= formattedPrice%></span>
+                                    <span class="card-text text-muted" hidden id="quantity-<%= product.getProductID()%>"><b>Quantity: </b><%= product.getQuantity()%></span>
                                     <h6>EXP: <%= product.getEXP()%></h6>
                                     <h6>Quantity: <%= product.getQuantity()%></h6>
                                     <h6>Price: <%= formattedPrice%></h6>

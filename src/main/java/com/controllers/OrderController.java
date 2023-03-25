@@ -118,7 +118,7 @@ public class OrderController extends HttpServlet {
                         OrderDAO dao = new OrderDAO();
                         OrderDetailsDAO daos = new OrderDetailsDAO();
                         Order ord = dao.getOrder(OrderID);
-                        if (ord.getOrderStatusID().equalsIgnoreCase("DHD") || ord.getOrderStatusID().equalsIgnoreCase("DHH")) {
+                        if (ord.getOrderStatusID().equalsIgnoreCase("DHD") || ord.getOrderStatusID().equalsIgnoreCase("KLHD") || ord.getOrderStatusID().equalsIgnoreCase("KNH") ) {
                             int count = daos.deleteOrderDetails(OrderID);
                             int count2 = dao.deleteOrder(OrderID);
                             if (count > 0 && count2 > 0) {

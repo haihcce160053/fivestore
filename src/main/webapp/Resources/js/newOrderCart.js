@@ -142,5 +142,5 @@ function updateCartItems() {
 
     // Đặt nội dung text của phần tử giá tổng của giỏ hàng thành giá tổng
     cartTotalAmount.textContent = "" + totalPrice.toLocaleString("vi-VN") + " đ";
-}
+}   
 

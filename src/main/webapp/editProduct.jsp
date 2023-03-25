@@ -86,7 +86,7 @@
             <input type="text" id="origin" name="origin" value="<%=pd.getOrigin()%>"><br>
 
             <label for="soldAmount">Sold Amount:</label>
-            <input type="number" id="soldAmount" name="soldAmount" value="<%=pd.getSoleAmount()%>"><br>
+            <input type="number" id="soldAmount" name="soldAmount" readonly value="<%=pd.getSoleAmount()%>"><br>
             <input type="hidden" name="btnUpdate" value="update">
             <input type="submit" value="update" >
             <!-- Get message from Controller  -->

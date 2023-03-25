@@ -85,7 +85,7 @@
             <input type="text" id="origin" name="origin" value =""><br>
 
             <label for="soldAmount">Sold Amount:</label>
-            <input type="number" id="soldAmount" name="soldAmount" value =""><br>
+            <input type="number" id="soldAmount" name="soldAmount" value ="0" readonly="true"><br>
 
             <input type="hidden" name="btnInsert" value="insert">
 

@@ -29,6 +29,20 @@ loadCartFromCookies();
 function loadCartFromCookies() {
     // Lấy giá trị của cookie với tên 'cartItems'
     const cartItemsCookie = document.cookie.replace(/(?:(?:^|.*;\s*)cartItems\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    ///(?:...)/: Đây là cú pháp để tạo một nhóm không tham số trong biểu thức chính quy.
+
+    //^(?:...)|^.*$: Biểu thức này sẽ match với chuỗi bắt đầu bằng dấu mở đầu (^) hoặc chuỗi có độ dài bất kỳ (.*$). Nó sẽ được sử dụng để trả về chuỗi rỗng nếu cookie không tồn tại.
+
+    //(?:^|.*;\s*): Biểu thức này sẽ match với chuỗi bắt đầu bằng dấu mở đầu (^) hoặc chuỗi có kết thúc bằng dấu chấm phẩy (;) và một số khoảng trắng (\s*). 
+    //Nó sẽ giúp đảm bảo rằng chúng ta chỉ lấy giá trị của cookie 'cartItems' chứ không lấy nhầm với cookie có tên khác.
+
+    //cartItems: Chuỗi 'cartItems' là tên của cookie mà chúng ta muốn lấy giá trị.
+
+    //\s*\=\s*: Biểu thức này sẽ match với bất kỳ khoảng trắng (\s*) nào trước và sau dấu bằng (=).
+
+    //([^;]*): Biểu thức này sẽ lấy giá trị của cookie ('cartItems') bằng cách match với bất kỳ ký tự nào không phải dấu (;) và lưu giữ giá trị này vào một nhóm trong biểu thức chính quy.
+
+    //$1: Giá trị của nhóm đầu tiên trong biểu thức chính quy (ở đây là giá trị của cookie 'cartItems') sẽ được trả về bởi hàm replace().
     if (cartItemsCookie) {
         // Nếu cookie tồn tại, chuyển đổi giá trị của cookie thành mảng sản phẩm trong giỏ hàng
         cartItemsArray = JSON.parse(cartItemsCookie);
